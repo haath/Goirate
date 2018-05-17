@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import "github.com/jessevdk/go-flags"
 
 func main() {
-	fmt.Println("Hello")
+
+	var opts struct {
+		Verbose bool `short:"v" long:"verbose" description:"Show more information"`
+	}
+
+	flags.Parse(&opts)
 }

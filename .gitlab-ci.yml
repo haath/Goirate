@@ -4,12 +4,16 @@ image: golang
 variables:
   GIT_URL: "git.gmantaos.com"
 
+stages:
+  - test
+  - build
+
 before_script:  
   # Install dep
   - go get -d -u github.com/golang/dep
   - cd $(go env GOPATH)/src/github.com/golang/dep
   - DEP_LATEST=$(git describe --abbrev=0 --tags)
-  - git checkout $DEP_LATEST
+  - git checkout -q $DEP_LATEST
   - go install -ldflags="-X main.version=$DEP_LATEST" ./cmd/dep
 
   # Prepare workspace
@@ -17,7 +21,14 @@ before_script:
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 
-build:
+format:
+  stage: test
+  script:
+    - go fmt $(go list ./... | grep -v /vendor/)
+    - go vet -composites=false $(go list ./... | grep -v /vendor/)
+    - go test -race $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
+
+compile:
   stage: build
   script:
     - make
