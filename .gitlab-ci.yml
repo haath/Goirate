@@ -6,7 +6,11 @@ variables:
 
 before_script:  
   # Install dep
-  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - go get -d -u github.com/golang/dep
+  - cd $(go env GOPATH)/src/github.com/golang/dep
+  - DEP_LATEST=$(git describe --abbrev=0 --tags)
+  - git checkout $DEP_LATEST
+  - go install -ldflags="-X main.version=$DEP_LATEST" ./cmd/dep
 
   # Prepare workspace
   - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
