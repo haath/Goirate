@@ -5,8 +5,8 @@ variables:
   GIT_URL: "git.gmantaos.com"
 
 stages:
-  - build
   - test
+  - build
 
 before_script:  
   # Install dep
@@ -21,14 +21,15 @@ before_script:
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 
+format:
+  stage: test
+  script:
+    - make dep
+    - go fmt $(go list ./... | grep -v /vendor/)
+    - go vet -composites=false $(go list ./... | grep -v /vendor/)
+    - go test -race $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
+
 compile:
   stage: build
   script:
     - make
-
-format:
-  stage: test
-  script:
-    - go fmt $(go list ./... | grep -v /vendor/)
-    - go vet -composites=false $(go list ./... | grep -v /vendor/)
-    - go test -race $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
