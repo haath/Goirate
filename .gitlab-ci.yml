@@ -2,15 +2,14 @@
 image: golang
 
 variables:
-  NAMESPACE_PATH: "git.gmantaos.com/${CI_PROJECT_NAMESPACE}"
-  PROJECT_PATH: "${NAMESPACE_PATH}/${CI_PROJECT_NAME}"
+  GIT_URL: "git.gmantaos.com"
 
 before_script:
   - go get github.com/tools/godep
   
-  - mkdir -p "${GOPATH}/src/${NAMESPACE_PATH}"
-  - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${PROJECT_PATH}"
-  - cd "${GOPATH}/src/${PROJECT_PATH}""
+  - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
+  - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
+  - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 
 build:
   stage: build
