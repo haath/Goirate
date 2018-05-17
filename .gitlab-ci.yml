@@ -4,9 +4,11 @@ image: golang
 variables:
   GIT_URL: "git.gmantaos.com"
 
-before_script:
-  - go get github.com/tools/godep
-  
+before_script:  
+  # Install dep
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+  # Prepare workspace
   - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
@@ -14,4 +16,4 @@ before_script:
 build:
   stage: build
   script:
-    - godep restore
+    - make

@@ -1,6 +1,14 @@
 
-OPTS = -o build
+ARGS = -i -v
+OUTPUT = -o build
 
-targets:
-	go build $(OPTS)/bin1 ./bin1
-	go build $(OPTS)/bin2 ./bin2
+targets: dep build
+
+dep: Gopkg.toml Gopkg.lock
+	dep ensure
+
+build: scanner/main.go
+	go build $(ARGS) $(OUTPUT)/scanner scanner/main.go
+
+clean:
+	@rm -rf build
