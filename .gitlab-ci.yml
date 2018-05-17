@@ -27,7 +27,7 @@ format:
     - make dep
     - go fmt $(go list ./... | grep -v /vendor/)
     - go vet -composites=false $(go list ./... | grep -v /vendor/)
-    - go test -race $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
+    - go test $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
 
 compile:
   stage: build
