@@ -15,11 +15,15 @@ func main() {
 	}
 
 	opts.Mirrors = func() {
-		mirrors := GetMirrors()
-		mirrorsJSON, _ := json.MarshalIndent(mirrors, "", "   ")
-		fmt.Println(string(mirrorsJSON))
+		fmt.Println(mirrors())
 	}
 
 	flags.Parse(&opts)
 
+}
+
+func mirrors() string {
+	mirrors := GetMirrors()
+	mirrorsJSON, _ := json.MarshalIndent(mirrors, "", "   ")
+	return string(mirrorsJSON)
 }
