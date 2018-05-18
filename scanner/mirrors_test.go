@@ -6,6 +6,16 @@ import (
 	"testing"
 )
 
+func TestExecute(t *testing.T) {
+
+	var cmd MirrorsCommand
+	Options.JSON = true
+
+	CaptureCommand(func() { cmd.Execute(nil) })
+
+	Options.JSON = false
+}
+
 func TestParseMirrors(t *testing.T) {
 
 	table := []Mirror{

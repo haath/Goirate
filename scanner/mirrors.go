@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"git.gmantaos.com/haath/Gorrent/shared"
 	"github.com/PuerkitoBio/goquery"
+	"log"
 )
 
 const url string = "https://proxybay.github.io/"
@@ -26,7 +26,7 @@ func (m *MirrorsCommand) Execute(args []string) error {
 
 	if Options.JSON {
 		mirrorsJSON, _ := json.MarshalIndent(mirrors, "", "   ")
-		fmt.Println(mirrorsJSON)
+		log.Println(mirrorsJSON)
 	}
 
 	for _, mirror := range mirrors {
@@ -35,7 +35,7 @@ func (m *MirrorsCommand) Execute(args []string) error {
 			status = " "
 		}
 
-		fmt.Printf("[%s] %s %s\n", status, mirror.Country, mirror.URL)
+		log.Printf("[%s] %s %s\n", status, mirror.Country, mirror.URL)
 	}
 
 	return nil

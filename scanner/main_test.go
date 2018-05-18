@@ -1,16 +1,15 @@
 package main
 
 import (
-	"encoding/json"
-	"testing"
+	"bytes"
+	"log"
+	"os"
 )
 
-func TestMirrors(t *testing.T) {
-	var response []Mirror
-
-	mirrorsJSON := mirrors()
-
-	if err := json.Unmarshal([]byte(mirrorsJSON), &response); err != nil {
-		t.Error(err)
-	}
+func CaptureCommand(cmd func()) string {
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+	cmd()
+	log.SetOutput(os.Stdout)
+	return buf.String()
 }
