@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"git.gmantaos.com/haath/Gorrent/shared"
 	"github.com/PuerkitoBio/goquery"
 )
@@ -12,6 +14,31 @@ type Mirror struct {
 	URL     string `json:"url"`
 	Country string `json:"country"`
 	Status  bool   `json:"status"`
+}
+
+// MirrorsCommand defines the mirrors command and holds its options.
+type MirrorsCommand struct {
+}
+
+// Execute acts as the call back of the mirrors command.
+func (m *MirrorsCommand) Execute(args []string) error {
+	mirrors := GetMirrors()
+
+	if Options.JSON {
+		mirrorsJSON, _ := json.MarshalIndent(mirrors, "", "   ")
+		fmt.Println(mirrorsJSON)
+	}
+
+	for _, mirror := range mirrors {
+		status := "x"
+		if !mirror.Status {
+			status = " "
+		}
+
+		fmt.Printf("[%s] %s %s\n", status, mirror.Country, mirror.URL)
+	}
+
+	return nil
 }
 
 // GetMirrors retrieves a list of PirateBay mirrors.

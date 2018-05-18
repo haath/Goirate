@@ -1,29 +1,22 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/jessevdk/go-flags"
 )
 
-func main() {
+// Options holds the command line options for the cli program
+var Options struct {
+	// Options
+	Verbose bool `short:"v" long:"verbose" description:"Show more information"`
+	JSON    bool `short:"j" long:"json" description:"Output in JSON format"`
 
-	var opts struct {
-		Verbose bool `short:"v" long:"verbose" description:"Show more information"`
-
-		Mirrors func() `short:"m" long:"mirrors" description:"Get a list of PirateBay mirrors"`
-	}
-
-	opts.Mirrors = func() {
-		fmt.Println(mirrors())
-	}
-
-	flags.Parse(&opts)
-
+	// Commands
+	Mirrors MirrorsCommand `command:"mirrors" alias:"m" description:"Get a list of PirateBay mirrors"`
 }
 
-func mirrors() string {
-	mirrors := GetMirrors()
-	mirrorsJSON, _ := json.MarshalIndent(mirrors, "", "   ")
-	return string(mirrorsJSON)
+func main() {
+
+	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
+
+	parser.Parse()
 }
