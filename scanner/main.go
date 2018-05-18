@@ -1,10 +1,9 @@
 package main
 
-import "github.com/jessevdk/go-flags"
-
-func Sum(x int, y int) int {
-	return x + y
-}
+import (
+	"fmt"
+	"github.com/jessevdk/go-flags"
+)
 
 func main() {
 
@@ -13,4 +12,8 @@ func main() {
 	}
 
 	flags.Parse(&opts)
+
+	mirrors := GetMirrors()
+	fmt.Println(len(mirrors))
+
 }
