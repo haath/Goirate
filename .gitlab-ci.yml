@@ -24,12 +24,9 @@ before_script:
 format:
   stage: test
   script:
-    - make dep
-    - go fmt $(go list ./... | grep -v /vendor/)
-    - go vet -composites=false $(go list ./... | grep -v /vendor/)
-    - go test $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
+    - make tests
 
 compile:
   stage: build
   script:
-    - make
+    - make build
