@@ -24,7 +24,7 @@ before_script:
 format:
   stage: test
   script:
-    - make tests
+    - make test
 
 compile:
   stage: build
