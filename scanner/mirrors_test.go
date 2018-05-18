@@ -8,6 +8,14 @@ import (
 
 func TestParseMirrors(t *testing.T) {
 
+	table := []Mirror{
+		{"https://pirateproxy.sh", "uk", true},
+		{"https://thepbproxy.com", " nl", true},
+		{"https://thepiratebay.red", "us", true},
+		{"https://thepiratebay-org.prox.space", "us", true},
+		{"https://cruzing.xyz", "us", true},
+	}
+
 	file, err := os.Open("../samples/proxybay.html")
 	if err != nil {
 		t.Error(err)
@@ -23,6 +31,15 @@ func TestParseMirrors(t *testing.T) {
 	mirrors := parseMirrors(doc)
 
 	if len(mirrors) != 16 {
-		t.Errorf("Expected to parse 16 mirrors. Found %d", len(mirrors))
+		t.Errorf("Expected to parse 16 mirrors. Found %d.\n", len(mirrors))
+	}
+
+	for i := range table {
+		e := table[i]
+		a := mirrors[i]
+
+		if e.URL != a.URL || e.Country != e.Country || e.Status != a.Status {
+			t.Errorf("Wrong mirror parsing. Expected %v, got %v.\n", e, a)
+		}
 	}
 }

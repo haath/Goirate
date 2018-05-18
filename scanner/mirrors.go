@@ -9,9 +9,9 @@ const url string = "https://proxybay.github.io/"
 
 // Mirror represents a PirateBay mirror and its status.
 type Mirror struct {
-	url     string
-	country string
-	status  bool
+	URL     string `json:"url"`
+	Country string `json:"country"`
+	Status  bool   `json:"status"`
 }
 
 // GetMirrors retrieves a list of PirateBay mirrors.
