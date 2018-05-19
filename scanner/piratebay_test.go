@@ -1,7 +1,10 @@
 package main
 
 import (
+	"github.com/PuerkitoBio/goquery"
+	"os"
 	"testing"
+	"time"
 )
 
 var urlTests = []struct {
@@ -22,6 +25,28 @@ var searchTests = []struct {
 	{"one two", "https://pirateproxy.sh/search/one+two"},
 	{"one'two", "https://pirateproxy.sh/search/one%2527two"},
 	{"one!", "https://pirateproxy.sh/search/one%2521"},
+}
+
+var sizeTests = []struct {
+	in  string
+	out int
+}{
+	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", 3580000},
+	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 58350},
+	{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 740},
+}
+
+var timeTests = []struct {
+	in     string
+	year   int
+	month  time.Month
+	day    int
+	hour   int
+	minute int
+}{
+	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", time.Now().Year(), time.April, 29, 4, 41},
+	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 2014, time.February, 27, 0, 0},
+	{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 2008, time.October, 12, 0, 0},
 }
 
 func TestNewScraper(t *testing.T) {
@@ -45,4 +70,46 @@ func TestSearchURL(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestParseSearchPage(t *testing.T) {
+	file, err := os.Open("../samples/piratebay_search.html")
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	doc, err := goquery.NewDocumentFromReader(file)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	var scraper pirateBayScaper
+
+	scraper.parseSearchPage(doc)
+}
+
+func TestExtractSize(t *testing.T) {
+	for _, tt := range sizeTests {
+		t.Run(tt.in, func(t *testing.T) {
+			s := extractSize(tt.in)
+			if s != tt.out {
+				t.Errorf("got %v, want %v", s, tt.out)
+			}
+		})
+	}
+}
+
+func TestExtractUploadTime(t *testing.T) {
+	for _, tt := range timeTests {
+		t.Run(tt.in, func(t *testing.T) {
+			s := extractUploadTime(tt.in)
+			if s.Year() != tt.year || s.Month() != tt.month || s.Day() != tt.day || s.Hour() != tt.hour || s.Minute() != tt.minute {
+				t.Errorf("got %v, want %v", s, tt)
+			}
+		})
+	}
+
 }

@@ -1,0 +1,680 @@
+<html lang="en"><head>
+    <title>The Pirate Bay - The galaxy's most resilient bittorrent site</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Search The Pirate Bay">
+    <link rel="stylesheet" type="text/css" href="//pirateproxy.sh/static/css/pirate6.css">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <link rel="canonical" href="//pirateproxy.sh/search/avengers/0/99/0">
+    <style type="text/css">
+        .searchBox{
+            margin: 6px;
+            width: 300px;
+            vertical-align: middle;
+            padding: 2px;
+            background-image:url('//pirateproxy.sh/static/img/icon-https.gif');
+            background-repeat:no-repeat;
+            background-position: right;
+        }
+        .detLink {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+        .detDesc {
+            color: #4e5456;
+        }
+        .detDesc a:hover {
+            color: #000099;
+            text-decoration: underline;
+        }
+        .sortby {
+            text-align: left;
+            float: left;
+        }
+        .detName {
+            padding-top: 3px;
+            padding-bottom: 2px;
+        }
+        .viewswitch {
+            font-style: normal;
+            float: right;
+            text-align: right;
+            font-weight: normal;
+        }
+    </style>
+    <script src="//pirateproxy.sh/static/js/jquery.min.js" type="text/javascript"></script>
+    <script src="//pirateproxy.sh/static/js/tpb.js" type="text/javascript"></script>
+    <meta name="description" content="Search for and download any torrent from the pirate bay using search query avengers. Direct download via magnet link.">
+    <meta name="keywords" content="avengers direct download torrent magnet tpb piratebay search">
+
+    
+</head>
+
+<body cz-shortcut-listen="true">
+    <div id="header">
+
+        <form method="get" id="q" action="/s/">
+            <a href="/" class="img"><img src="//pirateproxy.sh/static/img/tpblogo_sm_ny.gif" id="TPBlogo" alt="The Pirate Bay"></a>
+            <b><a href="/" title="Search Torrents">Search Torrents</a></b>&nbsp;&nbsp;|&nbsp;
+ <a href="/browse" title="Browse Torrents">Browse Torrents</a>&nbsp;&nbsp;|&nbsp;
+ <a href="/recent" title="Recent Torrent">Recent Torrents</a>&nbsp;&nbsp;|&nbsp;
+ <a href="/tv/" title="TV shows">TV shows</a>&nbsp;&nbsp;|&nbsp;
+ <a href="/music" title="Music">Music</a>&nbsp;&nbsp;|&nbsp;
+ <a href="/top" title="Top 100">Top 100</a>
+            <br><input class="inputbox" title="Pirate Search" name="q" placeholder="Search here..." value="avengers" type="search"><input value="Pirate Search" class="submitbutton" type="submit"><br>            <label for="audio" title="Audio"><input id="audio" name="audio" onclick="javascript:rmAll();" type="checkbox">Audio</label>
+            <label for="video" title="Video"><input id="video" name="video" onclick="javascript:rmAll();" type="checkbox">Video</label>
+            <label for="apps" title="Applications"><input id="apps" name="apps" onclick="javascript:rmAll();" type="checkbox">Applications</label><script type="text/javascript">if(!window.location.href.match("/.i.a.e.r.x..s./")){window.location="https:"+"//pir"+"ate"+"pr"+"oxy"+".sh"+window.location.pathname}</script>
+            <label for="games" title="Games"><input id="games" name="games" onclick="javascript:rmAll();" type="checkbox">Games</label>
+            <label for="porn" title="Porn"><input id="porn" name="porn" onclick="javascript:rmAll();" type="checkbox">Porn</label>
+            <label for="other" title="Other"><input id="other" name="other" onclick="javascript:rmAll();" type="checkbox">Other</label>
+
+            <select id="category" name="category" onchange="javascript:setAll();">
+                <option value="0">All</option>
+                <optgroup label="Audio">
+                    <option value="101">Music</option>
+                    <option value="102">Audio books</option>
+                    <option value="103">Sound clips</option>
+                    <option value="104">FLAC</option>
+                    <option value="199">Other</option>
+                </optgroup>
+                <optgroup label="Video">
+                    <option value="201">Movies</option>
+                    <option value="202">Movies DVDR</option>
+                    <option value="203">Music videos</option>
+                    <option value="204">Movie clips</option>
+                    <option value="205">TV shows</option>
+                    <option value="206">Handheld</option>
+                    <option value="207">HD - Movies</option>
+                    <option value="208">HD - TV shows</option>
+                    <option value="209">3D</option>
+                    <option value="299">Other</option>
+                </optgroup>
+                <optgroup label="Applications">
+                    <option value="301">Windows</option>
+                    <option value="302">Mac</option>
+                    <option value="303">UNIX</option>
+                    <option value="304">Handheld</option>
+                    <option value="305">IOS (iPad/iPhone)</option>
+                    <option value="306">Android</option>
+                    <option value="399">Other OS</option>
+                </optgroup>
+                <optgroup label="Games">
+                    <option value="401">PC</option>
+                    <option value="402">Mac</option>
+                    <option value="403">PSx</option>
+                    <option value="404">XBOX360</option>
+                    <option value="405">Wii</option>
+                    <option value="406">Handheld</option>
+                    <option value="407">IOS (iPad/iPhone)</option>
+                    <option value="408">Android</option>
+                    <option value="499">Other</option>
+                </optgroup>
+                <optgroup label="Porn">
+                    <option value="501">Movies</option>
+                    <option value="502">Movies DVDR</option>
+                    <option value="503">Pictures</option>
+                    <option value="504">Games</option>
+                    <option value="505">HD - Movies</option>
+                    <option value="506">Movie clips</option>
+                    <option value="599">Other</option>
+                </optgroup>
+                <optgroup label="Other">
+                    <option value="601">E-books</option>
+                    <option value="602">Comics</option>
+                    <option value="603">Pictures</option>
+                    <option value="604">Covers</option>
+                    <option value="605">Physibles</option>
+                    <option value="699">Other</option>
+                </optgroup>
+            </select>
+
+            <input name="page" value="0" type="hidden">
+            <input name="orderby" value="99" type="hidden">
+        </form>
+    </div><!-- // div:header -->
+
+    <h2><span>Search results: avengers</span>&nbsp;Displaying hits from 0 to 30 (approx 19319 found)</h2>
+
+<div id="SearchResults"><div id="content">
+			<div id="sky-right">
+				 <div id="awn-z1914179"></div>
+			</div>
+	
+			 
+		<div id="main-content">
+<table id="searchResult">
+	<thead id="tableHead">
+		<tr class="header">
+			<th><a href="/search/avengers/0/13/0" title="Order by Type">Type</a></th>
+			<th><div class="sortby"><a href="/search/avengers/0/1/0" title="Order by Name">Name</a> (Order by: <a href="/search/avengers/0/3/0" title="Order by Uploaded">Uploaded</a>, <a href="/search/avengers/0/5/0" title="Order by Size">Size</a>, <span style="white-space: nowrap;"><a href="/search/avengers/0/11/0" title="Order by ULed by">ULed by</a></span>, <a href="/search/avengers/0/8/0" title="Order by Seeders">SE</a>, <a href="/search/avengers/0/9/0" title="Order by Leechers">LE</a>)</div><div class="viewswitch"> View: <a href="/switchview.php?view=s">Single</a> / Double&nbsp;</div></th>
+			<th><abbr title="Seeders"><a href="/search/avengers/0/8/0" title="Order by Seeders">SE</a></abbr></th>
+			<th><abbr title="Leechers"><a href="/search/avengers/0/9/0" title="Order by Leechers">LE</a></abbr></th>
+		</tr>
+	</thead>
+	<tbody><tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21412907/Avengers_Infinity_War_2018_NEW_PROPER_720p_HD-CAM_X264_HQ-CPG" class="detLink" title="Details for Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG">Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG</a>
+</div>
+<a href="magnet:?xt=urn:btih:bee75372b98077bfd4de8ef03eb33e9289be5cd8&amp;dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HD-CAM+X264+HQ-CPG&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=vudTcrmAd7/U3o7wPrM+kom+XNg=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 10 comments." title="This torrent has 10 comments."><a href="/user/makintos13"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-29&nbsp;04:41, Size 3.58&nbsp;GiB, ULed by <a class="detDesc" href="/user/makintos13/" title="Browse makintos13">makintos13</a></font>
+		</td>
+		<td align="right">7437</td>
+		<td align="right">2003</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21874954/Avengers_Infinity_War_2018_720p_TS_x264_AAC_TiTAN" class="detLink" title="Details for Avengers Infinity War 2018 720p TS x264 AAC TiTAN">Avengers Infinity War 2018 720p TS x264 AAC TiTAN</a>
+</div>
+<a href="magnet:?xt=urn:btih:a21d14bc27b4ac3c0859851e061b5434c90d6133&amp;dn=Avengers+Infinity+War+2018+720p+TS+x264+AAC+TiTAN&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=oh0UvCe0rDwIWYUeBhtUNMkNYTM=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 720p TS x264 AAC TiTAN" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 5 comments." title="This torrent has 5 comments."><a href="/user/xxxlavalxxx"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 05-11&nbsp;05:26, Size 2.8&nbsp;GiB, ULed by <a class="detDesc" href="/user/xxxlavalxxx/" title="Browse xxxlavalxxx">xxxlavalxxx</a></font>
+		</td>
+		<td align="right">3065</td>
+		<td align="right">817</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/12384452/Avengers__Age_of_Ultron_(2015)_1080p_BrRip_x264_-_YIFY" class="detLink" title="Details for Avengers: Age of Ultron (2015) 1080p BrRip x264 - YIFY">Avengers: Age of Ultron (2015) 1080p BrRip x264 - YIFY</a>
+</div>
+<a href="magnet:?xt=urn:btih:92b4d5ea2d21bc2692a2cb1e5b9fbecd489863ec&amp;dn=Avengers%3A+Age+of+Ultron+%282015%29+1080p+BrRip+x264+-+YIFY&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=krTV6i0hvCaSosseW5++zUiYY+w=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers: Age of Ultron (2015) 1080p BrRip x264 - YIFY" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 29 comments." title="This torrent has 29 comments."><a href="/user/YIFY"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 09-09&nbsp;2015, Size 2.05&nbsp;GiB, ULed by <a class="detDesc" href="/user/YIFY/" title="Browse YIFY">YIFY</a></font>
+		</td>
+		<td align="right">2779</td>
+		<td align="right">473</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/7553062/The_Avengers_2012_720p_BRrip_X264_-_1GB_-_YIFY" class="detLink" title="Details for The Avengers 2012 720p BRrip X264 - 1GB - YIFY">The Avengers 2012 720p BRrip X264 - 1GB - YIFY</a>
+</div>
+<a href="magnet:?xt=urn:btih:0bbca7584749d4e741747e32e6eb588aea03e40f&amp;dn=The+Avengers+2012+720p+BRrip+X264+-+1GB+-+YIFY&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=C7ynWEdJ1OdBdH4y5utYiuoD5A8=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=The Avengers 2012 720p BRrip X264 - 1GB - YIFY" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 152 comments." title="This torrent has 152 comments."><a href="/user/YIFY"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 08-21&nbsp;2012, Size 1023.45&nbsp;MiB, ULed by <a class="detDesc" href="/user/YIFY/" title="Browse YIFY">YIFY</a></font>
+		</td>
+		<td align="right">2090</td>
+		<td align="right">382</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/12385203/Avengers__Age_of_Ultron_(2015)_720p_BrRip_x264_-_YIFY" class="detLink" title="Details for Avengers: Age of Ultron (2015) 720p BrRip x264 - YIFY">Avengers: Age of Ultron (2015) 720p BrRip x264 - YIFY</a>
+</div>
+<a href="magnet:?xt=urn:btih:f2a0f56a420906cc8b539c6aeb454992242a6712&amp;dn=Avengers%3A+Age+of+Ultron+%282015%29+720p+BrRip+x264+-+YIFY&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=8qD1akIJBsyLU5xq60VJkiQqZxI=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers: Age of Ultron (2015) 720p BrRip x264 - YIFY" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 7 comments." title="This torrent has 7 comments."><a href="/user/YIFY"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 09-09&nbsp;2015, Size 931.01&nbsp;MiB, ULed by <a class="detDesc" href="/user/YIFY/" title="Browse YIFY">YIFY</a></font>
+		</td>
+		<td align="right">890</td>
+		<td align="right">145</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/7555486/The_Avengers_2012_1080p_BRrip_X264_-_2.2GB__-_YIFY" class="detLink" title="Details for The Avengers 2012 1080p BRrip X264 - 2.2GB  - YIFY">The Avengers 2012 1080p BRrip X264 - 2.2GB  - YIFY</a>
+</div>
+<a href="magnet:?xt=urn:btih:e9f759b6a26113f3745311dad4bd332b4612eb60&amp;dn=The+Avengers+2012+1080p+BRrip+X264+-+2.2GB++-+YIFY&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=6fdZtqJhE/N0UxHa1L0zK0YS62A=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=The Avengers 2012 1080p BRrip X264 - 2.2GB  - YIFY" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 201 comments." title="This torrent has 201 comments."><a href="/user/YIFY"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 08-22&nbsp;2012, Size 2.2&nbsp;GiB, ULed by <a class="detDesc" href="/user/YIFY/" title="Browse YIFY">YIFY</a></font>
+		</td>
+		<td align="right">886</td>
+		<td align="right">159</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21308795/Avengers_Infinity_War_2018_Early_720p_HDCAM_ENG_x264-Mr.Hive" class="detLink" title="Details for Avengers Infinity War 2018 Early 720p HDCAM ENG x264-Mr.Hive">Avengers Infinity War 2018 Early 720p HDCAM ENG x264-Mr.Hive</a>
+</div>
+<a href="magnet:?xt=urn:btih:f8cc5892cf8af7c218fce5124dbfc2afde3b1a34&amp;dn=Avengers+Infinity+War+2018+Early+720p+HDCAM+ENG+x264-Mr.Hive&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=+MxYks+K98IY/OUSTb/Cr947GjQ=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 Early 720p HDCAM ENG x264-Mr.Hive" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 15 comments." title="This torrent has 15 comments."><a href="/user/xxxlavalxxx"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-26&nbsp;21:36, Size 2.46&nbsp;GiB, ULed by <a class="detDesc" href="/user/xxxlavalxxx/" title="Browse xxxlavalxxx">xxxlavalxxx</a></font>
+		</td>
+		<td align="right">797</td>
+		<td align="right">198</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21377119/Avengers_Infinity_War_(2018)_720p_HDCAM_x264_[Dual-Audio][Hindi" class="detLink" title="Details for Avengers Infinity War (2018) 720p HDCAM x264 [Dual-Audio][Hindi">Avengers Infinity War (2018) 720p HDCAM x264 [Dual-Audio][Hindi</a>
+</div>
+<a href="magnet:?xt=urn:btih:c7828599e7d40fda486798082935326223486ddb&amp;dn=Avengers+Infinity+War+%282018%29+720p+HDCAM+x264+%5BDual-Audio%5D%5BHindi&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=x4KFmefUD9pIZ5gIKTUyYiNIbds=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War (2018) 720p HDCAM x264 [Dual-Audio][Hindi" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 2 comments." title="This torrent has 2 comments."><a href="/user/makintos13"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-28&nbsp;08:59, Size 1.23&nbsp;GiB, ULed by <a class="detDesc" href="/user/makintos13/" title="Browse makintos13">makintos13</a></font>
+		</td>
+		<td align="right">670</td>
+		<td align="right">138</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21297503/Avengers.Infinity_War.2018.720p.TS.1xBet" class="detLink" title="Details for Avengers.Infinity War.2018.720p.TS.1xBet">Avengers.Infinity War.2018.720p.TS.1xBet</a>
+</div>
+<a href="magnet:?xt=urn:btih:baa7b0d6588ccffbfa41c2ee8a19f4dfa105f4b6&amp;dn=Avengers.Infinity+War.2018.720p.TS.1xBet&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=uqew1liMz/v6QcLuihn036EF9LY=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers.Infinity War.2018.720p.TS.1xBet" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 2 comments." title="This torrent has 2 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 04-26&nbsp;16:30, Size 2.44&nbsp;GiB, ULed by <i>Anonymous</i></font>
+		</td>
+		<td align="right">601</td>
+		<td align="right">65</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21422308/Avengers_Infinity_War_2018_NEW_PROPER_720p_HD-CAM_X264_HQ-CPG" class="detLink" title="Details for Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG">Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG</a>
+</div>
+<a href="magnet:?xt=urn:btih:5af9f2a158ea7ba31af87bdbecac859097fb9380&amp;dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HD-CAM+X264+HQ-CPG&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=WvnyoVjqe6Ma+Hvb7KyFkJf7k4A=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><a href="/user/xxxlavalxxx"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-29&nbsp;12:27, Size 3.58&nbsp;GiB, ULed by <a class="detDesc" href="/user/xxxlavalxxx/" title="Browse xxxlavalxxx">xxxlavalxxx</a></font>
+		</td>
+		<td align="right">601</td>
+		<td align="right">208</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21886399/Avengers_Infinity_War_2018_720p_TS_x264_AAC_TiTAN" class="detLink" title="Details for Avengers Infinity War 2018 720p TS x264 AAC TiTAN">Avengers Infinity War 2018 720p TS x264 AAC TiTAN</a>
+</div>
+<a href="magnet:?xt=urn:btih:d65d6e374aa1f9854ffc42946b28277d7ea7dec0&amp;dn=Avengers+Infinity+War+2018+720p+TS+x264+AAC+TiTAN&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=1l1uN0qh+YVP/EKUaygnfX6n3sA=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 720p TS x264 AAC TiTAN" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 2 comments." title="This torrent has 2 comments."><a href="/user/TvTeam"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 05-11&nbsp;17:38, Size 2.8&nbsp;GiB, ULed by <a class="detDesc" href="/user/TvTeam/" title="Browse TvTeam">TvTeam</a></font>
+		</td>
+		<td align="right">557</td>
+		<td align="right">153</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21742014/Avengers_Infinity_War_(2018)_Dual_Audio_New_720p_HDTS-Rip_x264_[" class="detLink" title="Details for Avengers Infinity War (2018) Dual Audio New 720p HDTS-Rip x264 [">Avengers Infinity War (2018) Dual Audio New 720p HDTS-Rip x264 [</a>
+</div>
+<a href="magnet:?xt=urn:btih:7e9d0d5e1e33f7e9ce31db0ee75d7a975438219c&amp;dn=Avengers+Infinity+War+%282018%29+Dual+Audio+New+720p+HDTS-Rip+x264+%5B&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=fp0NXh4z9+nOMdsO5116l1Q4IZw=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War (2018) Dual Audio New 720p HDTS-Rip x264 [" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 05-06&nbsp;20:05, Size 899.82&nbsp;MiB, ULed by <a class="detDesc" href="/user/XxOrGoXx/" title="Browse XxOrGoXx">XxOrGoXx</a></font>
+		</td>
+		<td align="right">497</td>
+		<td align="right">151</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21429553/Avengers__Infinity_War_(2018)_720p_HDCAM_1.1GB" class="detLink" title="Details for Avengers: Infinity War (2018) 720p HDCAM 1.1GB">Avengers: Infinity War (2018) 720p HDCAM 1.1GB</a>
+</div>
+<a href="magnet:?xt=urn:btih:8c18ecce5242438f972a3270145afc99a786b305&amp;dn=Avengers%3A+Infinity+War+%282018%29+720p+HDCAM+1.1GB&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=jBjszlJCQ4+XKjJwFFr8maeGswU=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers: Infinity War (2018) 720p HDCAM 1.1GB" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 3 comments." title="This torrent has 3 comments."><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0">
+			<font class="detDesc">Uploaded 04-29&nbsp;19:19, Size 1.11&nbsp;GiB, ULed by <i>Anonymous</i></font>
+		</td>
+		<td align="right">472</td>
+		<td align="right">77</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21323761/Avengers.Infinity.War.2018.720p.Cleaned.HDTS.x264.[MP4].[1.4GB]" class="detLink" title="Details for Avengers.Infinity.War.2018.720p.Cleaned.HDTS.x264.[MP4].[1.4GB]">Avengers.Infinity.War.2018.720p.Cleaned.HDTS.x264.[MP4].[1.4GB]</a>
+</div>
+<a href="magnet:?xt=urn:btih:b6574fa38f9a15485ddf30f082fdf0e8cb34f84a&amp;dn=Avengers.Infinity.War.2018.720p.Cleaned.HDTS.x264.%5BMP4%5D.%5B1.4GB%5D&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=tldPo4+aFUhd3zDwgv3w6Ms0+Eo=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers.Infinity.War.2018.720p.Cleaned.HDTS.x264.[MP4].[1.4GB]" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 2 comments." title="This torrent has 2 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 04-27&nbsp;06:19, Size 1.47&nbsp;GiB, ULed by <a class="detDesc" href="/user/phannhat/" title="Browse phannhat">phannhat</a></font>
+		</td>
+		<td align="right">303</td>
+		<td align="right">66</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21886224/Avengers_Infinity_War_2018_720p_TS_x264_AAC_TiTAN[EtHD]" class="detLink" title="Details for Avengers Infinity War 2018 720p TS x264 AAC TiTAN[EtHD]">Avengers Infinity War 2018 720p TS x264 AAC TiTAN[EtHD]</a>
+</div>
+<a href="magnet:?xt=urn:btih:5bc9392f2c3004894e1ac61df2b83b9c41576e68&amp;dn=Avengers+Infinity+War+2018+720p+TS+x264+AAC+TiTAN%5BEtHD%5D&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=W8k5LywwBIlOGsYd8rg7nEFXbmg=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 720p TS x264 AAC TiTAN[EtHD]" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><a href="/user/EtHD"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 05-11&nbsp;17:33, Size 2.8&nbsp;GiB, ULed by <a class="detDesc" href="/user/EtHD/" title="Browse EtHD">EtHD</a></font>
+		</td>
+		<td align="right">263</td>
+		<td align="right">98</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/400" title="More from this category">Games</a><br>
+				(<a href="/browse/401" title="More from this category">PC</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/13732512/LEGO_MARVELs_Avengers-CODEX" class="detLink" title="Details for LEGO MARVELs Avengers-CODEX">LEGO MARVELs Avengers-CODEX</a>
+</div>
+<a href="magnet:?xt=urn:btih:6d04efb836cac24088e1187c739a48b8c421094e&amp;dn=LEGO+MARVELs+Avengers-CODEX&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 4 comments." title="This torrent has 4 comments."><a href="/user/Pirata"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 03-03&nbsp;2016, Size 13.21&nbsp;GiB, ULed by <a class="detDesc" href="/user/Pirata/" title="Browse Pirata">Pirata</a></font>
+		</td>
+		<td align="right">234</td>
+		<td align="right">41</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21642315/Avengers_Infinity_War_2018_NEW_PROPER_720p_HDCAM_x264_AC3-M2Tv" class="detLink" title="Details for Avengers Infinity War 2018 NEW PROPER 720p HDCAM x264 AC3-M2Tv">Avengers Infinity War 2018 NEW PROPER 720p HDCAM x264 AC3-M2Tv</a>
+</div>
+<a href="magnet:?xt=urn:btih:a4159b162e8ab1aa0c34fbb0b52170a5975ce1cc&amp;dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HDCAM+x264+AC3-M2Tv&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=pBWbFi6KsaoMNPuwtSFwpZdc4cw=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 NEW PROPER 720p HDCAM x264 AC3-M2Tv" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 3 comments." title="This torrent has 3 comments."><a href="/user/lokioddin"><img src="//pirateproxy.sh/static/img/trusted.png" alt="Trusted" title="Trusted" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 05-04&nbsp;06:57, Size 2.15&nbsp;GiB, ULed by <a class="detDesc" href="/user/lokioddin/" title="Browse lokioddin">lokioddin</a></font>
+		</td>
+		<td align="right">228</td>
+		<td align="right">82</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21383844/Avengers.Infinity.War.2018.720p.HDCAM.X264-FreeWEB[N1C]" class="detLink" title="Details for Avengers.Infinity.War.2018.720p.HDCAM.X264-FreeWEB[N1C]">Avengers.Infinity.War.2018.720p.HDCAM.X264-FreeWEB[N1C]</a>
+</div>
+<a href="magnet:?xt=urn:btih:9ef1d18afc38ae4631554846d6ee7ad35f56920f&amp;dn=Avengers.Infinity.War.2018.720p.HDCAM.X264-FreeWEB%5BN1C%5D&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=nvHRivw4rkYxVUhG1u56019Wkg8=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers.Infinity.War.2018.720p.HDCAM.X264-FreeWEB[N1C]" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><a href="/user/juggs99"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-28&nbsp;13:06, Size 4.47&nbsp;GiB, ULed by <a class="detDesc" href="/user/juggs99/" title="Browse juggs99">juggs99</a></font>
+		</td>
+		<td align="right">221</td>
+		<td align="right">38</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21688929/Avengers_Infinity_War_2018_NEW_PROPER_720p_HDCAM_1GB_x264_-_Maki" class="detLink" title="Details for Avengers Infinity War 2018 NEW PROPER 720p HDCAM 1GB x264 - Maki">Avengers Infinity War 2018 NEW PROPER 720p HDCAM 1GB x264 - Maki</a>
+</div>
+<a href="magnet:?xt=urn:btih:8ee25b908505842abc3fa4f0977d2d33fa6f8d2d&amp;dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HDCAM+1GB+x264+-+Maki&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=juJbkIUFhCq8P6Twl30tM/pvjS0=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 NEW PROPER 720p HDCAM 1GB x264 - Maki" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><a href="/user/makintos13"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 05-05&nbsp;04:17, Size 1020.32&nbsp;MiB, ULed by <a class="detDesc" href="/user/makintos13/" title="Browse makintos13">makintos13</a></font>
+		</td>
+		<td align="right">199</td>
+		<td align="right">17</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/11704456/The.Avengers.2012.1080p.BluRay.H264.ACC.5.1.BADASSMEDIA" class="detLink" title="Details for The.Avengers.2012.1080p.BluRay.H264.ACC.5.1.BADASSMEDIA">The.Avengers.2012.1080p.BluRay.H264.ACC.5.1.BADASSMEDIA</a>
+</div>
+<a href="magnet:?xt=urn:btih:fbc62aafccf0b13a8410f5f8d7a17c7e1dbfaae4&amp;dn=The.Avengers.2012.1080p.BluRay.H264.ACC.5.1.BADASSMEDIA&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=+8Yqr8zwsTqEEPX416F8fh2/quQ=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=The.Avengers.2012.1080p.BluRay.H264.ACC.5.1.BADASSMEDIA" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><a href="/user/BADASSMEDIA"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 02-16&nbsp;2015, Size 3.51&nbsp;GiB, ULed by <a class="detDesc" href="/user/BADASSMEDIA/" title="Browse BADASSMEDIA">BADASSMEDIA</a></font>
+		</td>
+		<td align="right">195</td>
+		<td align="right">37</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21923684/AVENGERS.INFINITY.WAR.2018.720P.HD-CAM.X264.NEW-SOURCE." class="detLink" title="Details for AVENGERS.INFINITY.WAR.2018.720P.HD-CAM.X264.NEW-SOURCE.">AVENGERS.INFINITY.WAR.2018.720P.HD-CAM.X264.NEW-SOURCE.</a>
+</div>
+<a href="magnet:?xt=urn:btih:ade395d09b79fbc544298e2e0e100d5ae15678d5&amp;dn=AVENGERS.INFINITY.WAR.2018.720P.HD-CAM.X264.NEW-SOURCE.&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=reOV0Jt5+8VEKY4uDhANWuFWeNU=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=AVENGERS.INFINITY.WAR.2018.720P.HD-CAM.X264.NEW-SOURCE." target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 2 comments." title="This torrent has 2 comments."><a href="/user/makintos13"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 05-13&nbsp;05:37, Size 1.96&nbsp;GiB, ULed by <a class="detDesc" href="/user/makintos13/" title="Browse makintos13">makintos13</a></font>
+		</td>
+		<td align="right">195</td>
+		<td align="right">81</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21413119/Avengers_Infinity_War_2018_NEW_PROPER_HD-CAM_X264_HQ-CPG" class="detLink" title="Details for Avengers Infinity War 2018 NEW PROPER HD-CAM X264 HQ-CPG">Avengers Infinity War 2018 NEW PROPER HD-CAM X264 HQ-CPG</a>
+</div>
+<a href="magnet:?xt=urn:btih:65b686181bf2bc7e5a88d9aa4e1601a72cf4f5d0&amp;dn=Avengers+Infinity+War+2018+NEW+PROPER+HD-CAM+X264+HQ-CPG&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=ZbaGGBvyvH5aiNmqThYBpyz09dA=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Infinity War 2018 NEW PROPER HD-CAM X264 HQ-CPG" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 6 comments." title="This torrent has 6 comments."><a href="/user/makintos13"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-29&nbsp;05:40, Size 2.53&nbsp;GiB, ULed by <a class="detDesc" href="/user/makintos13/" title="Browse makintos13">makintos13</a></font>
+		</td>
+		<td align="right">164</td>
+		<td align="right">29</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/12396098/Avengers_Age_of_Ultron_2015_Complete_(1080p_Bluray_x265_10bit_AA" class="detLink" title="Details for Avengers Age of Ultron 2015 Complete (1080p Bluray x265 10bit AA">Avengers Age of Ultron 2015 Complete (1080p Bluray x265 10bit AA</a>
+</div>
+<a href="magnet:?xt=urn:btih:1313e547d7f7217481fe1e808a56a55ae12cac68&amp;dn=Avengers+Age+of+Ultron+2015+Complete+%281080p+Bluray+x265+10bit+AA&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=ExPlR9f3IXSB/h6AilalWuEsrGg=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Age of Ultron 2015 Complete (1080p Bluray x265 10bit AA" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><a href="/user/JoyBell2"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 09-11&nbsp;2015, Size 2.39&nbsp;GiB, ULed by <a class="detDesc" href="/user/JoyBell2/" title="Browse JoyBell2">JoyBell2</a></font>
+		</td>
+		<td align="right">156</td>
+		<td align="right">41</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21513617/Avengers.Infinity.War.2018.Eng.720p.Cleaned.New.HDCAM.x264.[MP4]" class="detLink" title="Details for Avengers.Infinity.War.2018.Eng.720p.Cleaned.New.HDCAM.x264.[MP4]">Avengers.Infinity.War.2018.Eng.720p.Cleaned.New.HDCAM.x264.[MP4]</a>
+</div>
+<a href="magnet:?xt=urn:btih:4aabef267a57c246f918cfbe9fb675d1c0866c0b&amp;dn=Avengers.Infinity.War.2018.Eng.720p.Cleaned.New.HDCAM.x264.%5BMP4%5D&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=SqvvJnpXwkb5GM++n7Z10cCGbAs=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers.Infinity.War.2018.Eng.720p.Cleaned.New.HDCAM.x264.[MP4]" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 05-01&nbsp;05:37, Size 1.42&nbsp;GiB, ULed by <a class="detDesc" href="/user/phannhat/" title="Browse phannhat">phannhat</a></font>
+		</td>
+		<td align="right">154</td>
+		<td align="right">30</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21422348/Avengers__Infinity_War_(2018)_720p_New_ProPer_HDTSRip_x264_AAC" class="detLink" title="Details for Avengers: Infinity War (2018) 720p New ProPer HDTSRip x264 AAC">Avengers: Infinity War (2018) 720p New ProPer HDTSRip x264 AAC</a>
+</div>
+<a href="magnet:?xt=urn:btih:c19f67f6fd6316210a7584e84574898836155b0f&amp;dn=Avengers%3A+Infinity+War+%282018%29+720p+New+ProPer+HDTSRip+x264+AAC&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=wZ9n9v1jFiEKdYToRXSJiDYVWw8=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers: Infinity War (2018) 720p New ProPer HDTSRip x264 AAC" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 04-29&nbsp;12:34, Size 790.42&nbsp;MiB, ULed by <a class="detDesc" href="/user/shmasti/" title="Browse shmasti">shmasti</a></font>
+		</td>
+		<td align="right">150</td>
+		<td align="right">48</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21345600/Avengers.Infinity.War.2018.Hindi.720p.Cleaned.HDTS.x264.[MP4]" class="detLink" title="Details for Avengers.Infinity.War.2018.Hindi.720p.Cleaned.HDTS.x264.[MP4]">Avengers.Infinity.War.2018.Hindi.720p.Cleaned.HDTS.x264.[MP4]</a>
+</div>
+<a href="magnet:?xt=urn:btih:be519efc5c7aa07e33e95607a5ccf40aa5cfcfec&amp;dn=Avengers.Infinity.War.2018.Hindi.720p.Cleaned.HDTS.x264.%5BMP4%5D&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=vlGe/Fx6oH4z6VYHpcz0CqXPz+w=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers.Infinity.War.2018.Hindi.720p.Cleaned.HDTS.x264.[MP4]" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 1 comments." title="This torrent has 1 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 04-27&nbsp;18:28, Size 918.13&nbsp;MiB, ULed by <a class="detDesc" href="/user/phannhat/" title="Browse phannhat">phannhat</a></font>
+		</td>
+		<td align="right">149</td>
+		<td align="right">44</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/207" title="More from this category">HD - Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/12274720/The.Avengers.Age.of.Ultron.(2015)MajestykMovies.mkv" class="detLink" title="Details for The.Avengers.Age.of.Ultron.(2015)MajestykMovies.mkv">The.Avengers.Age.of.Ultron.(2015)MajestykMovies.mkv</a>
+</div>
+<a href="magnet:?xt=urn:btih:4f5c2e464e5d9b21a47c537ce390f29b2726b124&amp;dn=The.Avengers.Age.of.Ultron.%282015%29MajestykMovies.mkv&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=T1wuRk5dmyGkfFN845DymycmsSQ=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=The.Avengers.Age.of.Ultron.(2015)MajestykMovies.mkv" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/11x11p.png"><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 08-23&nbsp;2015, Size 2.36&nbsp;GiB, ULed by <a class="detDesc" href="/user/Majestyk2k/" title="Browse Majestyk2k">Majestyk2k</a></font>
+		</td>
+		<td align="right">135</td>
+		<td align="right">12</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/12389701/Avengers_Age_of_Ultron_(2015)_Dual_Audio_[Hindi_-_English]_720p_" class="detLink" title="Details for Avengers Age of Ultron (2015) Dual Audio [Hindi - English] 720p ">Avengers Age of Ultron (2015) Dual Audio [Hindi - English] 720p </a>
+</div>
+<a href="magnet:?xt=urn:btih:0ad6928d6ae00906b4d132ad729385c533d0887c&amp;dn=Avengers+Age+of+Ultron+%282015%29+Dual+Audio+%5BHindi+-+English%5D+720p+&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=CtaSjWrgCQa00TKtcpOFxTPQiHw=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers Age of Ultron (2015) Dual Audio [Hindi - English] 720p " target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/11x11p.png"><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 09-10&nbsp;2015, Size 1.1&nbsp;GiB, ULed by <a class="detDesc" href="/user/RDLinks/" title="Browse RDLinks">RDLinks</a></font>
+		</td>
+		<td align="right">104</td>
+		<td align="right">34</td>
+	</tr>
+	<tr>
+		<td class="vertTh">
+			<center>
+				<a href="/browse/100" title="More from this category">Audio</a><br>
+				(<a href="/browse/101" title="More from this category">Music</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21339237/Avengers__Infinity_War_(Deluxe)_(OST)_(2018)_Mp3_[320kbps]" class="detLink" title="Details for Avengers: Infinity War (Deluxe) (OST) (2018) Mp3 [320kbps]">Avengers: Infinity War (Deluxe) (OST) (2018) Mp3 [320kbps]</a>
+</div>
+<a href="magnet:?xt=urn:btih:123625ce700f15c73b9032f4066db47537cc8f4d&amp;dn=Avengers%3A+Infinity+War+%28Deluxe%29+%28OST%29+%282018%29+Mp3+%5B320kbps%5D&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 3 comments." title="This torrent has 3 comments."><a href="/user/kajalsus"><img src="//pirateproxy.sh/static/img/vip.gif" alt="VIP" title="VIP" style="width:11px;" border="0"></a>
+			<font class="detDesc">Uploaded 04-27&nbsp;12:55, Size 269.49&nbsp;MiB, ULed by <a class="detDesc" href="/user/kajalsus/" title="Browse kajalsus">kajalsus</a></font>
+		</td>
+		<td align="right">104</td>
+		<td align="right">12</td>
+	</tr>
+	<tr class="alt">
+		<td class="vertTh">
+			<center>
+				<a href="/browse/200" title="More from this category">Video</a><br>
+				(<a href="/browse/201" title="More from this category">Movies</a>)
+			</center>
+		</td>
+		<td>
+<div class="detName">			<a href="/torrent/21353109/Avengers_3_Infinity_War_(2018)_720p_Hindi_Dubbed_Movie_HD-TC_x26" class="detLink" title="Details for Avengers 3 Infinity War (2018) 720p Hindi Dubbed Movie HD-TC x26">Avengers 3 Infinity War (2018) 720p Hindi Dubbed Movie HD-TC x26</a>
+</div>
+<a href="magnet:?xt=urn:btih:b7ae28b93313648b78c6066051c86c48c3554e52&amp;dn=Avengers+3+Infinity+War+%282018%29+720p+Hindi+Dubbed+Movie+HD-TC+x26&amp;tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&amp;tr=udp%3A%2F%2Fzer0day.ch%3A1337&amp;tr=udp%3A%2F%2Fopen.demonii.com%3A1337&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fexodus.desync.com%3A6969" title="Download this torrent using magnet"><img src="//pirateproxy.sh/static/img/icon-magnet.gif" alt="Magnet link"></a><a href="http://www.bitlord.me/share/?re=ThePirateBay&amp;ba=b8977e&amp;co=fff&amp;sh=t64ouTMTZIt4xgZgUchsSMNVTlI=&amp;ur=//pirateproxy.sh/search/avengers/0/99/0&amp;fn=Avengers 3 Infinity War (2018) 720p Hindi Dubbed Movie HD-TC x26" target="_blank" title="Play now using Bitlord" rel="noopener"><img src="//pirateproxy.sh/static/img/icons/icon-bitx.png" alt="Play link"></a><img src="//pirateproxy.sh/static/img/icon_comment.gif" alt="This torrent has 2 comments." title="This torrent has 2 comments."><img src="//pirateproxy.sh/static/img/11x11p.png">
+			<font class="detDesc">Uploaded 04-27&nbsp;20:41, Size 788.25&nbsp;MiB, ULed by <a class="detDesc" href="/user/shmasti/" title="Browse shmasti">shmasti</a></font>
+		</td>
+		<td align="right">103</td>
+		<td align="right">17</td>
+	</tr>
+
+</tbody></table>
+</div>
+<div align="center">1&nbsp;<a href="/search/avengers/1/7//">2</a>&nbsp;<a href="/search/avengers/2/7//">3</a>&nbsp;<a href="/search/avengers/3/7//">4</a>&nbsp;<a href="/search/avengers/4/7//">5</a>&nbsp;<a href="/search/avengers/5/7//">6</a>&nbsp;<a href="/search/avengers/6/7//">7</a>&nbsp;<a href="/search/avengers/7/7//">8</a>&nbsp;<a href="/search/avengers/8/7//">9</a>&nbsp;<a href="/search/avengers/9/7//">10</a>&nbsp;<a href="/search/avengers/10/7//">11</a>&nbsp;<a href="/search/avengers/11/7//">12</a>&nbsp;<a href="/search/avengers/12/7//">13</a>&nbsp;<a href="/search/avengers/13/7//">14</a>&nbsp;<a href="/search/avengers/14/7//">15</a>&nbsp;<a href="/search/avengers/15/7//">16</a>&nbsp;<a href="/search/avengers/16/7//">17</a>&nbsp;<a href="/search/avengers/17/7//">18</a>&nbsp;<a href="/search/avengers/18/7//">19</a>&nbsp;<a href="/search/avengers/19/7//">20</a>&nbsp;<a href="/search/avengers/20/7//">21</a>&nbsp;<a href="/search/avengers/21/7//">22</a>&nbsp;<a href="/search/avengers/22/7//">23</a>&nbsp;<a href="/search/avengers/23/7//">24</a>&nbsp;<a href="/search/avengers/24/7//">25</a>&nbsp;<a href="/search/avengers/25/7//">26</a>&nbsp;<a href="/search/avengers/26/7//">27</a>&nbsp;<a href="/search/avengers/27/7//">28</a>&nbsp;<a href="/search/avengers/28/7//">29</a>&nbsp;<a href="/search/avengers/29/7//">30</a>&nbsp;<a href="/search/avengers/30/7//">31</a>&nbsp;<a href="/search/avengers/31/7//">32</a>&nbsp;<a href="/search/avengers/32/7//">33</a>&nbsp;<a href="/search/avengers/33/7//">34</a>&nbsp;<a href="/search/avengers/34/7//">35</a>&nbsp;<a href="/search/avengers/35/7//">36</a>&nbsp;<a href="/search/avengers/36/7//">37</a>&nbsp;<a href="/search/avengers/37/7//">38</a>&nbsp;<a href="/search/avengers/38/7//">39</a>&nbsp;<a href="/search/avengers/39/7//">40</a>&nbsp;<a href="/search/avengers/40/7//">41</a>&nbsp;<a href="/search/avengers/41/7//">42</a>&nbsp;<a href="/search/avengers/42/7//">43</a>&nbsp;<a href="/search/avengers/43/7//">44</a>&nbsp;<a href="/search/avengers/44/7//">45</a>&nbsp;<a href="/search/avengers/45/7//">46</a>&nbsp;<a href="/search/avengers/46/7//">47</a>&nbsp;<a href="/search/avengers/47/7//">48</a>&nbsp;<a href="/search/avengers/48/7//">49</a>&nbsp;<a href="/search/avengers/49/7//">50</a>&nbsp;<a href="/search/avengers/1/7//"><img src="//pirateproxy.sh/static/img/next.gif" alt="Next" border="0"></a>&nbsp;
+</div>
+			<div class="ads" id="sky-banner">
+				 
+			</div>
+			
+	</div></div>	<!-- //div:content -->
+
+	<div id="foot" style="text-align:center;margin-top:1em;">
+
+			 
+				<p>
+			 
+			 
+			
+			<a href="/about" title="About">About</a> | <b><a href="https://proxybay.bz" title="Proxy List">Proxy List</a></b> |
+			<a href="/blog" title="Blog">Blog</a>
+			<br>
+			<!--<a href="/contact" title="Contact us">Contact us</a> |-->
+			<a href="/policy" title="Usage policy">Usage policy</a> |
+			<a href="http://uj3wazyk5u4hnvtk.onion" title="TOR">TOR</a> |
+			<a href="/doodles" title="Doodles">Doodles</a> |
+			<a href="http://pirates-forum.org/" title="Forum" target="_blank" rel="noopener">Forum</a> 
+			<br>
+		</p>
+
+<br><a href="http://bitcoin.org" target="_NEW">BTC</a>: <b>3HcEB6bi4TFPdvk31Pwz77DwAzfAZz2fMn</b><br><a href="http://bitcoin.org" target="_NEW">BTC (Bech32)</a>: <b>bc1q9x30z7rz52c97jwc2j79w76y7l3ny54nlvd4ew</b><br><a href="http://litecoin.org" target="_NEW">LTC</a>: <b>LS78aoGtfuGCZ777x3Hmr6tcoW3WaYynx9</b><br><a href="http://getmonero.org" target="_NEW">XMR</a>: <b>46E5ekYrZd5UCcmNuYEX24FRjWVMgZ1ob79cRViyfvLFZjfyMhPDvbuCe54FqLQvVCgRKP4UUMMW5fy3ZhVQhD1JLLufBtu</b><br><a href="http://bitcoin.org" target="_NEW">BCH</a>: <b>Bcash. LOL</b><br><br>
+
+		<div id="fbanners">
+			<a href="/rss" class="rss" title="RSS"><img src="//pirateproxy.sh/static/img/rss_small.gif" alt="RSS"></a>
+		</div><!-- // div:fbanners -->
+	</div><!-- // div:foot -->
+
+
+
+
+</body></html>
