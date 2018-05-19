@@ -1,5 +1,4 @@
-
-image: golang:alpine
+image: golang-dep
 
 variables:
   GIT_URL: "git.gmantaos.com"
@@ -9,13 +8,6 @@ stages:
   - build
 
 before_script:  
-  # Install dep
-  - go get -d -u github.com/golang/dep
-  - cd $(go env GOPATH)/src/github.com/golang/dep
-  - DEP_LATEST=$(git describe --abbrev=0 --tags)
-  - git checkout -q $DEP_LATEST
-  - go install -ldflags="-X main.version=$DEP_LATEST" ./cmd/dep
-
   # Prepare workspace
   - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
