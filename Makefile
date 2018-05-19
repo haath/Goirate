@@ -22,7 +22,7 @@ test: dep
 	@rm build/testCoverage.cov
 
 build: dep
-	go build $(ARGS) -o build/scanner ./scanner
+	go build $(ARGS) -o build/gorrent ./cmd
 
 dep: Gopkg.toml Gopkg.lock
 	dep ensure

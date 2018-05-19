@@ -1,7 +1,6 @@
-package main
+package piratebay
 
 import (
-	"git.gmantaos.com/haath/Gorrent/shared"
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"math"
@@ -55,9 +54,9 @@ func (s pirateBayScaper) SearchURL(query string) string {
 	return searchURL.String()
 }
 
-func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []shared.Torrent {
+func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 
-	var torrents []shared.Torrent
+	var torrents []Torrent
 
 	doc.Find("#searchResult > tbody > tr").Each(func(i int, s *goquery.Selection) {
 
@@ -82,9 +81,9 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []shared.Torrent
 		size := extractSize(description)
 		uploadTime := extractUploadTime(description)
 
-		quality := shared.LOW
+		quality := LOW
 
-		torrent := shared.Torrent{
+		torrent := Torrent{
 			Title: title, Size: size, Seeders: seeders,
 			Leechers: leechers, VerifiedUploader: verified,
 			VideoQuality: quality, URL: URL, Magnet: magnet,

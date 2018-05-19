@@ -1,24 +1,10 @@
-package main
+package piratebay
 
 import (
-	"encoding/json"
 	"github.com/PuerkitoBio/goquery"
 	"os"
 	"testing"
 )
-
-func TestExecute(t *testing.T) {
-
-	var cmd MirrorsCommand
-	Options.JSON = true
-
-	output := CaptureCommand(func() { cmd.Execute(nil) })
-
-	var mirrors []Mirror
-	json.Unmarshal([]byte(output), &mirrors)
-
-	Options.JSON = false
-}
 
 func TestParseMirrors(t *testing.T) {
 

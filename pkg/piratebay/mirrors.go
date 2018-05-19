@@ -1,10 +1,8 @@
-package main
+package piratebay
 
 import (
-	"encoding/json"
-	"git.gmantaos.com/haath/Gorrent/shared"
+	"git.gmantaos.com/haath/Gorrent/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
-	"log"
 )
 
 const proxybayURL string = "https://proxybay.github.io/"
@@ -16,35 +14,10 @@ type Mirror struct {
 	Status  bool   `json:"status"`
 }
 
-// MirrorsCommand defines the mirrors command and holds its options.
-type MirrorsCommand struct {
-}
-
-// Execute acts as the call back of the mirrors command.
-func (m *MirrorsCommand) Execute(args []string) error {
-	mirrors := GetMirrors()
-
-	if Options.JSON {
-		mirrorsJSON, _ := json.MarshalIndent(mirrors, "", "   ")
-		log.Println(mirrorsJSON)
-	}
-
-	for _, mirror := range mirrors {
-		status := "x"
-		if !mirror.Status {
-			status = " "
-		}
-
-		log.Printf("[%s] %s %s\n", status, mirror.Country, mirror.URL)
-	}
-
-	return nil
-}
-
 // GetMirrors retrieves a list of PirateBay mirrors.
 func GetMirrors() []Mirror {
 
-	doc, _ := shared.HTTPGet(proxybayURL)
+	doc, _ := utils.HTTPGet(proxybayURL)
 
 	return parseMirrors(doc)
 }
