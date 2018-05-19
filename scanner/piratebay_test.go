@@ -47,6 +47,8 @@ var timeTests = []struct {
 	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", time.Now().Year(), time.April, 29, 4, 41},
 	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 2014, time.February, 27, 0, 0},
 	{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 2008, time.October, 12, 0, 0},
+	{" Uploaded 04-27 20:41, Size 788.25 MiB, ULed by shmasti", time.Now().Year(), time.April, 27, 20, 41},
+	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13makintos13", time.Now().Year(), time.April, 29, 4, 41},
 }
 
 func TestNewScraper(t *testing.T) {

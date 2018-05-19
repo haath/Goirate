@@ -9,7 +9,9 @@ import (
 	"path"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
+	"unicode"
 )
 
 // PirateBayScaper holds the url of a PirateBay mirror on which to run torrent searches.
@@ -56,20 +58,26 @@ func (s pirateBayScaper) SearchURL(query string) string {
 func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []shared.Torrent {
 
 	var torrents []shared.Torrent
-	log.Println(123)
 
 	doc.Find("#searchResult > tbody > tr").Each(func(i int, s *goquery.Selection) {
 
 		cells := s.Find("td")
 
 		description := cells.Next().Find(".detDesc").Text()
+		description = strings.Replace(description, "&nbsp;", " ", -1)
+		description = strings.Map(func(r rune) rune {
+			if unicode.IsSpace(r) {
+				return -1
+			}
+			return r
+		}, description)
 
 		title := cells.Next().Find(".detName > .detLink").Text()
 		URL, _ := cells.Next().Find(".detName > .detLink").Attr("href")
 		magnet, _ := cells.Next().Find("> a").Attr("href")
 		seeders, _ := strconv.Atoi(cells.Next().Next().Text())
 		leechers, _ := strconv.Atoi(cells.Next().Next().Next().Text())
-		verified := s.Find("img[title='VIP'], img[title='VIP']").Length() > 0
+		verified := s.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
 
 		size := extractSize(description)
 		uploadTime := extractUploadTime(description)
@@ -123,7 +131,12 @@ func extractSize(description string) int {
 
 func extractUploadTime(description string) time.Time {
 
-	r, _ := regexp.Compile(`^Uploaded (\d\d)-(\d\d) (\d\d):(\d\d)`)
+	r, err := regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d\d):(\d\d)`)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m := r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
@@ -134,18 +147,17 @@ func extractUploadTime(description string) time.Time {
 		year := time.Now().Year()
 
 		return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
-	} else {
-		r, _ = regexp.Compile(`^Uploaded (\d\d)-(\d\d) (\d{4})`)
-		m = r.FindStringSubmatch(description)
-
-		day, _ := strconv.Atoi(m[2])
-		month, _ := strconv.Atoi(m[1])
-		hour := 0
-		minute := 0
-		year, _ := strconv.Atoi(m[3])
-
-		return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
 	}
 
-	return time.Now()
+	r, _ = regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d{4})`)
+	m = r.FindStringSubmatch(description)
+
+	log.Println(description)
+	day, _ := strconv.Atoi(m[2])
+	month, _ := strconv.Atoi(m[1])
+	hour := 0
+	minute := 0
+	year, _ := strconv.Atoi(m[3])
+
+	return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
 }
