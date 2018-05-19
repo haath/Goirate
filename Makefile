@@ -12,14 +12,13 @@ test: dep
 	go fmt $(PKG_LIST)
 	go vet -composites=false $(PKG_LIST)
 
-	@echo "mode: $(COV_MODE)" > build/testCoverage.cov
+	@echo "mode: $(COV_MODE)" > build/coverage.cov
 	@for package in $(PKG_LIST); do \
 		go test $(TEST_ARGS) -coverprofile build/tmp.cov $$package ; \
-		tail -q -n +2 build/tmp.cov >> build/testCoverage.cov; \
+		tail -q -n +2 build/tmp.cov >> build/coverage.cov; \
 		rm build/tmp.cov; \
 	done
-	go tool cover -func=build/testCoverage.cov
-	@rm build/testCoverage.cov
+	go tool cover -func=build/coverage.cov
 
 build: dep
 	go build $(ARGS) -o build/gorrent ./cmd

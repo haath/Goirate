@@ -74,7 +74,7 @@ func TestSearchURL(t *testing.T) {
 }
 
 func TestParseSearchPage(t *testing.T) {
-	file, err := os.Open("../samples/piratebay_search.html")
+	file, err := os.Open("../../samples/piratebay_search.html")
 
 	if err != nil {
 		t.Error(err)

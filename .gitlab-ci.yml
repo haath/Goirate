@@ -30,3 +30,7 @@ compile:
   stage: build
   script:
     - make build
+  artifacts:
+    paths:
+    - build/
+    expire_in: 1 week
