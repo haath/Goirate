@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-const url string = "https://proxybay.github.io/"
+const proxybayURL string = "https://proxybay.github.io/"
 
 // Mirror represents a PirateBay mirror and its status.
 type Mirror struct {
@@ -44,7 +44,7 @@ func (m *MirrorsCommand) Execute(args []string) error {
 // GetMirrors retrieves a list of PirateBay mirrors.
 func GetMirrors() []Mirror {
 
-	doc, _ := shared.HTTPGet(url)
+	doc, _ := shared.HTTPGet(proxybayURL)
 
 	return parseMirrors(doc)
 }

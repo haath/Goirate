@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/PuerkitoBio/goquery"
 	"os"
 	"testing"
@@ -11,7 +12,10 @@ func TestExecute(t *testing.T) {
 	var cmd MirrorsCommand
 	Options.JSON = true
 
-	CaptureCommand(func() { cmd.Execute(nil) })
+	output := CaptureCommand(func() { cmd.Execute(nil) })
+
+	var mirrors []Mirror
+	json.Unmarshal([]byte(output), &mirrors)
 
 	Options.JSON = false
 }
