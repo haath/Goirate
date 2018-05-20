@@ -5,7 +5,9 @@ TEST_ARGS = -v -covermode=$(COV_MODE)
 
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 
-targets: dep build
+.PHONY: all build clean
+
+all: dep build
 
 test: dep
 	-@mkdir -p build
@@ -20,7 +22,7 @@ test: dep
 	done
 	go tool cover -func=build/coverage.cov
 
-build: 
+build:
 	go build $(ARGS) -o build/gorrent ./cmd
 
 dep: Gopkg.toml Gopkg.lock

@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
 	"log"
+	"strings"
 )
 
 // MirrorsCommand defines the mirrors command and holds its options.
 type MirrorsCommand struct {
-	SourceURL string `short:"s" long:"source" description:"Link to list of PirateBay proxies. Default: proxybay.github.io"`
+	SourceURL string `short:"s" long:"source" description:"Link to a list of PirateBay proxies. Default: proxybay.github.io"`
 }
 
 // Execute acts as the call back of the mirrors command.
@@ -37,7 +38,7 @@ func (m *MirrorsCommand) Execute(args []string) error {
 			status = " "
 		}
 
-		log.Printf("[%s] %s %s\n", status, mirror.Country, mirror.URL)
+		log.Printf("[%s] %s %s\n", status, strings.ToUpper(mirror.Country), mirror.URL)
 	}
 
 	return nil

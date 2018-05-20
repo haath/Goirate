@@ -1,8 +1,11 @@
 package piratebay
 
 import (
+	"errors"
 	"git.gmantaos.com/haath/Gorrent/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
+	"regexp"
+	"strconv"
 )
 
 const defaultProxySourceURL string = "https://proxybay.github.io/"
@@ -43,6 +46,12 @@ func (m *MirrorScraper) GetMirrors() []Mirror {
 	return parseMirrors(doc)
 }
 
+// PickMirror fetches all available Pirate Bay mirrors and picks the the fastest one available.
+func (m *MirrorScraper) PickMirror() (*Mirror, error) {
+	mirrors := m.GetMirrors()
+	return pickMirror(mirrors)
+}
+
 func parseMirrors(doc *goquery.Document) []Mirror {
 
 	mirrors := make([]Mirror, 0)
@@ -58,4 +67,30 @@ func parseMirrors(doc *goquery.Document) []Mirror {
 	})
 
 	return mirrors
+}
+
+func parseLoadTime(speedTitle string) float32 {
+	r, _ := regexp.Compile("Loaded in (\\-?\\d+\\.\\d+) seconds")
+	m := r.FindStringSubmatch(speedTitle)
+
+	if len(m) > 0 {
+		val, _ := strconv.ParseFloat(m[1], 32)
+
+		return float32(val)
+	}
+	return 0.0
+}
+
+func pickMirror(mirrors []Mirror) (*Mirror, error) {
+
+	// Return the first mirror that responds to HTTP GET
+	for _, mirror := range mirrors {
+		_, err := utils.HTTPGet(mirror.URL)
+
+		if err == nil {
+			return &mirror, nil
+		}
+	}
+
+	return nil, errors.New("all Pirate Bay proxies seem to be unavailable")
 }

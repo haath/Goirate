@@ -71,3 +71,24 @@ func TestGetMirrors(t *testing.T) {
 		t.Errorf("Error fetching PirateBay mirrors.\n")
 	}
 }
+
+func TestParseLoadTime(t *testing.T) {
+	var searchTests = []struct {
+		in  string
+		out float32
+	}{
+		{"Loaded in 0.817 seconds", 0.817},
+		{"Loaded in 1.850 seconds", 1.85},
+		{"Loaded in 1.489 seconds", 1.489},
+		{"Loaded in 3.507 seconds", 3.507},
+	}
+
+	for _, tt := range searchTests {
+		t.Run(tt.in, func(t *testing.T) {
+			s := parseLoadTime(tt.in)
+			if s != tt.out {
+				t.Errorf("got %v, want %v", s, tt.out)
+			}
+		})
+	}
+}
