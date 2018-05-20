@@ -17,7 +17,7 @@ before_script:
 build-image:
   stage: prepare
   script:
-    - "curl -X POST -F token=$TRIGGER_TOKEN -F ref=master https://git.gmantaos.com/api/v4/projects/35/trigger/pipeline"
+    - "curl -X POST -F token=$CI_JOB_TOKEN -F ref=master https://git.gmantaos.com/api/v4/projects/35/trigger/pipeline"
 
 format:
   stage: test
