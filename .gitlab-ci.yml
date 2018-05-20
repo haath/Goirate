@@ -27,6 +27,7 @@ format:
 compile:
   stage: build
   script:
+    - make dep
     - make build
   artifacts:
     paths:

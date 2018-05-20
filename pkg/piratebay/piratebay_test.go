@@ -112,5 +112,4 @@ func TestExtractUploadTime(t *testing.T) {
 			}
 		})
 	}
-
 }

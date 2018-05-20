@@ -5,7 +5,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-const proxybayURL string = "https://proxybay.github.io/"
+const defaultProxySourceURL string = "https://proxybay.github.io/"
 
 // Mirror represents a PirateBay mirror and its status.
 type Mirror struct {
@@ -14,10 +14,31 @@ type Mirror struct {
 	Status  bool   `json:"status"`
 }
 
-// GetMirrors retrieves a list of PirateBay mirrors.
-func GetMirrors() []Mirror {
+// MirrorScraper holds the url to a piratebay proxy list.
+// By default the scraper will use proxybay.github.io.
+type MirrorScraper struct {
+	proxySourceURL string
+}
 
-	doc, _ := utils.HTTPGet(proxybayURL)
+// SetProxySourceURL overrides the URL at which MirrorScraper will attempt to fetch a list
+// of Pirate Bay proxies from.
+func (m *MirrorScraper) SetProxySourceURL(url string) {
+	m.proxySourceURL = url
+}
+
+// GetProxySourceURL retrieves the current URL at which the scraper will attempt to fetch a list
+// of Pirate Bay proxies from.
+func (m *MirrorScraper) GetProxySourceURL() string {
+	if m.proxySourceURL == "" {
+		return defaultProxySourceURL
+	}
+	return m.proxySourceURL
+}
+
+// GetMirrors retrieves a list of PirateBay mirrors.
+func (m *MirrorScraper) GetMirrors() []Mirror {
+
+	doc, _ := utils.HTTPGet(m.GetProxySourceURL())
 
 	return parseMirrors(doc)
 }
