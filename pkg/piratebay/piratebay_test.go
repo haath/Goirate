@@ -50,6 +50,17 @@ var timeTests = []struct {
 	{" Uploaded 04-27 20:41, Size 788.25 MiB, ULed by shmasti", time.Now().Year(), time.April, 27, 20, 41},
 }
 
+var videoQualityTests = []struct {
+	in  string
+	out VideoQuality
+}{
+	{"The.Expanse.S02E03.PROPER.HDTV.x264-KILLERS[ettv]", Default},
+	{"The.Expanse.S02E03.1080p.AMZN.WEBRip.DD5.1.HEVC.x265.sharpysword", High},
+	{"The.Expanse.S02E03.720p.HDTV.x264-AVS", Medium},
+	{"The.Expanse.S02E03.WEB-DL.XviD-FUM[ettv]", Default},
+	{"The.Expanse.S02E03.480p.164mb.hdtv.x264-][ Static ][ 09- mp4", Low},
+}
+
 func TestNewScraper(t *testing.T) {
 	for _, tt := range urlTests {
 		t.Run(tt.in, func(t *testing.T) {
@@ -108,6 +119,17 @@ func TestExtractUploadTime(t *testing.T) {
 		t.Run(tt.in, func(t *testing.T) {
 			s := extractUploadTime(tt.in)
 			if s.Year() != tt.year || s.Month() != tt.month || s.Day() != tt.day || s.Hour() != tt.hour || s.Minute() != tt.minute {
+				t.Errorf("got %v, want %v", s, tt)
+			}
+		})
+	}
+}
+
+func TestExtractVideoQuality(t *testing.T) {
+	for _, tt := range videoQualityTests {
+		t.Run(tt.in, func(t *testing.T) {
+			s := extractVideoQuality(tt.in)
+			if s != tt.out {
 				t.Errorf("got %v, want %v", s, tt)
 			}
 		})

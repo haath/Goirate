@@ -8,14 +8,14 @@ import (
 type VideoQuality string
 
 const (
-	// HDTV acts as the default quality when no other is found in the title.
-	HDTV VideoQuality = "HDTV"
-	// LOW represents the 480p quality.
-	LOW VideoQuality = "480p"
-	// MEDIUM represents the 720p quality.
-	MEDIUM VideoQuality = "720p"
-	// HIGH represents the 1080p quality.
-	HIGH VideoQuality = "1080p"
+	// Default acts as the default quality when no other is found in the title.
+	Default VideoQuality = "HDTV"
+	// Low represents the 480p quality.
+	Low VideoQuality = "480p"
+	// Medium represents the 720p quality.
+	Medium VideoQuality = "720p"
+	// High represents the 1080p quality.
+	High VideoQuality = "1080p"
 )
 
 // Torrent holds all the information regarding a torrent.
