@@ -1,6 +1,7 @@
 package piratebay
 
 import (
+	"git.gmantaos.com/haath/Gorrent/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"math"
@@ -17,12 +18,11 @@ import (
 type PirateBayScaper interface {
 	URL() string
 	SearchURL(query string) string
-	OnlyVerifiedUploader(enabled bool)
+	Search(query string) ([]Torrent, error)
 }
 
 type pirateBayScaper struct {
-	url                  *url.URL
-	onlyVerifiedUploader bool
+	url *url.URL
 }
 
 // NewScraper initializes a new PirateBay scapper from a mirror url.
@@ -42,16 +42,18 @@ func (s pirateBayScaper) URL() string {
 	return s.url.String()
 }
 
-func (s pirateBayScaper) OnlyVerifiedUploader(enabled bool) {
-	s.onlyVerifiedUploader = enabled
-}
-
 func (s pirateBayScaper) SearchURL(query string) string {
 
 	searchURL, _ := url.Parse(s.URL())
 	searchURL.Path = path.Join("/search", url.QueryEscape(query))
 
 	return searchURL.String()
+}
+
+func (s pirateBayScaper) Search(query string) ([]Torrent, error) {
+	doc, err := utils.HTTPGet(s.SearchURL(query))
+
+	return s.parseSearchPage(doc), err
 }
 
 func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
@@ -129,6 +131,9 @@ func extractSize(description string) int {
 
 func extractUploadTime(description string) time.Time {
 
+	/*
+		First check the MM-DD HH:mm format
+	*/
 	r, err := regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d\d):(\d\d)`)
 
 	if err != nil {
@@ -147,15 +152,33 @@ func extractUploadTime(description string) time.Time {
 		return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
 	}
 
+	/*
+		Next check the MM-DD YYYY format
+	*/
 	r, _ = regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d{4})`)
 	m = r.FindStringSubmatch(description)
 
-	log.Println(description)
-	day, _ := strconv.Atoi(m[2])
-	month, _ := strconv.Atoi(m[1])
-	hour := 0
-	minute := 0
-	year, _ := strconv.Atoi(m[3])
+	if len(m) > 0 {
+		day, _ := strconv.Atoi(m[2])
+		month, _ := strconv.Atoi(m[1])
+		hour := 0
+		minute := 0
+		year, _ := strconv.Atoi(m[3])
+
+		return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
+	}
+
+	/*
+		Finally check the MM-DD YYYY format
+	*/
+	r, _ = regexp.Compile(`Uploaded\s*Today\s*(\d\d):(\d\d)`)
+	m = r.FindStringSubmatch(description)
+
+	day := time.Now().Day()
+	month := time.Now().Month()
+	hour, _ := strconv.Atoi(m[1])
+	minute, _ := strconv.Atoi(m[2])
+	year := time.Now().Year()
 
 	return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
 }

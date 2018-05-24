@@ -6,12 +6,12 @@ import (
 	"testing"
 )
 
-func TestMirrorsExecute(t *testing.T) {
+func TestSearchExecute(t *testing.T) {
 
-	var cmd MirrorsCommand
+	var cmd SearchCommand
 	Options.JSON = true
 
-	output := CaptureCommand(func() { cmd.Execute(nil) })
+	output := CaptureCommand(func() { cmd.Execute([]string{"avengers"}) })
 
 	var mirrors []piratebay.Mirror
 	json.Unmarshal([]byte(output), &mirrors)

@@ -48,6 +48,7 @@ var timeTests = []struct {
 	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 2014, time.February, 27, 0, 0},
 	{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 2008, time.October, 12, 0, 0},
 	{" Uploaded 04-27 20:41, Size 788.25 MiB, ULed by shmasti", time.Now().Year(), time.April, 27, 20, 41},
+	{"Uploaded Today 08:05, Size 1.62 GiB, ULedbyAnonymous", time.Now().Year(), time.Now().Month(), time.Now().Day(), 8, 5},
 }
 
 var videoQualityTests = []struct {

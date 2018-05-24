@@ -85,6 +85,11 @@ func pickMirror(mirrors []Mirror) (*Mirror, error) {
 
 	// Return the first mirror that responds to HTTP GET
 	for _, mirror := range mirrors {
+
+		if !mirror.Status {
+			continue
+		}
+
 		_, err := utils.HTTPGet(mirror.URL)
 
 		if err == nil {

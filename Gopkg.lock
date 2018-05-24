@@ -20,6 +20,18 @@
   version = "v1.4.0"
 
 [[projects]]
+  name = "github.com/mattn/go-runewidth"
+  packages = ["."]
+  revision = "9e777a8366cce605130a531d2cd6363d07ad7317"
+  version = "v0.0.2"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/olekukonko/tablewriter"
+  packages = ["."]
+  revision = "d4647c9c7a84d847478d890b816b7d8b62b0b279"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = [
@@ -31,6 +43,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6a9ca711f7126a124f949796543d9cedfec89672f435b0ac6ccac53283a02d25"
+  inputs-digest = "14198fa2f2ba6ce7b7b5cbb6b35483747f974fd7580cff8a3bf76fc0b3d49d0e"
   solver-name = "gps-cdcl"
   solver-version = 1

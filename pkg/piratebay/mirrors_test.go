@@ -27,7 +27,7 @@ func TestMirrorScraper(t *testing.T) {
 func TestParseMirrors(t *testing.T) {
 
 	table := []Mirror{
-		{"https://pirateproxy.sh", "uk", true},
+		{"https://pirateproxy.sh", "uk", false},
 		{"https://thepbproxy.com", " nl", true},
 		{"https://thepiratebay.red", "us", true},
 		{"https://thepiratebay-org.prox.space", "us", true},
@@ -59,6 +59,49 @@ func TestParseMirrors(t *testing.T) {
 		if e.URL != a.URL || e.Country != e.Country || e.Status != a.Status {
 			t.Errorf("Wrong mirror parsing. Expected %v, got %v.\n", e, a)
 		}
+	}
+}
+
+func TestGetAndPickMirror(t *testing.T) {
+
+	var scraper MirrorScraper
+
+	mirror, err := scraper.PickMirror()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if mirror == nil || !mirror.Status {
+		t.Errorf("Fetched dead mirror %v\n", mirror)
+	}
+}
+
+func TestPickMirror(t *testing.T) {
+
+	expected := Mirror{"https://thepbproxy.com", "nl", true}
+
+	file, err := os.Open("../../samples/proxybay.html")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	doc, err := goquery.NewDocumentFromReader(file)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	mirrors := parseMirrors(doc)
+	mirror, err := pickMirror(mirrors)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if *mirror != expected {
+		t.Errorf("got %v, want %v", mirror, expected)
 	}
 }
 
