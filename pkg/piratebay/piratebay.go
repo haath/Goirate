@@ -93,7 +93,7 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 		URL, _ := cells.Next().Find(".detName > .detLink").Attr("href")
 		magnet, _ := cells.Next().Find("> a").Attr("href")
 		seeders, _ := strconv.Atoi(cells.Next().Next().Text())
-		leechers, _ := strconv.Atoi(cells.Next().Next().Next().Text())
+		leeches, _ := strconv.Atoi(cells.Next().Next().Next().Text())
 		verified := row.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
 
 		size := extractSize(description)
@@ -102,7 +102,7 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 
 		torrent := Torrent{
 			Title: title, Size: size, Seeders: seeders,
-			Leechers: leechers, VerifiedUploader: verified,
+			Leeches: leeches, VerifiedUploader: verified,
 			VideoQuality: quality, TorrentURL: URL, Magnet: magnet,
 			UploadTime: uploadTime, MirrorURL: s.URL(),
 		}
@@ -113,33 +113,33 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 	return torrents
 }
 
-func extractSize(description string) int {
+func extractSize(description string) int64 {
 
-	r, _ := regexp.Compile("^.+, Size (.+) GiB")
+	r, _ := regexp.Compile(`^.+,\s*Size\s*(.+)\s*GiB`)
 	m := r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
 		gb, _ := strconv.ParseFloat(m[len(m)-1], 32)
 
-		return int(math.Round(gb * 1000000))
+		return int64(math.Round(gb * 1000000))
 	}
 
-	r, _ = regexp.Compile("^.+, Size (.+) MiB")
+	r, _ = regexp.Compile(`^.+,\s*Size\s*(.+)\s*MiB`)
 	m = r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
 		gb, _ := strconv.ParseFloat(m[len(m)-1], 32)
 
-		return int(math.Round(gb * 1000))
+		return int64(math.Round(gb * 1000))
 	}
 
-	r, _ = regexp.Compile("^.+, Size (.+) KiB")
+	r, _ = regexp.Compile(`^.+,\s*Size\s*(.+)\s*KiB`)
 	m = r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
 		gb, _ := strconv.ParseFloat(m[len(m)-1], 32)
 
-		return int(math.Round(gb))
+		return int64(math.Round(gb))
 	}
 
 	return 0.0

@@ -2,6 +2,7 @@ package piratebay
 
 import (
 	"github.com/PuerkitoBio/goquery"
+	"net/url"
 	"os"
 	"testing"
 	"time"
@@ -29,7 +30,7 @@ var searchTests = []struct {
 
 var sizeTests = []struct {
 	in  string
-	out int
+	out int64
 }{
 	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", 3580000},
 	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 58350},
@@ -107,7 +108,8 @@ func TestParseSearchPage(t *testing.T) {
 		return
 	}
 
-	var scraper pirateBayScaper
+	u, _ := url.Parse("localhost")
+	scraper := pirateBayScaper{u}
 
 	scraper.parseSearchPage(doc)
 }
