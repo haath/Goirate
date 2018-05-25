@@ -2,8 +2,7 @@ package piratebay
 
 import (
 	"fmt"
-	"net/url"
-	"path"
+	"strings"
 	"time"
 )
 
@@ -37,9 +36,7 @@ type Torrent struct {
 
 // FullURL returns the absolute URL for this torrent, including the mirror it was scraped from.
 func (t Torrent) FullURL() string {
-	u, _ := url.Parse(t.MirrorURL)
-	u.Path = path.Join(u.Path, t.TorrentURL)
-	return u.String()
+	return fmt.Sprintf("%v/%v", strings.Trim(t.MirrorURL, "/"), strings.Trim(t.TorrentURL, "/"))
 }
 
 // PeersString returns a string representation of the torrent's connected peers

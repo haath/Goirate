@@ -69,15 +69,19 @@ func getTorrentsTable(torrents []piratebay.Torrent) string {
 	buf := bytes.NewBufferString("")
 
 	table := tablewriter.NewWriter(buf)
-	table.SetHeader([]string{"Title", "Size", "Peers"})
+	table.SetHeader([]string{"Title", "Size", "Seeds/Peers"})
 	table.SetColumnAlignment([]int{tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_CENTER, tablewriter.ALIGN_DEFAULT})
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetCenterSeparator("|")
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: false, Bottom: false})
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetRowLine(true)
 	table.SetAutoFormatHeaders(false)
+	table.SetAutoWrapText(false)
 
 	for _, torrent := range torrents {
 
-		table.Append([]string{torrent.Title, torrent.SizeString(), torrent.PeersString()})
+		table.Append([]string{torrent.Title + "\n" + torrent.FullURL(), torrent.SizeString(), torrent.PeersString()})
+		//table.Append([]string{"", torrent.FullURL()})
 	}
 
 	table.Render()

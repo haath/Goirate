@@ -11,6 +11,7 @@ var torrentUrlTests = []struct {
 }{
 	{"https://pirateproxy.sh/", "/torrent/22274951/The.Expanse.S03E07.PROPER.720p.HDTV.x264-AVS", "https://pirateproxy.sh/torrent/22274951/The.Expanse.S03E07.PROPER.720p.HDTV.x264-AVS"},
 	{"https://pirateproxy.sh", "/torrent/22274951/The.Expanse.S03E07.PROPER.720p.HDTV.x264-AVS", "https://pirateproxy.sh/torrent/22274951/The.Expanse.S03E07.PROPER.720p.HDTV.x264-AVS"},
+	{"https://pirateproxy.sh", "/torrent/19431416/Windows_10_Pro_v.1709_En-US_(64-bit)_ACTiVATED-HOBBiT", "https://pirateproxy.sh/torrent/19431416/Windows_10_Pro_v.1709_En-US_(64-bit)_ACTiVATED-HOBBiT"},
 }
 
 var torrentPeersTest = []struct {
