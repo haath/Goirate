@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"github.com/olekukonko/tablewriter"
 	"log"
 	"strings"
 )
@@ -32,14 +34,31 @@ func (m *MirrorsCommand) Execute(args []string) error {
 		return nil
 	}
 
+	log.Printf(getMirrorsTable(mirrors))
+
+	return nil
+}
+
+func getMirrorsTable(mirrors []piratebay.Mirror) string {
+	buf := bytes.NewBufferString("")
+
+	table := tablewriter.NewWriter(buf)
+	table.SetHeader([]string{" ", "Country", "URL"})
+	table.SetColumnAlignment([]int{tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_CENTER, tablewriter.ALIGN_DEFAULT})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+	table.SetAutoFormatHeaders(false)
+
 	for _, mirror := range mirrors {
 		status := "x"
 		if !mirror.Status {
 			status = " "
 		}
 
-		log.Printf("[%s] %s %s\n", status, strings.ToUpper(mirror.Country), mirror.URL)
+		table.Append([]string{status, strings.ToUpper(mirror.Country), mirror.URL})
 	}
 
-	return nil
+	table.Render()
+
+	return buf.String()
 }

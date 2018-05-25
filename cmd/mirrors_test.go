@@ -18,3 +18,20 @@ func TestMirrorsExecute(t *testing.T) {
 
 	Options.JSON = false
 }
+
+func TestGetMirrorsTable(t *testing.T) {
+	var table = []struct {
+		in  []piratebay.Mirror
+		out string
+	}{
+		{[]piratebay.Mirror{}, "|   | Country | URL |\n|---|---------|-----|\n"},
+		{[]piratebay.Mirror{piratebay.Mirror{URL: "https://pirateproxy.sh", Country: "uk", Status: true}}, "|   | Country |          URL           |\n|---|---------|------------------------|\n| x |   UK    | https://pirateproxy.sh |\n"},
+	}
+
+	for _, tt := range table {
+		s := getMirrorsTable(tt.in)
+		if s != tt.out {
+			t.Errorf("got %v, want %v", s, tt.out)
+		}
+	}
+}

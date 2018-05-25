@@ -12,22 +12,24 @@ To get a list of The Pirate Bay mirrors, use the `gorrent mirrors` command.
 
 ```shell
 $ gorrent mirrors
-[x] uk https://pirateproxy.sh
-[x] nl https://thepbproxy.com
-[x] us https://thepiratebay.red
-[x] us https://thepiratebay-org.prox.space
-[x] us https://cruzing.xyz
-[x] us https://tpbproxy.nl
-[x] us https://thepiratebay.rocks
-[ ] us https://proxydl.cf
-[x] us https://piratebayblocked.com
-[x] us https://tpb.crushus.com/thepiratebay.org
-[x] us https://ikwilthepiratebay.org
-[x] gb https://bay.maik.rocks
-[ ] fr https://www.piratenbaai.ch
-[ ] us https://tpbproxy.gdn
-[ ] us https://tpb.network
-[ ] fr https://thepiratebay.freeproxy.fun
+|   | Country |                   URL                    |
+|---|---------|------------------------------------------|
+| x |   UK    | https://pirateproxy.sh                   |
+| x |   NL    | https://thepbproxy.com                   |
+| x |   US    | https://thepiratebay.red                 |
+| x |   US    | https://thepiratebay-org.prox.space      |
+| x |   US    | https://cruzing.xyz                      |
+| x |   US    | https://tpbproxy.nl                      |
+| x |   US    | https://thepiratebay.rocks               |
+| x |   US    | https://proxydl.cf                       |
+| x |   US    | https://piratebayblocked.com             |
+| x |   US    | https://tpb.crushus.com/thepiratebay.org |
+| x |   US    | https://ikwilthepiratebay.org            |
+| x |   GB    | https://bay.maik.rocks                   |
+|   |   FR    | https://www.piratenbaai.ch               |
+|   |   US    | https://tpbproxy.gdn                     |
+|   |   US    | https://tpb.network                      |
+| x |   FR    | https://thepiratebay.freeproxy.fun       |
 ```
 
 By default, the tool will attempt to fetch them from [proxybay.github.io](https://proxybay.github.io). To override that set the `-s` option.
