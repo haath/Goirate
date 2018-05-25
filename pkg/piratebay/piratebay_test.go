@@ -73,6 +73,14 @@ func TestNewScraper(t *testing.T) {
 	}
 }
 
+func TestFindScraper(t *testing.T) {
+	_, err := FindScraper()
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 func TestSearchURL(t *testing.T) {
 	for _, tt := range searchTests {
 		t.Run(tt.in, func(t *testing.T) {
@@ -134,5 +142,20 @@ func TestExtractVideoQuality(t *testing.T) {
 				t.Errorf("got %v, want %v", s, tt)
 			}
 		})
+	}
+}
+
+func TestSearch(t *testing.T) {
+
+	scraper, err := FindScraper()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	torrents, err := (*scraper).Search("Windows 10")
+
+	if len(torrents) == 0 {
+		t.Errorf("Search yielded 0 torrents")
 	}
 }

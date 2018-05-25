@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"github.com/olekukonko/tablewriter"
 	"log"
 )
 
@@ -58,5 +60,27 @@ func (m *SearchCommand) Execute(args []string) error {
 		return nil
 	}
 
+	log.Printf(getTorrentsTable(torrents))
+
 	return nil
+}
+
+func getTorrentsTable(torrents []piratebay.Torrent) string {
+	buf := bytes.NewBufferString("")
+
+	table := tablewriter.NewWriter(buf)
+	table.SetHeader([]string{"URL", "Size", "Peers"})
+	table.SetColumnAlignment([]int{tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_CENTER, tablewriter.ALIGN_DEFAULT})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+	table.SetAutoFormatHeaders(false)
+
+	for _, torrent := range torrents {
+
+		table.Append([]string{torrent.FullURL(), "123", "123"})
+	}
+
+	table.Render()
+
+	return buf.String()
 }

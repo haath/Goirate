@@ -38,6 +38,22 @@ func NewScraper(mirrorURL string) PirateBayScaper {
 	return scraper
 }
 
+// FindScraper will use the default MirrorScraper to find a suitable Pirate Bay mirror,
+// then return a scraper for that mirror.
+func FindScraper() (*PirateBayScaper, error) {
+	var mirrorScraper MirrorScraper
+
+	mirror, err := mirrorScraper.PickMirror()
+
+	if err != nil {
+		return nil, err
+	}
+
+	scraper := NewScraper(mirror.URL)
+
+	return &scraper, nil
+}
+
 func (s pirateBayScaper) URL() string {
 	return s.url.String()
 }
@@ -60,9 +76,9 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 
 	var torrents []Torrent
 
-	doc.Find("#searchResult > tbody > tr").Each(func(i int, s *goquery.Selection) {
+	doc.Find("#searchResult > tbody > tr").Each(func(i int, row *goquery.Selection) {
 
-		cells := s.Find("td")
+		cells := row.Find("td")
 
 		description := cells.Next().Find(".detDesc").Text()
 		description = strings.Replace(description, "&nbsp;", " ", -1)
@@ -78,7 +94,7 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 		magnet, _ := cells.Next().Find("> a").Attr("href")
 		seeders, _ := strconv.Atoi(cells.Next().Next().Text())
 		leechers, _ := strconv.Atoi(cells.Next().Next().Next().Text())
-		verified := s.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
+		verified := row.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
 
 		size := extractSize(description)
 		uploadTime := extractUploadTime(description)
@@ -87,8 +103,8 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 		torrent := Torrent{
 			Title: title, Size: size, Seeders: seeders,
 			Leechers: leechers, VerifiedUploader: verified,
-			VideoQuality: quality, URL: URL, Magnet: magnet,
-			UploadTime: uploadTime,
+			VideoQuality: quality, TorrentURL: URL, Magnet: magnet,
+			UploadTime: uploadTime, MirrorURL: s.URL(),
 		}
 
 		torrents = append(torrents, torrent)

@@ -1,6 +1,8 @@
 package piratebay
 
 import (
+	"net/url"
+	"path"
 	"time"
 )
 
@@ -26,7 +28,15 @@ type Torrent struct {
 	Leechers         int          `json:"leechers"`
 	VerifiedUploader bool         `json:"verified_uploader"`
 	VideoQuality     VideoQuality `json:"video_quality"`
-	URL              string       `json:"url"`
+	MirrorURL        string       `json:"mirror_url"`
+	TorrentURL       string       `json:"torrent_url"`
 	Magnet           string       `json:"magnet"`
 	UploadTime       time.Time    `json:"upload_time"`
+}
+
+// FullURL returns the absolute URL for this torrent, including the mirror it was scraped from.
+func (t Torrent) FullURL() string {
+	u, _ := url.Parse(t.MirrorURL)
+	u.Path = path.Join(u.Path, t.TorrentURL)
+	return u.String()
 }
