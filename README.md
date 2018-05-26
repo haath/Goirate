@@ -61,19 +61,19 @@ $ gorrent mirrors --json
 ### Torrents
 
 ```shell
-$ gorrent search "windows 10"
+$ gorrent search "debian"
                                                   Title                                                      Size    Seeds/Peers
 ---------------------------------------------------------------------------------------------------------------------------------
- Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   100 / 100
+ Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   10 / 10
  https://pirateproxy.sh/torrent/5468273/Debian_GNU_Linux_Bible_[ENG]_[.pdf]
 ---------------------------------------------------------------------------------------------------------------------------------
- Debian 7- System Administration Best Practices, 2013 [PDF]~Storm                                           2.0 MB   90 / 90
+ Debian 7- System Administration Best Practices, 2013 [PDF]~Storm                                           2.0 MB   9 / 9
  https://pirateproxy.sh/torrent/9499287/Debian_7-_System_Administration_Best_Practices__2013_[PDF]_Storm
 ---------------------------------------------------------------------------------------------------------------------------------
- Debian 9 Stretch minimal install (VirtualBox VDI image)                                                   187.7 MB  60 / 60
+ Debian 9 Stretch minimal install (VirtualBox VDI image)                                                   187.7 MB  6 / 6
  https://pirateproxy.sh/torrent/20414237/Debian_9_Stretch_minimal_install_(VirtualBox_VDI_image)
 ---------------------------------------------------------------------------------------------------------------------------------
- Debian GNU Linux Bible.zip                                                                                 6.1 MB   20 / 20
+ Debian GNU Linux Bible.zip                                                                                 6.1 MB   2 / 2
  https://pirateproxy.sh/torrent/4431647/Debian_GNU_Linux_Bible.zip
 ---------------------------------------------------------------------------------------------------------------------------------
 ```
