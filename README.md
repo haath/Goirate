@@ -1,6 +1,21 @@
 
 ![Logo](assets/logo.png)
 
+This tool aims to become an all-in-one suite for automating your every pirate-y need.
+
+### Progress
+
+- [x] Pirate Bay scraping for booty
+- [x] Command-line plunderin'
+- [ ] Defining series seasons and episodes
+- [ ] Defining [sea shanty](https://en.wikipedia.org/wiki/Sea_shanty) albums
+- [ ] Support for your proxy or VPNt o avoid the flogging
+- [ ] Torrent client integration
+- [ ] Crontab scanner
+    - [ ] Watchlist for single torrents
+    - [ ] New series episodes
+    - [ ] E-mail notifications
+    - [ ] Automatic downloads
 
 ## Torrents
 
@@ -86,3 +101,6 @@ Additional available options
 | `--mirror "https://pirateproxy.sh/"` | Use a specific pirate bay mirror |
 | `--source "https://proxybay.bz/"` | Override default mirror list |
 | `--trusted` | Only return torrents whose uploader is either Trusted or VIP |
+| `--magnet` | Only output magnet links, one on each line |
+| `--urls` | Only output torrent urls, one on each line |
+| `-c 5`, `--count 5` | Limit the number of results |

@@ -72,3 +72,24 @@ func TestFilterTorrentList(t *testing.T) {
 		})
 	}
 }
+
+func TestValidOutputFlags(t *testing.T) {
+	var table = []struct {
+		label string
+		in    SearchCommand
+		out   bool
+	}{
+		{"None", SearchCommand{}, true},
+		{"Magnet", SearchCommand{MagnetLinks: true}, true},
+		{"URLs", SearchCommand{TorrentURLs: true}, true},
+		{"Both", SearchCommand{TorrentURLs: true, MagnetLinks: true}, false},
+	}
+	for _, tt := range table {
+		t.Run(tt.label, func(t *testing.T) {
+			s := tt.in.validOutputFlags()
+			if s != tt.out {
+				t.Errorf("\ngot: %v\nwant: %v", s, tt.out)
+			}
+		})
+	}
+}
