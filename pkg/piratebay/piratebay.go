@@ -97,7 +97,7 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 		title := cells[1].Find(".detName > .detLink").Text()
 		URL, _ := cells[1].Find(".detName > .detLink").Attr("href")
-		magnet, _ := cells[1].Find("> a").Attr("href")
+		magnet, _ := cells[1].ChildrenFiltered("a").First().Attr("href")
 		seeders, _ := strconv.Atoi(cells[2].Text())
 		leeches, _ := strconv.Atoi(cells[3].Text())
 		verified := row.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
