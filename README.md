@@ -1,5 +1,5 @@
 
-# Gorrent
+![Logo](assets/logo.png)
 
 
 ## Torrents
@@ -83,6 +83,6 @@ Additional available options
 | | |
 |-|-|
 | `-j`, `--json` | Output JSON |
-| `--mirror "https://pirateproxy.sh/"` | Specify specific pirate bay mirror |
+| `--mirror "https://pirateproxy.sh/"` | Use a specific pirate bay mirror |
 | `--source "https://proxybay.bz/"` | Override default mirror list |
 | `--trusted` | Only return torrents whose uploader is either Trusted or VIP |

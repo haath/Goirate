@@ -79,9 +79,14 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 	doc.Find("#searchResult > tbody > tr").Each(func(i int, row *goquery.Selection) {
 
-		cells := row.Find("td")
+		cells := []*goquery.Selection{
+			row.Find("td").First(),
+			row.Find("td").Next().First(),
+			row.Find("td").Next().Next().First(),
+			row.Find("td").Next().Next().Next().First(),
+		}
 
-		description := cells.Next().Find(".detDesc").Text()
+		description := cells[1].Find(".detDesc").Text()
 		description = strings.Replace(description, "&nbsp;", " ", -1)
 		description = strings.Map(func(r rune) rune {
 			if unicode.IsSpace(r) {
@@ -90,11 +95,11 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 			return r
 		}, description)
 
-		title := cells.Next().Find(".detName > .detLink").Text()
-		URL, _ := cells.Next().Find(".detName > .detLink").Attr("href")
-		magnet, _ := cells.Next().Find("> a").Attr("href")
-		seeders, _ := strconv.Atoi(cells.Next().Next().Text())
-		leeches, _ := strconv.Atoi(cells.Next().Next().Next().Text())
+		title := cells[1].Find(".detName > .detLink").Text()
+		URL, _ := cells[1].Find(".detName > .detLink").Attr("href")
+		magnet, _ := cells[1].Find("> a").Attr("href")
+		seeders, _ := strconv.Atoi(cells[2].Text())
+		leeches, _ := strconv.Atoi(cells[3].Text())
 		verified := row.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
 
 		size := extractSize(description)

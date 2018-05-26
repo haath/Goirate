@@ -95,6 +95,15 @@ func TestSearchURL(t *testing.T) {
 }
 
 func TestParseSearchPage(t *testing.T) {
+
+	expected := Torrent{
+		TorrentURL: "/torrent/21412907/Avengers_Infinity_War_2018_NEW_PROPER_720p_HD-CAM_X264_HQ-CPG",
+		Seeders:    7437,
+		Leeches:    2003,
+		Title:      "Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG",
+		Size:       3580000,
+	}
+
 	file, err := os.Open("../../samples/piratebay_search.html")
 
 	if err != nil {
@@ -115,6 +124,14 @@ func TestParseSearchPage(t *testing.T) {
 
 	if len(torrents) != 30 {
 		t.Errorf("got %v, want 30", len(torrents))
+	}
+
+	tr := torrents[0]
+
+	if tr.TorrentURL != expected.TorrentURL || tr.Title != expected.Title ||
+		tr.Size != expected.Size || tr.Leeches != expected.Leeches || tr.Seeders != expected.Seeders {
+
+		t.Errorf("\ngot: %v\nwant: %v\n", tr, expected)
 	}
 }
 
