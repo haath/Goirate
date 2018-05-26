@@ -99,7 +99,7 @@ func (m *SearchCommand) filterTorrentList(torrents []piratebay.Torrent) []pirate
 			filtered = append(filtered, torrent)
 		}
 
-		if uint(len(filtered)) >= m.Count {
+		if m.Count > 0 && uint(len(filtered)) >= m.Count {
 			break
 		}
 	}
@@ -139,7 +139,6 @@ func getTorrentsTable(torrents []piratebay.Torrent) string {
 	for _, torrent := range torrents {
 
 		table.Append([]string{torrent.Title + "\n" + torrent.FullURL(), torrent.SizeString(), torrent.PeersString()})
-		//table.Append([]string{"", torrent.FullURL()})
 	}
 
 	table.Render()

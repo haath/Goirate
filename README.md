@@ -17,7 +17,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
     - [ ] E-mail notifications
     - [ ] Automatic downloads
 
-## Torrents
+## Command line tool
 
 The primary source of this tool's torrents is The Pirate Bay.
 
@@ -103,4 +103,4 @@ Additional available options
 | `--trusted` | Only return torrents whose uploader is either Trusted or VIP |
 | `--magnet` | Only output magnet links, one on each line |
 | `--urls` | Only output torrent urls, one on each line |
-| `-c 5`, `--count 5` | Limit the number of results |
+| `-c 7`, `--count 7` | Limit the number of results |
