@@ -45,6 +45,8 @@ func (m *SearchCommand) Execute(args []string) error {
 
 	torrents, err := scraper.Search(m.Args.Query)
 
+	torrents = m.filterTorrentList(torrents)
+
 	if err != nil {
 		return err
 	}
@@ -63,6 +65,21 @@ func (m *SearchCommand) Execute(args []string) error {
 	log.Printf(getTorrentsTable(torrents))
 
 	return nil
+}
+
+func (m *SearchCommand) filterTorrentList(torrents []piratebay.Torrent) []piratebay.Torrent {
+
+	var filtered []piratebay.Torrent
+
+	for _, torrent := range torrents {
+
+		if !m.Trusted || torrent.VerifiedUploader {
+			filtered = append(filtered, torrent)
+		}
+
+	}
+
+	return filtered
 }
 
 func getTorrentsTable(torrents []piratebay.Torrent) string {

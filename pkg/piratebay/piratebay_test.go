@@ -111,7 +111,11 @@ func TestParseSearchPage(t *testing.T) {
 	u, _ := url.Parse("localhost")
 	scraper := pirateBayScaper{u}
 
-	scraper.parseSearchPage(doc)
+	torrents := scraper.ParseSearchPage(doc)
+
+	if len(torrents) != 30 {
+		t.Errorf("got %v, want 30", len(torrents))
+	}
 }
 
 func TestExtractSize(t *testing.T) {
@@ -152,7 +156,7 @@ func TestSearch(t *testing.T) {
 	scraper, err := FindScraper()
 
 	if err != nil {
-		t.Error(err)
+		t.Errorf("Error finding scraper: %v\n", err)
 	}
 
 	torrents, err := (*scraper).Search("Windows 10")

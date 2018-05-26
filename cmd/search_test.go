@@ -3,6 +3,9 @@ package main
 import (
 	"encoding/json"
 	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"github.com/PuerkitoBio/goquery"
+	"os"
+	"strconv"
 	"testing"
 )
 
@@ -24,7 +27,7 @@ func TestGetTorrentsTable(t *testing.T) {
 		in  []piratebay.Torrent
 		out string
 	}{
-		{[]piratebay.Torrent{}, " Title  Size  Peers \n--------------------\n"},
+		{[]piratebay.Torrent{}, " Title  Size  Seeds/Peers \n--------------------------\n"},
 	}
 
 	for _, tt := range table {
@@ -32,5 +35,40 @@ func TestGetTorrentsTable(t *testing.T) {
 		if s != tt.out {
 			t.Errorf("\ngot : %v\nwant: %v", s, tt.out)
 		}
+	}
+}
+
+func TestFilterTorrentList(t *testing.T) {
+
+	file, err := os.Open("../samples/piratebay_search.html")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(file)
+	if err != nil {
+		t.Error(err)
+	}
+
+	scraper := piratebay.NewScraper("localhost")
+
+	torrents := scraper.ParseSearchPage(doc)
+
+	var table = []struct {
+		in  SearchCommand
+		out int
+	}{
+		{SearchCommand{}, 30},
+		{SearchCommand{Trusted: true}, 21},
+	}
+
+	for _, tt := range table {
+		t.Run(strconv.Itoa(tt.out), func(t *testing.T) {
+			s := tt.in.filterTorrentList(torrents)
+			if len(s) != tt.out {
+				t.Errorf("\ngot: %v\nwant: %v", len(s), tt.out)
+			}
+		})
 	}
 }

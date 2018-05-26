@@ -80,17 +80,9 @@ $ gorrent search "windows 10"
 
 Additional available options
 
-```shell
-# Output JSON
-$ gorrent search -j "search query"
-```
-
-```shell
-# Specify specific pirate bay mirror
-$ gorrent search --source "https://pirateproxy.sh/" "search query"
-```
-
-```shell
-# Only return torrents whose uploader is either Trusted or VIP
-$ gorrent search --trusted "search query"
-```
+| | |
+|-|-|
+| `-j`, `--json` | Output JSON |
+| `--mirror "https://pirateproxy.sh/"` | Specify specific pirate bay mirror |
+| `--source "https://proxybay.bz/"` | Override default mirror list |
+| `--trusted` | Only return torrents whose uploader is either Trusted or VIP |

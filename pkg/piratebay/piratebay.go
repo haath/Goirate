@@ -19,6 +19,7 @@ type PirateBayScaper interface {
 	URL() string
 	SearchURL(query string) string
 	Search(query string) ([]Torrent, error)
+	ParseSearchPage(doc *goquery.Document) []Torrent
 }
 
 type pirateBayScaper struct {
@@ -69,10 +70,10 @@ func (s pirateBayScaper) SearchURL(query string) string {
 func (s pirateBayScaper) Search(query string) ([]Torrent, error) {
 	doc, err := utils.HTTPGet(s.SearchURL(query))
 
-	return s.parseSearchPage(doc), err
+	return s.ParseSearchPage(doc), err
 }
 
-func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
+func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 	var torrents []Torrent
 
@@ -115,29 +116,29 @@ func (s pirateBayScaper) parseSearchPage(doc *goquery.Document) []Torrent {
 
 func extractSize(description string) int64 {
 
-	r, _ := regexp.Compile(`^.+,\s*Size\s*(.+)\s*GiB`)
+	r, _ := regexp.Compile(`Size\s*(.+)\s*GiB`)
 	m := r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
-		gb, _ := strconv.ParseFloat(m[len(m)-1], 32)
+		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
 		return int64(math.Round(gb * 1000000))
 	}
 
-	r, _ = regexp.Compile(`^.+,\s*Size\s*(.+)\s*MiB`)
+	r, _ = regexp.Compile(`Size\s*(.+)\s*MiB`)
 	m = r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
-		gb, _ := strconv.ParseFloat(m[len(m)-1], 32)
+		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
 		return int64(math.Round(gb * 1000))
 	}
 
-	r, _ = regexp.Compile(`^.+,\s*Size\s*(.+)\s*KiB`)
+	r, _ = regexp.Compile(`Size\s*(.+)\s*KiB`)
 	m = r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
-		gb, _ := strconv.ParseFloat(m[len(m)-1], 32)
+		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
 		return int64(math.Round(gb))
 	}
@@ -153,7 +154,7 @@ func extractUploadTime(description string) time.Time {
 	r, err := regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d\d):(\d\d)`)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error extracting upload time: %v\n", err)
 	}
 
 	m := r.FindStringSubmatch(description)
@@ -185,16 +186,34 @@ func extractUploadTime(description string) time.Time {
 	}
 
 	/*
-		Finally check the MM-DD YYYY format
+		Check the Today YYYY format
 	*/
 	r, _ = regexp.Compile(`Uploaded\s*Today\s*(\d\d):(\d\d)`)
 	m = r.FindStringSubmatch(description)
 
-	day := time.Now().Day()
-	month := time.Now().Month()
+	if len(m) > 0 {
+		day := time.Now().Day()
+		month := time.Now().Month()
+		hour, _ := strconv.Atoi(m[1])
+		minute, _ := strconv.Atoi(m[2])
+		year := time.Now().Year()
+
+		return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
+	}
+
+	/*
+		Finally, check the Y-day YYYY format
+	*/
+	r, _ = regexp.Compile(`Uploaded\s*Y-day\s*(\d\d):(\d\d)`)
+	m = r.FindStringSubmatch(description)
+
+	yday := time.Now().AddDate(0, 0, -1)
+
+	day := yday.Day()
+	month := yday.Month()
 	hour, _ := strconv.Atoi(m[1])
 	minute, _ := strconv.Atoi(m[2])
-	year := time.Now().Year()
+	year := yday.Year()
 
 	return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
 }
