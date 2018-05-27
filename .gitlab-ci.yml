@@ -22,7 +22,9 @@ before_script:
   - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
+
   - make dep
+  - chmod +x ./scripts/test.sh
 
 build-image:
   stage: prepare
