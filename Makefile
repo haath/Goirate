@@ -1,32 +1,34 @@
 
-ARGS = -i -v
-COV_MODE = set
-TEST_ARGS = -v -covermode=$(COV_MODE)
+OUTPUT := build/gorrent
 
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
+GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-.PHONY: all build clean
+build: dep compile ## Install dependencies and compile the binary file
 
-all: dep build
+lint: dep ## Verifies the code through lint, fmt and vet
+	@echo "lint"
+	@golint $(PKG_LIST)
+	@echo "fmt"
+	@go fmt $(PKG_LIST)
+	@echo "vet"
+	@go vet -composites=false $(PKG_LIST)
 
-test: dep
-	-@mkdir -p build
-	go fmt $(PKG_LIST)
-	go vet -composites=false $(PKG_LIST)
+test: dep ## Run unit tests
+	@go test -short ${PKG_LIST}
 
-	@echo "mode: $(COV_MODE)" > build/coverage.cov
-	@for package in $(PKG_LIST); do \
-		go test $(TEST_ARGS) -coverprofile build/tmp.cov $$package ; \
-		tail -q -n +2 build/tmp.cov >> build/coverage.cov; \
-		rm build/tmp.cov; \
-	done
-	go tool cover -func=build/coverage.cov
+test-cov: dep ## Run unit tests and generate code coverage
+	./scripts/test.sh;
 
-build:
-	go build $(ARGS) -o build/gorrent ./cmd
+compile: ## Compile the binary file
+	@go build -i -v -o $(OUTPUT) ./cmd
 
-dep: Gopkg.toml Gopkg.lock
-	dep ensure
+dep: Gopkg.toml ## Install dependencies
+	@dep ensure
+	@go get -u github.com/golang/lint/golint
 
-clean:
-	-@rm -rf build
+clean: ## Remove previous build
+	@rm -rf build
+
+help: ## Display this help screen
+	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%-30s\033[0m %s\n", $$1, $$2}'

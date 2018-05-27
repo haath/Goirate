@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-var torrentUrlTests = []struct {
+var torrentURLTests = []struct {
 	inMirror  string
 	inTorrent string
 	out       string
@@ -37,7 +37,7 @@ var torrentSizeTest = []struct {
 }
 
 func TestFullURL(t *testing.T) {
-	for _, tt := range torrentUrlTests {
+	for _, tt := range torrentURLTests {
 		t.Run(tt.inTorrent, func(t *testing.T) {
 			s := Torrent{
 				MirrorURL: tt.inMirror, TorrentURL: tt.inTorrent,

@@ -3,6 +3,15 @@ image: golang-dep
 variables:
   GIT_URL: "git.gmantaos.com"
 
+cache:
+  paths:
+    - /apt-cache
+    - /go/src/github.com
+    - /go/src/golang.org
+    - /go/src/google.golang.org
+    - /go/src/gopkg.in
+
+
 stages:
   - prepare
   - test
@@ -13,23 +22,29 @@ before_script:
   - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
+  - make dep
 
 build-image:
   stage: prepare
   script:
     - "curl -X POST -F token=$CI_JOB_TOKEN -F ref=master https://git.gmantaos.com/api/v4/projects/35/trigger/pipeline"
 
-format:
+test:
   stage: test
   script:
-    - make test
+    - make test-cov
+
+lint:
+  stage: test
+  script:
+    - make lint
 
 compile:
   stage: build
   script:
-    - make dep
     - make build
   artifacts:
+    name: "gorrent.$CI_JOB_ID"
     paths:
     - build/
     expire_in: 1 week
