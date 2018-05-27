@@ -13,7 +13,6 @@ cache:
 
 
 stages:
-  - prepare
   - test
   - build
 
@@ -26,10 +25,7 @@ before_script:
   - make dep
   - chmod +x ./scripts/test.sh
 
-build-image:
-  stage: prepare
-  script:
-    - "curl -X POST -F token=$CI_JOB_TOKEN -F ref=master https://git.gmantaos.com/api/v4/projects/35/trigger/pipeline"
+  - echo $GOPATH
 
 test:
   stage: test
@@ -45,8 +41,3 @@ compile:
   stage: build
   script:
     - make build
-  artifacts:
-    name: "gorrent.$CI_JOB_ID"
-    paths:
-    - build/
-    expire_in: 1 week
