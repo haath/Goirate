@@ -1,4 +1,4 @@
-image: golang-dep
+image: gmantaos/golang-dep-arm
 
 variables:
   GIT_URL: "git.gmantaos.com"
