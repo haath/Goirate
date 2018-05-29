@@ -18,6 +18,7 @@ test: dep ## Run unit tests
 	@go test -short ${PKG_LIST}
 
 test-cov: dep ## Run unit tests and generate code coverage
+	@chmod +x ./scripts/test.sh
 	./scripts/test.sh;
 
 compile: ## Compile the binary file

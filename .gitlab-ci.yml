@@ -23,7 +23,6 @@ before_script:
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 
   - make dep
-  - chmod +x ./scripts/test.sh
 
 test:
   stage: test
