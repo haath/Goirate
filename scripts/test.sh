@@ -7,6 +7,8 @@
 #############################################
 
 COVERAGE_DIR="build/coverage"
+OUTPUT="build/coverage.cov"
+OUTPUT_HTML="build/coverage.html"
 PKG_LIST=$(go list ./... | grep -v /vendor/)
 
 # Create the coverage files directory
@@ -18,13 +20,14 @@ for package in ${PKG_LIST}; do
 done ;
 
 # Merge the coverage profile files
-echo 'mode: count' > "${COVERAGE_DIR}"/coverage.cov ;
-tail -q -n +2 "${COVERAGE_DIR}"/*.cov >> "${COVERAGE_DIR}"/coverage.cov ;
+echo 'mode: count' > "${OUTPUT}" ;
+tail -q -n +2 "${COVERAGE_DIR}"/*.cov >> "${OUTPUT}" ;
+
+# Remove temporary files
+rm -rf $COVERAGE_DIR
 
 # Display the global code coverage
-go tool cover -func="${COVERAGE_DIR}"/coverage.cov ;
+go tool cover -func="${OUTPUT}" ;
 
-# If needed, generate HTML report
-if [ "$1" == "html" ]; then
-    go tool cover -html="${COVERAGE_DIR}"/coverage.cov -o coverage.html ;
-fi
+# Generate the HTML coverage report
+go tool cover -html="${OUTPUT}" -o "${OUTPUT_HTML}" ;
