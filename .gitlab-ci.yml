@@ -3,15 +3,6 @@ image: gmantaos/golang-dep-arm
 variables:
   GIT_URL: "git.gmantaos.com"
 
-cache:
-  paths:
-    - /apt-cache
-    - /go/src/github.com
-    - /go/src/golang.org
-    - /go/src/google.golang.org
-    - /go/src/gopkg.in
-
-
 stages:
   - test
   - build
