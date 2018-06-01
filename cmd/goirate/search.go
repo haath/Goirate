@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
 	"github.com/olekukonko/tablewriter"
 	"log"
 )

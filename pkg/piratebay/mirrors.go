@@ -2,7 +2,7 @@ package piratebay
 
 import (
 	"errors"
-	"git.gmantaos.com/haath/Gorrent/pkg/utils"
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strconv"

@@ -22,10 +22,10 @@ The primary source of this tool's torrents is The Pirate Bay.
 
 ### Mirrors
 
-To get a list of The Pirate Bay mirrors, use the `gorrent mirrors` command.
+To get a list of The Pirate Bay mirrors, use the `goirate mirrors` command.
 
 ```shell
-$ gorrent mirrors
+$ goirate mirrors
 |   | Country |                   URL                    |
 |---|---------|------------------------------------------|
 | x |   UK    | https://pirateproxy.sh                   |
@@ -49,13 +49,13 @@ $ gorrent mirrors
 By default, the tool will attempt to fetch them from [proxybay.github.io](https://proxybay.github.io). To override that set the `-s` option.
 
 ```shell
-$ gorrent mirrors -s https://proxybay.bz/
+$ goirate mirrors -s https://proxybay.bz/
 ```
 
 You can also integrate the tool with any application by getting the output in JSON format using the `--json` flag.
 
 ```shell
-$ gorrent mirrors --json
+$ goirate mirrors --json
 [
    {
       "url": "https://pirateproxy.sh",
@@ -75,7 +75,7 @@ $ gorrent mirrors --json
 ### Torrents
 
 ```shell
-$ gorrent search "debian"
+$ goirate search "debian"
                                                   Title                                                      Size    Seeds/Peers
 ---------------------------------------------------------------------------------------------------------------------------------
  Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   10 / 12

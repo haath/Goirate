@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
 	"github.com/olekukonko/tablewriter"
 	"log"
 	"strings"

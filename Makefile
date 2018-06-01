@@ -1,5 +1,5 @@
 
-OUTPUT := build/gorrent
+OUTPUT := build/goirate
 
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
@@ -22,7 +22,7 @@ test-cov: dep ## Run unit tests and generate code coverage
 	./scripts/test.sh;
 
 compile: ## Compile the binary file
-	@go build -i -v -o $(OUTPUT) ./cmd
+	@go build -i -v -o $(OUTPUT) ./cmd/goirate
 
 dep: Gopkg.toml ## Install dependencies
 	@dep ensure

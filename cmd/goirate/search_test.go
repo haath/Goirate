@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
 	"github.com/PuerkitoBio/goquery"
 	"os"
 	"strconv"
@@ -40,7 +40,7 @@ func TestGetTorrentsTable(t *testing.T) {
 
 func TestFilterTorrentList(t *testing.T) {
 
-	file, err := os.Open("../samples/piratebay_search.html")
+	file, err := os.Open("../../samples/piratebay_search.html")
 
 	if err != nil {
 		t.Error(err)

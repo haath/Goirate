@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Gorrent/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
 	"testing"
 )
 
