@@ -1,4 +1,3 @@
-
 ![Logo](assets/logo.png)
 
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
@@ -79,7 +78,7 @@ $ gorrent mirrors --json
 $ gorrent search "debian"
                                                   Title                                                      Size    Seeds/Peers
 ---------------------------------------------------------------------------------------------------------------------------------
- Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   10 / 10
+ Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   10 / 12
  https://pirateproxy.sh/torrent/5468273/Debian_GNU_Linux_Bible_[ENG]_[.pdf]
 ---------------------------------------------------------------------------------------------------------------------------------
  Debian 7- System Administration Best Practices, 2013 [PDF]~Storm                                           2.0 MB   9 / 9
