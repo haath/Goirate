@@ -7,8 +7,8 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] Pirate Bay scraping for booty
 - [x] Command-line plunderin'
 - [ ] Defining series seasons and episodes
-- [ ] Defining [sea shanty](https://en.wikipedia.org/wiki/Sea_shanty) albums
-- [ ] Support for your proxy or VPNt o avoid the flogging
+- [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
+- [ ] Support for your proxy or VPN to avoid getting flogged
 - [ ] Torrent client integration
 - [ ] Crontab scanner
     - [ ] Watchlist for single torrents

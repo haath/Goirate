@@ -7,12 +7,12 @@
 #############################################
 
 COVERAGE_DIR="build/coverage"
-OUTPUT="build/coverage.cov"
-OUTPUT_HTML="build/coverage.html"
+OUTPUT="build/test_coverage.txt"
+OUTPUT_HTML="build/test_coverage.html"
 PKG_LIST=$(go list ./... | grep -v /vendor/)
 
 # Create the coverage files directory
-mkdir -p "$COVERAGE_DIR";
+mkdir -p "$COVERAGE_DIR" ;
 
 # Create a coverage file for each package
 for package in ${PKG_LIST}; do
@@ -24,10 +24,13 @@ echo 'mode: count' > "${OUTPUT}" ;
 tail -q -n +2 "${COVERAGE_DIR}"/*.cov >> "${OUTPUT}" ;
 
 # Remove temporary files
-rm -rf $COVERAGE_DIR
-
-# Display the global code coverage
-go tool cover -func="${OUTPUT}" ;
+rm -rf $COVERAGE_DIR ;
 
 # Generate the HTML coverage report
 go tool cover -html="${OUTPUT}" -o "${OUTPUT_HTML}" ;
+
+# Generate the text coverage report
+go tool cover -func="${OUTPUT}" -o ${OUTPUT} ;
+
+# Print out the coverage report
+cat ${OUTPUT} ;

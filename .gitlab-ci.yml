@@ -15,17 +15,29 @@ before_script:
 
   - make dep
 
-test:
-  stage: test
-  script:
-    - make test-cov
-
 lint:
   stage: test
   script:
     - make lint
 
+test:
+  stage: test
+  script:
+    - make test-cov
+    - mv build/* .
+  artifacts:
+    name: test_coverage
+    paths:
+      - test_coverage.*
+    expire_in: 1 week
+
 compile:
   stage: build
   script:
     - make build
+    - mv build/* .
+  artifacts:
+    name: goirate
+    paths:
+      - goirate
+    expire_in: 1 week

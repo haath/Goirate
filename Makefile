@@ -6,6 +6,9 @@ GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
 build: dep compile ## Install dependencies and compile the binary file
 
+install: dep ## Compile and install the binary at $GOPATH/bin
+	go install ./cmd/goirate
+
 lint: dep ## Verifies the code through lint, fmt and vet
 	@echo "lint"
 	@golint $(PKG_LIST)
