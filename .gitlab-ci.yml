@@ -21,7 +21,7 @@ lint:
 
 test:
   stage: test
-  retry: 4
+  retry: 2
   script:
     - make test-cov
     - mv build/* .
