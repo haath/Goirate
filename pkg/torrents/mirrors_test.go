@@ -1,4 +1,4 @@
-package piratebay
+package torrents
 
 import (
 	"github.com/PuerkitoBio/goquery"
@@ -29,8 +29,8 @@ func TestParseMirrors(t *testing.T) {
 	table := []Mirror{
 		{"https://pirateproxy.sh", "uk", false},
 		{"https://thepbproxy.com", " nl", true},
-		{"https://thepiratebay.red", "us", true},
-		{"https://thepiratebay-org.prox.space", "us", true},
+		{"https://thetorrents.red", "us", true},
+		{"https://thetorrents-org.prox.space", "us", true},
 		{"https://cruzing.xyz", "us", true},
 	}
 

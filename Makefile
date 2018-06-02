@@ -10,11 +10,11 @@ install: dep ## Compile and install the binary at $GOPATH/bin
 	go install ./cmd/goirate
 
 lint: dep ## Verifies the code through lint, fmt and vet
-	@echo "lint"
-	@golint $(PKG_LIST)
-	@echo "fmt"
+	@echo "Linting..."
+	@golint -set_exit_status $(PKG_LIST)
+	@echo "Formatting.."
 	@go fmt $(PKG_LIST)
-	@echo "vet"
+	@echo "Vetting..."
 	@go vet -composites=false $(PKG_LIST)
 
 test: dep ## Run unit tests

@@ -6,6 +6,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 
 - [x] Pirate Bay scraping for booty
 - [x] Command-line plunderin'
+- [ ] IMDB Scraper
 - [ ] Defining series seasons and episodes
 - [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
 - [ ] Support for your proxy or VPN to avoid getting flogged
@@ -30,20 +31,20 @@ $ goirate mirrors
 |---|---------|------------------------------------------|
 | x |   UK    | https://pirateproxy.sh                   |
 | x |   NL    | https://thepbproxy.com                   |
-| x |   US    | https://thepiratebay.red                 |
-| x |   US    | https://thepiratebay-org.prox.space      |
+| x |   US    | https://thetorrents.red                 |
+| x |   US    | https://thetorrents-org.prox.space      |
 | x |   US    | https://cruzing.xyz                      |
 | x |   US    | https://tpbproxy.nl                      |
-| x |   US    | https://thepiratebay.rocks               |
+| x |   US    | https://thetorrents.rocks               |
 | x |   US    | https://proxydl.cf                       |
-| x |   US    | https://piratebayblocked.com             |
-| x |   US    | https://tpb.crushus.com/thepiratebay.org |
-| x |   US    | https://ikwilthepiratebay.org            |
+| x |   US    | https://torrentsblocked.com             |
+| x |   US    | https://tpb.crushus.com/thetorrents.org |
+| x |   US    | https://ikwilthetorrents.org            |
 | x |   GB    | https://bay.maik.rocks                   |
 |   |   FR    | https://www.piratenbaai.ch               |
 |   |   US    | https://tpbproxy.gdn                     |
 |   |   US    | https://tpb.network                      |
-| x |   FR    | https://thepiratebay.freeproxy.fun       |
+| x |   FR    | https://thetorrents.freeproxy.fun       |
 ```
 
 By default, the tool will attempt to fetch them from [proxybay.github.io](https://proxybay.github.io). To override that set the `-s` option.

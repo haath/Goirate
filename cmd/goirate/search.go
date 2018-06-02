@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
 	"log"
 )
@@ -27,16 +27,16 @@ type searchArgs struct {
 // Execute acts as the call back of the mirrors command.
 func (m *SearchCommand) Execute(args []string) error {
 
-	var scraper piratebay.PirateBayScaper
+	var scraper torrents.PirateBayScaper
 
 	if !m.validOutputFlags() {
 		return errors.New("too many flags specifying the kind of output")
 	}
 
 	if m.SourceURL != "" {
-		scraper = piratebay.NewScraper(m.SourceURL)
+		scraper = torrents.NewScraper(m.SourceURL)
 	} else {
-		var mirrorScraper piratebay.MirrorScraper
+		var mirrorScraper torrents.MirrorScraper
 
 		if m.SourceURL != "" {
 			mirrorScraper.SetProxySourceURL(m.SourceURL)
@@ -48,7 +48,7 @@ func (m *SearchCommand) Execute(args []string) error {
 			return err
 		}
 
-		scraper = piratebay.NewScraper(mirror.URL)
+		scraper = torrents.NewScraper(mirror.URL)
 	}
 
 	torrents, err := scraper.Search(m.Args.Query)
@@ -89,11 +89,11 @@ func (m *SearchCommand) Execute(args []string) error {
 	return nil
 }
 
-func (m *SearchCommand) filterTorrentList(torrents []piratebay.Torrent) []piratebay.Torrent {
+func (m *SearchCommand) filterTorrentList(torrentList []torrents.Torrent) []torrents.Torrent {
 
-	var filtered []piratebay.Torrent
+	var filtered []torrents.Torrent
 
-	for _, torrent := range torrents {
+	for _, torrent := range torrentList {
 
 		if !m.Trusted || torrent.VerifiedUploader {
 			filtered = append(filtered, torrent)
@@ -123,7 +123,7 @@ func (m *SearchCommand) validOutputFlags() bool {
 	return outputFlags <= 1
 }
 
-func getTorrentsTable(torrents []piratebay.Torrent) string {
+func getTorrentsTable(torrents []torrents.Torrent) string {
 	buf := bytes.NewBufferString("")
 
 	table := tablewriter.NewWriter(buf)

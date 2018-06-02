@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"testing"
 )
 
@@ -13,7 +13,7 @@ func TestMirrorsExecute(t *testing.T) {
 
 	output := CaptureCommand(func() { cmd.Execute(nil) })
 
-	var mirrors []piratebay.Mirror
+	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
 
 	Options.JSON = false
@@ -21,11 +21,11 @@ func TestMirrorsExecute(t *testing.T) {
 
 func TestGetMirrorsTable(t *testing.T) {
 	var table = []struct {
-		in  []piratebay.Mirror
+		in  []torrents.Mirror
 		out string
 	}{
-		{[]piratebay.Mirror{}, "|   | Country | URL |\n|---|---------|-----|\n"},
-		{[]piratebay.Mirror{piratebay.Mirror{URL: "https://pirateproxy.sh", Country: "uk", Status: true}}, "|   | Country |          URL           |\n|---|---------|------------------------|\n| x |   UK    | https://pirateproxy.sh |\n"},
+		{[]torrents.Mirror{}, "|   | Country | URL |\n|---|---------|-----|\n"},
+		{[]torrents.Mirror{torrents.Mirror{URL: "https://pirateproxy.sh", Country: "uk", Status: true}}, "|   | Country |          URL           |\n|---|---------|------------------------|\n| x |   UK    | https://pirateproxy.sh |\n"},
 	}
 
 	for _, tt := range table {

@@ -1,4 +1,4 @@
-package piratebay
+package torrents
 
 import (
 	"errors"
@@ -17,7 +17,7 @@ type Mirror struct {
 	Status  bool   `json:"status"`
 }
 
-// MirrorScraper holds the url to a piratebay proxy list.
+// MirrorScraper holds the url to a torrents proxy list.
 // By default the scraper will use proxybay.github.io.
 type MirrorScraper struct {
 	proxySourceURL string

@@ -1,4 +1,4 @@
-package piratebay
+package torrents
 
 import (
 	"git.gmantaos.com/haath/Goirate/pkg/utils"

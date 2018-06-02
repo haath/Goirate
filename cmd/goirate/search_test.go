@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/PuerkitoBio/goquery"
 	"os"
 	"strconv"
@@ -16,7 +16,7 @@ func TestSearchExecute(t *testing.T) {
 
 	output := CaptureCommand(func() { cmd.Execute([]string{"avengers"}) })
 
-	var mirrors []piratebay.Mirror
+	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
 
 	Options.JSON = false
@@ -24,10 +24,10 @@ func TestSearchExecute(t *testing.T) {
 
 func TestGetTorrentsTable(t *testing.T) {
 	var table = []struct {
-		in  []piratebay.Torrent
+		in  []torrents.Torrent
 		out string
 	}{
-		{[]piratebay.Torrent{}, " Title  Size  Seeds/Peers \n--------------------------\n"},
+		{[]torrents.Torrent{}, " Title  Size  Seeds/Peers \n--------------------------\n"},
 	}
 
 	for _, tt := range table {
@@ -40,7 +40,7 @@ func TestGetTorrentsTable(t *testing.T) {
 
 func TestFilterTorrentList(t *testing.T) {
 
-	file, err := os.Open("../../samples/piratebay_search.html")
+	file, err := os.Open("../../samples/torrents_search.html")
 
 	if err != nil {
 		t.Error(err)
@@ -51,7 +51,7 @@ func TestFilterTorrentList(t *testing.T) {
 		t.Error(err)
 	}
 
-	scraper := piratebay.NewScraper("localhost")
+	scraper := torrents.NewScraper("localhost")
 
 	torrents := scraper.ParseSearchPage(doc)
 

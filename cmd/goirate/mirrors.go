@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/piratebay"
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
 	"log"
 	"strings"
@@ -17,7 +17,7 @@ type MirrorsCommand struct {
 // Execute acts as the call back of the mirrors command.
 func (m *MirrorsCommand) Execute(args []string) error {
 
-	var scraper piratebay.MirrorScraper
+	var scraper torrents.MirrorScraper
 
 	scraper.SetProxySourceURL(m.SourceURL)
 
@@ -39,7 +39,7 @@ func (m *MirrorsCommand) Execute(args []string) error {
 	return nil
 }
 
-func getMirrorsTable(mirrors []piratebay.Mirror) string {
+func getMirrorsTable(mirrors []torrents.Mirror) string {
 	buf := bytes.NewBufferString("")
 
 	table := tablewriter.NewWriter(buf)
