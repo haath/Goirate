@@ -4,7 +4,8 @@ import (
 	"errors"
 )
 
-// SearchTorrentList
+// SearchTorrentList will return the best torrent in the list that matches the given filters,
+// returning nil if none is found.
 func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, error) {
 
 	maxSize, err := filters.MaxSizeKB()
