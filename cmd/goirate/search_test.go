@@ -40,7 +40,7 @@ func TestGetTorrentsTable(t *testing.T) {
 
 func TestFilterTorrentList(t *testing.T) {
 
-	file, err := os.Open("../../samples/torrents_search.html")
+	file, err := os.Open("../../samples/piratebay_search.html")
 
 	if err != nil {
 		t.Error(err)

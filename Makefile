@@ -22,7 +22,7 @@ test: dep ## Run unit tests
 
 test-cov: dep ## Run unit tests and generate code coverage
 	@chmod +x ./scripts/test.sh
-	./scripts/test.sh;
+	@./scripts/test.sh;
 
 compile: ## Compile the binary file
 	@go build -i -v -o $(OUTPUT) ./cmd/goirate
