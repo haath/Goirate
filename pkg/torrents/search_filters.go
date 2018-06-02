@@ -6,6 +6,7 @@ import (
 
 // SearchFilters holds conditions and filters, used to search for specific torrents.
 type SearchFilters struct {
+	Query            string
 	VerifiedUploader bool
 	MinQuality       VideoQuality
 	MaxQuality       VideoQuality
