@@ -9,8 +9,8 @@ import (
 type Movie struct {
 	IMDbID    string  `json:"imdb_id"`
 	Title     string  `json:"title"`
-	Year      int32   `json:"year"`
-	Duration  int32   `json:"duration"`
+	Year      int     `json:"year"`
+	Duration  int     `json:"duration"`
 	Rating    float32 `json:"rating"`
 	PosterURL string  `json:"poster_url"`
 }
