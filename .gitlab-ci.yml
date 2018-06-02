@@ -7,7 +7,7 @@ stages:
   - test
   - build
 
-before_script:  
+before_script:
   # Prepare workspace
   - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
@@ -16,11 +16,15 @@ before_script:
   - make dep
 
 lint:
+  tags:
+    - windows
   stage: test
   script:
     - make lint
 
 test:
+  tags:
+    - windows
   stage: test
   script:
     - make test-cov
@@ -32,6 +36,8 @@ test:
     expire_in: 1 week
 
 compile:
+  tags:
+    - windows
   stage: build
   script:
     - make build
