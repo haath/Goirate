@@ -24,7 +24,7 @@ test:
   retry: 2
   script:
     - make test-cov
-    - mv build/* .
+    - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: test_coverage
     paths:
@@ -35,7 +35,7 @@ compile:
   stage: build
   script:
     - make build
-    - mv build/* .
+    - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: goirate
     paths:
