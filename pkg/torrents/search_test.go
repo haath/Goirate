@@ -11,7 +11,13 @@ func TestSearchTorrentList(t *testing.T) {
 	table := []struct {
 		in  SearchFilters
 		out string
-	}{}
+	}{
+		{SearchFilters{}, "Cast Away (2000) 1080p BrRip x264 - 1.10GB - YIFY"},
+		{SearchFilters{MaxSize: "1 GB"}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
+		{SearchFilters{MinSize: "3 GB"}, "Cast.Away.2000.1080p.BluRay.x264.AC3-ETRG"},
+		//{SearchFilters{MaxQuality: Medium}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
+		{SearchFilters{MinSeeders: 500}, ""},
+	}
 
 	file, err := os.Open("../../samples/piratebay_movie.html")
 
@@ -34,10 +40,15 @@ func TestSearchTorrentList(t *testing.T) {
 	for _, tt := range table {
 		t.Run(tt.out, func(t *testing.T) {
 
-			torrent, _ := SearchTorrentList(torrents, tt.in)
+			torrent, err := SearchTorrentList(torrents, tt.in)
 
-			if torrent.Title != tt.out {
-				t.Errorf("got %v, want %v", torrent.Title, tt.out)
+			if tt.out != "" && (torrent == nil || err != nil) {
+				t.Error(err)
+				return
+			}
+
+			if tt.out != "" && torrent.Title != tt.out {
+				t.Errorf("\ngot: %v\nwant: %v\n", torrent.Title, tt.out)
 			}
 		})
 	}

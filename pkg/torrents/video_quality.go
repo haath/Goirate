@@ -13,3 +13,18 @@ const (
 	// High represents the 1080p quality.
 	High VideoQuality = "1080p"
 )
+
+func numeric(q VideoQuality) int {
+	switch q {
+	case Default:
+		return 0
+	case Low:
+		return 1
+	case Medium:
+		return 2
+	case High:
+		return 3
+	default:
+		return 0
+	}
+}

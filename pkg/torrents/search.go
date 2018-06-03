@@ -26,8 +26,8 @@ func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, err
 			continue
 		}
 
-		if t.Size > maxSize ||
-			t.Size < minSize {
+		if (t.Size > maxSize && maxSize > 0) ||
+			(t.Size < minSize && minSize > 0) {
 			continue
 		}
 
