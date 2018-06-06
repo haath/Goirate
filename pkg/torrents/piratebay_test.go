@@ -24,8 +24,8 @@ var searchTests = []struct {
 }{
 	{"test", "https://pirateproxy.sh/search/test"},
 	{"one two", "https://pirateproxy.sh/search/one+two"},
-	{"one'two", "https://pirateproxy.sh/search/one%2527two"},
-	{"one!", "https://pirateproxy.sh/search/one%2521"},
+	{"one'two", "https://pirateproxy.sh/search/one+two"},
+	{"one!", "https://pirateproxy.sh/search/one"},
 }
 
 var sizeTests = []struct {
