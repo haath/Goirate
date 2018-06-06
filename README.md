@@ -101,6 +101,6 @@ Additional available options
 | `--mirror "https://pirateproxy.sh/"` | Use a specific pirate bay mirror |
 | `--source "https://proxybay.bz/"` | Override default mirror list |
 | `--trusted` | Only return torrents whose uploader is either Trusted or VIP |
-| `--magnet` | Only output magnet links, one on each line |
-| `--urls` | Only output torrent urls, one on each line |
+| `--only-magnet` | Only output magnet links, one on each line |
+| `--only-url` | Only output torrent urls, one on each line |
 | `-c 7`, `--count 7` | Limit the number of results |

@@ -180,6 +180,10 @@ func TestSearch(t *testing.T) {
 
 	torrents, err := (*scraper).Search("Windows 10")
 
+	if err != nil {
+		t.Error(err)
+	}
+
 	if len(torrents) == 0 {
 		t.Errorf("Search yielded 0 torrents")
 	}
