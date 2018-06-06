@@ -31,6 +31,11 @@ func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, err
 			continue
 		}
 
+		if (filters.MinQuality != "" && t.VideoQuality.WorseThan(filters.MinQuality)) ||
+			(filters.MaxQuality != "" && t.VideoQuality.BetterThan(filters.MaxQuality)) {
+			continue
+		}
+
 		return &t, nil
 	}
 

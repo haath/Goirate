@@ -15,7 +15,7 @@ func TestSearchTorrentList(t *testing.T) {
 		{SearchFilters{}, "Cast Away (2000) 1080p BrRip x264 - 1.10GB - YIFY"},
 		{SearchFilters{MaxSize: "1 GB"}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
 		{SearchFilters{MinSize: "3 GB"}, "Cast.Away.2000.1080p.BluRay.x264.AC3-ETRG"},
-		//{SearchFilters{MaxQuality: Medium}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
+		{SearchFilters{MaxQuality: Medium}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
 		{SearchFilters{MinSeeders: 500}, ""},
 	}
 

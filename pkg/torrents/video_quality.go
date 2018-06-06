@@ -14,7 +14,19 @@ const (
 	High VideoQuality = "1080p"
 )
 
-func numeric(q VideoQuality) int {
+// WorseThan will return true if the quality passed as an argument is
+// worse than this one.
+func (q VideoQuality) WorseThan(quality VideoQuality) bool {
+	return q.numeric() < quality.numeric()
+}
+
+// BetterThan will return true if the quality passed as an argument is
+// better than this one.
+func (q VideoQuality) BetterThan(quality VideoQuality) bool {
+	return q.numeric() > quality.numeric()
+}
+
+func (q VideoQuality) numeric() int {
 	switch q {
 	case Default:
 		return 0
