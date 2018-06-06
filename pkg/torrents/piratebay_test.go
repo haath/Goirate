@@ -61,6 +61,7 @@ var videoQualityTests = []struct {
 	{"The.Expanse.S02E03.720p.HDTV.x264-AVS", Medium},
 	{"The.Expanse.S02E03.WEB-DL.XviD-FUM[ettv]", Default},
 	{"The.Expanse.S02E03.480p.164mb.hdtv.x264-][ Static ][ 09- mp4", Low},
+	{"Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG", Medium},
 }
 
 func TestNewScraper(t *testing.T) {
@@ -97,12 +98,14 @@ func TestSearchURL(t *testing.T) {
 func TestParseSearchPage(t *testing.T) {
 
 	expected := Torrent{
-		TorrentURL: "/torrent/21412907/Avengers_Infinity_War_2018_NEW_PROPER_720p_HD-CAM_X264_HQ-CPG",
-		Seeders:    7437,
-		Leeches:    2003,
-		Title:      "Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG",
-		Size:       3580000,
-		Magnet:     "magnet:?xt=urn:btih:bee75372b98077bfd4de8ef03eb33e9289be5cd8&dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HD-CAM+X264+HQ-CPG&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
+		TorrentURL:       "/torrent/21412907/Avengers_Infinity_War_2018_NEW_PROPER_720p_HD-CAM_X264_HQ-CPG",
+		Seeders:          7437,
+		Leeches:          2003,
+		Title:            "Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG",
+		Size:             3580000,
+		Magnet:           "magnet:?xt=urn:btih:bee75372b98077bfd4de8ef03eb33e9289be5cd8&dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HD-CAM+X264+HQ-CPG&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
+		VideoQuality:     Medium,
+		VerifiedUploader: true,
 	}
 
 	file, err := os.Open("../../samples/piratebay_search.html")
@@ -131,7 +134,8 @@ func TestParseSearchPage(t *testing.T) {
 
 	if tr.TorrentURL != expected.TorrentURL || tr.Title != expected.Title ||
 		tr.Size != expected.Size || tr.Leeches != expected.Leeches || tr.Seeders != expected.Seeders ||
-		tr.Magnet != expected.Magnet {
+		tr.Magnet != expected.Magnet || tr.VideoQuality != expected.VideoQuality ||
+		tr.VerifiedUploader != expected.VerifiedUploader {
 
 		t.Errorf("\ngot: %v\nwant: %v\n", tr, expected)
 	}

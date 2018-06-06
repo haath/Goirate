@@ -104,7 +104,7 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 		size := extractSize(description)
 		uploadTime := extractUploadTime(description)
-		quality := extractVideoQuality(description)
+		quality := extractVideoQuality(title)
 
 		torrent := Torrent{
 			Title: title, Size: size, Seeders: seeders,
