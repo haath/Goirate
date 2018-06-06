@@ -97,5 +97,5 @@ func pickMirror(mirrors []Mirror) (*Mirror, error) {
 		}
 	}
 
-	return nil, errors.New("all Pirate Bay proxies seem to be unavailable")
+	return nil, errors.New("all Pirate Bay proxies seem to be unreachable")
 }
