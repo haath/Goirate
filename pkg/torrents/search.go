@@ -2,6 +2,7 @@ package torrents
 
 import (
 	"errors"
+	"strings"
 )
 
 // SearchTorrentList will return the best torrent in the list that matches the given filters,
@@ -40,4 +41,29 @@ func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, err
 	}
 
 	return nil, errors.New("No torrent found with the specified filters")
+}
+
+func normalizeQuery(query string) string {
+
+	replaces := []struct {
+		old string
+		new string
+	}{
+		{"-", " "},
+		{"'", " "},
+		{".", " "},
+		{"_", " "},
+		{":", ""},
+		{"!", ""},
+		{"(", ""},
+		{")", ""},
+	}
+
+	query = strings.TrimSpace(query)
+
+	for _, rep := range replaces {
+		query = strings.Replace(query, rep.old, rep.new, -1)
+	}
+
+	return query
 }

@@ -90,7 +90,9 @@ func pickMirror(mirrors []Mirror) (*Mirror, error) {
 			continue
 		}
 
-		_, err := utils.HTTPGet(mirror.URL)
+		scraper := NewScraper(mirror.URL)
+
+		_, err := utils.HTTPGet(scraper.SearchURL("ubuntu"))
 
 		if err == nil {
 			return &mirror, nil

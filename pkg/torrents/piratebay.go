@@ -61,6 +61,8 @@ func (s pirateBayScaper) URL() string {
 
 func (s pirateBayScaper) SearchURL(query string) string {
 
+	query = normalizeQuery(query)
+
 	searchURL, _ := url.Parse(s.URL())
 	searchURL.Path = path.Join("/search", url.QueryEscape(query))
 
