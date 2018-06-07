@@ -42,5 +42,5 @@
   name = "github.com/olekukonko/tablewriter"
 
 [[constraint]]
-  branch = "master"
   name = "git.gmantaos.com/haath/gobytes"
+  version = "1.0.0"
