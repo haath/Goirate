@@ -2,7 +2,7 @@
 
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
 
-### Progress
+### 🗺️ P️rogress 
 
 - [x] Pirate Bay scraping for booty
 - [x] Command-line plunderin'
@@ -18,7 +18,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
     - [ ] E-mail notifications
     - [ ] Automatic downloads
 
-## Command line tool
+## ⚓ Command line tool
 
 The primary source of this tool's torrents is The Pirate Bay.
 
