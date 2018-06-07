@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
@@ -17,13 +18,14 @@ func HTTPGet(url string) (*goquery.Document, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		return nil, err
+		return nil, fmt.Errorf("http status code: %v", res.StatusCode)
 	}
 
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error parsing html: %v\n", err)
+		return doc, err
 	}
 
 	return doc, err

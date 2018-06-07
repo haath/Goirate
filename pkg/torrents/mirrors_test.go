@@ -1,6 +1,7 @@
 package torrents
 
 import (
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
 	"net/url"
 	"os"
@@ -79,7 +80,7 @@ func TestGetAndPickMirror(t *testing.T) {
 
 func TestPickMirror(t *testing.T) {
 
-	expected := Mirror{"https://thepbproxy.com", "nl", true}
+	//expected := Mirror{"https://thepbproxy.com", "nl", true}
 
 	file, err := os.Open("../../samples/proxybay.html")
 	if err != nil {
@@ -100,8 +101,13 @@ func TestPickMirror(t *testing.T) {
 		t.Error(err)
 	}
 
-	if *mirror != expected {
-		t.Errorf("got %v, want %v", mirror, expected)
+	// The picked mirror should respond to HTTP get
+	scraper := NewScraper(mirror.URL)
+
+	_, err = utils.HTTPGet(scraper.SearchURL("call"))
+
+	if err != nil {
+		t.Error(err)
 	}
 }
 
