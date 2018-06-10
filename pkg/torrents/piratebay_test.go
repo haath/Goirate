@@ -28,15 +28,6 @@ var searchTests = []struct {
 	{"one!", "https://pirateproxy.sh/search/one"},
 }
 
-var sizeTests = []struct {
-	in  string
-	out int64
-}{
-	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", 3580000},
-	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 58350},
-	{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 740},
-}
-
 var timeTests = []struct {
 	in     string
 	year   int
@@ -142,6 +133,16 @@ func TestParseSearchPage(t *testing.T) {
 }
 
 func TestExtractSize(t *testing.T) {
+
+	sizeTests := []struct {
+		in  string
+		out int64
+	}{
+		{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", 3753902},
+		{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 59750},
+		{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 740},
+	}
+
 	for _, tt := range sizeTests {
 		t.Run(tt.in, func(t *testing.T) {
 			s := extractSize(tt.in)

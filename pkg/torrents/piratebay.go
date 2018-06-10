@@ -2,6 +2,7 @@ package torrents
 
 import (
 	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"git.gmantaos.com/haath/gobytes"
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"math"
@@ -129,25 +130,25 @@ func extractSize(description string) int64 {
 	if len(m) > 0 {
 		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
-		return int64(math.Round(gb * 1000000))
+		return int64(math.Round(gb * gobytes.GB.KBytes()))
 	}
 
 	r, _ = regexp.Compile(`Size\s*(.+)\s*MiB`)
 	m = r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
-		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
+		mb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
-		return int64(math.Round(gb * 1000))
+		return int64(math.Round(mb * gobytes.MB.KBytes()))
 	}
 
 	r, _ = regexp.Compile(`Size\s*(.+)\s*KiB`)
 	m = r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
-		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
+		kb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
-		return int64(math.Round(gb))
+		return int64(math.Round(kb * gobytes.KB.KBytes()))
 	}
 
 	return 0.0
