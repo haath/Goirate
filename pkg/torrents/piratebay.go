@@ -130,7 +130,7 @@ func extractSize(description string) int64 {
 	if len(m) > 0 {
 		gb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
-		return int64(math.Round(gb * gobytes.GB.KBytes()))
+		return int64(math.Round(gb * gobytes.GiB.KBytes()))
 	}
 
 	r, _ = regexp.Compile(`Size\s*(.+)\s*MiB`)
@@ -139,7 +139,7 @@ func extractSize(description string) int64 {
 	if len(m) > 0 {
 		mb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
-		return int64(math.Round(mb * gobytes.MB.KBytes()))
+		return int64(math.Round(mb * gobytes.MiB.KBytes()))
 	}
 
 	r, _ = regexp.Compile(`Size\s*(.+)\s*KiB`)
@@ -148,7 +148,7 @@ func extractSize(description string) int64 {
 	if len(m) > 0 {
 		kb, _ := strconv.ParseFloat(strings.TrimSpace(m[1]), 32)
 
-		return int64(math.Round(kb * gobytes.KB.KBytes()))
+		return int64(math.Round(kb * gobytes.KiB.KBytes()))
 	}
 
 	return 0.0

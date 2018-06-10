@@ -93,7 +93,7 @@ func TestParseSearchPage(t *testing.T) {
 		Seeders:          7437,
 		Leeches:          2003,
 		Title:            "Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG",
-		Size:             3580000,
+		Size:             3843996,
 		Magnet:           "magnet:?xt=urn:btih:bee75372b98077bfd4de8ef03eb33e9289be5cd8&dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HD-CAM+X264+HQ-CPG&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
 		VideoQuality:     Medium,
 		VerifiedUploader: true,
@@ -138,9 +138,9 @@ func TestExtractSize(t *testing.T) {
 		in  string
 		out int64
 	}{
-		{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", 3753902},
-		{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 59750},
-		{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 740},
+		{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", 3843996},
+		{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 61184},
+		{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 758},
 	}
 
 	for _, tt := range sizeTests {

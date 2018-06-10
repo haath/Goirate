@@ -2,10 +2,10 @@
 
 
 [[projects]]
-  branch = "master"
   name = "git.gmantaos.com/haath/gobytes"
   packages = ["."]
-  revision = "84790b6d8613695e9ea46c547eff7803ccb71674"
+  revision = "41f1f1a1e4a3188e4e9a9cf6fc698d93eafd40e2"
+  version = "v1.1.1"
 
 [[projects]]
   name = "github.com/PuerkitoBio/goquery"
@@ -49,6 +49,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f5028fe2371c9266abf86e5079777ed98c9b8d9266e679062e92ea80a5811f34"
+  inputs-digest = "e5f9abcfb440d541a424f73466ff15398c1c4670b82372189a606f0b15660d7d"
   solver-name = "gps-cdcl"
   solver-version = 1
