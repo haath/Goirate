@@ -87,9 +87,9 @@ func TestValidOutputFlags(t *testing.T) {
 		out   bool
 	}{
 		{"None", SearchCommand{}, true},
-		{"Magnet", SearchCommand{MagnetLinks: true}, true},
-		{"URLs", SearchCommand{TorrentURLs: true}, true},
-		{"Both", SearchCommand{TorrentURLs: true, MagnetLinks: true}, false},
+		{"Magnet", SearchCommand{MagnetLink: true}, true},
+		{"URLs", SearchCommand{TorrentURL: true}, true},
+		{"Both", SearchCommand{TorrentURL: true, MagnetLink: true}, false},
 	}
 	for _, tt := range table {
 		t.Run(tt.label, func(t *testing.T) {

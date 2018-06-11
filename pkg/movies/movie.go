@@ -2,6 +2,7 @@ package movies
 
 import (
 	"fmt"
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"net/url"
 )
 
@@ -13,6 +14,29 @@ type Movie struct {
 	Duration  int     `json:"duration"`
 	Rating    float32 `json:"rating"`
 	PosterURL string  `json:"poster_url"`
+}
+
+// GetMovie will scrape the IMDb page of the movie with the given id
+// and return its details.
+func GetMovie(imdbID string) (*Movie, error) {
+	var tmp Movie
+	tmp.IMDbID = imdbID
+
+	url, err := tmp.GetURL()
+
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := utils.HTTPGet(url.String())
+
+	if err != nil {
+		return nil, err
+	}
+
+	movie := ParseIMDbPage(doc)
+
+	return &movie, nil
 }
 
 // GetURL formats the IMDbID of the movie object and returns the full

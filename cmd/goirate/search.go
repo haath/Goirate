@@ -12,12 +12,12 @@ import (
 // SearchCommand defines the search command and holds its options.
 type SearchCommand struct {
 	torrents.SearchFilters
-	Args        searchArgs `positional-args:"1" required:"1"`
-	Mirror      string     `short:"m" long:"mirror" description:"The PirateBay mirror URL to use. By default one is chosen at runtime."`
-	SourceURL   string     `short:"s" long:"source" description:"Link to the list of PirateBay proxies that will be used to pick a mirror."`
-	MagnetLinks bool       `long:"only-magnet" description:"Only output magnet links, one on each line."`
-	TorrentURLs bool       `long:"only-url" description:"Only output torrent urls, one on each line."`
-	Count       uint       `short:"c" long:"count" description:"Limit the number of results."`
+	Args       searchArgs `positional-args:"1" required:"1"`
+	Mirror     string     `short:"m" long:"mirror" description:"The PirateBay mirror URL to use. By default one is chosen at runtime."`
+	SourceURL  string     `short:"s" long:"source" description:"Link to the list of PirateBay proxies that will be used to pick a mirror."`
+	MagnetLink bool       `long:"only-magnet" description:"Only output magnet links, one on each line."`
+	TorrentURL bool       `long:"only-url" description:"Only output torrent urls, one on each line."`
+	Count      uint       `short:"c" long:"count" description:"Limit the number of results."`
 }
 
 type searchArgs struct {
@@ -68,13 +68,13 @@ func (m *SearchCommand) Execute(args []string) error {
 
 		log.Println(string(torrentsJSON))
 
-	} else if m.MagnetLinks {
+	} else if m.MagnetLink {
 
 		for _, torrent := range torrents {
 			log.Println(torrent.Magnet)
 		}
 
-	} else if m.TorrentURLs {
+	} else if m.TorrentURL {
 
 		for _, torrent := range torrents {
 			log.Println(torrent.FullURL())
@@ -113,10 +113,10 @@ func (m *SearchCommand) validOutputFlags() bool {
 	if Options.JSON {
 		outputFlags++
 	}
-	if m.MagnetLinks {
+	if m.MagnetLink {
 		outputFlags++
 	}
-	if m.TorrentURLs {
+	if m.TorrentURL {
 		outputFlags++
 	}
 

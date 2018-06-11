@@ -12,6 +12,8 @@ import (
 // FormatIMDbID formats the given ID to its canonical 7-digit value.
 func FormatIMDbID(id string) (string, error) {
 
+	id = strings.TrimLeft(id, "t")
+
 	idNum, err := strconv.Atoi(id)
 
 	if err != nil {
@@ -25,6 +27,20 @@ func FormatIMDbID(id string) (string, error) {
 	return fmt.Sprintf("%07d", idNum), nil
 }
 
+// ExtractIMDbID will extract the IMDb ID of a movie from its URL.
+// Assuming that the URL is in the format: https://www.imdb.com/title/tt0848228/
+func ExtractIMDbID(url string) (string, error) {
+	r, _ := regexp.Compile(`https://www.imdb.com/title/tt(\w+)/?`)
+	m := r.FindStringSubmatch(url)
+
+	if len(m) > 0 {
+		id, _ := FormatIMDbID(m[1])
+		return id, nil
+	}
+
+	return "", errors.New("error extracting IMDb ID from: " + url)
+}
+
 // ParseIMDbPage extracts a movie's details from its IMDb page.
 func ParseIMDbPage(doc *goquery.Document) Movie {
 
@@ -36,6 +52,8 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 	title := strings.TrimSpace(doc.Find(".title_wrapper > h1").Text())
 	rating, _ := strconv.ParseFloat(doc.Find(".ratingValue span[itemprop='ratingValue']").Text(), 32)
 	duration := parseDuration(strings.TrimSpace(doc.Find("time[itemprop='duration']").Text()))
+	imdbURL, _ := doc.Find("link[rel='canonical']").Attr("href")
+	imdbID, _ := ExtractIMDbID(imdbURL)
 
 	return Movie{
 		Title:     title,
@@ -43,6 +61,7 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 		Year:      year,
 		Rating:    float32(int(rating*10)) / 10, // Round to one decimal, just in case,
 		Duration:  duration,
+		IMDbID:    imdbID,
 	}
 }
 

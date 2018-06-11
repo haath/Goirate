@@ -76,3 +76,27 @@ func TestIMDbPage(t *testing.T) {
 		t.Errorf("got: %v\nwant: %v\n", movie, expected)
 	}
 }
+
+func TestExtractIMDbID(t *testing.T) {
+	var table = []struct {
+		in  string
+		out string
+	}{
+		{"https://www.imdb.com/title/tt0848228/?ref_=fn_al_tt_1/", "0848228"},
+		{"https://www.imdb.com/title/tt0848226", "0848226"},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in, func(t *testing.T) {
+			s, err := ExtractIMDbID(tt.in)
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			if s != tt.out {
+				t.Errorf("got %q, want %q", s, tt.out)
+			}
+		})
+	}
+}

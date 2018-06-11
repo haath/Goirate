@@ -16,7 +16,10 @@ func HTTPGet(url string) (*goquery.Document, error) {
 		Timeout: timeout,
 	}
 
-	res, err := client.Get(url)
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Accept-Language", "en")
+
+	res, err := client.Do(req)
 
 	if err != nil {
 		return nil, err
