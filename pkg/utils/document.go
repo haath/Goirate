@@ -5,11 +5,18 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
+	"time"
 )
 
 // HTTPGet fetches an HTTP url and returns a goquery.Document
 func HTTPGet(url string) (*goquery.Document, error) {
-	res, err := http.Get(url)
+
+	timeout := time.Duration(3 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
+	}
+
+	res, err := client.Get(url)
 
 	if err != nil {
 		return nil, err

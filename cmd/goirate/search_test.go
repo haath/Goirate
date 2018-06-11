@@ -12,9 +12,10 @@ import (
 func TestSearchExecute(t *testing.T) {
 
 	var cmd SearchCommand
+	cmd.Args.Query = "avengers"
 	Options.JSON = true
 
-	output := CaptureCommand(func() { cmd.Execute([]string{"avengers"}) })
+	output := CaptureCommand(func() { cmd.Execute([]string{}) })
 
 	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
@@ -53,19 +54,25 @@ func TestFilterTorrentList(t *testing.T) {
 
 	scraper := torrents.NewScraper("localhost")
 
-	torrents := scraper.ParseSearchPage(doc)
+	torrentList := scraper.ParseSearchPage(doc)
 
 	var table = []struct {
-		in  SearchCommand
+		in  func() SearchCommand
 		out int
 	}{
-		{SearchCommand{}, 30},
-		{SearchCommand{Trusted: true}, 21},
+		{func() SearchCommand { return SearchCommand{} }, 30},
+		{func() SearchCommand {
+			cmd := SearchCommand{}
+			cmd.VerifiedUploader = true
+			return cmd
+		}, 21},
+		{func() SearchCommand { return SearchCommand{Count: 1} }, 1},
 	}
 
 	for _, tt := range table {
 		t.Run(strconv.Itoa(tt.out), func(t *testing.T) {
-			s := tt.in.filterTorrentList(torrents)
+			filt := tt.in()
+			s := filt.filterTorrentList(torrentList)
 			if len(s) != tt.out {
 				t.Errorf("\ngot: %v\nwant: %v", len(s), tt.out)
 			}

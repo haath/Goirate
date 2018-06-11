@@ -82,6 +82,11 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 	doc.Find("#searchResult > tbody > tr").Each(func(i int, row *goquery.Selection) {
 
+		if row.Find("td").Length() < 2 {
+			// Hit the pagination row
+			return
+		}
+
 		cells := []*goquery.Selection{
 			row.Find("td").First(),
 			row.Find("td").Next().First(),
@@ -214,6 +219,10 @@ func extractUploadTime(description string) time.Time {
 	*/
 	r, _ = regexp.Compile(`Uploaded\s*Y-day\s*(\d\d):(\d\d)`)
 	m = r.FindStringSubmatch(description)
+
+	if len(m) == 0 {
+		log.Printf("Failed at parsing size from: %v\n", description)
+	}
 
 	yday := time.Now().AddDate(0, 0, -1)
 
