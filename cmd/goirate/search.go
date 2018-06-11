@@ -53,11 +53,11 @@ func (m *SearchCommand) Execute(args []string) error {
 
 	torrents, err := scraper.Search(m.Args.Query)
 
-	torrents = m.filterTorrentList(torrents)
-
 	if err != nil {
 		return err
 	}
+
+	torrents = m.filterTorrentList(torrents)
 
 	if Options.JSON {
 		torrentsJSON, err := json.MarshalIndent(torrents, "", "   ")

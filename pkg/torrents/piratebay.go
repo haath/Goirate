@@ -73,7 +73,11 @@ func (s pirateBayScaper) SearchURL(query string) string {
 func (s pirateBayScaper) Search(query string) ([]Torrent, error) {
 	doc, err := utils.HTTPGet(s.SearchURL(query))
 
-	return s.ParseSearchPage(doc), err
+	if err != nil {
+		return nil, err
+	}
+
+	return s.ParseSearchPage(doc), nil
 }
 
 func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {

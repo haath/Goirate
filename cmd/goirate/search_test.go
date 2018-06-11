@@ -20,7 +20,23 @@ func TestSearchExecute(t *testing.T) {
 	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
 
+	cmd.MagnetLink = true
+
+	err := cmd.Execute([]string{})
+
+	if err == nil {
+		t.Errorf("Expected error")
+	}
+
 	Options.JSON = false
+
+	cmd.SourceURL = "http://localhost"
+
+	err = cmd.Execute([]string{})
+
+	if err == nil {
+		t.Errorf("Expected error")
+	}
 }
 
 func TestGetTorrentsTable(t *testing.T) {
