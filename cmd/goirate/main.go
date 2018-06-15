@@ -51,16 +51,16 @@ func (a torrentSearchArgs) GetScraper() (*torrents.PirateBayScaper, error) {
 	return &scraper, nil
 }
 
-func (m *torrentSearchArgs) ValidOutputFlags() bool {
+func (a *torrentSearchArgs) ValidOutputFlags() bool {
 	outputFlags := 0
 
 	if Options.JSON {
 		outputFlags++
 	}
-	if m.MagnetLink {
+	if a.MagnetLink {
 		outputFlags++
 	}
-	if m.TorrentURL {
+	if a.TorrentURL {
 		outputFlags++
 	}
 
