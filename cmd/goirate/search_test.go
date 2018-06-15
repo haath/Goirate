@@ -82,7 +82,11 @@ func TestFilterTorrentList(t *testing.T) {
 			cmd.VerifiedUploader = true
 			return cmd
 		}, 21},
-		{func() SearchCommand { return SearchCommand{Count: 1} }, 1},
+		{func() SearchCommand {
+			cmd := SearchCommand{}
+			cmd.Count = 1
+			return cmd
+		}, 1},
 	}
 
 	for _, tt := range table {
@@ -91,27 +95,6 @@ func TestFilterTorrentList(t *testing.T) {
 			s := filt.filterTorrentList(torrentList)
 			if len(s) != tt.out {
 				t.Errorf("\ngot: %v\nwant: %v", len(s), tt.out)
-			}
-		})
-	}
-}
-
-func TestValidOutputFlags(t *testing.T) {
-	var table = []struct {
-		label string
-		in    SearchCommand
-		out   bool
-	}{
-		{"None", SearchCommand{}, true},
-		{"Magnet", SearchCommand{MagnetLink: true}, true},
-		{"URLs", SearchCommand{TorrentURL: true}, true},
-		{"Both", SearchCommand{TorrentURL: true, MagnetLink: true}, false},
-	}
-	for _, tt := range table {
-		t.Run(tt.label, func(t *testing.T) {
-			s := tt.in.validOutputFlags()
-			if s != tt.out {
-				t.Errorf("\ngot: %v\nwant: %v", s, tt.out)
 			}
 		})
 	}

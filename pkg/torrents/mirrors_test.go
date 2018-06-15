@@ -114,7 +114,11 @@ func TestPickMirror(t *testing.T) {
 func TestGetMirrors(t *testing.T) {
 	var scraper MirrorScraper
 
-	mirrors := scraper.GetMirrors()
+	mirrors, err := scraper.GetMirrors()
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	if len(mirrors) == 0 {
 		t.Errorf("Error fetching PirateBay mirrors.\n")

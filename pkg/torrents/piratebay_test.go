@@ -28,21 +28,6 @@ var searchTests = []struct {
 	{"one!", "https://pirateproxy.sh/search/one"},
 }
 
-var timeTests = []struct {
-	in     string
-	year   int
-	month  time.Month
-	day    int
-	hour   int
-	minute int
-}{
-	{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", time.Now().Year(), time.April, 29, 4, 41},
-	{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 2014, time.February, 27, 0, 0},
-	{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 2008, time.October, 12, 0, 0},
-	{" Uploaded 04-27 20:41, Size 788.25 MiB, ULed by shmasti", time.Now().Year(), time.April, 27, 20, 41},
-	{"Uploaded Today 08:05, Size 1.62 GiB, ULedbyAnonymous", time.Now().Year(), time.Now().Month(), time.Now().Day(), 8, 5},
-}
-
 var videoQualityTests = []struct {
 	in  string
 	out VideoQuality
@@ -154,7 +139,22 @@ func TestExtractSize(t *testing.T) {
 }
 
 func TestExtractUploadTime(t *testing.T) {
-	for _, tt := range timeTests {
+	table := []struct {
+		in     string
+		year   int
+		month  time.Month
+		day    int
+		hour   int
+		minute int
+	}{
+		{"Uploaded 04-29 04:41, Size 3.58 GiB, ULed by makintos13", time.Now().Year(), time.April, 29, 4, 41},
+		{"Uploaded 02-27 2014, Size 58.35 MiB, ULed by gnv65", 2014, time.February, 27, 0, 0},
+		{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 2008, time.October, 12, 0, 0},
+		{" Uploaded 04-27 20:41, Size 788.25 MiB, ULed by shmasti", time.Now().Year(), time.April, 27, 20, 41},
+		{"Uploaded Today 08:05, Size 1.62 GiB, ULedbyAnonymous", time.Now().Year(), time.Now().Month(), time.Now().Day(), 8, 5},
+		{"Uploaded Y-day 08:05, Size 1.62 GiB, ULedbyAnonymous", time.Now().AddDate(0, 0, -1).Year(), time.Now().AddDate(0, 0, -1).Month(), time.Now().AddDate(0, 0, -1).Day(), 8, 5},
+	}
+	for _, tt := range table {
 		t.Run(tt.in, func(t *testing.T) {
 			s := extractUploadTime(tt.in)
 			if s.Year() != tt.year || s.Month() != tt.month || s.Day() != tt.day || s.Hour() != tt.hour || s.Minute() != tt.minute {

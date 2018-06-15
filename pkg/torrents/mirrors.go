@@ -39,16 +39,25 @@ func (m *MirrorScraper) GetProxySourceURL() string {
 }
 
 // GetMirrors retrieves a list of PirateBay mirrors.
-func (m *MirrorScraper) GetMirrors() []Mirror {
+func (m *MirrorScraper) GetMirrors() ([]Mirror, error) {
 
-	doc, _ := utils.HTTPGet(m.GetProxySourceURL())
+	doc, err := utils.HTTPGet(m.GetProxySourceURL())
 
-	return parseMirrors(doc)
+	if err != nil {
+		return nil, err
+	}
+
+	return parseMirrors(doc), nil
 }
 
 // PickMirror fetches all available Pirate Bay mirrors and picks the the fastest one available.
 func (m *MirrorScraper) PickMirror() (*Mirror, error) {
-	mirrors := m.GetMirrors()
+	mirrors, err := m.GetMirrors()
+
+	if err != nil {
+		return nil, err
+	}
+
 	return pickMirror(mirrors)
 }
 

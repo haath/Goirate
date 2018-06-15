@@ -14,14 +14,18 @@ type MirrorsCommand struct {
 	SourceURL string `short:"s" long:"source" description:"Link to a list of PirateBay proxies. Default: proxybay.github.io"`
 }
 
-// Execute acts as the call back of the mirrors command.
+// Execute is the callback of the mirrors command.
 func (m *MirrorsCommand) Execute(args []string) error {
 
 	var scraper torrents.MirrorScraper
 
 	scraper.SetProxySourceURL(m.SourceURL)
 
-	mirrors := scraper.GetMirrors()
+	mirrors, err := scraper.GetMirrors()
+
+	if err != nil {
+		return err
+	}
 
 	if Options.JSON {
 		mirrorsJSON, err := json.MarshalIndent(mirrors, "", "   ")
