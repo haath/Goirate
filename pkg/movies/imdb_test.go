@@ -1,8 +1,7 @@
 package movies
 
 import (
-	"github.com/PuerkitoBio/goquery"
-	"os"
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"testing"
 )
 
@@ -45,24 +44,20 @@ func TestParseDuration(t *testing.T) {
 	}
 }
 
-func TestIMDbPage(t *testing.T) {
+func TestParseIMDbPage(t *testing.T) {
 
 	expected := Movie{
-		Title:     "Cast Away",
-		Year:      2000,
+		MovieID: MovieID{
+			Title: "Cast Away",
+			Year:  2000,
+		},
 		Duration:  143,
 		Rating:    7.8,
 		PosterURL: "https://m.media-amazon.com/images/M/MV5BN2Y5ZTU4YjctMDRmMC00MTg4LWE1M2MtMjk4MzVmOTE4YjkzXkEyXkFqcGdeQXVyNTc1NTQxODI@._V1_UX182_CR0,0,182,268_AL_.jpg",
 	}
 
-	file, err := os.Open("../../samples/imdb.html")
+	doc, err := utils.GetFileDocument("../../samples/imdb.html")
 
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	doc, err := goquery.NewDocumentFromReader(file)
 	if err != nil {
 		t.Error(err)
 		return
@@ -74,6 +69,64 @@ func TestIMDbPage(t *testing.T) {
 		movie.Duration != expected.Duration || movie.Rating != expected.Rating ||
 		movie.PosterURL != expected.PosterURL {
 		t.Errorf("got: %v\nwant: %v\n", movie, expected)
+	}
+}
+
+func TestExtractYear(t *testing.T) {
+	table := []struct {
+		in  string
+		out int
+	}{
+		{"Fu chou zhe (1976) aka \"Avengers\" ", 1976},
+		{" <a href=\"/title/tt4154756/?ref_=fn_ft_tt_3\">Avengers: Infinity War</a> (2018) ", 2018},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in, func(t *testing.T) {
+
+			s := extractYear(tt.in)
+
+			if s != tt.out {
+				t.Errorf("\ngot %v\nwant %v\n", s, tt.out)
+			}
+		})
+	}
+}
+
+func TestParseSearchPage(t *testing.T) {
+
+	table := []struct {
+		index int
+		movie MovieID
+	}{
+		{0, MovieID{"0848228", "The Avengers", 2012}},
+		{1, MovieID{"0164450", "Fu chou zhe", 1976}},
+		{22, MovieID{"8277574", "To Avenge", 0}},
+	}
+
+	doc, err := utils.GetFileDocument("../../samples/imdb_search.html")
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	movies := ParseSearchPage(doc)
+
+	if len(movies) != 200 {
+		t.Errorf("Expected 200, got %v\n", len(movies))
+	}
+
+	for _, tt := range table {
+		t.Run(tt.movie.Title, func(t *testing.T) {
+
+			s := movies[tt.index]
+			m := tt.movie
+
+			if s != m {
+				t.Errorf("\ngot %v\nwant %v\n", s, m)
+			}
+		})
 	}
 }
 
@@ -96,6 +149,59 @@ func TestExtractIMDbID(t *testing.T) {
 
 			if s != tt.out {
 				t.Errorf("got %q, want %q", s, tt.out)
+			}
+		})
+	}
+}
+
+func TestSearchURL(t *testing.T) {
+	var table = []struct {
+		in  string
+		out string
+	}{
+		{"avengers", "https://www.imdb.com/find?q=avengers&s=tt&ttype=ft"},
+		{"Avengers: Age of Ultron", "https://www.imdb.com/find?q=Avengers%253A%2BAge%2Bof%2BUltron&s=tt&ttype=ft"},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in, func(t *testing.T) {
+			s := searchURL(tt.in)
+
+			if s != tt.out {
+				t.Errorf("got %q, want %q", s, tt.out)
+			}
+		})
+	}
+}
+
+func TestGetMovie(t *testing.T) {
+	var table = []struct {
+		in  string
+		out Movie
+	}{
+		{"tt0848228", Movie{
+			MovieID: MovieID{
+				Title:  "The Avengers",
+				IMDbID: "0848228",
+				Year:   2012,
+			},
+			Duration:  143,
+			Rating:    8.1,
+			PosterURL: "https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg",
+		}},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in, func(t *testing.T) {
+
+			movie, err := GetMovie(tt.in)
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			if *movie != tt.out {
+				t.Errorf("got %v, want %v", movie, tt.out)
 			}
 		})
 	}

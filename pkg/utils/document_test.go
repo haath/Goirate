@@ -26,3 +26,20 @@ func TestHTTPGetStatus(t *testing.T) {
 		t.Errorf("Expected 404, got: %v", res)
 	}
 }
+
+func TestGetFileDocument(t *testing.T) {
+
+	expected := "Cast Away (2000) - IMDb"
+
+	doc, err := GetFileDocument("../../samples/imdb.html")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	title := doc.Find("title").Text()
+
+	if title != expected {
+		t.Errorf("got %v want %v", title, expected)
+	}
+}

@@ -5,6 +5,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -39,4 +40,21 @@ func HTTPGet(url string) (*goquery.Document, error) {
 	}
 
 	return doc, err
+}
+
+// GetFileDocument opens an HTML file and returns a GoQuery document from that file.
+func GetFileDocument(filePath string) (*goquery.Document, error) {
+	file, err := os.Open(filePath)
+
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := goquery.NewDocumentFromReader(file)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return doc, nil
 }
