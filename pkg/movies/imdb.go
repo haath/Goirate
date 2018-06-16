@@ -32,6 +32,12 @@ func FormatIMDbID(id string) (string, error) {
 	return fmt.Sprintf("%07d", idNum), nil
 }
 
+// IsIMDbID returns true if the string is in a valid IMDbID format.
+func IsIMDbID(id string) bool {
+	_, err := FormatIMDbID(id)
+	return err == nil
+}
+
 // ExtractIMDbID will extract the IMDb ID of a movie from its URL.
 // Assuming that the URL is in the format: https://www.imdb.com/title/tt0848228/
 func ExtractIMDbID(url string) (string, error) {
@@ -67,7 +73,7 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 		MovieID: MovieID{
 			Title:  title,
 			IMDbID: imdbID,
-			Year:   year,
+			Year:   uint(year),
 		},
 	}
 
@@ -102,7 +108,7 @@ func ParseSearchPage(doc *goquery.Document) []MovieID {
 		movie := MovieID{
 			Title:    title,
 			IMDbID:   id,
-			Year:     year,
+			Year:     uint(year),
 			AltTitle: altTitle,
 		}
 

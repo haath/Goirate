@@ -11,7 +11,7 @@ import (
 type MovieID struct {
 	IMDbID   string `json:"imdb_id"`
 	Title    string `json:"title"`
-	Year     int    `json:"year"`
+	Year     uint   `json:"year"`
 	AltTitle string `json:"alt_title"`
 }
 

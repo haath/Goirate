@@ -3,10 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	imdb "git.gmantaos.com/haath/Goirate/pkg/movies"
 	"github.com/olekukonko/tablewriter"
 	"log"
-	"strconv"
 )
 
 // IMDbCommand is the command used to search for movies on IMDb.
@@ -57,7 +57,7 @@ func getMoviesTable(movies []imdb.MovieID) string {
 
 	for _, movie := range movies {
 
-		table.Append([]string{movie.IMDbID, movie.Title, strconv.Itoa(movie.Year)})
+		table.Append([]string{movie.IMDbID, movie.Title, fmt.Sprint(movie.Year)})
 	}
 
 	table.Render()

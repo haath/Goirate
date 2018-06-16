@@ -25,6 +25,29 @@ func TestFormatIMDbID(t *testing.T) {
 	}
 }
 
+func TestIsIMDbID(t *testing.T) {
+	var table = []struct {
+		in  string
+		out bool
+	}{
+		{"123", true},
+		{"tt1234567", true},
+		{"-123", false},
+		{"123456789", false},
+		{"Hail ceasar", false},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in, func(t *testing.T) {
+			s := IsIMDbID(tt.in)
+			if s != tt.out {
+				t.Errorf("got %v, want %v", s, tt.out)
+			}
+		})
+	}
+
+}
+
 func TestParseDuration(t *testing.T) {
 	var table = []struct {
 		in  string
