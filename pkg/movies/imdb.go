@@ -85,12 +85,15 @@ func ParseSearchPage(doc *goquery.Document) []MovieID {
 		id, _ := ExtractIMDbID(imdbURL)
 
 		row.Find("a").Remove()
+
 		year := extractYear(row.Text())
+		altTitle := extractAltTitle(row.Text())
 
 		movie := MovieID{
-			Title:  title,
-			IMDbID: id,
-			Year:   year,
+			Title:    title,
+			IMDbID:   id,
+			Year:     year,
+			AltTitle: altTitle,
 		}
 
 		movies = append(movies, movie)
@@ -150,6 +153,17 @@ func extractYear(searchRow string) int {
 	}
 
 	return 0
+}
+
+func extractAltTitle(searchRow string) string {
+	r, _ := regexp.Compile(`aka\s+"(.+)"`)
+	m := r.FindStringSubmatch(searchRow)
+
+	if len(m) > 0 {
+		return m[1]
+	}
+
+	return ""
 }
 
 // GetMovie will scrape the IMDb page of the movie with the given id

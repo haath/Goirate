@@ -72,22 +72,28 @@ func TestParseIMDbPage(t *testing.T) {
 	}
 }
 
-func TestExtractYear(t *testing.T) {
+func TestExtractInfo(t *testing.T) {
 	table := []struct {
-		in  string
-		out int
+		in       string
+		year     int
+		altTitle string
 	}{
-		{"Fu chou zhe (1976) aka \"Avengers\" ", 1976},
-		{" <a href=\"/title/tt4154756/?ref_=fn_ft_tt_3\">Avengers: Infinity War</a> (2018) ", 2018},
+		{"Fu chou zhe (1976) aka \"Avengers\" ", 1976, "Avengers"},
+		{" <a href=\"/title/tt4154756/?ref_=fn_ft_tt_3\">Avengers: Infinity War</a> (2018) ", 2018, ""},
 	}
 
 	for _, tt := range table {
 		t.Run(tt.in, func(t *testing.T) {
 
 			s := extractYear(tt.in)
+			a := extractAltTitle(tt.in)
 
-			if s != tt.out {
-				t.Errorf("\ngot %v\nwant %v\n", s, tt.out)
+			if s != tt.year {
+				t.Errorf("\ngot %v\nwant %v\n", s, tt.year)
+			}
+
+			if a != tt.altTitle {
+				t.Errorf("\ngot %v\nwant %v\n", s, tt.altTitle)
 			}
 		})
 	}
@@ -99,9 +105,10 @@ func TestParseSearchPage(t *testing.T) {
 		index int
 		movie MovieID
 	}{
-		{0, MovieID{"0848228", "The Avengers", 2012}},
-		{1, MovieID{"0164450", "Fu chou zhe", 1976}},
-		{22, MovieID{"8277574", "To Avenge", 0}},
+		{0, MovieID{"0848228", "The Avengers", 2012, ""}},
+		{1, MovieID{"0164450", "Fu chou zhe", 1976, "Avengers"}},
+		{22, MovieID{"8277574", "To Avenge", 0, ""}},
+		{83, MovieID{"0199812", "Ninja Operation 6: Champion on Fire", 1987, "Ninja Avengers"}},
 	}
 
 	doc, err := utils.GetFileDocument("../../samples/imdb_search.html")

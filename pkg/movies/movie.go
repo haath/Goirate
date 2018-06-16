@@ -7,9 +7,10 @@ import (
 
 // MovieID holds the defining properties of an IMDb movie as they appear in search results.
 type MovieID struct {
-	IMDbID string `json:"imdb_id"`
-	Title  string `json:"title"`
-	Year   int    `json:"year"`
+	IMDbID   string `json:"imdb_id"`
+	Title    string `json:"title"`
+	Year     int    `json:"year"`
+	AltTitle string `json:"alt_title"`
 }
 
 // Movie holds all the information regarding a movie on IMDb.
