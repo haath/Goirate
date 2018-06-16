@@ -9,13 +9,14 @@ import (
 // Options holds the command line options for the cli program
 var Options struct {
 	// Options
-	Verbose bool `short:"v" long:"verbose" description:"Show more information"`
-	JSON    bool `short:"j" long:"json" description:"Output in JSON format"`
+	Verbose bool `short:"v" long:"verbose" description:"Show more information."`
+	JSON    bool `short:"j" long:"json" description:"Output in JSON format."`
 
 	// Commands
-	Mirrors MirrorsCommand `command:"mirrors" description:"Get a list of PirateBay mirrors"`
-	Search  SearchCommand  `command:"search" alias:"s" description:"Search for torrents"`
-	Movie   MovieCommand   `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it"`
+	Mirrors MirrorsCommand `command:"mirrors" description:"Get a list of PirateBay mirrors."`
+	Search  SearchCommand  `command:"search" alias:"s" description:"Search for torrents."`
+	Movie   MovieCommand   `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
+	IMDb    IMDbCommand    `command:"imdb" description:"Search IMDb for movies to retrieve their IMDbID."`
 }
 
 type torrentSearchArgs struct {
@@ -24,6 +25,10 @@ type torrentSearchArgs struct {
 	MagnetLink bool   `long:"only-magnet" description:"Only output magnet links, one on each line."`
 	TorrentURL bool   `long:"only-url" description:"Only output torrent urls, one on each line."`
 	Count      uint   `short:"c" long:"count" description:"Limit the number of results."`
+}
+
+type positionalArgs struct {
+	Query string `positional-arg-name:"query"`
 }
 
 func (a torrentSearchArgs) GetScraper() (*torrents.PirateBayScaper, error) {

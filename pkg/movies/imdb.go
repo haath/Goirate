@@ -190,3 +190,15 @@ func GetMovie(imdbID string) (*Movie, error) {
 
 	return &movie, nil
 }
+
+// Search performs a text search on IMDb, limited to movies, and returns the results.
+func Search(query string) ([]MovieID, error) {
+	url := searchURL(query)
+	doc, err := utils.HTTPGet(url)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return ParseSearchPage(doc), nil
+}

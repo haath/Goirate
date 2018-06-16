@@ -13,11 +13,7 @@ import (
 type SearchCommand struct {
 	torrents.SearchFilters
 	torrentSearchArgs
-	Args searchArgs `positional-args:"1" required:"1"`
-}
-
-type searchArgs struct {
-	Query string `positional-arg-name:"query"`
+	Args positionalArgs `positional-args:"1" required:"1"`
 }
 
 // Execute is the callback of the mirrors command.

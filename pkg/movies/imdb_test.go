@@ -213,3 +213,24 @@ func TestGetMovie(t *testing.T) {
 		})
 	}
 }
+
+func TestSearch(t *testing.T) {
+
+	expected := MovieID{
+		Title:  "Avengers: Age of Ultron",
+		Year:   2015,
+		IMDbID: "2395427",
+	}
+
+	movies, err := Search("age of ultron")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	m := movies[0]
+
+	if m != expected {
+		t.Errorf("\ngot %v\nwant %v\n", m, expected)
+	}
+}

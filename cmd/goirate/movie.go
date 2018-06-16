@@ -10,7 +10,7 @@ type MovieCommand struct {
 	torrentSearchArgs
 }
 
-// Execute is the callback of the mirrors command.
+// Execute is the callback of the movie command.
 func (m *MovieCommand) Execute(args []string) error {
 
 	return nil
