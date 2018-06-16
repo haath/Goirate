@@ -31,13 +31,13 @@ func (c *IMDbCommand) Execute(args []string) error {
 	}
 
 	if Options.JSON {
-		torrentsJSON, err := json.MarshalIndent(movies, "", "   ")
+		moviesJSON, err := json.MarshalIndent(movies, "", "   ")
 
 		if err != nil {
 			return err
 		}
 
-		log.Println(string(torrentsJSON))
+		log.Println(string(moviesJSON))
 	} else {
 		log.Printf(getMoviesTable(movies))
 	}

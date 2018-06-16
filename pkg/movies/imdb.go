@@ -60,7 +60,7 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 	imdbURL, _ := doc.Find("link[rel='canonical']").Attr("href")
 	imdbID, _ := ExtractIMDbID(imdbURL)
 
-	return Movie{
+	movie := Movie{
 		PosterURL: posterURL,
 		Rating:    float32(int(rating*10)) / 10, // Round to one decimal, just in case,
 		Duration:  duration,
@@ -70,6 +70,16 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 			Year:   year,
 		},
 	}
+
+	origTitle := doc.Find(".originalTitle")
+
+	if origTitle.Length() > 0 {
+		origTitle.Find(".description").Remove()
+
+		movie.AltTitle = origTitle.Text()
+	}
+
+	return movie
 }
 
 // ParseSearchPage will parse the result page of an IMDb search and return the titles

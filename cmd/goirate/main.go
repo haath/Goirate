@@ -22,9 +22,9 @@ var Options struct {
 type torrentSearchArgs struct {
 	Mirror     string `short:"m" long:"mirror" description:"The PirateBay mirror URL to use. By default one is chosen at runtime."`
 	SourceURL  string `short:"s" long:"source" description:"Link to the list of PirateBay proxies that will be used to pick a mirror."`
+	Count      uint   `short:"c" long:"count" description:"Limit the number of results."`
 	MagnetLink bool   `long:"only-magnet" description:"Only output magnet links, one on each line."`
 	TorrentURL bool   `long:"only-url" description:"Only output torrent urls, one on each line."`
-	Count      uint   `short:"c" long:"count" description:"Limit the number of results."`
 }
 
 type positionalArgs struct {

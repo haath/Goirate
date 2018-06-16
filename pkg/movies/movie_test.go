@@ -25,5 +25,24 @@ func TestGetURL(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestFormattedDuration(t *testing.T) {
+	var table = []struct {
+		in  int
+		out string
+	}{
+		{143, "2h 23min"},
+		{180, "3h"},
+		{47, "47min"},
+	}
+	for _, tt := range table {
+		t.Run(tt.out, func(t *testing.T) {
+			m := Movie{Duration: tt.in}
+			s := m.FormattedDuration()
+			if s != tt.out {
+				t.Errorf("got %q, want %q", s, tt.out)
+			}
+		})
+	}
 }

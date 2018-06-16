@@ -1,8 +1,10 @@
 package movies
 
 import (
+	"bytes"
 	"fmt"
 	"net/url"
+	"strings"
 )
 
 // MovieID holds the defining properties of an IMDb movie as they appear in search results.
@@ -33,4 +35,22 @@ func (m MovieID) GetURL() (*url.URL, error) {
 	urlString := fmt.Sprintf(BaseURL+"/title/tt%v/", formattedID)
 
 	return url.Parse(urlString)
+}
+
+// FormattedDuration returns the duration of the movie in human-readable format.
+func (m Movie) FormattedDuration() string {
+	hours := m.Duration / 60
+	minutes := m.Duration % 60
+
+	var buf bytes.Buffer
+
+	if hours > 0 {
+		buf.WriteString(fmt.Sprintf("%vh ", hours))
+	}
+
+	if minutes > 0 {
+		buf.WriteString(fmt.Sprintf("%vmin", minutes))
+	}
+
+	return strings.TrimSpace(buf.String())
 }

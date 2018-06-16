@@ -48,8 +48,10 @@ func TestParseIMDbPage(t *testing.T) {
 
 	expected := Movie{
 		MovieID: MovieID{
-			Title: "Cast Away",
-			Year:  2000,
+			IMDbID:   "0162222",
+			Title:    "Cast Away",
+			Year:     2000,
+			AltTitle: "Third Person",
 		},
 		Duration:  143,
 		Rating:    7.8,
@@ -65,9 +67,7 @@ func TestParseIMDbPage(t *testing.T) {
 
 	movie := ParseIMDbPage(doc)
 
-	if movie.Title != expected.Title || movie.Year != expected.Year ||
-		movie.Duration != expected.Duration || movie.Rating != expected.Rating ||
-		movie.PosterURL != expected.PosterURL {
+	if movie != expected {
 		t.Errorf("got: %v\nwant: %v\n", movie, expected)
 	}
 }
