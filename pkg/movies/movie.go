@@ -78,7 +78,41 @@ func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.Sea
 	return torrent, nil
 }
 
+// GetTorrents will search The Pirate Bay for torrents of this movie that comply with the given filters.
+// It will return one torrent for each video quality.
+func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) ([]torrents.Torrent, error) {
+
+	trnts, err := getTorrents(scraper, filters, m.Title, m.Year)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if trnts == nil && m.AltTitle != "" {
+
+		trnts, err = getTorrents(scraper, filters, m.AltTitle, m.Year)
+
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
+	return trnts, nil
+}
+
 func getTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, title string, year uint) (*torrents.Torrent, error) {
+
+	titleFiltered, err := getTorrents(scraper, filters, title, year)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return torrents.PickVideoTorrent(titleFiltered, filters)
+}
+
+func getTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
 
 	title = strings.ToLower(title)
 
@@ -102,5 +136,5 @@ func getTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters
 
 	}
 
-	return torrents.SearchTorrentList(titleFiltered, filters)
+	return titleFiltered, nil
 }

@@ -33,6 +33,37 @@ func (f SearchFilters) MaxSizeKB() (int64, error) {
 	return int64(v.KBytes()), err
 }
 
+// PickVideoTorrent functions similar to SearchTorrentList(), but instead returns the torrent with the best available video quality
+// with at least one seeder.
+func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, error) {
+
+	trnts, err := SearchVideoTorrentList(torrents, filters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ok := func(t *Torrent) bool {
+		return (filters.MaxQuality == "" || !t.VideoQuality.BetterThan(filters.MaxQuality)) &&
+			(filters.MinQuality == "" || !t.VideoQuality.WorseThan(filters.MinQuality))
+	}
+
+	if t, exists := trnts[High]; exists && t.Seeders > 0 && ok(t) {
+		return t, nil
+	}
+	if t, exists := trnts[Medium]; exists && t.Seeders > 0 && ok(t) {
+		return t, nil
+	}
+	if t, exists := trnts[Low]; exists && t.Seeders > 0 && ok(t) {
+		return t, nil
+	}
+	if t, exists := trnts[Default]; exists && t.Seeders > 0 && ok(t) {
+		return t, nil
+	}
+
+	return nil, nil
+}
+
 // SearchVideoTorrentList will find the first torrent in the list for each video quality, that also match the given filters.
 // Since it returns one torrent for each known quality, the MinQuality and MaxQuality of the given filters are ignored.
 // Returns nil if none are found.
@@ -73,8 +104,7 @@ func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[Vide
 	return trnts, nil
 }
 
-// SearchTorrentList will return the first torrent in the list that matches the given filters,
-// returning nil if none is found.
+// SearchTorrentList will return the first torrent in the list that matches the given filters, returning nil if none is found.
 func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, error) {
 
 	maxSize, err := filters.MaxSizeKB()

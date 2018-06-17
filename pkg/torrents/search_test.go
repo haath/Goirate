@@ -55,8 +55,24 @@ func TestSearchTorrentList(t *testing.T) {
 
 			multi, err := SearchVideoTorrentList(torrents, tt.in)
 
+			if tt.out != "" && (torrent == nil || err != nil) {
+				t.Error(err)
+				return
+			}
+
 			if tt.out != "" && len(multi) != tt.num {
 				t.Errorf("error fetching multiple qualities: %v", multi)
+			}
+
+			best, err := PickVideoTorrent(torrents, tt.in)
+
+			if tt.out != "" && (best == nil || err != nil) {
+				t.Error(err)
+				return
+			}
+
+			if tt.out != "" && best.Title != tt.out {
+				t.Errorf("\ngot: %v\nwant: %v\n", best.Title, tt.out)
 			}
 		})
 	}
