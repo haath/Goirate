@@ -11,12 +11,14 @@ func TestSearchTorrentList(t *testing.T) {
 	table := []struct {
 		in  SearchFilters
 		out string
+		num int
 	}{
-		{SearchFilters{}, "Cast Away (2000) 1080p BrRip x264 - 1.10GB - YIFY"},
-		{SearchFilters{MaxSize: "1 GB"}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
-		{SearchFilters{MinSize: "3 GB"}, "Cast.Away.2000.1080p.BluRay.x264.AC3-ETRG"},
-		{SearchFilters{MaxQuality: Medium}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY"},
-		{SearchFilters{MinSeeders: 500}, ""},
+		{SearchFilters{}, "Cast Away (2000) 1080p BrRip x264 - 1.10GB - YIFY", 4},
+		{SearchFilters{MaxSize: "1 GB"}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY", 3},
+		{SearchFilters{MinSize: "3 GB"}, "Cast.Away.2000.1080p.BluRay.x264.AC3-ETRG", 3},
+		{SearchFilters{MaxQuality: Medium}, "Cast Away (2000) 720p BrRip x264 - 950MB - YIFY", 4},
+		{SearchFilters{MaxQuality: Low, MinQuality: Low}, "Cast.Away.2000.480p.DVDRip.XviD-ViEW", 4},
+		{SearchFilters{MinSeeders: 500}, "", 0},
 	}
 
 	file, err := os.Open("../../samples/piratebay_movie.html")
@@ -49,6 +51,12 @@ func TestSearchTorrentList(t *testing.T) {
 
 			if tt.out != "" && torrent.Title != tt.out {
 				t.Errorf("\ngot: %v\nwant: %v\n", torrent.Title, tt.out)
+			}
+
+			multi, err := SearchVideoTorrentList(torrents, tt.in)
+
+			if tt.out != "" && len(multi) != tt.num {
+				t.Errorf("error fetching multiple qualities: %v", multi)
 			}
 		})
 	}
