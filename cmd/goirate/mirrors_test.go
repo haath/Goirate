@@ -17,6 +17,8 @@ func TestMirrorsExecute(t *testing.T) {
 	json.Unmarshal([]byte(output), &mirrors)
 
 	Options.JSON = false
+
+	CaptureCommand(func() { cmd.Execute(nil) })
 }
 
 func TestGetMirrorsTable(t *testing.T) {

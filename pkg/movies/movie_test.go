@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"testing"
 )
 
@@ -28,7 +29,7 @@ func TestGetURL(t *testing.T) {
 }
 
 func TestFormattedDuration(t *testing.T) {
-	var table = []struct {
+	table := []struct {
 		in  int
 		out string
 	}{
@@ -43,6 +44,38 @@ func TestFormattedDuration(t *testing.T) {
 			if s != tt.out {
 				t.Errorf("got %q, want %q", s, tt.out)
 			}
+		})
+	}
+}
+
+func TestGetTorrent(t *testing.T) {
+	table := []struct {
+		in Movie
+	}{
+		{Movie{MovieID: MovieID{Title: "third person"}}},
+		{Movie{MovieID: MovieID{Title: "Το τρίτο πρόσωπο", AltTitle: "Third Person"}}},
+	}
+
+	filters := torrents.SearchFilters{}
+	scraper, err := torrents.FindScraper()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, tt := range table {
+		t.Run(tt.in.Title, func(t *testing.T) {
+
+			tor, err := tt.in.GetTorrent(*scraper, filters)
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			if tor == nil {
+				t.Errorf("No torrent found for: %v", tt.in.Title)
+			}
+
 		})
 	}
 }

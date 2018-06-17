@@ -1,7 +1,6 @@
 package torrents
 
 import (
-	"errors"
 	"git.gmantaos.com/haath/gobytes"
 	"strings"
 )
@@ -69,7 +68,7 @@ func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, err
 		return &t, nil
 	}
 
-	return nil, errors.New("No torrent found with the specified filters")
+	return nil, nil
 }
 
 func normalizeQuery(query string) string {

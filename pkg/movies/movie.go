@@ -3,6 +3,7 @@ package movies
 import (
 	"bytes"
 	"fmt"
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"net/url"
 	"strings"
 )
@@ -53,4 +54,53 @@ func (m Movie) FormattedDuration() string {
 	}
 
 	return strings.TrimSpace(buf.String())
+}
+
+// GetTorrent will search The Pirate Bay and return the best torrent that complies with the given filters.
+func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) (*torrents.Torrent, error) {
+
+	torrent, err := getTorrent(scraper, filters, m.Title, m.Year)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if torrent == nil && m.AltTitle != "" {
+
+		torrent, err = getTorrent(scraper, filters, m.AltTitle, m.Year)
+
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
+	return torrent, nil
+}
+
+func getTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, title string, year uint) (*torrents.Torrent, error) {
+
+	title = strings.ToLower(title)
+
+	trnts, err := scraper.Search(title)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var titleFiltered []torrents.Torrent
+
+	for _, torrent := range trnts {
+
+		torrentTitle := strings.ToLower(strings.Replace(torrent.Title, ".", " ", -1))
+
+		if strings.Contains(torrentTitle, title) &&
+			(strings.Contains(torrentTitle, fmt.Sprint(year)) || year == 0) {
+
+			titleFiltered = append(titleFiltered, torrent)
+		}
+
+	}
+
+	return torrents.SearchTorrentList(titleFiltered, filters)
 }
