@@ -2,8 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/movies"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/movies"
 )
 
 func TestMovieExecute(t *testing.T) {
@@ -17,6 +18,14 @@ func TestMovieExecute(t *testing.T) {
 
 	var moviesJSON []movies.Movie
 	json.Unmarshal([]byte(output), &moviesJSON)
+
+	cmd.MagnetLink = true
+
+	err := cmd.Execute([]string{})
+
+	if err == nil {
+		t.Errorf("Expected error")
+	}
 
 	Options.JSON = false
 

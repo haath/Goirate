@@ -4,7 +4,8 @@ OUTPUT := build/goirate
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-build: dep patch compile ## Install dependencies and compile the binary file
+build: dep patch ## Install dependencies and compile the binary file
+	@go build --ldflags "-linkmode external -extldflags -static" -i -v -o $(OUTPUT) ./cmd/goirate
 
 install: dep patch ## Compile and install the binary at $GOPATH/bin
 	go install ./cmd/goirate
