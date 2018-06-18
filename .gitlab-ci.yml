@@ -35,6 +35,7 @@ compile:
   stage: build
   script:
     - make build
+    - ./build/goirate --version
     - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: goirate

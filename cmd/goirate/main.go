@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
@@ -10,8 +11,9 @@ import (
 // Options holds the command line options for the cli program
 var Options struct {
 	// Options
-	Verbose bool `short:"v" long:"verbose" description:"Show more information."`
-	JSON    bool `short:"j" long:"json" description:"Output in JSON format."`
+	Verbose bool   `short:"v" long:"verbose" description:"Show more information."`
+	JSON    bool   `short:"j" long:"json" description:"Output in JSON format."`
+	Version func() `long:"version" description:"Show the current version."`
 
 	// Commands
 	Mirrors MirrorsCommand `command:"mirrors" description:"Get a list of PirateBay mirrors."`
@@ -78,6 +80,11 @@ func main() {
 	log.SetFlags(0)
 
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
+
+	Options.Version = func() {
+		log.Printf("Goirate build: %v\n", VERSION)
+		os.Exit(0)
+	}
 
 	parser.Parse()
 }

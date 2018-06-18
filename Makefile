@@ -4,10 +4,14 @@ OUTPUT := build/goirate
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-build: dep compile ## Install dependencies and compile the binary file
+build: dep patch compile ## Install dependencies and compile the binary file
 
-install: dep ## Compile and install the binary at $GOPATH/bin
+install: dep patch ## Compile and install the binary at $GOPATH/bin
 	go install ./cmd/goirate
+
+patch:
+	@chmod +x ./scripts/patch.sh
+	@./scripts/patch.sh;
 
 lint: dep ## Verifies the code through lint, fmt and vet
 	@echo "Linting..."
