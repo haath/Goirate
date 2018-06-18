@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 )
 
 // MovieID holds the defining properties of an IMDb movie as they appear in search results.
@@ -115,7 +116,7 @@ func getTorrent(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilte
 
 func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
 
-	title = strings.ToLower(title)
+	title = utils.NormalizeQuery(title)
 
 	trnts, err := (*scraper).Search(title)
 
@@ -127,7 +128,7 @@ func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilt
 
 	for _, torrent := range trnts {
 
-		torrentTitle := strings.ToLower(strings.Replace(torrent.Title, ".", " ", -1))
+		torrentTitle := utils.NormalizeQuery(torrent.Title)
 
 		if strings.Contains(torrentTitle, title) &&
 			(strings.Contains(torrentTitle, fmt.Sprint(year)) || year == 0) {

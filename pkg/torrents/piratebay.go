@@ -1,9 +1,6 @@
 package torrents
 
 import (
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
-	"git.gmantaos.com/haath/gobytes"
-	"github.com/PuerkitoBio/goquery"
 	"log"
 	"math"
 	"net/url"
@@ -13,6 +10,10 @@ import (
 	"strings"
 	"time"
 	"unicode"
+
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"git.gmantaos.com/haath/gobytes"
+	"github.com/PuerkitoBio/goquery"
 )
 
 // PirateBayScaper holds the url of a PirateBay mirror on which to run torrent searches.
@@ -62,7 +63,7 @@ func (s pirateBayScaper) URL() string {
 
 func (s pirateBayScaper) SearchURL(query string) string {
 
-	query = normalizeQuery(query)
+	query = utils.NormalizeQuery(query)
 
 	searchURL, _ := url.Parse(s.URL())
 	searchURL.Path = path.Join("/search", url.QueryEscape(query))

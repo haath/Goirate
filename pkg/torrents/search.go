@@ -1,8 +1,6 @@
 package torrents
 
 import (
-	"strings"
-
 	"git.gmantaos.com/haath/gobytes"
 )
 
@@ -140,29 +138,4 @@ func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, err
 	}
 
 	return nil, nil
-}
-
-func normalizeQuery(query string) string {
-
-	replaces := []struct {
-		old string
-		new string
-	}{
-		{"-", " "},
-		{"'", " "},
-		{".", " "},
-		{"_", " "},
-		{":", ""},
-		{"!", ""},
-		{"(", ""},
-		{")", ""},
-	}
-
-	query = strings.TrimSpace(query)
-
-	for _, rep := range replaces {
-		query = strings.Replace(query, rep.old, rep.new, -1)
-	}
-
-	return query
 }
