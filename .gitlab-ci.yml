@@ -31,14 +31,18 @@ test:
       - test_coverage.*
     expire_in: 1 week
 
-compile:
+build-armhf:
   stage: build
+  only:
+    - tags
+  tags:
+    - arm
+    - x32
   script:
     - make build
     - ./build/goirate --version
     - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
-    name: goirate
+    name: goirate.armhf
     paths:
       - goirate
-    expire_in: 1 week
