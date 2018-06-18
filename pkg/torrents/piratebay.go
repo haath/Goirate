@@ -114,6 +114,7 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 		seeders, _ := strconv.Atoi(cells[2].Text())
 		leeches, _ := strconv.Atoi(cells[3].Text())
 		verified := row.Find("img[title='VIP'], img[title='Trusted']").Length() > 0
+		uploader := cells[1].Find(".detDesc > a.detDesc").Text()
 
 		size := extractSize(description)
 		uploadTime := extractUploadTime(description)
@@ -124,6 +125,7 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 			Leeches: leeches, VerifiedUploader: verified,
 			VideoQuality: quality, TorrentURL: URL, Magnet: magnet,
 			UploadTime: uploadTime, MirrorURL: s.URL(),
+			Uploader: uploader,
 		}
 
 		torrents = append(torrents, torrent)

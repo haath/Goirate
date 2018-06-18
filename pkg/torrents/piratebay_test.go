@@ -1,11 +1,12 @@
 package torrents
 
 import (
-	"github.com/PuerkitoBio/goquery"
 	"net/url"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 var urlTests = []struct {
@@ -82,6 +83,7 @@ func TestParseSearchPage(t *testing.T) {
 		Magnet:           "magnet:?xt=urn:btih:bee75372b98077bfd4de8ef03eb33e9289be5cd8&dn=Avengers+Infinity+War+2018+NEW+PROPER+720p+HD-CAM+X264+HQ-CPG&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
 		VideoQuality:     Medium,
 		VerifiedUploader: true,
+		Uploader:         "makintos13",
 	}
 
 	file, err := os.Open("../../samples/piratebay_search.html")
@@ -111,7 +113,7 @@ func TestParseSearchPage(t *testing.T) {
 	if tr.TorrentURL != expected.TorrentURL || tr.Title != expected.Title ||
 		tr.Size != expected.Size || tr.Leeches != expected.Leeches || tr.Seeders != expected.Seeders ||
 		tr.Magnet != expected.Magnet || tr.VideoQuality != expected.VideoQuality ||
-		tr.VerifiedUploader != expected.VerifiedUploader {
+		tr.VerifiedUploader != expected.VerifiedUploader || tr.Uploader != expected.Uploader {
 
 		t.Errorf("\ngot: %v\nwant: %v\n", tr, expected)
 	}

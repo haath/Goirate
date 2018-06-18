@@ -18,6 +18,7 @@ type Torrent struct {
 	TorrentURL       string       `json:"torrent_url"`
 	Magnet           string       `json:"magnet"`
 	UploadTime       time.Time    `json:"upload_time"`
+	Uploader         string       `json:"uploader"`
 }
 
 // FullURL returns the absolute URL for this torrent, including the mirror it was scraped from.

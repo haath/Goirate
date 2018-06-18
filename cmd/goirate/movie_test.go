@@ -30,6 +30,11 @@ func TestMovieExecute(t *testing.T) {
 	Options.JSON = false
 
 	CaptureCommand(func() { cmd.Execute(nil) })
+
+	cmd.MagnetLink = false
+	cmd.Args.Query = "0848228"
+
+	CaptureCommand(func() { cmd.Execute(nil) })
 }
 
 func TestFindMovie(t *testing.T) {
