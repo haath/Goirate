@@ -99,7 +99,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 		} else {
 
-			log.Printf("%v\n\n", movie.Title)
+			log.Printf("%v\n", movie.Title)
 
 			if movie.AltTitle != "" {
 				log.Printf("Orig. Title:\t%v\n", movie.AltTitle)

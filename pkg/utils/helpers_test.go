@@ -9,9 +9,10 @@ func TestNormalizeQuery(t *testing.T) {
 		in  string
 		out string
 	}{
-		{"Spider-Man: Homecoming", "Spider Man Homecoming"},
-		{"The Hitchhiker's Guide to the Galaxy", "The Hitchhiker s Guide to the Galaxy"},
-		{"American Dad!", "American Dad"},
+		{"Spider-Man: Homecoming", "spider man homecoming"},
+		{"The Hitchhiker's Guide to the Galaxy", "the hitchhiker s guide to the galaxy"},
+		{"American Dad!", "american dad"},
+		{"     a     lot    Of!spaces here!  ", "a lot of spaces here"},
 	}
 
 	for _, tt := range table {

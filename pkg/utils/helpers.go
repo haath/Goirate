@@ -29,6 +29,7 @@ func NormalizeQuery(query string) string {
 
 	// Remove extra spaces
 	query = strings.Join(strings.Fields(query), " ")
+	query = strings.TrimSpace(query)
 
 	return query
 }
