@@ -1,10 +1,12 @@
 package torrents
 
 import (
-	"github.com/PuerkitoBio/goquery"
+	"fmt"
 	"net/url"
 	"os"
 	"testing"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 func TestSearchTorrentList(t *testing.T) {
@@ -40,7 +42,7 @@ func TestSearchTorrentList(t *testing.T) {
 	torrents := scraper.ParseSearchPage(doc)
 
 	for _, tt := range table {
-		t.Run(tt.out, func(t *testing.T) {
+		t.Run(fmt.Sprintf("%v", tt.in), func(t *testing.T) {
 
 			torrent, err := SearchTorrentList(torrents, tt.in)
 
@@ -66,8 +68,13 @@ func TestSearchTorrentList(t *testing.T) {
 
 			best, err := PickVideoTorrent(torrents, tt.in)
 
-			if tt.out != "" && (best == nil || err != nil) {
+			if tt.out != "" && err != nil {
 				t.Error(err)
+				return
+			}
+
+			if tt.out != "" && best == nil {
+				t.Error("torrent not found")
 				return
 			}
 

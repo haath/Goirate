@@ -36,7 +36,7 @@ func (f SearchFilters) MaxSizeKB() (int64, error) {
 
 // PickVideoTorrent functions similar to SearchTorrentList(), but instead returns the torrent with the best available video quality
 // with at least one seeder.
-func PickVideoTorrent(torrents []Torrent, filters *SearchFilters) (*Torrent, error) {
+func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, error) {
 
 	trnts, err := SearchVideoTorrentList(torrents, filters)
 
@@ -68,7 +68,7 @@ func PickVideoTorrent(torrents []Torrent, filters *SearchFilters) (*Torrent, err
 // SearchVideoTorrentList will find the first torrent in the list for each video quality, that also match the given filters.
 // Since it returns one torrent for each known quality, the MinQuality and MaxQuality of the given filters are ignored.
 // Returns nil if none are found.
-func SearchVideoTorrentList(torrents []Torrent, filters *SearchFilters) (map[VideoQuality]*Torrent, error) {
+func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[VideoQuality]*Torrent, error) {
 
 	trnts := make(map[VideoQuality]*Torrent)
 
@@ -106,7 +106,7 @@ func SearchVideoTorrentList(torrents []Torrent, filters *SearchFilters) (map[Vid
 }
 
 // SearchTorrentList will return the first torrent in the list that matches the given filters, returning nil if none is found.
-func SearchTorrentList(torrents []Torrent, filters *SearchFilters) (*Torrent, error) {
+func SearchTorrentList(torrents []Torrent, filters SearchFilters) (*Torrent, error) {
 
 	maxSize, err := filters.MaxSizeKB()
 
@@ -131,8 +131,8 @@ func SearchTorrentList(torrents []Torrent, filters *SearchFilters) (*Torrent, er
 			continue
 		}
 
-		if (filters.MinQuality != "" && t.VideoQuality.WorseThan(filters.MinQuality)) ||
-			(filters.MaxQuality != "" && t.VideoQuality.BetterThan(filters.MaxQuality)) {
+		if (filters.MinQuality != "" && filters.MinQuality != Default && t.VideoQuality.WorseThan(filters.MinQuality)) ||
+			(filters.MaxQuality != "" && filters.MaxQuality != Default && t.VideoQuality.BetterThan(filters.MaxQuality)) {
 			continue
 		}
 

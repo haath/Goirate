@@ -110,7 +110,7 @@ func getTorrent(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilte
 		return nil, err
 	}
 
-	return torrents.PickVideoTorrent(titleFiltered, filters)
+	return torrents.PickVideoTorrent(titleFiltered, *filters)
 }
 
 func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
@@ -137,7 +137,7 @@ func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilt
 
 	}
 
-	perQuality, err := torrents.SearchVideoTorrentList(titleFiltered, filters)
+	perQuality, err := torrents.SearchVideoTorrentList(titleFiltered, *filters)
 
 	if err != nil {
 		return nil, err

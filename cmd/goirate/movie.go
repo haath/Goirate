@@ -57,19 +57,13 @@ func (m *MovieCommand) Execute(args []string) error {
 		return err
 	}
 
-	topTorrent, err := movie.GetTorrent(scraper, filters)
-
-	if err != nil {
-		return err
-	}
-
-	perQualityTorrents, err := movie.GetTorrents(scraper, filters)
-
-	if err != nil {
-		return err
-	}
-
 	if Options.JSON {
+
+		perQualityTorrents, err := movie.GetTorrents(scraper, filters)
+
+		if err != nil {
+			return err
+		}
 
 		movieObj := struct {
 			movies.Movie
@@ -87,47 +81,57 @@ func (m *MovieCommand) Execute(args []string) error {
 
 		log.Println(string(movieJSON))
 
-	} else if m.MagnetLink {
-
-		log.Println(topTorrent.Magnet)
-
-	} else if m.TorrentURL {
-
-		log.Println(topTorrent.FullURL())
-
 	} else {
 
-		log.Printf("%v\n\n", movie.Title)
+		topTorrent, err := movie.GetTorrent(scraper, filters)
 
-		if movie.AltTitle != "" {
-			log.Printf("Orig. Title:\t%v\n", movie.AltTitle)
+		if err != nil {
+			return err
 		}
 
-		log.Printf("IMDbID:\t\t%v\n", movie.IMDbID)
-		log.Printf("Year:\t\t%v\n", movie.Year)
-		log.Printf("Rating:\t\t%v\n", movie.Rating)
+		if m.MagnetLink {
 
-		if movie.FormattedDuration() != "" {
-			log.Printf("Duration:\t%v\n", movie.FormattedDuration())
-		}
+			log.Println(topTorrent.Magnet)
 
-		if movie.PosterURL != "" {
-			log.Printf("Poster:\t\t%v\n", movie.PosterURL)
-		}
+		} else if m.TorrentURL {
 
-		log.Println("")
+			log.Println(topTorrent.FullURL())
 
-		if topTorrent == nil {
-			log.Println("No torrent found")
 		} else {
 
-			log.Println(topTorrent.Title)
+			log.Printf("%v\n\n", movie.Title)
 
-			log.Printf("URL:\t\t%v\n", topTorrent.FullURL())
-			log.Printf("Seeds/Peers:\t%v\n", topTorrent.PeersString())
-			log.Printf("Size:\t\t%v\n", topTorrent.SizeString())
-			log.Printf("Trusted:\t%v\n", topTorrent.VerifiedUploader)
-			log.Printf("Magnet:\n%v\n", topTorrent.Magnet)
+			if movie.AltTitle != "" {
+				log.Printf("Orig. Title:\t%v\n", movie.AltTitle)
+			}
+
+			log.Printf("IMDbID:\t\t%v\n", movie.IMDbID)
+			log.Printf("Year:\t\t%v\n", movie.Year)
+			log.Printf("Rating:\t\t%v\n", movie.Rating)
+
+			if movie.FormattedDuration() != "" {
+				log.Printf("Duration:\t%v\n", movie.FormattedDuration())
+			}
+
+			if movie.PosterURL != "" {
+				log.Printf("Poster:\t\t%v\n", movie.PosterURL)
+			}
+
+			log.Println("")
+
+			if topTorrent == nil {
+				log.Println("No torrent found")
+			} else {
+
+				log.Println(topTorrent.Title)
+
+				log.Printf("URL:\t\t%v\n", topTorrent.FullURL())
+				log.Printf("Seeds/Peers:\t%v\n", topTorrent.PeersString())
+				log.Printf("Size:\t\t%v\n", topTorrent.SizeString())
+				log.Printf("Trusted:\t%v\n", topTorrent.VerifiedUploader)
+				log.Printf("Magnet:\n%v\n", topTorrent.Magnet)
+			}
+
 		}
 
 	}

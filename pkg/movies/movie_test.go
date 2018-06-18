@@ -1,8 +1,9 @@
 package movies
 
 import (
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 )
 
 func TestGetURL(t *testing.T) {
@@ -66,7 +67,7 @@ func TestGetTorrent(t *testing.T) {
 	for _, tt := range table {
 		t.Run(tt.in.Title, func(t *testing.T) {
 
-			tor, err := tt.in.GetTorrent(*scraper, filters)
+			tor, err := tt.in.GetTorrent(scraper, &filters)
 
 			if err != nil {
 				t.Error(err)
