@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"log"
+
 	"git.gmantaos.com/haath/Goirate/pkg/movies"
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
-	"log"
 )
 
 // MovieCommand defines the movie command and holds its options.
@@ -23,6 +24,10 @@ type moviePositionalArgs struct {
 
 // Execute is the callback of the movie command.
 func (m *MovieCommand) Execute(args []string) error {
+
+	if !m.ValidOutputFlags() {
+		return errors.New("too many flags specifying the kind of output")
+	}
 
 	var movie *movies.Movie
 	var err error
@@ -45,15 +50,50 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	}
 
+	scraper, err := m.GetScraper()
+	filters := &m.SearchFilters
+
+	if err != nil {
+		return err
+	}
+
+	topTorrent, err := movie.GetTorrent(scraper, filters)
+
+	if err != nil {
+		return err
+	}
+
+	perQualityTorrents, err := movie.GetTorrents(scraper, filters)
+
+	if err != nil {
+		return err
+	}
+
 	if Options.JSON {
 
-		movieJSON, err := json.MarshalIndent(movie, "", "   ")
+		movieObj := struct {
+			movies.Movie
+			Torrents []torrents.Torrent `json:"torrents"`
+		}{
+			*movie,
+			perQualityTorrents,
+		}
+
+		movieJSON, err := json.MarshalIndent(movieObj, "", "   ")
 
 		if err != nil {
 			return err
 		}
 
 		log.Println(string(movieJSON))
+
+	} else if m.MagnetLink {
+
+		log.Println(topTorrent.Magnet)
+
+	} else if m.TorrentURL {
+
+		log.Println(topTorrent.FullURL())
 
 	} else {
 
@@ -73,6 +113,21 @@ func (m *MovieCommand) Execute(args []string) error {
 
 		if movie.PosterURL != "" {
 			log.Printf("Poster:\t\t%v\n", movie.PosterURL)
+		}
+
+		log.Println("")
+
+		if topTorrent == nil {
+			log.Println("No torrent found")
+		} else {
+
+			log.Println(topTorrent.Title)
+
+			log.Printf("URL:\t\t%v\n", topTorrent.FullURL())
+			log.Printf("Seeds/Peers:\t%v\n", topTorrent.PeersString())
+			log.Printf("Size:\t\t%v\n", topTorrent.SizeString())
+			log.Printf("Trusted:\t%v\n", topTorrent.VerifiedUploader)
+			log.Printf("Magnet:\n%v\n", topTorrent.Magnet)
 		}
 
 	}

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
-	"log"
 )
 
 // Options holds the command line options for the cli program

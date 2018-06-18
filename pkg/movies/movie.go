@@ -3,9 +3,10 @@ package movies
 import (
 	"bytes"
 	"fmt"
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"net/url"
 	"strings"
+
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 )
 
 // MovieID holds the defining properties of an IMDb movie as they appear in search results.
@@ -57,7 +58,7 @@ func (m Movie) FormattedDuration() string {
 }
 
 // GetTorrent will search The Pirate Bay and return the best torrent that complies with the given filters.
-func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) (*torrents.Torrent, error) {
+func (m Movie) GetTorrent(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters) (*torrents.Torrent, error) {
 
 	torrent, err := getTorrent(scraper, filters, m.Title, m.Year)
 
@@ -80,7 +81,7 @@ func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.Sea
 
 // GetTorrents will search The Pirate Bay for torrents of this movie that comply with the given filters.
 // It will return one torrent for each video quality.
-func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) ([]torrents.Torrent, error) {
+func (m Movie) GetTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters) ([]torrents.Torrent, error) {
 
 	trnts, err := getTorrents(scraper, filters, m.Title, m.Year)
 
@@ -101,7 +102,7 @@ func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.Se
 	return trnts, nil
 }
 
-func getTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, title string, year uint) (*torrents.Torrent, error) {
+func getTorrent(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) (*torrents.Torrent, error) {
 
 	titleFiltered, err := getTorrents(scraper, filters, title, year)
 
@@ -112,11 +113,11 @@ func getTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters
 	return torrents.PickVideoTorrent(titleFiltered, filters)
 }
 
-func getTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
+func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
 
 	title = strings.ToLower(title)
 
-	trnts, err := scraper.Search(title)
+	trnts, err := (*scraper).Search(title)
 
 	if err != nil {
 		return nil, err
@@ -136,5 +137,16 @@ func getTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilter
 
 	}
 
-	return titleFiltered, nil
+	perQuality, err := torrents.SearchVideoTorrentList(titleFiltered, filters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var perQualitySlice []torrents.Torrent
+	for _, value := range perQuality {
+		perQualitySlice = append(perQualitySlice, *value)
+	}
+
+	return perQualitySlice, nil
 }
