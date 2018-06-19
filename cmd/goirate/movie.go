@@ -91,9 +91,17 @@ func (m *MovieCommand) Execute(args []string) error {
 
 		if m.MagnetLink {
 
+			if topTorrent == nil {
+				return errors.New("no torrent found")
+			}
+
 			log.Println(topTorrent.Magnet)
 
 		} else if m.TorrentURL {
+
+			if topTorrent == nil {
+				return errors.New("no torrent found")
+			}
 
 			log.Println(topTorrent.FullURL())
 
