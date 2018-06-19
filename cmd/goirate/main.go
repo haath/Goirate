@@ -78,6 +78,7 @@ func (a *torrentSearchArgs) ValidOutputFlags() bool {
 func main() {
 
 	log.SetFlags(0)
+	log.SetOutput(os.Stdout)
 
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
 
