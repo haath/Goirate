@@ -3,12 +3,13 @@ package movies
 import (
 	"errors"
 	"fmt"
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
-	"github.com/PuerkitoBio/goquery"
 	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"github.com/PuerkitoBio/goquery"
 )
 
 // BaseURL is the base for IMDb URLS.
@@ -33,8 +34,14 @@ func FormatIMDbID(id string) (string, error) {
 }
 
 // IsIMDbID returns true if the string is in a valid IMDbID format.
-func IsIMDbID(id string) bool {
-	_, err := FormatIMDbID(id)
+func IsIMDbID(str string) bool {
+	_, err := FormatIMDbID(str)
+	return err == nil
+}
+
+// IsIMDbURL returns true if the string is in a valid IMDb URL.
+func IsIMDbURL(str string) bool {
+	_, err := ExtractIMDbID(str)
 	return err == nil
 }
 

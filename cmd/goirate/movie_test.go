@@ -24,17 +24,33 @@ func TestMovieExecute(t *testing.T) {
 	err := cmd.Execute([]string{})
 
 	if err == nil {
-		t.Errorf("Expected error")
+		t.Errorf("expected error")
 	}
 
 	Options.JSON = false
 
-	CaptureCommand(func() { cmd.Execute(nil) })
+	err = cmd.Execute(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	cmd.MagnetLink = false
 	cmd.Args.Query = "0848228"
 
-	CaptureCommand(func() { cmd.Execute(nil) })
+	err = cmd.Execute(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	cmd.Args.Query = "https://www.imdb.com/title/tt0315983/"
+
+	err = cmd.Execute(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
 }
 
 func TestFindMovie(t *testing.T) {
