@@ -1,6 +1,7 @@
 package torrents
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -15,7 +16,7 @@ type Torrent struct {
 	VerifiedUploader bool         `json:"verified_uploader"`
 	VideoQuality     VideoQuality `json:"video_quality"`
 	MirrorURL        string       `json:"mirror_url"`
-	TorrentURL       string       `json:"torrent_url"`
+	TorrentURL       string       `json:"torrent_path"`
 	Magnet           string       `json:"magnet"`
 	UploadTime       time.Time    `json:"upload_time"`
 	Uploader         string       `json:"uploader"`
@@ -45,4 +46,19 @@ func (t Torrent) SizeString() string {
 		exp++
 	}
 	return fmt.Sprintf("%.1f %cB", float64(sizeBytes)/float64(div), "KMGTPE"[exp])
+}
+
+// MarshalJSON will override the json marshalling process so as to include the torrent's full url and its size in human readable format.
+func (t *Torrent) MarshalJSON() ([]byte, error) {
+	type Alias Torrent
+
+	return json.Marshal(&struct {
+		SizeString string `json:"size_string"`
+		URL        string `json:"url"`
+		*Alias
+	}{
+		SizeString: t.SizeString(),
+		URL:        t.FullURL(),
+		Alias:      (*Alias)(t),
+	})
 }
