@@ -58,7 +58,7 @@ func (m *MirrorScraper) PickMirror() (*Mirror, error) {
 		return nil, err
 	}
 
-	return pickMirror(mirrors)
+	return pickMirror(mirrors, true)
 }
 
 func parseMirrors(doc *goquery.Document) []Mirror {
@@ -90,12 +90,12 @@ func parseLoadTime(speedTitle string) float32 {
 	return 0.0
 }
 
-func pickMirror(mirrors []Mirror) (*Mirror, error) {
+func pickMirror(mirrors []Mirror, trustSource bool) (*Mirror, error) {
 
 	// Return the first mirror that responds to HTTP GET
 	for _, mirror := range mirrors {
 
-		if !mirror.Status {
+		if !mirror.Status && trustSource {
 			continue
 		}
 
@@ -106,6 +106,10 @@ func pickMirror(mirrors []Mirror) (*Mirror, error) {
 		if err == nil {
 			return &mirror, nil
 		}
+	}
+
+	if trustSource {
+		return pickMirror(mirrors, false)
 	}
 
 	return nil, errors.New("all Pirate Bay proxies seem to be unreachable")

@@ -33,7 +33,7 @@ func HTTPGet(url string) (*goquery.Document, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("http status code: %v", res.StatusCode)
+		return nil, fmt.Errorf("http: %v -> %v", url, res.StatusCode)
 	}
 
 	// Load the HTML document
