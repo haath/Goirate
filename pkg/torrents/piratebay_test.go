@@ -19,16 +19,6 @@ var urlTests = []struct {
 	{"https://localhost:8080/", "https://localhost:8080/"},
 }
 
-var searchTests = []struct {
-	in  string
-	out string
-}{
-	{"test", "https://pirateproxy.sh/search/test"},
-	{"one two", "https://pirateproxy.sh/search/one+two"},
-	{"one'two", "https://pirateproxy.sh/search/one+two"},
-	{"one!", "https://pirateproxy.sh/search/one"},
-}
-
 var videoQualityTests = []struct {
 	in  string
 	out VideoQuality
@@ -61,6 +51,17 @@ func TestFindScraper(t *testing.T) {
 }
 
 func TestSearchURL(t *testing.T) {
+
+	searchTests := []struct {
+		in  string
+		out string
+	}{
+		{"test", "https://pirateproxy.sh/search/test/1/99/0"},
+		{"one two", "https://pirateproxy.sh/search/one+two/1/99/0"},
+		{"one'two", "https://pirateproxy.sh/search/one+two/1/99/0"},
+		{"one!", "https://pirateproxy.sh/search/one/1/99/0"},
+	}
+
 	for _, tt := range searchTests {
 		t.Run(tt.in, func(t *testing.T) {
 			s := NewScraper("https://pirateproxy.sh/")

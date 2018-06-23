@@ -39,8 +39,11 @@ func (a torrentSearchArgs) GetScraper() (*torrents.PirateBayScaper, error) {
 	var scraper torrents.PirateBayScaper
 
 	if a.Mirror != "" {
+
 		scraper = torrents.NewScraper(a.Mirror)
+
 	} else {
+
 		var mirrorScraper torrents.MirrorScraper
 
 		if a.SourceURL != "" {

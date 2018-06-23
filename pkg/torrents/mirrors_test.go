@@ -95,7 +95,7 @@ func TestPickMirror(t *testing.T) {
 	}
 
 	mirrors := parseMirrors(doc)
-	mirror, err := pickMirror(mirrors)
+	mirror, err := pickMirror(mirrors, true)
 
 	if err != nil {
 		t.Error(err)

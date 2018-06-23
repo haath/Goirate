@@ -101,10 +101,16 @@ func pickMirror(mirrors []Mirror, trustSource bool) (*Mirror, error) {
 
 		scraper := NewScraper(mirror.URL)
 
-		_, err := utils.HTTPGet(scraper.SearchURL("ubuntu"))
+		doc, err := utils.HTTPGet(scraper.SearchURL("ubuntu"))
 
 		if err == nil {
-			return &mirror, nil
+
+			torrents := scraper.ParseSearchPage(doc)
+
+			if len(torrents) > 0 {
+				return &mirror, nil
+			}
+
 		}
 	}
 
