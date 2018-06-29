@@ -41,7 +41,7 @@ build-armhf:
   script:
     - make build
     - ./build/goirate --version
-    - ./scripts/publish armhf
+    - ./scripts/publish.sh armhf
     - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: goirate.armhf
@@ -58,7 +58,7 @@ build-aarch64:
   script:
     - make build
     - ./build/goirate --version
-    - ./scripts/publish aarch64
+    - ./scripts/publish.sh aarch64
     - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: goirate.aarch64
@@ -74,7 +74,7 @@ build-win64:
   script:
     - make build
     - ./build/goirate --version
-    - ./scripts/publish win64
+    - ./scripts/publish.sh win64
     - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: goirate.win64
