@@ -42,6 +42,7 @@ build-armhf:
     - make build
     - ./build/goirate --version
     - mv build/* ${CI_PROJECT_DIR}/
+    - curl -T goirate -ugmantaos:$BINTRAY_API_KEY https://api.bintray.com/content/gmantaos/Goirate/armhf/$CI_COMMIT_TAG/goirate
   artifacts:
     name: goirate.armhf
     paths:
