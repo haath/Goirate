@@ -11,7 +11,6 @@ install: dep patch ## Compile and install the binary at $GOPATH/bin
 	go install ./cmd/goirate
 
 patch:
-	@chmod +x ./scripts/patch.sh
 	@./scripts/patch.sh;
 
 lint: dep ## Verifies the code through lint, fmt and vet
@@ -26,7 +25,6 @@ test: dep ## Run unit tests
 	@go test -short ${PKG_LIST}
 
 test-cov: dep ## Run unit tests and generate code coverage
-	@chmod +x ./scripts/test.sh
 	@./scripts/test.sh;
 
 compile: ## Compile the binary file
