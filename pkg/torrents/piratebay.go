@@ -234,19 +234,29 @@ func extractUploadTime(description string) time.Time {
 	r, _ = regexp.Compile(`Uploaded\s*Y-day\s*(\d\d):(\d\d)`)
 	m = r.FindStringSubmatch(description)
 
-	if len(m) == 0 {
-		log.Printf("Failed at parsing size from: %v\n", description)
+	if len(m) > 0 {
+		yday := time.Now().AddDate(0, 0, -1)
+
+		day := yday.Day()
+		month := yday.Month()
+		hour, _ := strconv.Atoi(m[1])
+		minute, _ := strconv.Atoi(m[2])
+		year := yday.Year()
+
+		return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
 	}
 
-	yday := time.Now().AddDate(0, 0, -1)
+	r, _ = regexp.Compile(`Uploaded\s*(\d+)\s*mins\s*ago`)
+	m = r.FindStringSubmatch(description)
 
-	day := yday.Day()
-	month := yday.Month()
-	hour, _ := strconv.Atoi(m[1])
-	minute, _ := strconv.Atoi(m[2])
-	year := yday.Year()
+	if len(m) == 0 {
+		log.Printf("Failed at parsing date from: %v\n", description)
+	}
 
-	return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.UTC)
+	minutes, _ := strconv.Atoi(m[1])
+	minAgo := time.Now().Add(time.Duration((-minutes) * int(time.Minute)))
+
+	return minAgo
 }
 
 func extractVideoQuality(title string) VideoQuality {

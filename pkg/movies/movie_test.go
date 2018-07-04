@@ -58,14 +58,15 @@ func TestGetTorrent(t *testing.T) {
 	}
 
 	filters := torrents.SearchFilters{}
-	scraper, err := torrents.FindScraper()
-
-	if err != nil {
-		t.Error(err)
-	}
 
 	for _, tt := range table {
 		t.Run(tt.in.Title, func(t *testing.T) {
+
+			scraper, err := torrents.FindScraper(tt.in.SearchQuery())
+
+			if err != nil {
+				t.Error(err)
+			}
 
 			tor, err := tt.in.GetTorrent(scraper, &filters)
 

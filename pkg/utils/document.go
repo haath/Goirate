@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -39,7 +38,6 @@ func HTTPGet(url string) (*goquery.Document, error) {
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		log.Printf("Error parsing html: %v\n", err)
 		return doc, err
 	}
 

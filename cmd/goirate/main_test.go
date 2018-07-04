@@ -29,7 +29,7 @@ func TestGetScraper(t *testing.T) {
 	for _, tt := range table {
 		t.Run(tt.outURL, func(t *testing.T) {
 			cmd := tt.in
-			scraper, err := cmd.GetScraper()
+			scraper, err := cmd.GetScraper("ubuntu")
 
 			if !tt.outError && err != nil {
 				t.Error(err)

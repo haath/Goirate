@@ -142,6 +142,10 @@ func TestExtractSize(t *testing.T) {
 }
 
 func TestExtractUploadTime(t *testing.T) {
+
+	yday := time.Now().AddDate(0, 0, -1)
+	minago := time.Now().Add(time.Duration(-50 * int(time.Minute)))
+
 	table := []struct {
 		in     string
 		year   int
@@ -155,7 +159,8 @@ func TestExtractUploadTime(t *testing.T) {
 		{"Uploaded 10-12 2008, Size 740.35 KiB, ULed by my_name_is_bob", 2008, time.October, 12, 0, 0},
 		{" Uploaded 04-27 20:41, Size 788.25 MiB, ULed by shmasti", time.Now().Year(), time.April, 27, 20, 41},
 		{"Uploaded Today 08:05, Size 1.62 GiB, ULedbyAnonymous", time.Now().Year(), time.Now().Month(), time.Now().Day(), 8, 5},
-		{"Uploaded Y-day 08:05, Size 1.62 GiB, ULedbyAnonymous", time.Now().AddDate(0, 0, -1).Year(), time.Now().AddDate(0, 0, -1).Month(), time.Now().AddDate(0, 0, -1).Day(), 8, 5},
+		{"Uploaded Y-day 08:05, Size 1.62 GiB, ULedbyAnonymous", yday.Year(), yday.Month(), yday.Day(), 8, 5},
+		{"Uploaded 50 mins ago, Size 1.62 GiB, ULedbyAnonymous", minago.Year(), minago.Month(), minago.Day(), minago.Hour(), minago.Minute()},
 	}
 	for _, tt := range table {
 		t.Run(tt.in, func(t *testing.T) {

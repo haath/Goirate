@@ -1,8 +1,9 @@
 package movies
 
 import (
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 )
 
 func TestFormatIMDbID(t *testing.T) {
@@ -230,7 +231,7 @@ func TestGetMovie(t *testing.T) {
 				t.Error(err)
 			}
 
-			if *movie != tt.out {
+			if movie == nil || *movie != tt.out {
 				t.Errorf("got %v, want %v", movie, tt.out)
 			}
 		})
