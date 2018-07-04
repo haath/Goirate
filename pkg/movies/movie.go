@@ -103,6 +103,11 @@ func (m Movie) GetTorrents(scraper *torrents.PirateBayScaper, filters *torrents.
 	return trnts, nil
 }
 
+// SearchQuery returns the normalized title of the movie, as it will be used when searching for torrents.
+func (m Movie) SearchQuery() string {
+	return utils.NormalizeQuery(m.Title)
+}
+
 func getTorrent(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) (*torrents.Torrent, error) {
 
 	titleFiltered, err := getTorrents(scraper, filters, title, year)

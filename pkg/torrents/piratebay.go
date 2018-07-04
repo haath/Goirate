@@ -43,10 +43,10 @@ func NewScraper(mirrorURL string) PirateBayScaper {
 
 // FindScraper will use the default MirrorScraper to find a suitable Pirate Bay mirror,
 // then return a scraper for that mirror.
-func FindScraper() (*PirateBayScaper, error) {
+func FindScraper(query string) (*PirateBayScaper, error) {
 	var mirrorScraper MirrorScraper
 
-	mirror, err := mirrorScraper.PickMirror()
+	mirror, err := mirrorScraper.PickMirror(query)
 
 	if err != nil {
 		return nil, err

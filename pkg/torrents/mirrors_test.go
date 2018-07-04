@@ -1,11 +1,12 @@
 package torrents
 
 import (
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
-	"github.com/PuerkitoBio/goquery"
 	"net/url"
 	"os"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"github.com/PuerkitoBio/goquery"
 )
 
 func TestMirrorScraper(t *testing.T) {
@@ -67,7 +68,7 @@ func TestGetAndPickMirror(t *testing.T) {
 
 	var scraper MirrorScraper
 
-	mirror, err := scraper.PickMirror()
+	mirror, err := scraper.PickMirror("ubuntu")
 
 	if err != nil {
 		t.Error(err)
@@ -95,7 +96,7 @@ func TestPickMirror(t *testing.T) {
 	}
 
 	mirrors := parseMirrors(doc)
-	mirror, err := pickMirror(mirrors, true)
+	mirror, err := pickMirror(mirrors, "ubuntu", true)
 
 	if err != nil {
 		t.Error(err)

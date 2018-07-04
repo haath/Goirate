@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"log"
+
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
-	"log"
 )
 
 // SearchCommand defines the search command and holds its options.
@@ -23,7 +24,7 @@ func (m *SearchCommand) Execute(args []string) error {
 		return errors.New("too many flags specifying the kind of output")
 	}
 
-	scraper, err := m.GetScraper()
+	scraper, err := m.GetScraper(m.Args.Query)
 
 	if err != nil {
 		return err

@@ -43,7 +43,7 @@ func TestNewScraper(t *testing.T) {
 }
 
 func TestFindScraper(t *testing.T) {
-	_, err := FindScraper()
+	_, err := FindScraper("ubuntu")
 
 	if err != nil {
 		t.Error(err)
@@ -180,7 +180,7 @@ func TestExtractVideoQuality(t *testing.T) {
 
 func TestSearch(t *testing.T) {
 
-	scraper, err := FindScraper()
+	scraper, err := FindScraper("Windows 10")
 
 	if err != nil {
 		t.Errorf("Error finding scraper: %v\n", err)

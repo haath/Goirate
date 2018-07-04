@@ -60,7 +60,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	}
 
-	scraper, err := m.GetScraper()
+	scraper, err := m.GetScraper(movie.SearchQuery())
 	filters := &m.SearchFilters
 
 	if err != nil {

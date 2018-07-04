@@ -2,10 +2,11 @@ package torrents
 
 import (
 	"errors"
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
-	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strconv"
+
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"github.com/PuerkitoBio/goquery"
 )
 
 const defaultProxySourceURL string = "https://proxybay.github.io/"
@@ -51,14 +52,14 @@ func (m *MirrorScraper) GetMirrors() ([]Mirror, error) {
 }
 
 // PickMirror fetches all available Pirate Bay mirrors and picks the the fastest one available.
-func (m *MirrorScraper) PickMirror() (*Mirror, error) {
+func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
 	mirrors, err := m.GetMirrors()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return pickMirror(mirrors, true)
+	return pickMirror(mirrors, query, true)
 }
 
 func parseMirrors(doc *goquery.Document) []Mirror {
@@ -90,7 +91,7 @@ func parseLoadTime(speedTitle string) float32 {
 	return 0.0
 }
 
-func pickMirror(mirrors []Mirror, trustSource bool) (*Mirror, error) {
+func pickMirror(mirrors []Mirror, query string, trustSource bool) (*Mirror, error) {
 
 	// Return the first mirror that responds to HTTP GET
 	for _, mirror := range mirrors {
@@ -101,7 +102,7 @@ func pickMirror(mirrors []Mirror, trustSource bool) (*Mirror, error) {
 
 		scraper := NewScraper(mirror.URL)
 
-		doc, err := utils.HTTPGet(scraper.SearchURL("ubuntu"))
+		doc, err := utils.HTTPGet(scraper.SearchURL(query))
 
 		if err == nil {
 
@@ -115,7 +116,7 @@ func pickMirror(mirrors []Mirror, trustSource bool) (*Mirror, error) {
 	}
 
 	if trustSource {
-		return pickMirror(mirrors, false)
+		return pickMirror(mirrors, query, false)
 	}
 
 	return nil, errors.New("all Pirate Bay proxies seem to be unreachable")
