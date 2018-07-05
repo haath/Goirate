@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PUBLISH_URL="https://api.bintray.com/content/gmantaos/Goirate/$1/$CI_COMMIT_TAG/$CI_COMMIT_TAG/goirate-$1?publish=1"
+PUBLISH_URL="https://api.bintray.com/content/gmantaos/Goirate/$1/$CI_COMMIT_TAG/goirate-$1?publish=1"
 
 echo $PUBLISH_URL
 

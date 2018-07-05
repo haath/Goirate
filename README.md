@@ -1,4 +1,4 @@
-![Logo](assets/logo.png)
+![Logo](assets/logo.png)_latestVersion
 
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
 
@@ -17,6 +17,13 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
     - [ ] New series episodes
     - [ ] E-mail notifications
     - [ ] Automatic downloads
+
+## Download
+
+| | |
+|-|-|
+| armhf | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/armhf/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-armhf) |
+| aarch64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/aarch64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-aarch64) |
 
 ## ⚓ Command line tool
 
