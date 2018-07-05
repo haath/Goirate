@@ -144,7 +144,7 @@ func TestExtractSize(t *testing.T) {
 func TestExtractUploadTime(t *testing.T) {
 
 	yday := time.Now().AddDate(0, 0, -1)
-	minago := time.Now().Add(time.Duration(-50 * int(time.Minute)))
+	minago := time.Now().Add(time.Duration(-50) * time.Minute)
 
 	table := []struct {
 		in     string

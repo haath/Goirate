@@ -254,7 +254,7 @@ func extractUploadTime(description string) time.Time {
 	}
 
 	minutes, _ := strconv.Atoi(m[1])
-	minAgo := time.Now().Add(time.Duration((-minutes) * int(time.Minute)))
+	minAgo := time.Now().Add(time.Duration(-minutes) * time.Minute)
 
 	return minAgo
 }
