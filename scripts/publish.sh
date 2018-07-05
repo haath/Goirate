@@ -5,3 +5,5 @@ PUBLISH_URL="https://api.bintray.com/content/gmantaos/Goirate/$1/$CI_COMMIT_TAG/
 echo $PUBLISH_URL
 
 curl -T build/goirate -ugmantaos:$BINTRAY_API_KEY $PUBLISH_URL
+
+echo ""
