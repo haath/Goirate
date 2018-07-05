@@ -2,8 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 )
 
 func TestMirrorsExecute(t *testing.T) {
@@ -11,14 +12,18 @@ func TestMirrorsExecute(t *testing.T) {
 	var cmd MirrorsCommand
 	Options.JSON = true
 
-	output := CaptureCommand(func() { cmd.Execute(nil) })
+	output, _ := CaptureCommand(cmd.Execute)
 
 	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
 
 	Options.JSON = false
 
-	CaptureCommand(func() { cmd.Execute(nil) })
+	_, err := CaptureCommand(cmd.Execute)
+
+	if err != nil {
+		t.Error(err)
+	}
 }
 
 func TestGetMirrorsTable(t *testing.T) {

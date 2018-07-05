@@ -4,6 +4,7 @@ import (
 	"errors"
 	"regexp"
 	"strconv"
+	"time"
 
 	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
@@ -51,7 +52,20 @@ func (m *MirrorScraper) GetMirrors() ([]Mirror, error) {
 	return parseMirrors(doc), nil
 }
 
-// PickMirror fetches all available Pirate Bay mirrors and picks the the fastest one available.
+// GetTorrents fetches all available Pirate Bay mirrors and returns the first Pirate Bay page that it finds.
+func (m *MirrorScraper) GetTorrents(query string) ([]Torrent, error) {
+	mirrors, err := m.GetMirrors()
+
+	if err != nil {
+		return nil, err
+	}
+
+	_, torrents, err := getTorrents(mirrors, query, true)
+
+	return torrents, err
+}
+
+// PickMirror fetches all available Pirate Bay mirrors and returns the first one that responds to HTTP get for the given query.
 func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
 	mirrors, err := m.GetMirrors()
 
@@ -59,7 +73,9 @@ func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
 		return nil, err
 	}
 
-	return pickMirror(mirrors, query, true)
+	mirror, _, err := getTorrents(mirrors, query, true)
+
+	return mirror, err
 }
 
 func parseMirrors(doc *goquery.Document) []Mirror {
@@ -91,33 +107,36 @@ func parseLoadTime(speedTitle string) float32 {
 	return 0.0
 }
 
-func pickMirror(mirrors []Mirror, query string, trustSource bool) (*Mirror, error) {
+func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []Torrent, error) {
 
-	// Return the first mirror that responds to HTTP GET
-	for _, mirror := range mirrors {
+	client := utils.HTTPClient{Timeout: 2 * time.Second}
 
-		if !mirror.Status && trustSource {
-			continue
-		}
+	for client.Timeout < 10*time.Second {
 
-		scraper := NewScraper(mirror.URL)
+		// Return the first mirror that responds to HTTP GET
+		for _, mirror := range mirrors {
 
-		doc, err := utils.HTTPGet(scraper.SearchURL(query))
-
-		if err == nil {
-
-			torrents := scraper.ParseSearchPage(doc)
-
-			if len(torrents) > 0 {
-				return &mirror, nil
+			if !mirror.Status && trustSource {
+				continue
 			}
 
+			scraper := NewScraper(mirror.URL)
+
+			torrents, err := scraper.Search(query)
+
+			if err == nil && len(torrents) > 0 {
+
+				return &mirror, torrents, nil
+
+			}
 		}
+
+		client.Timeout *= 2
 	}
 
 	if trustSource {
-		return pickMirror(mirrors, query, false)
+		return getTorrents(mirrors, query, false)
 	}
 
-	return nil, errors.New("all Pirate Bay proxies seem to be unreachable")
+	return nil, nil, errors.New("all Pirate Bay proxies seem to be unreachable")
 }

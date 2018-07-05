@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
 )
 
@@ -68,14 +67,14 @@ func TestGetAndPickMirror(t *testing.T) {
 
 	var scraper MirrorScraper
 
-	mirror, err := scraper.PickMirror("ubuntu")
+	torrents, err := scraper.GetTorrents("ubuntu")
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if mirror == nil || !mirror.Status {
-		t.Errorf("Fetched dead mirror %v\n", mirror)
+	if len(torrents) == 0 {
+		t.Errorf("fetched dead mirror")
 	}
 }
 
@@ -96,19 +95,15 @@ func TestPickMirror(t *testing.T) {
 	}
 
 	mirrors := parseMirrors(doc)
-	mirror, err := pickMirror(mirrors, "ubuntu", true)
+
+	_, torrents, err := getTorrents(mirrors, "ubuntu", true)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	// The picked mirror should respond to HTTP get
-	scraper := NewScraper(mirror.URL)
-
-	_, err = utils.HTTPGet(scraper.SearchURL("call"))
-
-	if err != nil {
-		t.Error(err)
+	if len(torrents) == 0 {
+		t.Errorf("fetched dead mirror")
 	}
 }
 

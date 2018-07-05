@@ -2,11 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
-	"github.com/PuerkitoBio/goquery"
 	"os"
 	"strconv"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"github.com/PuerkitoBio/goquery"
 )
 
 func TestSearchExecute(t *testing.T) {
@@ -15,14 +16,14 @@ func TestSearchExecute(t *testing.T) {
 	cmd.Args.Query = "avengers"
 	Options.JSON = true
 
-	output := CaptureCommand(func() { cmd.Execute([]string{}) })
+	output, err := CaptureCommand(cmd.Execute)
 
 	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
 
 	cmd.MagnetLink = true
 
-	err := cmd.Execute([]string{})
+	output, err = CaptureCommand(cmd.Execute)
 
 	if err == nil {
 		t.Errorf("Expected error")
@@ -32,7 +33,7 @@ func TestSearchExecute(t *testing.T) {
 
 	cmd.SourceURL = "http://localhost"
 
-	err = cmd.Execute([]string{})
+	output, err = CaptureCommand(cmd.Execute)
 
 	if err == nil {
 		t.Errorf("Expected error")

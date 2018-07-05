@@ -62,6 +62,24 @@ func (a torrentSearchArgs) GetScraper(query string) (*torrents.PirateBayScaper, 
 	return &scraper, nil
 }
 
+func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error) {
+
+	if a.Mirror != "" {
+
+		scraper := torrents.NewScraper(a.Mirror)
+		return scraper.Search(query)
+
+	}
+
+	var mirrorScraper torrents.MirrorScraper
+
+	if a.SourceURL != "" {
+		mirrorScraper.SetProxySourceURL(a.SourceURL)
+	}
+
+	return mirrorScraper.GetTorrents(query)
+}
+
 func (a *torrentSearchArgs) ValidOutputFlags() bool {
 	outputFlags := 0
 

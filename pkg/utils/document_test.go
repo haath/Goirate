@@ -3,7 +3,7 @@ package utils
 import "testing"
 
 func TestHTTPGet(t *testing.T) {
-	_, err := HTTPGet("http://httpbin.org/ip")
+	_, err := HTTPGet("https://www.google.com/")
 
 	if err != nil {
 		t.Errorf("HTTPGet status code: %s", err.Error())

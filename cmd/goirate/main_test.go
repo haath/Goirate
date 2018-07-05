@@ -7,12 +7,12 @@ import (
 	"testing"
 )
 
-func CaptureCommand(cmd func()) string {
+func CaptureCommand(cmd func([]string) error) (string, error) {
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
-	cmd()
+	err := cmd(nil)
 	log.SetOutput(os.Stdout)
-	return buf.String()
+	return buf.String(), err
 }
 
 func TestGetScraper(t *testing.T) {
@@ -33,6 +33,12 @@ func TestGetScraper(t *testing.T) {
 
 			if !tt.outError && err != nil {
 				t.Error(err)
+				return
+			}
+
+			if !tt.outError && scraper == nil {
+				t.Error(err)
+				return
 			}
 
 			if !tt.outError && (*scraper).URL() != tt.outURL && tt.outURL != "" {

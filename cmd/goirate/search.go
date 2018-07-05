@@ -24,13 +24,7 @@ func (m *SearchCommand) Execute(args []string) error {
 		return errors.New("too many flags specifying the kind of output")
 	}
 
-	scraper, err := m.GetScraper(m.Args.Query)
-
-	if err != nil {
-		return err
-	}
-
-	torrents, err := (*scraper).Search(m.Args.Query)
+	torrents, err := m.GetTorrents(m.Args.Query)
 
 	if err != nil {
 		return err

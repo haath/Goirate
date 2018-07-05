@@ -2,8 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	imdb "git.gmantaos.com/haath/Goirate/pkg/movies"
 	"testing"
+
+	imdb "git.gmantaos.com/haath/Goirate/pkg/movies"
 )
 
 func TestIMDbExecute(t *testing.T) {
@@ -12,7 +13,7 @@ func TestIMDbExecute(t *testing.T) {
 	Options.JSON = true
 	cmd.Args.Query = "avengers"
 
-	output := CaptureCommand(func() { cmd.Execute(nil) })
+	output, _ := CaptureCommand(cmd.Execute)
 
 	var movies []imdb.MovieID
 	json.Unmarshal([]byte(output), &movies)

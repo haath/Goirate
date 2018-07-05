@@ -9,13 +9,18 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// HTTPGet fetches an HTTP url and returns a goquery.Document.
-// It will also set the appropriate headers to make sure the pages are returned in English.
-func HTTPGet(url string) (*goquery.Document, error) {
+// HTTPClient holds parameters for performing HTTP requests in the library.
+type HTTPClient struct {
+	// Timeout is the time limit for requests.
+	Timeout time.Duration
+}
 
-	timeout := time.Duration(5 * time.Second)
+// Get fetches an HTTP url and returns a goquery.Document.
+// It will also set the appropriate headers to make sure the pages are returned in English.
+func (c HTTPClient) Get(url string) (*goquery.Document, error) {
+
 	client := http.Client{
-		Timeout: timeout,
+		Timeout: c.Timeout,
 	}
 
 	req, _ := http.NewRequest("GET", url, nil)
@@ -42,6 +47,13 @@ func HTTPGet(url string) (*goquery.Document, error) {
 	}
 
 	return doc, err
+}
+
+// HTTPGet fetches an HTTP url and returns a goquery.Document.
+// It will also set the appropriate headers to make sure the pages are returned in English.
+func HTTPGet(url string) (*goquery.Document, error) {
+	var client HTTPClient
+	return client.Get(url)
 }
 
 // GetFileDocument opens an HTML file and returns a GoQuery document from that file.
