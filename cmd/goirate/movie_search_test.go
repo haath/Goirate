@@ -7,9 +7,9 @@ import (
 	imdb "git.gmantaos.com/haath/Goirate/pkg/movies"
 )
 
-func TestIMDbExecute(t *testing.T) {
+func TestMovieSearchExecute(t *testing.T) {
 
-	var cmd IMDbCommand
+	var cmd MovieSearchCommand
 	Options.JSON = true
 	cmd.Args.Query = "avengers"
 

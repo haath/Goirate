@@ -11,15 +11,14 @@ import (
 // Options holds the command line options for the cli program
 var Options struct {
 	// Options
-	Verbose bool   `short:"v" long:"verbose" description:"Show more information."`
 	JSON    bool   `short:"j" long:"json" description:"Output in JSON format."`
 	Version func() `long:"version" description:"Show the current version."`
 
 	// Commands
-	Mirrors MirrorsCommand `command:"mirrors" description:"Get a list of PirateBay mirrors."`
-	Search  SearchCommand  `command:"search" alias:"s" description:"Search for torrents."`
-	Movie   MovieCommand   `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
-	IMDb    IMDbCommand    `command:"imdb" description:"Search IMDb for movies to retrieve their IMDbID."`
+	Mirrors     MirrorsCommand     `command:"mirrors" description:"Get a list of PirateBay mirrors."`
+	Search      SearchCommand      `command:"search" alias:"s" description:"Search for torrents."`
+	Movie       MovieCommand       `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
+	MovieSearch MovieSearchCommand `command:"movie-search" description:"Search IMDb for movies to retrieve their IMDbID and release year."`
 }
 
 type torrentSearchArgs struct {

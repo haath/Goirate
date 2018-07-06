@@ -27,9 +27,23 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 
 ## ⚓ Command line tool
 
+### Torrents
+
 The primary source of this tool's torrents is The Pirate Bay.
 
-### Mirrors
+Commands that search for torrents support the following options.
+
+| | |
+|-|-|
+| `-j`, `--json` | Output JSON |
+| `--mirror "https://pirateproxy.sh/"` | Use a specific pirate bay mirror |
+| `--source "https://proxybay.bz/"` | Override default mirror list |
+| `--trusted` | Only return torrents whose uploader is either Trusted or VIP |
+| `--only-magnet` | Only output magnet links, one on each line |
+| `--only-url` | Only output torrent urls, one on each line |
+| `-c 7`, `--count 7` | Limit the number of results |
+
+#### Pirate Bay mirrors
 
 To get a list of The Pirate Bay mirrors, use the `goirate mirrors` command.
 
@@ -81,7 +95,7 @@ $ goirate mirrors --json
 ```
 
 
-### Torrents
+#### Searching for torrents
 
 ```shell
 $ goirate search "debian"
@@ -101,14 +115,74 @@ $ goirate search "debian"
 ---------------------------------------------------------------------------------------------------------------------------------
 ```
 
-Additional available options
+## Movies
 
-| | |
-|-|-|
-| `-j`, `--json` | Output JSON |
-| `--mirror "https://pirateproxy.sh/"` | Use a specific pirate bay mirror |
-| `--source "https://proxybay.bz/"` | Override default mirror list |
-| `--trusted` | Only return torrents whose uploader is either Trusted or VIP |
-| `--only-magnet` | Only output magnet links, one on each line |
-| `--only-url` | Only output torrent urls, one on each line |
-| `-c 7`, `--count 7` | Limit the number of results |
+This tool scrapes [IMDb.com](https://www.imdb.com/) for info on movies.
+
+
+
+#### Search
+
+You can fetch a movie - and torrents for it - in three ways.
+
+```sh
+# Using its IMDb url
+$ goirate movie "https://www.imdb.com/title/tt1028576/"
+Secretariat
+IMDbID:         1028576
+Year:           2010
+Rating:         7.1
+Duration:       2h 3min
+Poster:         https://m.media-amazon.com/images/M/MV5BMTgwNDkyMDU3NV5BMl5BanBnXkFtZTcwNjMyNjI4Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg
+
+Secretariat[2010]DvDrip-aXXo
+URL:            https://pirateproxy.mx/torrent/6092396/Secretariat[2010]DvDrip-aXXo
+Seeds/Peers:    1 / 1
+Size:           735.8 MB
+Trusted:        true
+Magnet:
+magnet:?xt=urn:btih:69f2bf2e35ecff6c22645f2e2a858a12b39cbda7&dn=Secretariat%5B2010%5DDvDrip-aXXo&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969
+```
+
+```sh
+# Equivalently, using its IMDb ID
+$ goirate movie "1028576"
+```
+
+```sh
+# Using a partial name
+$ goirate movie "avengers"
+The Avengers
+IMDbID:         0848228
+Year:           2012
+Rating:         8.1
+Duration:       2h 23min
+...
+```
+
+```sh
+# Using both a partial name and a release year to narrow down the search
+$ goirate movie -y 2018 "avengers"
+Avengers: Infinity War
+IMDbID:         4154756
+Year:           2018
+Rating:         8.6
+Duration:       2h 29min
+...
+```
+
+If you don't remember a movie's title or release year very accurately, you can also do a search.
+
+```sh
+$ goirate movie-search "harry potter" -c 4
+| IMDb ID |             Title              | Year |
+|---------|--------------------------------|------|
+| 0241527 |      Harry Potter and the      | 2001 |
+|         |        Sorcerer's Stone        |      |
+| 0330373 | Harry Potter and the Goblet of | 2005 |
+|         |              Fire              |      |
+| 0417741 |      Harry Potter and the      | 2009 |
+|         |       Half-Blood Prince        |      |
+| 1201607 |  Harry Potter and the Deathly  | 2011 |
+|         |        Hallows: Part 2         |      |
+```

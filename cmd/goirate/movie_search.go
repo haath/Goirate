@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
+
 	imdb "git.gmantaos.com/haath/Goirate/pkg/movies"
 	"github.com/olekukonko/tablewriter"
-	"log"
 )
 
-// IMDbCommand is the command used to search for movies on IMDb.
-type IMDbCommand struct {
+// MovieSearchCommand is the command used to search for movies on IMDb.
+type MovieSearchCommand struct {
 	Year  uint16 `short:"y" long:"year" description:"The release year to limit the movie search to."`
 	Count uint   `short:"c" long:"count" description:"Limit the number of results."`
 
@@ -18,7 +19,7 @@ type IMDbCommand struct {
 }
 
 // Execute is the callback of the movie command.
-func (c *IMDbCommand) Execute(args []string) error {
+func (c *MovieSearchCommand) Execute(args []string) error {
 
 	movies, err := imdb.Search(c.Args.Query)
 
