@@ -2,7 +2,7 @@
 
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
 
-| Download | [![dl](https://img.shields.io/badge/bintray-Goirate-brightgreen.svg)](https://bintray.com/gmantaos/Goirate) |
+| <h4>Download</h4> | |
 |--------------|-|
 | win64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/win64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-win64) |
 | armhf | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/armhf/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-armhf) |
