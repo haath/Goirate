@@ -2,7 +2,7 @@
 
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
 
-| <h4>Download</h4> | |
+| <h3>Download</h3> | |
 |--------------|-|
 | win64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/win64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-win64) |
 | armhf | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/armhf/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-armhf) |
@@ -13,6 +13,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] Pirate Bay scraping for booty
 - [x] Command-line plunderin'
 - [x] IMDB Scraper
+- [x] Robust execution - searching multiple mirrors
 - [ ] Storing configurations and caching mirrors
 - [ ] Defining series seasons and episodes
 - [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
