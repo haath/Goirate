@@ -4,8 +4,16 @@ OUTPUT := build/goirate
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-build: dep patch ## Install dependencies and compile the binary file
-	@go build --ldflags "-linkmode external -extldflags -static" -i -v -o $(OUTPUT) ./cmd/goirate
+BUILD_FLAGS		= -i -v -o $(OUTPUT)
+GCC_FLAGS		= --ldflags "-linkmode external -extldflags -static"
+GCC_FLAGS_WIN	= --ldflags "-extldflags -static"
+
+build: dep patch ## Install dependencies and statitcally compile the binary file
+	go build $(GCC_FLAGS) $(BUILD_FLAGS) ./cmd/goirate
+
+
+build-win64: dep patch ## Install dependencies and statitcally compile the binary file on 64-bit windows
+	go build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
 
 install: dep patch ## Compile and install the binary at $GOPATH/bin
 	go install ./cmd/goirate

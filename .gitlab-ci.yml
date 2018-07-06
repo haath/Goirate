@@ -64,3 +64,19 @@ build-aarch64:
     name: goirate.aarch64
     paths:
       - goirate
+
+build-win64:
+  stage: build
+  only:
+    - tags
+  tags:
+    - windows
+  script:
+    - make build-win64
+    - ./build/goirate --version
+    - ./scripts/publish.sh win64
+    - mv build/* ${CI_PROJECT_DIR}/
+  artifacts:
+    name: goirate.win64
+    paths:
+      - goirate
