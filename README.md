@@ -22,6 +22,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 
 | | |
 |-|-|
+| win64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/win64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-win64) |
 | armhf | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/armhf/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-armhf) |
 | aarch64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/aarch64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/goirate-aarch64) |
 
