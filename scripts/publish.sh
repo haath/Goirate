@@ -2,7 +2,7 @@
 
 FILE_NAME="goirate-$CI_COMMIT_TAG"
 
-if [[ $1 == *"win"* ]] then
+if [[ $1 == *"win"* ]]; then
     FILE_NAME="$FILE_NAME.exe"
 fi
 
