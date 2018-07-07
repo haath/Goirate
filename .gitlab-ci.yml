@@ -43,10 +43,6 @@ build-armhf:
     - ./build/goirate --version
     - ./scripts/publish.sh armhf
     - mv build/* ${CI_PROJECT_DIR}/
-  artifacts:
-    name: goirate.armhf
-    paths:
-      - goirate
 
 build-aarch64:
   stage: build
@@ -60,10 +56,6 @@ build-aarch64:
     - ./build/goirate --version
     - ./scripts/publish.sh aarch64
     - mv build/* ${CI_PROJECT_DIR}/
-  artifacts:
-    name: goirate.aarch64
-    paths:
-      - goirate
 
 build-win64:
   stage: build
@@ -76,7 +68,3 @@ build-win64:
     - ./build/goirate --version
     - ./scripts/publish.sh win64
     - mv build/* ${CI_PROJECT_DIR}/
-  artifacts:
-    name: goirate.win64
-    paths:
-      - goirate

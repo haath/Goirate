@@ -1,6 +1,12 @@
 #!/bin/bash
 
-PUBLISH_URL="https://api.bintray.com/content/gmantaos/Goirate/$1/$CI_COMMIT_TAG/goirate-$1?publish=1&override=1"
+FILE_NAME="goirate-$CI_COMMIT_TAG"
+
+if [[ $1 == *"win"* ]] then
+    FILE_NAME="$FILE_NAME.exe"
+fi
+
+PUBLISH_URL="https://api.bintray.com/content/gmantaos/Goirate/$1/$CI_COMMIT_TAG/$1/$FILE_NAME?publish=1&override=1"
 
 echo $PUBLISH_URL
 
