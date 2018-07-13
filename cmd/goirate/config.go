@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"os/user"
 	"path"
 
@@ -27,18 +28,38 @@ func configPath() string {
 	return path.Join(usr.HomeDir, ".goirate/config.toml")
 }
 
-// ImportConfig the configuration from the toml file onto the Config variable
+// ImportConfig the configuration from config.toml onto the Config variable
 func ImportConfig() {
 
-	tomlBytes, err := ioutil.ReadFile(configPath())
+	if _, err := os.Stat(configPath()); err == nil {
+
+		tomlBytes, err := ioutil.ReadFile(configPath())
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		tomlString := string(tomlBytes)
+
+		if _, err := toml.Decode(tomlString, &Config); err != nil {
+			log.Fatal(err)
+		}
+
+	}
+}
+
+// ExportConfig writes the current configuration to the config.toml file
+func ExportConfig() {
+
+	os.MkdirAll(path.Dir(configPath()), os.ModePerm)
+
+	file, err := os.OpenFile(configPath(), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tomlString := string(tomlBytes)
+	encoder := toml.NewEncoder(file)
 
-	if _, err := toml.Decode(tomlString, &Config); err != nil {
-		log.Fatal(err)
-	}
+	encoder.Encode(Config)
 }
