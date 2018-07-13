@@ -13,9 +13,9 @@ import (
 // Config holds the global goirate configuration
 var Config struct {
 	Uploaders struct {
-		Whitelist []string
-		Blacklist []string
-	}
+		Whitelist []string `toml:"whitelist"`
+		Blacklist []string `toml:"blacklist"`
+	} `toml:"uploaders"`
 }
 
 func configPath() string {
