@@ -100,6 +100,10 @@ func main() {
 	log.SetFlags(0)
 	log.SetOutput(os.Stdout)
 
+	ImportConfig()
+
+	log.Printf("%v\n", Config.Uploaders.Blacklist)
+
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
 
 	Options.Version = func() {

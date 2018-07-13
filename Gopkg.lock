@@ -8,6 +8,12 @@
   version = "v1.1.1"
 
 [[projects]]
+  name = "github.com/BurntSushi/toml"
+  packages = ["."]
+  revision = "b26d9c308763d68093482582cea63d69be07a0f0"
+  version = "v0.3.0"
+
+[[projects]]
   name = "github.com/PuerkitoBio/goquery"
   packages = ["."]
   revision = "a86ea073017a6beddef78c8659e7224e8ca634b0"
@@ -49,6 +55,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e5f9abcfb440d541a424f73466ff15398c1c4670b82372189a606f0b15660d7d"
+  inputs-digest = "a0cbc4e19e71650066bdf008c34225a74470e707a109c6b274046364c8a46ca9"
   solver-name = "gps-cdcl"
   solver-version = 1
