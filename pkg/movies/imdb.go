@@ -51,9 +51,9 @@ func ExtractIMDbID(url string) (string, error) {
 	r, _ := regexp.Compile(`/title/tt(\w+)/?`)
 	m := r.FindStringSubmatch(url)
 
-	if len(m) > 0 {
-		id, _ := FormatIMDbID(m[1])
-		return id, nil
+	if len(m) > 0 && len(m[1]) == 7 {
+
+		return FormatIMDbID(m[1])
 	}
 
 	return "", errors.New("error extracting IMDb ID from: " + url)

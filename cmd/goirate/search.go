@@ -12,7 +12,6 @@ import (
 
 // SearchCommand defines the search command and holds its options.
 type SearchCommand struct {
-	torrents.SearchFilters
 	torrentSearchArgs
 	Args positionalArgs `positional-args:"1" required:"1"`
 }
@@ -68,7 +67,7 @@ func (m *SearchCommand) filterTorrentList(torrentList []torrents.Torrent) []torr
 
 	for _, torrent := range torrentList {
 
-		if !m.VerifiedUploader || torrent.VerifiedUploader {
+		if m.GetFilters().IsOk(&torrent) {
 			filtered = append(filtered, torrent)
 		}
 

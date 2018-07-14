@@ -22,6 +22,7 @@ var Options struct {
 }
 
 type torrentSearchArgs struct {
+	torrents.SearchFilters
 	Mirror     string `short:"m" long:"mirror" description:"The PirateBay mirror URL to use. By default one is chosen at runtime."`
 	SourceURL  string `short:"s" long:"source" description:"Link to the list of PirateBay proxies that will be used to pick a mirror."`
 	Count      uint   `short:"c" long:"count" description:"Limit the number of results."`
@@ -93,6 +94,21 @@ func (a *torrentSearchArgs) ValidOutputFlags() bool {
 	}
 
 	return outputFlags <= 1
+}
+
+func (a torrentSearchArgs) GetFilters() torrents.SearchFilters {
+
+	filters := a.SearchFilters
+
+	if len(filters.UploaderBlacklist) == 0 {
+		filters.UploaderBlacklist = Config.Uploaders.Blacklist
+	}
+
+	if len(filters.UploaderWhitelist) == 0 {
+		filters.UploaderWhitelist = Config.Uploaders.Whitelist
+	}
+
+	return filters
 }
 
 func main() {

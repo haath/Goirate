@@ -11,7 +11,6 @@ import (
 
 // MovieCommand defines the movie command and holds its options.
 type MovieCommand struct {
-	torrents.SearchFilters
 	torrentSearchArgs
 
 	Year uint                `short:"y" long:"year" description:"The release year of the movie. Used when searching for the movie by title instead of by IMDbID."`
@@ -61,7 +60,7 @@ func (m *MovieCommand) Execute(args []string) error {
 	}
 
 	scraper, err := m.GetScraper(movie.SearchQuery())
-	filters := &m.SearchFilters
+	filters := m.GetFilters()
 
 	if err != nil {
 		return err
@@ -69,7 +68,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	if Options.JSON {
 
-		perQualityTorrents, err := movie.GetTorrents(scraper, filters)
+		perQualityTorrents, err := movie.GetTorrents(scraper, &filters)
 
 		if err != nil {
 			return err
@@ -93,7 +92,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	} else {
 
-		topTorrent, err := movie.GetTorrent(scraper, filters)
+		topTorrent, err := movie.GetTorrent(scraper, &filters)
 
 		if err != nil {
 			return err

@@ -120,3 +120,50 @@ func TestSizeKB(t *testing.T) {
 		})
 	}
 }
+
+func TestUploaderOk(t *testing.T) {
+
+	var tor Torrent
+	tor.Uploader = "someDude"
+
+	table := []struct {
+		in  SearchFilters
+		out bool
+	}{
+		{SearchFilters{}, true},
+		{SearchFilters{
+			UploaderBlacklist: []string{"someDude"},
+		},
+			false,
+		},
+		{SearchFilters{
+			UploaderWhitelist: []string{"otherDude"},
+		},
+			false,
+		},
+		{SearchFilters{
+			UploaderBlacklist: []string{"someDude"},
+			UploaderWhitelist: []string{"someDude"},
+		},
+			false,
+		},
+		{SearchFilters{
+			UploaderBlacklist: []string{"otherDude"},
+			UploaderWhitelist: []string{"someDude"},
+		},
+			true,
+		},
+	}
+
+	for _, tt := range table {
+		t.Run(fmt.Sprintf("%v %v", tt.in.UploaderWhitelist, tt.in.UploaderBlacklist), func(t *testing.T) {
+
+			ok := tt.in.UploaderOk(tor.Uploader)
+
+			if ok != tt.out {
+				t.Errorf("got %v, want %v", ok, tt.out)
+			}
+
+		})
+	}
+}
