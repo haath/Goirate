@@ -1,5 +1,11 @@
 ![Logo](assets/logo.png)
 
+[![](https://git.gmantaos.com/haath/Goirate/badges/master/pipeline.svg)](https://git.gmantaos.com/haath/Goirate/pipelines)
+[![](https://git.gmantaos.com/haath/Goirate/badges/master/coverage.svg)](https://git.gmantaos.com/haath/Goirate/-/jobs/artifacts/master/browse?job=test)
+[![](https://goreportcard.com/badge/git.gmantaos.com/haath/Goirate)](https://goreportcard.com/report/git.gmantaos.com/haath/Goirate)
+[![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![](https://img.shields.io/badge/download-Bintray-blue.svg)](https://bintray.com/gmantaos/Goirate)
+
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
 
 | <h3>Download</h3> | |
