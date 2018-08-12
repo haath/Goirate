@@ -31,6 +31,19 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
     - [ ] E-mail notifications
     - [ ] Automatic downloads
 
+### Installation
+
+By default [dep](https://github.com/golang/dep) is used for dependency management.
+
+The `Makefile` has a shortcut to running `dep` and `go install`.
+
+```sh
+$ make install
+```
+
+Using `go get` to fetch dependencies is theoretically possible but it is not
+recommended.
+
 ## ⚓ Command line tool
 
 ### Torrents
