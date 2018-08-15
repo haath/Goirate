@@ -30,6 +30,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
     - [ ] New series episodes
     - [ ] E-mail notifications
     - [ ] Automatic downloads
+    - [ ] RSS Feeds (?)
 
 ### Installation
 
@@ -72,20 +73,20 @@ $ goirate mirrors
 |---|---------|------------------------------------------|
 | x |   UK    | https://pirateproxy.sh                   |
 | x |   NL    | https://thepbproxy.com                   |
-| x |   US    | https://thetorrents.red                 |
-| x |   US    | https://thetorrents-org.prox.space      |
+| x |   US    | https://thetorrents.red                  |
+| x |   US    | https://thetorrents-org.prox.space       |
 | x |   US    | https://cruzing.xyz                      |
 | x |   US    | https://tpbproxy.nl                      |
-| x |   US    | https://thetorrents.rocks               |
+| x |   US    | https://thetorrents.rocks                |
 | x |   US    | https://proxydl.cf                       |
-| x |   US    | https://torrentsblocked.com             |
-| x |   US    | https://tpb.crushus.com/thetorrents.org |
-| x |   US    | https://ikwilthetorrents.org            |
+| x |   US    | https://torrentsblocked.com              |
+| x |   US    | https://tpb.crushus.com/thetorrents.org  |
+| x |   US    | https://ikwilthetorrents.org             |
 | x |   GB    | https://bay.maik.rocks                   |
 |   |   FR    | https://www.piratenbaai.ch               |
 |   |   US    | https://tpbproxy.gdn                     |
 |   |   US    | https://tpb.network                      |
-| x |   FR    | https://thetorrents.freeproxy.fun       |
+| x |   FR    | https://thetorrents.freeproxy.fun        |
 ```
 
 By default, the tool will attempt to fetch them from [proxybay.github.io](https://proxybay.github.io). To override that set the `-s` option.
