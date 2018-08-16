@@ -149,6 +149,15 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 	return torrents
 }
 
+func (s pirateBayScaper) GetNextPageURL(doc *goquery.Document) string {
+
+	a := doc.Find("img[alt='Next']").Parent()
+
+	relative, _ := a.Attr("href")
+
+	return path.Join(s.URL(), relative)
+}
+
 func extractSize(description string) int64 {
 
 	r, _ := regexp.Compile(`Size\s*(.+)\s*GiB`)

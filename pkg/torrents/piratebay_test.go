@@ -87,6 +87,8 @@ func TestParseSearchPage(t *testing.T) {
 		Uploader:         "makintos13",
 	}
 
+	expectedNextPage := "localhost/search/avengers/1/7"
+
 	file, err := os.Open("../../samples/piratebay_search.html")
 
 	if err != nil {
@@ -117,6 +119,12 @@ func TestParseSearchPage(t *testing.T) {
 		tr.VerifiedUploader != expected.VerifiedUploader || tr.Uploader != expected.Uploader {
 
 		t.Errorf("\ngot: %v\nwant: %v\n", tr, expected)
+	}
+
+	nextPage := scraper.GetNextPageURL(doc)
+
+	if nextPage != expectedNextPage {
+		t.Errorf("\ngot: %v\nwant: %v\n", nextPage, expectedNextPage)
 	}
 }
 
