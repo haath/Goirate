@@ -56,10 +56,10 @@ func TestSearchURL(t *testing.T) {
 		in  string
 		out string
 	}{
-		{"test", "https://pirateproxy.sh/search/test/1/99/0"},
-		{"one two", "https://pirateproxy.sh/search/one+two/1/99/0"},
-		{"one'two", "https://pirateproxy.sh/search/one+two/1/99/0"},
-		{"one!", "https://pirateproxy.sh/search/one/1/99/0"},
+		{"test", "https://pirateproxy.sh/search/test"},
+		{"one two", "https://pirateproxy.sh/search/one+two"},
+		{"one'two", "https://pirateproxy.sh/search/one+two"},
+		{"one!", "https://pirateproxy.sh/search/one"},
 	}
 
 	for _, tt := range searchTests {

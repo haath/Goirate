@@ -4,6 +4,7 @@ import (
 	"log"
 	"math"
 	"net/url"
+	"os"
 	"path"
 	"regexp"
 	"strconv"
@@ -66,13 +67,20 @@ func (s pirateBayScaper) SearchURL(query string) string {
 	query = utils.NormalizeQuery(query)
 
 	searchURL, _ := url.Parse(s.URL())
-	searchURL.Path = path.Join("/search", url.QueryEscape(query), "1/99/0")
+	searchURL.Path = path.Join("/search", url.QueryEscape(query))
 
 	return searchURL.String()
 }
 
 func (s pirateBayScaper) Search(query string) ([]Torrent, error) {
-	doc, err := utils.HTTPGet(s.SearchURL(query))
+
+	searchURL := s.SearchURL(query)
+
+	if os.Getenv("GOIRATE_DEBUG") == "true" {
+		log.Printf("Search url: %s\n", searchURL)
+	}
+
+	doc, err := utils.HTTPGet(searchURL)
 
 	if err != nil {
 		return nil, err
