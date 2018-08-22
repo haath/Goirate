@@ -3,7 +3,9 @@ package movies
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"net/url"
+	"os"
 	"strings"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
@@ -120,6 +122,10 @@ func getTorrent(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilte
 }
 
 func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
+
+	if os.Getenv("GOIRATE_DEBUG") == "true" {
+		log.Printf("Searching for movie title %s on scraper %s\n", title, (*scraper).URL())
+	}
 
 	title = utils.NormalizeQuery(title)
 

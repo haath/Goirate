@@ -68,8 +68,8 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 	doc.Find("#titleYear").Remove()
 
 	title := strings.TrimSpace(doc.Find(".title_wrapper > h1").Text())
-	rating, _ := strconv.ParseFloat(doc.Find(".ratingValue span[itemprop='ratingValue']").Text(), 32)
-	duration := parseDuration(strings.TrimSpace(doc.Find("time[itemprop='duration']").Text()))
+	rating, _ := strconv.ParseFloat(doc.Find(".ratingValue strong").Text(), 32)
+	duration := parseDuration(strings.TrimSpace(doc.Find(".subtext time").Text()))
 	imdbURL, _ := doc.Find("link[rel='canonical']").Attr("href")
 	imdbID, _ := ExtractIMDbID(imdbURL)
 

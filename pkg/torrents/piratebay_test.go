@@ -57,8 +57,8 @@ func TestSearchURL(t *testing.T) {
 		out string
 	}{
 		{"test", "https://pirateproxy.sh/search/test"},
-		{"one two", "https://pirateproxy.sh/search/one+two"},
-		{"one'two", "https://pirateproxy.sh/search/one+two"},
+		{"one two", "https://pirateproxy.sh/search/one%20two"},
+		{"one'two", "https://pirateproxy.sh/search/one%20two"},
 		{"one!", "https://pirateproxy.sh/search/one"},
 	}
 
