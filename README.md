@@ -20,7 +20,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] Command-line plunderin'
 - [x] IMDB Scraper
 - [x] Robust execution - searching multiple mirrors
-- [ ] Storing configurations and caching mirrors
+- [ ] Global configuration management
 - [ ] Defining series seasons and episodes
 - [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
 - [ ] Support for your proxy or VPN to avoid getting flogged

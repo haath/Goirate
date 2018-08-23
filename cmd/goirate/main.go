@@ -15,6 +15,7 @@ var Options struct {
 	Version func() `long:"version" description:"Show the current version."`
 
 	// Commands
+	Config      ConfigCommand      `command:"config" description:"Edit the application's configuration."`
 	Mirrors     MirrorsCommand     `command:"mirrors" description:"Get a list of PirateBay mirrors."`
 	Search      SearchCommand      `command:"search" alias:"s" description:"Search for torrents."`
 	Movie       MovieCommand       `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
@@ -98,17 +99,9 @@ func (a *torrentSearchArgs) ValidOutputFlags() bool {
 
 func (a torrentSearchArgs) GetFilters() torrents.SearchFilters {
 
-	filters := a.SearchFilters
+	ApplyConfig(a.SearchFilters)
 
-	if len(filters.UploaderBlacklist) == 0 {
-		filters.UploaderBlacklist = Config.Uploaders.Blacklist
-	}
-
-	if len(filters.UploaderWhitelist) == 0 {
-		filters.UploaderWhitelist = Config.Uploaders.Whitelist
-	}
-
-	return filters
+	return a.SearchFilters
 }
 
 func main() {

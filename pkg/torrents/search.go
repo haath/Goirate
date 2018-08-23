@@ -76,6 +76,10 @@ func (f SearchFilters) IsOk(torrent *Torrent) bool {
 		return false
 	}
 
+	if torrent.Seeders < f.MinSeeders {
+		return false
+	}
+
 	return true
 }
 
