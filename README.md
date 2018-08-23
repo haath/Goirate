@@ -1,5 +1,11 @@
 ![Logo](assets/logo.png)
 
+[![](https://git.gmantaos.com/haath/Goirate/badges/master/pipeline.svg)](https://git.gmantaos.com/haath/Goirate/pipelines)
+[![](https://git.gmantaos.com/haath/Goirate/badges/master/coverage.svg)](https://git.gmantaos.com/haath/Goirate/-/jobs/artifacts/master/browse?job=test)
+[![](https://goreportcard.com/badge/git.gmantaos.com/haath/Goirate)](https://goreportcard.com/report/git.gmantaos.com/haath/Goirate)
+[![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![](https://img.shields.io/badge/download-Bintray-blue.svg)](https://dl.bintray.com/gmantaos/Goirate/)
+
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
 
 | <h3>Download</h3> | |
@@ -24,6 +30,20 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
     - [ ] New series episodes
     - [ ] E-mail notifications
     - [ ] Automatic downloads
+    - [ ] RSS Feeds (?)
+
+### Installation
+
+By default [dep](https://github.com/golang/dep) is used for dependency management.
+
+The `Makefile` has a shortcut to running `dep` and `go install`.
+
+```sh
+$ make install
+```
+
+Using `go get` to fetch dependencies is theoretically possible but it is not
+recommended.
 
 ## ⚓ Command line tool
 
@@ -53,20 +73,20 @@ $ goirate mirrors
 |---|---------|------------------------------------------|
 | x |   UK    | https://pirateproxy.sh                   |
 | x |   NL    | https://thepbproxy.com                   |
-| x |   US    | https://thetorrents.red                 |
-| x |   US    | https://thetorrents-org.prox.space      |
+| x |   US    | https://thetorrents.red                  |
+| x |   US    | https://thetorrents-org.prox.space       |
 | x |   US    | https://cruzing.xyz                      |
 | x |   US    | https://tpbproxy.nl                      |
-| x |   US    | https://thetorrents.rocks               |
+| x |   US    | https://thetorrents.rocks                |
 | x |   US    | https://proxydl.cf                       |
-| x |   US    | https://torrentsblocked.com             |
-| x |   US    | https://tpb.crushus.com/thetorrents.org |
-| x |   US    | https://ikwilthetorrents.org            |
+| x |   US    | https://torrentsblocked.com              |
+| x |   US    | https://tpb.crushus.com/thetorrents.org  |
+| x |   US    | https://ikwilthetorrents.org             |
 | x |   GB    | https://bay.maik.rocks                   |
 |   |   FR    | https://www.piratenbaai.ch               |
 |   |   US    | https://tpbproxy.gdn                     |
 |   |   US    | https://tpb.network                      |
-| x |   FR    | https://thetorrents.freeproxy.fun       |
+| x |   FR    | https://thetorrents.freeproxy.fun        |
 ```
 
 By default, the tool will attempt to fetch them from [proxybay.github.io](https://proxybay.github.io). To override that set the `-s` option.

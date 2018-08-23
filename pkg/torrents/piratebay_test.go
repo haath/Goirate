@@ -56,10 +56,10 @@ func TestSearchURL(t *testing.T) {
 		in  string
 		out string
 	}{
-		{"test", "https://pirateproxy.sh/search/test/1/99/0"},
-		{"one two", "https://pirateproxy.sh/search/one+two/1/99/0"},
-		{"one'two", "https://pirateproxy.sh/search/one+two/1/99/0"},
-		{"one!", "https://pirateproxy.sh/search/one/1/99/0"},
+		{"test", "https://pirateproxy.sh/search/test"},
+		{"one two", "https://pirateproxy.sh/search/one%20two"},
+		{"one'two", "https://pirateproxy.sh/search/one%20two"},
+		{"one!", "https://pirateproxy.sh/search/one"},
 	}
 
 	for _, tt := range searchTests {
@@ -86,6 +86,8 @@ func TestParseSearchPage(t *testing.T) {
 		VerifiedUploader: true,
 		Uploader:         "makintos13",
 	}
+
+	expectedNextPage := "localhost/search/avengers/1/7"
 
 	file, err := os.Open("../../samples/piratebay_search.html")
 
@@ -117,6 +119,12 @@ func TestParseSearchPage(t *testing.T) {
 		tr.VerifiedUploader != expected.VerifiedUploader || tr.Uploader != expected.Uploader {
 
 		t.Errorf("\ngot: %v\nwant: %v\n", tr, expected)
+	}
+
+	nextPage := scraper.GetNextPageURL(doc)
+
+	if nextPage != expectedNextPage {
+		t.Errorf("\ngot: %v\nwant: %v\n", nextPage, expectedNextPage)
 	}
 }
 

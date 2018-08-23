@@ -29,7 +29,7 @@ func TestHTTPGetStatus(t *testing.T) {
 
 func TestGetFileDocument(t *testing.T) {
 
-	expected := "Cast Away (2000) - IMDb"
+	expected := "Cast Away (2000) - IMDbTryIMDbProFree"
 
 	doc, err := GetFileDocument("../../samples/imdb.html")
 
