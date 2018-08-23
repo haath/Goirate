@@ -58,6 +58,9 @@ func TestIsIMDbURL(t *testing.T) {
 		{"https://www.imdb.com/title/tt0368226/", true},
 		{"https://www.imdb.com/title/tt03/", false},
 		{"https://www.imdb.com/title/tt6155194/?ref_=nm_knf_i3", true},
+		{"https://www.imdb.com/title/tt0848226", true},
+		{"https://m.imdb.com/title/tt0848226", true},
+		{"Avengers: Age of Ultron", false},
 	}
 
 	for _, tt := range table {
@@ -281,26 +284,5 @@ func TestSearch(t *testing.T) {
 
 	if m != expected {
 		t.Errorf("\ngot %v\nwant %v\n", m, expected)
-	}
-}
-
-func TestIsIMDbURL(t *testing.T) {
-	var table = []struct {
-		in  string
-		out bool
-	}{
-		{"https://www.imdb.com/title/tt0848226", true},
-		{"https://m.imdb.com/title/tt0848226", true},
-		{"Avengers: Age of Ultron", false},
-	}
-
-	for _, tt := range table {
-		t.Run(tt.in, func(t *testing.T) {
-			s := IsIMDbURL(tt.in)
-
-			if s != tt.out {
-				t.Errorf("got %t, want %t", s, tt.out)
-			}
-		})
 	}
 }

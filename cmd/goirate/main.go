@@ -116,6 +116,8 @@ func main() {
 	log.SetFlags(0)
 	log.SetOutput(os.Stdout)
 
+	ImportConfig()
+
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
 
 	Options.Version = func() {
