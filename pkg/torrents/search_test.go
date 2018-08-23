@@ -132,31 +132,29 @@ func TestUploaderOk(t *testing.T) {
 	}{
 		{SearchFilters{}, true},
 		{SearchFilters{
-			UploaderBlacklist: []string{"someDude"},
+			Uploaders: UploaderFilters{Blacklist: []string{"someDude"}},
 		},
 			false,
 		},
 		{SearchFilters{
-			UploaderWhitelist: []string{"otherDude"},
+			Uploaders: UploaderFilters{Whitelist: []string{"otherDude"}},
 		},
 			false,
 		},
 		{SearchFilters{
-			UploaderBlacklist: []string{"someDude"},
-			UploaderWhitelist: []string{"someDude"},
+			Uploaders: UploaderFilters{Blacklist: []string{"someDude"}, Whitelist: []string{"someDude"}},
 		},
 			false,
 		},
 		{SearchFilters{
-			UploaderBlacklist: []string{"otherDude"},
-			UploaderWhitelist: []string{"someDude"},
+			Uploaders: UploaderFilters{Blacklist: []string{"otherDude"}, Whitelist: []string{"someDude"}},
 		},
 			true,
 		},
 	}
 
 	for _, tt := range table {
-		t.Run(fmt.Sprintf("%v %v", tt.in.UploaderWhitelist, tt.in.UploaderBlacklist), func(t *testing.T) {
+		t.Run(fmt.Sprintf("%v %v", tt.in.Uploaders.Whitelist, tt.in.Uploaders.Blacklist), func(t *testing.T) {
 
 			ok := tt.in.UploaderOk(tor.Uploader)
 

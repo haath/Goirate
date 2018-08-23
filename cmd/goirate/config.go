@@ -13,16 +13,7 @@ import (
 
 // Config holds the global goirate configuration
 var Config struct {
-	VerifiedUploader bool                  `toml:"trusted"`
-	MinQuality       torrents.VideoQuality `toml:"min-quality"`
-	MaxQuality       torrents.VideoQuality `toml:"max-quality"`
-	MinSize          string                `toml:"min-size"`
-	MaxSize          string                `toml:"max-size"`
-	MinSeeders       int                   `toml:"min-seeders"`
-	Uploaders        struct {
-		Whitelist []string `toml:"whitelist"`
-		Blacklist []string `toml:"blacklist"`
-	} `toml:"uploaders"`
+	torrents.SearchFilters
 }
 
 // ConfigCommand defines the config command and holds its options.
@@ -46,52 +37,13 @@ func (cmd *ConfigCommand) Execute(args []string) error {
 // on the given filters object into the Config variable.
 func ApplyFilters(filters torrents.SearchFilters) {
 
-	Config.VerifiedUploader = filters.VerifiedUploader
-	if filters.MinQuality != "" {
-		Config.MinQuality = filters.MinQuality
-	}
-	if filters.MaxQuality != "" {
-		Config.MaxQuality = filters.MaxQuality
-	}
-	if filters.MinSize != "" {
-		Config.MinSize = filters.MinSize
-	}
-	if filters.MaxSize != "" {
-		Config.MaxSize = filters.MaxSize
-	}
-	Config.MinSeeders = filters.MinSeeders
-
-	if len(Config.Uploaders.Whitelist) == 0 {
-		Config.Uploaders.Whitelist = filters.UploaderWhitelist
-	}
-	if len(Config.Uploaders.Blacklist) == 0 {
-		Config.Uploaders.Blacklist = filters.UploaderBlacklist
-	}
+	applyFilters(&Config.SearchFilters, &filters)
 }
 
 // ApplyConfig applies the Config variable to the given filters object.
 func ApplyConfig(filters torrents.SearchFilters) {
-	filters.VerifiedUploader = Config.VerifiedUploader
-	if Config.MinQuality != "" {
-		filters.MinQuality = Config.MinQuality
-	}
-	if Config.MaxQuality != "" {
-		filters.MaxQuality = Config.MaxQuality
-	}
-	if Config.MinSize != "" {
-		filters.MinSize = Config.MinSize
-	}
-	if Config.MaxSize != "" {
-		filters.MaxSize = Config.MaxSize
-	}
-	filters.MinSeeders = Config.MinSeeders
 
-	if len(filters.UploaderWhitelist) == 0 {
-		filters.UploaderWhitelist = Config.Uploaders.Whitelist
-	}
-	if len(filters.UploaderBlacklist) == 0 {
-		filters.UploaderBlacklist = Config.Uploaders.Blacklist
-	}
+	applyFilters(&filters, &Config.SearchFilters)
 }
 
 // ImportConfig the configuration from config.toml onto the Config variable
@@ -128,6 +80,30 @@ func ExportConfig() {
 	encoder := toml.NewEncoder(file)
 
 	encoder.Encode(Config)
+}
+
+func applyFilters(dst *torrents.SearchFilters, src *torrents.SearchFilters) {
+	dst.VerifiedUploader = src.VerifiedUploader
+	if src.MinQuality != "" {
+		dst.MinQuality = src.MinQuality
+	}
+	if src.MaxQuality != "" {
+		dst.MaxQuality = src.MaxQuality
+	}
+	if src.MinSize != "" {
+		dst.MinSize = src.MinSize
+	}
+	if src.MaxSize != "" {
+		dst.MaxSize = src.MaxSize
+	}
+	dst.MinSeeders = src.MinSeeders
+
+	for _, name := range src.Uploaders.Whitelist {
+		dst.Uploaders.Whitelist = append(dst.Uploaders.Whitelist, name)
+	}
+	for _, name := range src.Uploaders.Blacklist {
+		dst.Uploaders.Blacklist = append(dst.Uploaders.Blacklist, name)
+	}
 }
 
 func configPath() string {

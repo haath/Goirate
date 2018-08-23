@@ -4,16 +4,21 @@ import (
 	"git.gmantaos.com/haath/gobytes"
 )
 
+// UploaderFilters holds filters regarding the acceptance of a torrent's uploader.
+type UploaderFilters struct {
+	Whitelist []string `long:"whitelist" description:"Add to a whitelist of uploaders, to only consider torrents from them." toml:"whitelist"`
+	Blacklist []string `long:"blacklist" description:"Add to a blacklist of uploaders, to avoid torrents from them." toml:"blacklist"`
+}
+
 // SearchFilters holds conditions and filters, used to search for specific torrents.
 type SearchFilters struct {
-	VerifiedUploader  bool         `long:"trusted" description:"Only consider torrents where the uploader is either VIP or Trusted."`
-	MinQuality        VideoQuality `long:"min-quality" description:"Minimum acceptable torrent quality (inclusive)."`
-	MaxQuality        VideoQuality `long:"max-quality" description:"Maximum acceptable torrent quality (inclusive)."`
-	MinSize           string       `long:"min-size" description:"Minimum acceptable torrent size."`
-	MaxSize           string       `long:"max-size" description:"Maximum acceptable torrent size."`
-	MinSeeders        int          `long:"min-seeders" description:"Minimum acceptable amount of seeders."`
-	UploaderWhitelist []string     `long:"whitelist" description:"Add to a whitelist of uploaders, to only consider torrents from them."`
-	UploaderBlacklist []string     `long:"blacklist" description:"Add to a blacklist of uploaders, to avoid torrents from them."`
+	VerifiedUploader bool         `long:"trusted" description:"Only consider torrents where the uploader is either VIP or Trusted." toml:"trusted"`
+	MinQuality       VideoQuality `long:"min-quality" description:"Minimum acceptable torrent quality (inclusive)." toml:"min-quality"`
+	MaxQuality       VideoQuality `long:"max-quality" description:"Maximum acceptable torrent quality (inclusive)." toml:"max-quality"`
+	MinSize          string       `long:"min-size" description:"Minimum acceptable torrent size." toml:"min-size"`
+	MaxSize          string       `long:"max-size" description:"Maximum acceptable torrent size." toml:"max-size"`
+	MinSeeders       int          `long:"min-seeders" description:"Minimum acceptable amount of seeders." toml:"min-seeders"`
+	Uploaders        UploaderFilters
 }
 
 // MinSizeKB returns the specified minimum size in kilobytes.
@@ -47,8 +52,8 @@ func (f SearchFilters) UploaderOk(uploader string) bool {
 		return false
 	}
 
-	return (len(f.UploaderBlacklist) == 0 || !contains(f.UploaderBlacklist, uploader)) &&
-		(len(f.UploaderWhitelist) == 0 || contains(f.UploaderWhitelist, uploader))
+	return (len(f.Uploaders.Blacklist) == 0 || !contains(f.Uploaders.Blacklist, uploader)) &&
+		(len(f.Uploaders.Whitelist) == 0 || contains(f.Uploaders.Whitelist, uploader))
 }
 
 // IsOk returns true if the given torrent complies with the filters.
