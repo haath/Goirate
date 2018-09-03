@@ -139,8 +139,6 @@ $ goirate search "debian"
 
 This tool scrapes [IMDb.com](https://www.imdb.com/) for info on movies.
 
-
-
 #### Search
 
 You can fetch a movie - and torrents for it - in three ways.
@@ -206,3 +204,15 @@ $ goirate movie-search "harry potter" -c 4
 | 1201607 |  Harry Potter and the Deathly  | 2011 |
 |         |        Hallows: Part 2         |      |
 ```
+
+## Series
+
+Create a watchlist of series, by using the `series add` command.
+This stores a list of your series on your account's configuration, along
+with the next expected episode for each one.
+
+```sh
+$ goirate series add "The Expanse" "S02E04"
+$ goirate series add "The Walking Dead" "Season 3 Episode 1"
+```
+
