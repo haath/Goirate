@@ -207,6 +207,9 @@ $ goirate movie-search "harry potter" -c 4
 
 ## Series
 
+For this tool to manage series, you need to obtain an API key from [TheTVDB.com](https://www.thetvdb.com/)
+and include it in Goirate's configuration at `~/.goirate/options.toml`.
+
 Create a watchlist of series, by using the `series add` command.
 This stores a list of your series on your account's configuration, along
 with the next expected episode for each one.
