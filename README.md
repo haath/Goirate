@@ -21,7 +21,9 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] IMDB Scraper
 - [x] Robust execution - searching multiple mirrors
 - [x] Global configuration management
-- [ ] Defining series seasons and episodes
+- [x] Defining series seasons and episodes
+- [x] TVDB integration
+- [ ] Scanning for new series episodes
 - [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
 - [ ] Support for your proxy or VPN to avoid getting flogged
 - [ ] Torrent client integration
@@ -212,10 +214,14 @@ and include it in Goirate's configuration at `~/.goirate/options.toml`.
 
 Create a watchlist of series, by using the `series add` command.
 This stores a list of your series on your account's configuration, along
-with the next expected episode for each one.
+with the last episode watched for each one. The names can be partial, as they
+will be used to search for the full name on the TVDB API. If the last episode is
+not specified, the API will be used to fetch the number of the last episode that
+aired for this series.
 
 ```sh
-$ goirate series add "The Expanse" "S02E04"
-$ goirate series add "The Walking Dead" "Season 3 Episode 1"
+$ goirate series add "The Expanse" -n "S02E04"
+$ goirate series add "The Walking Dead" -n "Season 3 Episode 1"
+$ goirate series add "expanse"
 ```
 
