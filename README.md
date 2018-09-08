@@ -220,8 +220,26 @@ not specified, the API will be used to fetch the number of the last episode that
 aired for this series.
 
 ```sh
-$ goirate series add "The Expanse" -n "S02E04"
+$ goirate series add "Strike Back" -n "S02E04"
 $ goirate series add "The Walking Dead" -n "Season 3 Episode 1"
 $ goirate series add "expanse"
 ```
 
+The `series show` command can be used to display the series currently on the 
+watchlist. The `-j` flag also applies here, printing out the JSON format instead.
+
+```sh
+$ goirate series show
+|   #    |      Series      | Season | Last Episode | Min. Quality |
+|--------|------------------|--------|--------------|--------------|
+| 280619 | The Expanse      |   3    |      13      |              |
+| 153021 | The Walking Dead |   5    |      13      |    1080p     |
+```
+
+The `series remove` command can be used to remove a series given either a 
+case-insensitive substring in its name, or its TVDB ID.
+
+```sh
+$ goirate series remove expanse
+$ goirate series remove 153021
+```
