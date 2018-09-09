@@ -124,16 +124,16 @@ $ goirate search "debian"
                                                   Title                                                      Size    Seeds/Peers
 ---------------------------------------------------------------------------------------------------------------------------------
  Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   10 / 12
- https://pirateproxy.sh/torrent/5468273/Debian_GNU_Linux_Bible_[ENG]_[.pdf]
+ https://pirateproxy.sh/torrent/** omitted **
 ---------------------------------------------------------------------------------------------------------------------------------
  Debian 7- System Administration Best Practices, 2013 [PDF]~Storm                                           2.0 MB   9 / 9
- https://pirateproxy.sh/torrent/9499287/Debian_7-_System_Administration_Best_Practices__2013_[PDF]_Storm
+ https://pirateproxy.sh/torrent/** omitted **
 ---------------------------------------------------------------------------------------------------------------------------------
  Debian 9 Stretch minimal install (VirtualBox VDI image)                                                   187.7 MB  6 / 6
- https://pirateproxy.sh/torrent/20414237/Debian_9_Stretch_minimal_install_(VirtualBox_VDI_image)
+ https://pirateproxy.sh/torrent/** omitted **
 ---------------------------------------------------------------------------------------------------------------------------------
  Debian GNU Linux Bible.zip                                                                                 6.1 MB   2 / 2
- https://pirateproxy.sh/torrent/4431647/Debian_GNU_Linux_Bible.zip
+ https://pirateproxy.sh/torrent/** omitted **
 ---------------------------------------------------------------------------------------------------------------------------------
 ```
 
@@ -156,12 +156,12 @@ Duration:       2h 3min
 Poster:         https://m.media-amazon.com/images/M/MV5BMTgwNDkyMDU3NV5BMl5BanBnXkFtZTcwNjMyNjI4Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg
 
 Secretariat[2010]DvDrip-aXXo
-URL:            https://pirateproxy.mx/torrent/6092396/Secretariat[2010]DvDrip-aXXo
+URL:            ** omitted **
 Seeds/Peers:    1 / 1
 Size:           735.8 MB
 Trusted:        true
 Magnet:
-magnet:?xt=urn:btih:69f2bf2e35ecff6c22645f2e2a858a12b39cbda7&dn=Secretariat%5B2010%5DDvDrip-aXXo&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969
+magnet:?** omitted **
 ```
 
 ```sh
