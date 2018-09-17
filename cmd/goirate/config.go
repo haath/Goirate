@@ -23,6 +23,10 @@ var Config struct {
 		Series  string `toml:"series"`
 		Music   string `toml:"music"`
 	} `toml:"download_dirs"`
+	Watchlist struct {
+		Email    bool `toml:"email"`
+		Download bool `toml:"download"`
+	} `toml:"watchlist"`
 }
 
 // ConfigCommand defines the config command and holds its options.

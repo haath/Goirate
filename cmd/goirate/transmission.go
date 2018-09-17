@@ -22,7 +22,7 @@ type RPCClient struct {
 func DefaultTransmissionRPCConfig() RPCConfig {
 
 	return RPCConfig{
-		Host:     "127.0.0.1",
+		Host:     "localhost",
 		Port:     9091,
 		Username: "",
 		Password: "",
@@ -39,4 +39,18 @@ func (cfg *RPCConfig) GetClient() (*RPCClient, error) {
 	})
 
 	return &RPCClient{Client: client}, err
+}
+
+// AddTorrent sends the given magnet link to the transmission daemon and begins its download,
+// configuring the downloaded files to be placed at the specified output directory.
+func (client *RPCClient) AddTorrent(magnetLink, downloadDir string) error {
+
+	payload := transmissionrpc.TorrentAddPayload{
+		Filename:    &magnetLink,
+		DownloadDir: &downloadDir,
+	}
+
+	_, err := client.TorrentAdd(&payload)
+
+	return err
 }

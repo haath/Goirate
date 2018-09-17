@@ -263,7 +263,40 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 
 	ser.LastEpisode = nextEpisode
 
-	return true, nil
+	if !cmd.DryRun {
+		err = cmd.handleSeriesTorrent(ser, torrent)
+	}
+
+	return true, err
+}
+
+func (cmd *scanCommand) handleSeriesTorrent(ser *series.Series, torrent *torrents.Torrent) error {
+
+	if Config.Watchlist.Email {
+
+		// Send e-mails
+
+	}
+
+	if Config.Watchlist.Download {
+
+		// Send the torrent to the transmission daemon for download
+
+		transmission, err := Config.RPCConfig.GetClient()
+
+		if err != nil {
+			return err
+		}
+
+		err = transmission.AddTorrent(torrent.Magnet, Config.DownloadDir.Series)
+
+		if err != nil {
+			return err
+		}
+
+	}
+
+	return nil
 }
 
 func loadSeries() []series.Series {
