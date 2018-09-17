@@ -102,7 +102,7 @@ func (m *MovieCommand) Execute(args []string) error {
 		if m.MagnetLink {
 
 			if topTorrent == nil {
-				return errors.New("no torrent found")
+				return fmt.Errorf("no torrent found for: %v", movie.Title)
 			}
 
 			log.Println(topTorrent.Magnet)
@@ -110,7 +110,7 @@ func (m *MovieCommand) Execute(args []string) error {
 		} else if m.TorrentURL {
 
 			if topTorrent == nil {
-				return errors.New("no torrent found")
+				return fmt.Errorf("no torrent found for: %v", movie.Title)
 			}
 
 			log.Println(topTorrent.FullURL())

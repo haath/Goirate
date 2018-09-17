@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"testing"
 
 	"git.gmantaos.com/haath/Goirate/pkg/movies"
@@ -21,6 +22,7 @@ func TestMovieExecute(t *testing.T) {
 
 	cmd.MagnetLink = true
 
+	log.Println(cmd.Args.Query)
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err == nil {
@@ -38,6 +40,7 @@ func TestMovieExecute(t *testing.T) {
 	cmd.MagnetLink = false
 	cmd.Args.Query = "0848228"
 
+	log.Println(cmd.Args.Query)
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {
@@ -46,6 +49,7 @@ func TestMovieExecute(t *testing.T) {
 
 	cmd.Args.Query = "https://www.imdb.com/title/tt0315983/"
 
+	log.Println(cmd.Args.Query)
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {
