@@ -160,6 +160,8 @@ func (s *pirateBayScaper) SearchVideoTorrents(query string, filters SearchFilter
 		return nil, err
 	}
 
+	trnts = filters.FilterTorrents(trnts)
+
 	matches := func(torrentTitle string) bool {
 		for _, val := range contains {
 			if !strings.Contains(torrentTitle, strings.ToLower(val)) {

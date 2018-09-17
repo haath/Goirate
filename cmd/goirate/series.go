@@ -49,7 +49,8 @@ type showCommand struct{}
 type scanCommand struct {
 	torrentSearchArgs
 
-	DryRun bool `long:"dry-run" short:"d" description:"Perform the scan for new episodes without updating the last episode aired in the watchlist."`
+	DryRun   bool `long:"dry-run" description:"Perform the scan for new episodes without downloading torrents, sending notifications or updating the episode numbers in the watchlist."`
+	NoUpdate bool `long:"no-update" description:"Perform the scan for new episodes without updating the last episode aired in the watchlist."`
 }
 
 // Execute is the callback of the series add command.
@@ -199,7 +200,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 
 	}
 
-	if !cmd.DryRun {
+	if !cmd.DryRun && !cmd.NoUpdate {
 
 		storeSeries(seriesList)
 

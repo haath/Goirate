@@ -12,13 +12,13 @@ type UploaderFilters struct {
 
 // SearchFilters holds conditions and filters, used to search for specific torrents.
 type SearchFilters struct {
-	VerifiedUploader bool         `long:"trusted" description:"Only consider torrents where the uploader is either VIP or Trusted." toml:"trusted"`
-	MinQuality       VideoQuality `long:"min-quality" description:"Minimum acceptable torrent quality (inclusive)." toml:"min-quality"`
-	MaxQuality       VideoQuality `long:"max-quality" description:"Maximum acceptable torrent quality (inclusive)." toml:"max-quality"`
-	MinSize          string       `long:"min-size" description:"Minimum acceptable torrent size." toml:"min-size"`
-	MaxSize          string       `long:"max-size" description:"Maximum acceptable torrent size." toml:"max-size"`
-	MinSeeders       int          `long:"min-seeders" description:"Minimum acceptable amount of seeders." toml:"min-seeders"`
-	Uploaders        UploaderFilters
+	VerifiedUploader bool            `long:"trusted" description:"Only consider torrents where the uploader is either VIP or Trusted." toml:"trusted"`
+	MinQuality       VideoQuality    `long:"min-quality" description:"Minimum acceptable torrent quality (inclusive)." toml:"min-quality"`
+	MaxQuality       VideoQuality    `long:"max-quality" description:"Maximum acceptable torrent quality (inclusive)." toml:"max-quality"`
+	MinSize          string          `long:"min-size" description:"Minimum acceptable torrent size." toml:"min-size"`
+	MaxSize          string          `long:"max-size" description:"Maximum acceptable torrent size." toml:"max-size"`
+	MinSeeders       int             `long:"min-seeders" description:"Minimum acceptable amount of seeders." toml:"min-seeders"`
+	Uploaders        UploaderFilters `toml:"uploaders"`
 }
 
 // MinSizeKB returns the specified minimum size in kilobytes.
@@ -86,6 +86,23 @@ func (f SearchFilters) IsOk(torrent *Torrent) bool {
 	}
 
 	return true
+}
+
+// FilterTorrents filters the given list of torrents, returning only the ones that
+// comply with the filters.
+func (f SearchFilters) FilterTorrents(torrents []Torrent) []Torrent {
+
+	var filtered []Torrent
+
+	for _, torrent := range torrents {
+
+		if f.IsOk(&torrent) {
+
+			filtered = append(filtered, torrent)
+		}
+	}
+
+	return filtered
 }
 
 // PickVideoTorrent functions similar to SearchTorrentList(), but instead returns the torrent with the best available video quality

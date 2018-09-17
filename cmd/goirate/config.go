@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/user"
 	"path"
 
 	"git.gmantaos.com/haath/Goirate/pkg/series"
@@ -15,6 +16,13 @@ import (
 var Config struct {
 	torrents.SearchFilters
 	TVDBCredentials series.TVDBCredentials `toml:"tvdb"`
+	RPCConfig       RPCConfig              `toml:"transmission_rpc"`
+	DownloadDir     struct {
+		General string `toml:"general"`
+		Movies  string `toml:"movies"`
+		Series  string `toml:"series"`
+		Music   string `toml:"music"`
+	} `toml:"download_dirs"`
 }
 
 // ConfigCommand defines the config command and holds its options.
@@ -44,9 +52,9 @@ func ApplyFilters(filters torrents.SearchFilters) {
 }
 
 // ApplyConfig applies the Config variable to the given filters object.
-func ApplyConfig(filters torrents.SearchFilters) {
+func ApplyConfig(filters *torrents.SearchFilters) {
 
-	applyFilters(&filters, &Config.SearchFilters)
+	applyFilters(filters, &Config.SearchFilters)
 }
 
 // ImportConfig the configuration from config.toml onto the Config variable
@@ -66,6 +74,27 @@ func ImportConfig() {
 			log.Fatal(err)
 		}
 
+		if Config.RPCConfig.Host == "" {
+			Config.RPCConfig = DefaultTransmissionRPCConfig()
+		}
+
+		usr, err := user.Current()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		setOrDefault := func(val *string, env string) {
+			if os.Getenv(env) != "" {
+				*val = os.Getenv(env)
+			} else if *val == "" {
+				*val = path.Join(usr.HomeDir, "Downloads")
+			}
+		}
+
+		setOrDefault(&Config.DownloadDir.General, "GOIRATE_DOWNLOADS_DIR")
+		setOrDefault(&Config.DownloadDir.Movies, "GOIRATE_DOWNLOADS_MOVIES")
+		setOrDefault(&Config.DownloadDir.Series, "GOIRATE_DOWNLOADS_SERIES")
+		setOrDefault(&Config.DownloadDir.Music, "GOIRATE_DOWNLOADS_MUSIC")
 	}
 }
 

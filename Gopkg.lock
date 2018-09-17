@@ -26,6 +26,18 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/hekmon/cunits"
+  packages = ["."]
+  revision = "3c45cb0124f153c1e8bbd2e965cf657c59331d49"
+  version = "v2.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hekmon/transmissionrpc"
+  packages = ["."]
+  revision = "5e0fdaaae2caa3f095dc45b44a487068cc668b5b"
+
+[[projects]]
   name = "github.com/jessevdk/go-flags"
   packages = ["."]
   revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
@@ -55,6 +67,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9248480353faaa12c1d9e8d46436ef8562c9610f5f1f4ea6e3e20bf9b7f11738"
+  inputs-digest = "a72200d6581042296728f555c2edac583ab8e3c7d39523a933151ff762d6942e"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -103,7 +103,7 @@ func (a *torrentSearchArgs) ValidOutputFlags() bool {
 
 func (a torrentSearchArgs) GetFilters() torrents.SearchFilters {
 
-	ApplyConfig(a.SearchFilters)
+	ApplyConfig(&a.SearchFilters)
 
 	return a.SearchFilters
 }
@@ -135,13 +135,16 @@ func configDir() string {
 
 	if flag.Lookup("test.v") != nil {
 
-		dir = ".goirate.test"
+		dir = path.Join(usr.HomeDir, ".goirate.test")
+
+	} else if os.Getenv("GOIRATE_DIR") != "" {
+
+		dir = os.Getenv("GOIRATE_DIR")
+
 	} else {
 
-		dir = ".goirate"
+		dir = path.Join(usr.HomeDir, ".goirate")
 	}
-
-	dir = path.Join(usr.HomeDir, dir)
 
 	err = os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
