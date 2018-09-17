@@ -137,9 +137,9 @@ func (tkn *TVDBToken) getEpisodes(seriesID int, callback func(Episode, *time.Tim
 	baseURL := fmt.Sprintf(episodesEndpoint.String(), seriesID)
 
 	pageNum := 1
-	lastPage := 2
+	lastPage := 1
 
-	for pageNum < lastPage {
+	for pageNum <= lastPage {
 
 		url := fmt.Sprintf("%v?page=%v", baseURL, pageNum)
 
@@ -173,7 +173,7 @@ func (tkn *TVDBToken) getEpisodes(seriesID int, callback func(Episode, *time.Tim
 		}
 
 		pageNum++
-		lastPage = episodeSearchResponse.Links.Next
+		lastPage = episodeSearchResponse.Links.Last
 	}
 
 	return nil

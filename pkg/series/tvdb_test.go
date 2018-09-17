@@ -92,6 +92,7 @@ func TestNextEpisode(t *testing.T) {
 	}{
 		{261690, Episode{6, 10}, Episode{6, 11}},
 		{121361, Episode{1, 0}, Episode{1, 1}},
+		{255316, Episode{5, 24}, Episode{6, 1}},
 	}
 
 	tkn := login(t)
