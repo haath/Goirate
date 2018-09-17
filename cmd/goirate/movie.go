@@ -68,7 +68,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	if Options.JSON {
 
-		perQualityTorrents, err := movie.GetTorrents(scraper, &filters)
+		perQualityTorrents, err := movie.GetTorrents(scraper, filters)
 
 		if err != nil {
 			return err
@@ -92,7 +92,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	} else {
 
-		topTorrent, err := movie.GetTorrent(scraper, &filters)
+		topTorrent, err := movie.GetTorrent(scraper, filters)
 
 		if err != nil {
 			return err

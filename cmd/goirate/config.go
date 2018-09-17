@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/user"
 	"path"
 
 	"git.gmantaos.com/haath/Goirate/pkg/series"
@@ -73,8 +72,6 @@ func ImportConfig() {
 // ExportConfig writes the current configuration to the config.toml file
 func ExportConfig() {
 
-	os.MkdirAll(path.Dir(configPath()), os.ModePerm)
-
 	file, err := os.OpenFile(configPath(), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
 
 	if err != nil {
@@ -114,10 +111,5 @@ func applyFilters(dst *torrents.SearchFilters, src *torrents.SearchFilters) {
 
 func configPath() string {
 
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return path.Join(usr.HomeDir, ".goirate/config.toml")
+	return path.Join(configDir(), "config.toml")
 }

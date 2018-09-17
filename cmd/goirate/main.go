@@ -1,8 +1,11 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
+	"os/user"
+	"path"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
@@ -120,4 +123,30 @@ func main() {
 	}
 
 	parser.Parse()
+}
+
+func configDir() string {
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var dir string
+
+	if flag.Lookup("test.v") != nil {
+
+		dir = ".goirate.test"
+	} else {
+
+		dir = ".goirate"
+	}
+
+	dir = path.Join(usr.HomeDir, dir)
+
+	err = os.MkdirAll(dir, os.ModePerm)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return dir
 }

@@ -59,7 +59,7 @@ func (m Movie) FormattedDuration() string {
 }
 
 // GetTorrent will search The Pirate Bay and return the best torrent that complies with the given filters.
-func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters *torrents.SearchFilters) (*torrents.Torrent, error) {
+func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) (*torrents.Torrent, error) {
 
 	filteredTorrents, err := m.GetTorrents(scraper, filters)
 
@@ -67,12 +67,12 @@ func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters *torrents.Se
 		return nil, err
 	}
 
-	return torrents.PickVideoTorrent(filteredTorrents, *filters)
+	return torrents.PickVideoTorrent(filteredTorrents, filters)
 }
 
 // GetTorrents will search The Pirate Bay for torrents of this movie that comply with the given filters.
 // It will return one torrent for each video quality.
-func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters *torrents.SearchFilters) ([]torrents.Torrent, error) {
+func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) ([]torrents.Torrent, error) {
 
 	trnts, err := getTorrents(scraper, filters, m.Title, m.Year)
 
@@ -98,7 +98,7 @@ func (m Movie) SearchQuery() string {
 	return utils.NormalizeQuery(m.Title)
 }
 
-func getTorrents(scraper torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
+func getTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
 
 	if year == 0 {
 

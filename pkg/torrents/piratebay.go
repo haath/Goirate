@@ -22,7 +22,7 @@ type PirateBayScaper interface {
 	URL() string
 	SearchURL(query string) string
 	Search(query string) ([]Torrent, error)
-	SearchVideoTorrents(query string, filters *SearchFilters, contains ...string) ([]Torrent, error)
+	SearchVideoTorrents(query string, filters SearchFilters, contains ...string) ([]Torrent, error)
 	ParseSearchPage(doc *goquery.Document) []Torrent
 }
 
@@ -150,11 +150,7 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 	return torrents
 }
 
-func (s *pirateBayScaper) SearchVideoTorrents(query string, filters *SearchFilters, contains ...string) ([]Torrent, error) {
-
-	if os.Getenv("GOIRATE_DEBUG") == "true" {
-		log.Printf("Searching for movie title %s on scraper %s\n", query, s.URL())
-	}
+func (s *pirateBayScaper) SearchVideoTorrents(query string, filters SearchFilters, contains ...string) ([]Torrent, error) {
 
 	query = utils.NormalizeQuery(query)
 
@@ -185,7 +181,7 @@ func (s *pirateBayScaper) SearchVideoTorrents(query string, filters *SearchFilte
 
 	}
 
-	perQuality, err := SearchVideoTorrentList(titleFiltered, *filters)
+	perQuality, err := SearchVideoTorrentList(titleFiltered, filters)
 
 	if err != nil {
 		return nil, err

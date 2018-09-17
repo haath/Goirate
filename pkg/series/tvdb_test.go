@@ -1,6 +1,7 @@
 package series
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -55,32 +56,58 @@ func TestSearch(t *testing.T) {
 	}
 }
 
-func TestNextLastEpisode(t *testing.T) {
+func TestLastEpisode(t *testing.T) {
+
+	table := []struct {
+		in   int
+		last Episode
+	}{
+		{261690, Episode{6, 10}},
+	}
 
 	tkn := login(t)
 
-	id := 261690
+	for _, tt := range table {
+		t.Run(fmt.Sprint(tt.in), func(t *testing.T) {
 
-	expLast := Episode{6, 10}
-	expNext := Episode{6, 11}
+			last, err := tkn.LastEpisode(tt.in)
+			if err != nil {
+				t.Error(err)
+			}
 
-	last, err := tkn.LastEpisode(id)
+			if last != tt.last {
+				t.Errorf("got %v, want %v", last, tt.last)
+			}
 
-	if err != nil {
-		t.Error(err)
+		})
+	}
+}
+
+func TestNextEpisode(t *testing.T) {
+
+	table := []struct {
+		in   int
+		last Episode
+		next Episode
+	}{
+		{261690, Episode{6, 10}, Episode{6, 11}},
+		{121361, Episode{1, 0}, Episode{1, 1}},
 	}
 
-	if last != expLast {
-		t.Errorf("got %v, want %v", last, expLast)
-	}
+	tkn := login(t)
 
-	next, err := tkn.NextEpisode(id, last)
+	for _, tt := range table {
+		t.Run(fmt.Sprint(tt.in), func(t *testing.T) {
 
-	if err != nil {
-		t.Error(err)
-	}
+			next, err := tkn.NextEpisode(tt.in, tt.last)
+			if err != nil {
+				t.Error(err)
+			}
 
-	if next != expNext {
-		t.Errorf("got %v, want %v", next, expNext)
+			if next != tt.next {
+				t.Errorf("got %v, want %v", next, tt.next)
+			}
+
+		})
 	}
 }

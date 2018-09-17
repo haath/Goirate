@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/user"
 	"path"
 	"regexp"
 	"strconv"
@@ -33,10 +32,11 @@ type SeriesCommand struct {
 }
 
 type addCommand struct {
-	LastEpisode string                `long:"last-episode" short:"n" description:"The last episode that came out."`
-	MinQuality  torrents.VideoQuality `long:"min-quality" description:"The minimum video quality to accept when scanning for torrents of this series."`
-	Force       bool                  `long:"force" short:"f" description:"Overwrite this series if it already exists in the watchlist."`
-	Args        struct {
+	LastEpisode      string                `long:"last-episode" short:"e" description:"The last episode that came out."`
+	MinQuality       torrents.VideoQuality `long:"min-quality" description:"The minimum video quality to accept when scanning for torrents of this series."`
+	VerifiedUploader bool                  `long:"trusted" description:"Only accepted torrents from trusted or verified uploaders for this series."`
+	Force            bool                  `long:"force" short:"f" description:"Overwrite this series if it already exists in the watchlist."`
+	Args             struct {
 		Title string `positional-arg-name:"<series title>"`
 	} `positional-args:"1" required:"1"`
 }
@@ -46,7 +46,11 @@ type removeCommand struct {
 	} `positional-args:"1" required:"1"`
 }
 type showCommand struct{}
-type scanCommand struct{}
+type scanCommand struct {
+	torrentSearchArgs
+
+	DryRun bool `long:"dry-run" short:"d" description:"Perform the scan for new episodes without updating the last episode aired in the watchlist."`
+}
 
 // Execute is the callback of the series add command.
 func (cmd *addCommand) Execute(args []string) error {
@@ -78,10 +82,11 @@ func (cmd *addCommand) Execute(args []string) error {
 	}
 
 	ser := series.Series{
-		ID:          seriesID,
-		Title:       seriesName,
-		MinQuality:  cmd.MinQuality,
-		LastEpisode: episode,
+		ID:               seriesID,
+		Title:            seriesName,
+		MinQuality:       cmd.MinQuality,
+		VerifiedUploader: cmd.VerifiedUploader,
+		LastEpisode:      episode,
 	}
 
 	seriesList := loadSeries()
@@ -150,7 +155,115 @@ func (cmd *showCommand) Execute(args []string) error {
 // Execute is the callback of the series scan command.
 func (cmd *scanCommand) Execute(args []string) error {
 
+	tvdbToken, err := tvdbLogin()
+
+	if err != nil {
+		return err
+	}
+
+	var torrentList []interface{}
+
+	seriesList := loadSeries()
+
+	for i := range seriesList {
+
+		ser := &seriesList[i]
+
+		found := true
+
+		for found && (cmd.Count == 0 || uint(len(torrentList)) < cmd.Count) {
+
+			found, err = cmd.scanSeries(tvdbToken, ser, &torrentList)
+
+			if err != nil {
+				return err
+			}
+
+		}
+
+		if cmd.Count > 0 && uint(len(torrentList)) == cmd.Count {
+			break
+		}
+
+	}
+
+	if Options.JSON {
+
+		torrentsJSON, err := json.MarshalIndent(torrentList, "", "   ")
+
+		if err != nil {
+			return err
+		}
+
+		log.Println(string(torrentsJSON))
+
+	}
+
+	if !cmd.DryRun {
+
+		storeSeries(seriesList)
+
+	}
+
 	return nil
+}
+
+func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Series, torrentList *[]interface{}) (bool, error) {
+	filters := cmd.GetFilters()
+	filters.MinQuality = ser.MinQuality
+	filters.VerifiedUploader = ser.VerifiedUploader
+
+	nextEpisode, err := ser.NextEpisode(tvdbToken)
+
+	if err != nil {
+		return false, err
+	}
+
+	scraper, err := cmd.GetScraper(ser.SearchQuery(nextEpisode))
+
+	if err != nil {
+		return false, err
+	}
+
+	torrent, err := ser.GetTorrent(scraper, filters, nextEpisode)
+
+	if err != nil {
+		return false, err
+	}
+
+	if torrent == nil {
+		return false, nil
+	}
+
+	if cmd.MagnetLink {
+
+		log.Println(torrent.Magnet)
+
+	} else if Options.JSON {
+
+		// Do nothing, the torrentList will be updated and printed by the calling func
+
+	} else if cmd.TorrentURL {
+
+		log.Println(torrent.FullURL())
+
+	} else {
+
+		log.Printf("Torrent found for: %s %s\n%s\n%s\n\n", ser.Title, nextEpisode, torrent.FullURL(), torrent.Magnet)
+
+	}
+
+	*torrentList = append(*torrentList, struct {
+		Series  series.Series    `json:"series"`
+		Torrent torrents.Torrent `json:"torrent"`
+	}{
+		Series:  *ser,
+		Torrent: *torrent,
+	})
+
+	ser.LastEpisode = nextEpisode
+
+	return true, nil
 }
 
 func loadSeries() []series.Series {
@@ -180,8 +293,6 @@ func loadSeries() []series.Series {
 
 func storeSeries(seriesList []series.Series) {
 
-	os.MkdirAll(path.Dir(seriesConfigPath()), os.ModePerm)
-
 	file, err := os.OpenFile(seriesConfigPath(), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
 
 	if err != nil {
@@ -199,12 +310,7 @@ func storeSeries(seriesList []series.Series) {
 
 func seriesConfigPath() string {
 
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return path.Join(usr.HomeDir, ".goirate/series.toml")
+	return path.Join(configDir(), "series.toml")
 }
 
 func capitalize(str string) string {

@@ -51,7 +51,7 @@ func TestGetTorrent(t *testing.T) {
 				t.Error(err)
 			}
 
-			tor, err := tt.in.GetTorrent(scraper, &filters, tt.ep)
+			tor, err := tt.in.GetTorrent(scraper, filters, tt.ep)
 
 			if err != nil {
 				t.Error(err)
