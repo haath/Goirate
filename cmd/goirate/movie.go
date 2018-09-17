@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 
 	"git.gmantaos.com/haath/Goirate/pkg/movies"
@@ -174,5 +175,5 @@ func (m *MovieCommand) findMovie() (*movies.Movie, error) {
 
 	}
 
-	return nil, errors.New("movie not found")
+	return nil, fmt.Errorf("movie not found: %v", m.Args.Query)
 }
