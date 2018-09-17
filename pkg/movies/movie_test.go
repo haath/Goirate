@@ -54,7 +54,8 @@ func TestGetTorrent(t *testing.T) {
 		in Movie
 	}{
 		{Movie{MovieID: MovieID{Title: "third person"}}},
-		{Movie{MovieID: MovieID{Title: "Το τρίτο πρόσωπο", AltTitle: "Third Person"}}},
+		//{Movie{MovieID: MovieID{Title: "Το τρίτο πρόσωπο", AltTitle: "Third Person"}}},
+		{Movie{MovieID: MovieID{Title: "the loft"}}},
 	}
 
 	filters := torrents.SearchFilters{}

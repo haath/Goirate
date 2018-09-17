@@ -6,4 +6,4 @@ package main
 */
 
 // VERSION will hold the build version from the CI.
-const VERSION = "ebb3d27"
+const VERSION = "bc28584"

@@ -180,6 +180,11 @@ func (cmd *scanCommand) Execute(args []string) error {
 				return err
 			}
 
+			if found && !cmd.DryRun && !cmd.NoUpdate {
+
+				storeSeries(seriesList)
+
+			}
 		}
 
 		if cmd.Count > 0 && uint(len(torrentList)) == cmd.Count {
@@ -197,12 +202,6 @@ func (cmd *scanCommand) Execute(args []string) error {
 		}
 
 		log.Println(string(torrentsJSON))
-
-	}
-
-	if !cmd.DryRun && !cmd.NoUpdate {
-
-		storeSeries(seriesList)
 
 	}
 
