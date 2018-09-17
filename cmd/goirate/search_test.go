@@ -90,6 +90,8 @@ func TestFilterTorrentList(t *testing.T) {
 		}, 1},
 	}
 
+	Config.SearchFilters = torrents.SearchFilters{}
+
 	for _, tt := range table {
 		t.Run(strconv.Itoa(tt.out), func(t *testing.T) {
 			filt := tt.in()
