@@ -18,6 +18,7 @@ var Options struct {
 	Config      ConfigCommand      `command:"config" description:"Edit the application's configuration."`
 	Mirrors     MirrorsCommand     `command:"mirrors" description:"Get a list of PirateBay mirrors."`
 	Search      SearchCommand      `command:"search" alias:"s" description:"Search for torrents."`
+	Series      SeriesCommand      `command:"series" alias:"s" description:"Manage the series watchlist or perform a scan."`
 	Movie       MovieCommand       `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
 	MovieSearch MovieSearchCommand `command:"movie-search" description:"Search IMDb for movies to retrieve their IMDbID and release year."`
 }

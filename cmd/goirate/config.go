@@ -7,6 +7,7 @@ import (
 	"os/user"
 	"path"
 
+	"git.gmantaos.com/haath/Goirate/pkg/series"
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/BurntSushi/toml"
 )
@@ -14,6 +15,7 @@ import (
 // Config holds the global goirate configuration
 var Config struct {
 	torrents.SearchFilters
+	TVDBCredentials series.TVDBCredentials `toml:"tvdb"`
 }
 
 // ConfigCommand defines the config command and holds its options.
@@ -29,6 +31,8 @@ func (cmd *ConfigCommand) Execute(args []string) error {
 	ApplyFilters(cmd.SearchFilters)
 
 	ExportConfig()
+
+	log.Printf("Updated configuration at %v\n", configPath())
 
 	return nil
 }
@@ -76,6 +80,8 @@ func ExportConfig() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	defer file.Close()
 
 	encoder := toml.NewEncoder(file)
 

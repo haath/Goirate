@@ -8,6 +8,7 @@ import (
 )
 
 func CaptureCommand(cmd func([]string) error) (string, error) {
+	log.SetFlags(0)
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
 	err := cmd(nil)

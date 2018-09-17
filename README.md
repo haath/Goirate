@@ -25,7 +25,7 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] TVDB integration
 - [ ] Scanning for new series episodes
 - [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
-- [ ] Support for your proxy or VPN to avoid getting flogged
+- [ ] Support for a proxy or VPN to avoid getting flogged
 - [ ] Torrent client integration
 - [ ] Crontab scanner
     - [ ] Watchlist for single torrents

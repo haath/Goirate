@@ -22,6 +22,7 @@ type PirateBayScaper interface {
 	URL() string
 	SearchURL(query string) string
 	Search(query string) ([]Torrent, error)
+	SearchVideoTorrents(query string, filters *SearchFilters, contains ...string) ([]Torrent, error)
 	ParseSearchPage(doc *goquery.Document) []Torrent
 }
 
@@ -147,6 +148,55 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 	})
 
 	return torrents
+}
+
+func (s pirateBayScaper) SearchVideoTorrents(query string, filters *SearchFilters, contains ...string) ([]Torrent, error) {
+
+	if os.Getenv("GOIRATE_DEBUG") == "true" {
+		log.Printf("Searching for movie title %s on scraper %s\n", query, s.URL())
+	}
+
+	query = utils.NormalizeQuery(query)
+
+	trnts, err := s.Search(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	matches := func(torrentTitle string) bool {
+		for _, val := range contains {
+			if !strings.Contains(torrentTitle, strings.ToLower(val)) {
+				return false
+			}
+		}
+		return true
+	}
+
+	var titleFiltered []Torrent
+
+	for _, torrent := range trnts {
+
+		torrentTitle := utils.NormalizeQuery(torrent.Title)
+
+		if matches(torrentTitle) {
+			titleFiltered = append(titleFiltered, torrent)
+		}
+
+	}
+
+	perQuality, err := SearchVideoTorrentList(titleFiltered, *filters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var perQualitySlice []Torrent
+	for _, value := range perQuality {
+		perQualitySlice = append(perQualitySlice, *value)
+	}
+
+	return perQualitySlice, nil
 }
 
 func (s pirateBayScaper) GetNextPageURL(doc *goquery.Document) string {

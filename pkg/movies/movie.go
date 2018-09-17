@@ -3,9 +3,7 @@ package movies
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"net/url"
-	"os"
 	"strings"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
@@ -102,42 +100,11 @@ func (m Movie) SearchQuery() string {
 
 func getTorrents(scraper *torrents.PirateBayScaper, filters *torrents.SearchFilters, title string, year uint) ([]torrents.Torrent, error) {
 
-	if os.Getenv("GOIRATE_DEBUG") == "true" {
-		log.Printf("Searching for movie title %s on scraper %s\n", title, (*scraper).URL())
-	}
+	if year == 0 {
 
-	title = utils.NormalizeQuery(title)
-
-	trnts, err := (*scraper).Search(title)
-
-	if err != nil {
-		return nil, err
-	}
-
-	var titleFiltered []torrents.Torrent
-
-	for _, torrent := range trnts {
-
-		torrentTitle := utils.NormalizeQuery(torrent.Title)
-
-		if strings.Contains(torrentTitle, title) &&
-			(strings.Contains(torrentTitle, fmt.Sprint(year)) || year == 0) {
-
-			titleFiltered = append(titleFiltered, torrent)
-		}
+		return (*scraper).SearchVideoTorrents(title, filters, title)
 
 	}
 
-	perQuality, err := torrents.SearchVideoTorrentList(titleFiltered, *filters)
-
-	if err != nil {
-		return nil, err
-	}
-
-	var perQualitySlice []torrents.Torrent
-	for _, value := range perQuality {
-		perQualitySlice = append(perQualitySlice, *value)
-	}
-
-	return perQualitySlice, nil
+	return (*scraper).SearchVideoTorrents(title, filters, title, fmt.Sprint(year))
 }
