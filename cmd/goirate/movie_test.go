@@ -13,7 +13,7 @@ func TestMovieExecute(t *testing.T) {
 	var cmd MovieCommand
 	Options.JSON = true
 
-	cmd.Args.Query = "third person"
+	cmd.Args.Query = "black person"
 
 	output, err := CaptureCommand(cmd.Execute)
 
