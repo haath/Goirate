@@ -14,15 +14,11 @@ before_script:
   - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
   - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 
-lint:
-  stage: test
-  script:
-    - make lint
-
 test:
   stage: test
   retry: 2
   script:
+    - make lint
     - make test-cov
     - mv build/* ${CI_PROJECT_DIR}/
   artifacts:

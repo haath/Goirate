@@ -115,7 +115,7 @@ func ExportConfig() {
 }
 
 func applyFilters(dst *torrents.SearchFilters, src *torrents.SearchFilters) {
-	dst.VerifiedUploader = src.VerifiedUploader
+	dst.VerifiedUploader = dst.VerifiedUploader || src.VerifiedUploader
 	if src.MinQuality != "" {
 		dst.MinQuality = src.MinQuality
 	}
