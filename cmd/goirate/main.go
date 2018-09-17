@@ -36,7 +36,7 @@ type positionalArgs struct {
 	Query string `positional-arg-name:"query"`
 }
 
-func (a torrentSearchArgs) GetScraper(query string) (*torrents.PirateBayScaper, error) {
+func (a torrentSearchArgs) GetScraper(query string) (torrents.PirateBayScaper, error) {
 
 	var scraper torrents.PirateBayScaper
 
@@ -61,7 +61,7 @@ func (a torrentSearchArgs) GetScraper(query string) (*torrents.PirateBayScaper, 
 		scraper = torrents.NewScraper(mirror.URL)
 	}
 
-	return &scraper, nil
+	return scraper, nil
 }
 
 func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error) {

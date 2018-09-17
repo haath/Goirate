@@ -199,7 +199,7 @@ func TestSearch(t *testing.T) {
 		t.Errorf("Error finding scraper: %v\n", err)
 	}
 
-	torrents, err := (*scraper).Search("Windows 10")
+	torrents, err := scraper.Search("Windows 10")
 
 	if err != nil {
 		t.Error(err)

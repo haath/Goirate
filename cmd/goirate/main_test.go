@@ -42,8 +42,8 @@ func TestGetScraper(t *testing.T) {
 				return
 			}
 
-			if !tt.outError && (*scraper).URL() != tt.outURL && tt.outURL != "" {
-				t.Errorf("\ngot: %v\nwant: %v", (*scraper).URL(), tt.outURL)
+			if !tt.outError && scraper.URL() != tt.outURL && tt.outURL != "" {
+				t.Errorf("\ngot: %v\nwant: %v", scraper.URL(), tt.outURL)
 			}
 		})
 	}

@@ -40,12 +40,12 @@ func NewScraper(mirrorURL string) PirateBayScaper {
 
 	var scraper pirateBayScaper
 	scraper.url = URL
-	return scraper
+	return &scraper
 }
 
 // FindScraper will use the default MirrorScraper to find a suitable Pirate Bay mirror,
 // then return a scraper for that mirror.
-func FindScraper(query string) (*PirateBayScaper, error) {
+func FindScraper(query string) (PirateBayScaper, error) {
 	var mirrorScraper MirrorScraper
 
 	mirror, err := mirrorScraper.PickMirror(query)
@@ -56,14 +56,14 @@ func FindScraper(query string) (*PirateBayScaper, error) {
 
 	scraper := NewScraper(mirror.URL)
 
-	return &scraper, nil
+	return scraper, nil
 }
 
-func (s pirateBayScaper) URL() string {
+func (s *pirateBayScaper) URL() string {
 	return s.url.String()
 }
 
-func (s pirateBayScaper) SearchURL(query string) string {
+func (s *pirateBayScaper) SearchURL(query string) string {
 
 	query = utils.NormalizeQuery(query)
 
@@ -73,7 +73,7 @@ func (s pirateBayScaper) SearchURL(query string) string {
 	return searchURL.String()
 }
 
-func (s pirateBayScaper) Search(query string) ([]Torrent, error) {
+func (s *pirateBayScaper) Search(query string) ([]Torrent, error) {
 
 	searchURL := s.SearchURL(query)
 
@@ -90,7 +90,7 @@ func (s pirateBayScaper) Search(query string) ([]Torrent, error) {
 	return s.ParseSearchPage(doc), nil
 }
 
-func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
+func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 	var torrents []Torrent
 
@@ -150,7 +150,7 @@ func (s pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 	return torrents
 }
 
-func (s pirateBayScaper) SearchVideoTorrents(query string, filters *SearchFilters, contains ...string) ([]Torrent, error) {
+func (s *pirateBayScaper) SearchVideoTorrents(query string, filters *SearchFilters, contains ...string) ([]Torrent, error) {
 
 	if os.Getenv("GOIRATE_DEBUG") == "true" {
 		log.Printf("Searching for movie title %s on scraper %s\n", query, s.URL())
@@ -199,7 +199,7 @@ func (s pirateBayScaper) SearchVideoTorrents(query string, filters *SearchFilter
 	return perQualitySlice, nil
 }
 
-func (s pirateBayScaper) GetNextPageURL(doc *goquery.Document) string {
+func (s *pirateBayScaper) GetNextPageURL(doc *goquery.Document) string {
 
 	a := doc.Find("img[alt='Next']").Parent()
 
