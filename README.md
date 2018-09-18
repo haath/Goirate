@@ -25,12 +25,12 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] TVDB integration
 - [x] Scanning for new series episodes
 - [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
-- [ ] Torrent client integration ([Transmission](https://transmissionbt.com/))
+- [x] Torrent client integration ([Transmission](https://transmissionbt.com/))
 - [ ] Kodi-friendly download storage
 - [ ] Crontab scanner
     - [ ] Defining handlers for torrents found
-        - [ ] E-mail notifications
-        - [ ] Automatic downloads 
+        - [x] E-mail notifications
+        - [x] Automatic downloads
     - [ ] Watchlist for single torrents
     - [ ] New series episodes
     - [ ] RSS Feeds (?)
@@ -212,7 +212,7 @@ $ goirate movie-search "harry potter" -c 4
 ## Series
 
 For this tool to manage series, you need to obtain an API key from [TheTVDB.com](https://www.thetvdb.com/)
-and include it in Goirate's configuration at `~/.goirate/options.toml`.
+and include it in Goirate's configuration at `~/.goirate/config.toml`.
 
 Create a watchlist of series, by using the `series add` command.
 This stores a list of your series on your account's configuration, along
@@ -222,8 +222,8 @@ not specified, the API will be used to fetch the number of the last episode that
 aired for this series.
 
 ```sh
-$ goirate series add "Strike Back" -n "S02E04"
-$ goirate series add "The Walking Dead" -n "Season 3 Episode 1"
+$ goirate series add "Strike Back" -e "S02E04"
+$ goirate series add "The Walking Dead" -e "Season 3 Episode 1"
 $ goirate series add "expanse"
 ```
 
@@ -232,7 +232,7 @@ watchlist. The `-j` flag also applies here, printing out the JSON format instead
 
 ```sh
 $ goirate series show
-|   #    |      Series      | Season | Last Episode | Min. Quality |
+|   ID   |      Series      | Season | Last Episode | Min. Quality |
 |--------|------------------|--------|--------------|--------------|
 | 280619 | The Expanse      |   3    |      13      |              |
 | 153021 | The Walking Dead |   5    |      13      |    1080p     |
@@ -245,6 +245,65 @@ case-insensitive substring in its name, or its TVDB ID.
 $ goirate series remove expanse
 $ goirate series remove 153021
 ```
+
+With a list of series in the watchlist, use the `series scan` command to search for new episodes.
+
+```sh
+$ goirate series scan
+Torrent found for: The Americans (2013) S06E05
+https://pirateproxy.gdn/** omitted **
+magnet:?** omitted **
+
+Torrent found for: The Americans (2013) S06E06
+https://pirateproxy.gdn/** omitted **
+magnet:?** omitted **
+```
+
+When the scanner finds a new episode it will also advance the series' last watched episode number forward.
+This way, ideally, the tool can keep the watchlist updated while scanning periodically as part of a cron job.
+To perform a scan without updating the watchlist use the `--no-update` flag, and, to perform one without
+any other side-effects or actions use the `--dry-run` flag.
+
+### E-mail Notifications
+
+Torrents found when scanning can be sent via e-mail. 
+To enable this, edit the configuration file at `~/.goirate/config.toml` to enable e-mail notifications,
+configure the `smtp` settings and specify the list of recipients.
+
+```toml
+[smtp]
+  host = "smtp.gmail.com"
+  port = 587
+  username = "...@gmail.com"
+  password = "..."
+
+[watchlist]
+  send_email = true
+  notify = ["...@gmail.com"]
+  ...
+```
+
+### Automatic Downloads
+
+The tool can also be configured to automatically send new torrents to a running [Transmission](https://transmissionbt.com/)
+daemon for download. To enable this edit the configuration file at `~/.goirate/config.toml` to include the necessary RPC
+configuration.
+
+```toml
+[transmission_rpc]
+  host = "localhost"
+  port = 9091
+  username = ""
+  password = ""
+  ssl = false
+
+[watchlist]
+  ...
+  download = true
+```
+
+With this enabled, any torrents found during scanning will have their magnet links added to the [Transmission](https://transmissionbt.com/)
+daemon. Whether or not they begin downloading immediately once they are added depends on the configuration of daemon.
 
 ## Environment Variables
 
