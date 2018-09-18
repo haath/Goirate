@@ -77,7 +77,7 @@ func (tkn *TVDBToken) LastEpisode(seriesID int) (Episode, error) {
 
 	callback := func(ep Episode, aired *time.Time) {
 
-		if aired != nil && time.Now().Sub(*aired).Hours() < 1 {
+		if aired == nil || time.Now().Sub(*aired).Hours() < 1 {
 			return
 		}
 

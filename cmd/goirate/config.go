@@ -100,6 +100,8 @@ func ImportConfig() {
 		setOrDefault(&Config.DownloadDir.Series, "GOIRATE_DOWNLOADS_SERIES")
 		setOrDefault(&Config.DownloadDir.Music, "GOIRATE_DOWNLOADS_MUSIC")
 	}
+
+	ExportConfig()
 }
 
 // ExportConfig writes the current configuration to the config.toml file
