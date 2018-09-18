@@ -15,6 +15,7 @@ type Series struct {
 	MinQuality       torrents.VideoQuality `toml:"min_quality" json:"min_quality"`
 	VerifiedUploader bool                  `toml:"only_trusted" json:"only_trusted"`
 	LastEpisode      Episode               `toml:"last_episode" json:"last_episode"`
+	Action           utils.WatchlistAction `toml:"action" json:"action"`
 }
 
 // NextEpisode uses the TVDB API to make a best guess as to which is the next episode

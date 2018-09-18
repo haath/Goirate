@@ -315,6 +315,11 @@ daemon. Whether or not they begin downloading immediately once they are added de
 | GOIRATE_DOWNLOADS_MOVIES | The directory used to store movie torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_SERIES | The directory used to store series torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_MUSIC | The directory used to store music torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
+| GOIRATE_RPC_HOST | The host of the [Transmission](https://transmissionbt.com/) RPC daemon. | `localhost` |
+| GOIRATE_RPC_PORT | The port of the [Transmission](https://transmissionbt.com/) RPC daemon. | 9091 |
+| GOIRATE_RPC_USERNAME | The username used to authenticate to the RPC daemon. | |
+| GOIRATE_PRC_PASSWORD | The password used to authenticate to the RPC daemon. | |
+| GOIRATE_RPC_SSL | Set to `true` to indicate that the [Transmission](https://transmissionbt.com/) RPC should accessed over SSL. | `false` |
 | GOIRATE_SMTP_HOST | The address of the SMTP server used for sending out e-mails. | `smtp.gmail.com` |
 | GOIRATE_SMTP_PORT | The port of the SMTP server. | 587 |
 | GOIRATE_SMTP_USERNAME | The username used to authenticate with the SMTP server. | |

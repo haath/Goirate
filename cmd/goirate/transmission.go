@@ -17,19 +17,6 @@ type RPCClient struct {
 	*transmissionrpc.Client
 }
 
-// DefaultTransmissionRPCConfig returns a default RPC configuration which usually represents
-// a connection with a local transmission daemon without authentication.
-func DefaultTransmissionRPCConfig() RPCConfig {
-
-	return RPCConfig{
-		Host:     "localhost",
-		Port:     9091,
-		Username: "",
-		Password: "",
-		UseSSL:   false,
-	}
-}
-
 // GetClient returns a transmission RPC client connected with the given configuration.
 func (cfg *RPCConfig) GetClient() (*RPCClient, error) {
 

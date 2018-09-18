@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -26,7 +27,7 @@ func TestStoreLoadSeries(t *testing.T) {
 		t.Errorf("Stored 1 series by loaded %v", len(stored))
 	}
 
-	if stored[0] != ser {
+	if !reflect.DeepEqual(stored[0], ser) {
 		t.Errorf("\ngot %v\nwant %v\n", stored[0], ser)
 	}
 }

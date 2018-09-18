@@ -11,6 +11,7 @@ import (
 
 	"git.gmantaos.com/haath/Goirate/pkg/series"
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"github.com/BurntSushi/toml"
 )
 
@@ -26,11 +27,7 @@ var Config struct {
 		Series  string `toml:"series"`
 		Music   string `toml:"music"`
 	} `toml:"download_dirs"`
-	Watchlist struct {
-		SendEmail bool     `toml:"send_email"`
-		Emails    []string `toml:"notify"`
-		Download  bool     `toml:"download"`
-	} `toml:"watchlist"`
+	Watchlist utils.WatchlistAction `toml:"watchlist"`
 }
 
 // ConfigCommand defines the config command and holds its options.
@@ -70,6 +67,9 @@ func ImportConfig() {
 
 	if _, err := os.Stat(configPath()); err == nil {
 
+		/*
+			Import config.toml
+		*/
 		tomlBytes, err := ioutil.ReadFile(configPath())
 
 		if err != nil {
@@ -82,15 +82,14 @@ func ImportConfig() {
 			log.Fatal(err)
 		}
 
-		if Config.RPCConfig.Host == "" {
-			Config.RPCConfig = DefaultTransmissionRPCConfig()
-		}
-
 		usr, err := user.Current()
 		if err != nil {
 			log.Fatal(err)
 		}
 
+		/*
+			Property-setting closures
+		*/
 		setOrDefault := func(val *string, env string, defaultVal string) {
 			if os.Getenv(env) != "" {
 				*val = os.Getenv(env)
@@ -98,31 +97,49 @@ func ImportConfig() {
 				*val = defaultVal
 			}
 		}
+		setOrDefaultUint := func(val *uint16, env string, defaultVal uint16) {
+			if os.Getenv(env) != "" {
+				num, err := strconv.ParseUint(os.Getenv(env), 10, 16)
+				if err != nil {
+					log.Fatal(err)
+				}
+				*val = uint16(num)
+			} else if *val == 0 {
+				*val = defaultVal
+			}
+		}
 
+		/*
+			Download directory options
+		*/
 		defaultDownloadsDir := path.Join(usr.HomeDir, "Downloads")
 		setOrDefault(&Config.DownloadDir.General, "GOIRATE_DOWNLOADS_DIR", defaultDownloadsDir)
 		setOrDefault(&Config.DownloadDir.Movies, "GOIRATE_DOWNLOADS_MOVIES", defaultDownloadsDir)
 		setOrDefault(&Config.DownloadDir.Series, "GOIRATE_DOWNLOADS_SERIES", defaultDownloadsDir)
 		setOrDefault(&Config.DownloadDir.Music, "GOIRATE_DOWNLOADS_MUSIC", defaultDownloadsDir)
 
+		/*
+			Transmission RPC configurations
+		*/
+		setOrDefault(&Config.RPCConfig.Host, "GOIRATE_RPC_HOST", "localhost")
+		setOrDefaultUint(&Config.RPCConfig.Port, "GOIRATE_RPC_PORT", 9091)
+		setOrDefault(&Config.RPCConfig.Username, "GOIRATE_RPC_USERNAME", "")
+		setOrDefault(&Config.RPCConfig.Password, "GOIRATE_RPC_PASSWORD", "")
+		if os.Getenv("GOIRATE_RPC_SSL") == "true" {
+			Config.RPCConfig.UseSSL = true
+		}
+
+		/*
+			SMTP configurations
+		*/
 		setOrDefault(&Config.SMTPConfig.Host, "GOIRATE_SMTP_HOST", "smtp.gmail.com")
+		setOrDefaultUint(&Config.SMTPConfig.Port, "GOIRATE_SMTP_PORT", 587)
 		setOrDefault(&Config.SMTPConfig.Username, "GOIRATE_SMTP_USERNAME", "")
 		setOrDefault(&Config.SMTPConfig.Password, "GOIRATE_SMTP_PASSWORD", "")
 
-		if os.Getenv("GOIRATE_SMTP_PORT") != "" {
-			port, err := strconv.ParseUint(os.Getenv("GOIRATE_SMTP_PORT"), 10, 16)
-
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			Config.SMTPConfig.Port = uint16(port)
-
-		} else if Config.SMTPConfig.Port == 0 {
-
-			Config.SMTPConfig.Port = 587
-		}
-
+		/*
+			Watchlist options
+		*/
 		if os.Getenv("GOIRATE_WATCHLIST_NOTIFY") != "" {
 
 			Config.Watchlist.Emails = strings.Split(os.Getenv("GOIRATE_WATCHLIST_NOTIFY"), ",")

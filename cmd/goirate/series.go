@@ -101,6 +101,7 @@ func (cmd *addCommand) Execute(args []string) error {
 		VerifiedUploader: cmd.VerifiedUploader,
 		LastEpisode:      episode,
 	}
+	ser.Action.Emails = []string{}
 
 	seriesList := loadSeries()
 
@@ -328,7 +329,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 	for _, seriesTorrents := range seriesTorrentsList {
 
-		if Config.Watchlist.SendEmail {
+		if Config.Watchlist.SendEmail.OverwrittenBy(seriesTorrents.Series.Action.SendEmail) {
 
 			// Send e-mail
 
@@ -365,7 +366,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 		for _, seriesTorrent := range seriesTorrents.Torrents {
 
-			if Config.Watchlist.Download {
+			if Config.Watchlist.Download.OverwrittenBy(seriesTorrents.Series.Action.Download) {
 
 				// Send the torrent to the transmission daemon for download
 
