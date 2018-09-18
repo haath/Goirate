@@ -51,3 +51,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/hekmon/transmissionrpc"
+
+[[constraint]]
+  name = "github.com/gobuffalo/packr"
+  version = "1.13.3"

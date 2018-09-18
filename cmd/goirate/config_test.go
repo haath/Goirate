@@ -9,7 +9,7 @@ import (
 
 func TestImportExpor(t *testing.T) {
 
-	reset()
+	resetConfigs()
 
 	whitelist := []string{"allowed_user1", "allowed_user2"}
 	blacklist := []string{"banned_user", "bad_boye"}
@@ -28,12 +28,12 @@ func TestImportExpor(t *testing.T) {
 		t.Errorf("\ngot %v\nwant %v", Config.Uploaders.Whitelist, whitelist)
 	}
 
-	reset()
+	resetConfigs()
 }
 
 func TestExecute(t *testing.T) {
 
-	reset()
+	resetConfigs()
 
 	var cmd ConfigCommand
 
@@ -56,10 +56,10 @@ func TestExecute(t *testing.T) {
 		t.Errorf("\ngot %v\nwant %v", Config, cmd)
 	}
 
-	reset()
+	resetConfigs()
 }
 
-func reset() {
+func resetConfigs() {
 
 	Config.SearchFilters = torrents.SearchFilters{}
 	Config.Uploaders.Whitelist = []string{}

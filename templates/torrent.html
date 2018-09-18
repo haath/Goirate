@@ -1,0 +1,50 @@
+<html>
+<head>
+<style>
+    th { 
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+    <h1>{{.Series.Title}}</h1>
+
+    {{range .Torrents}}
+
+        <h2>{{.Episode.LongString}}</h2>
+        <hr>
+        
+        <table cellpadding="4">
+            <tr>
+                <th>Size</th>
+                <td>{{.Torrent.SizeString}}</td>
+            </tr>
+            <tr>
+                <th>Quality</th>
+                <td>{{.Torrent.VideoQuality}}</td>
+            </tr>
+            <tr>
+                <th>Seeds / Peers</th>
+                <td>{{.Torrent.PeersString}}</td>
+            </tr>
+            <tr>
+                <th>Uploaded</th>
+                <td>{{.Torrent.UploadTime.Format "02/01/2006 15:04"}}</td>
+            </tr>
+            <tr>
+                <th>Verified Uploader</th>
+                <td>{{if .Torrent.VerifiedUploader}}Yes{{else}}No{{end}}</td>
+            </tr>
+        </table>
+
+        <h4>Pirate Bay Link</h4>
+        <a href="{{.Torrent.FullURL}}">{{.Torrent.FullURL}}</a>
+
+        <h4>Magnet</h4>
+        <textarea rows="4" cols="50">{{.Torrent.Magnet}}</textarea>
+
+        <br><br>
+
+    {{end}}
+</body>
+</html>

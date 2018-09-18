@@ -89,7 +89,7 @@ func TestParseSearchPage(t *testing.T) {
 
 	expectedNextPage := "localhost/search/avengers/1/7"
 
-	file, err := os.Open("../../samples/piratebay_search.html")
+	file, err := os.Open("../../test_samples/piratebay_search.html")
 
 	if err != nil {
 		t.Error(err)

@@ -35,7 +35,7 @@ func TestParseMirrors(t *testing.T) {
 		{"https://cruzing.xyz", "us", true},
 	}
 
-	file, err := os.Open("../../samples/proxybay.html")
+	file, err := os.Open("../../test_samples/proxybay.html")
 	if err != nil {
 		t.Error(err)
 		return
@@ -82,7 +82,7 @@ func TestPickMirror(t *testing.T) {
 
 	//expected := Mirror{"https://thepbproxy.com", "nl", true}
 
-	file, err := os.Open("../../samples/proxybay.html")
+	file, err := os.Open("../../test_samples/proxybay.html")
 	if err != nil {
 		t.Error(err)
 		return

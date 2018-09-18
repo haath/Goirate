@@ -9,14 +9,16 @@ GCC_FLAGS		= --ldflags "-linkmode external -extldflags -static"
 GCC_FLAGS_WIN	= --ldflags "-extldflags -static"
 
 build: dep patch ## Install dependencies and statitcally compile the binary file
-	go build $(GCC_FLAGS) $(BUILD_FLAGS) ./cmd/goirate
+	packr build $(GCC_FLAGS) $(BUILD_FLAGS) ./cmd/goirate
+	@packr clean
 
 
 build-win64: dep patch ## Install dependencies and statitcally compile the binary file on 64-bit windows
-	go build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
+	packr build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
 
 install: dep patch ## Compile and install the binary at $GOPATH/bin
-	go install ./cmd/goirate
+	packr install ./cmd/goirate
+	@packr clean
 
 patch:
 	@./scripts/patch.sh;
@@ -38,11 +40,13 @@ test-cov: dep ## Run unit tests and generate code coverage
 	@./scripts/test.sh;
 
 compile: ## Compile the binary file
-	@go build -i -v -o $(OUTPUT) ./cmd/goirate
+	@packr build -i -v -o $(OUTPUT) ./cmd/goirate
+	@packr clean
 
 dep: Gopkg.toml ## Install dependencies
 	@dep ensure
 	@go get -u github.com/golang/lint/golint
+	@go get -u github.com/gobuffalo/packr/...
 
 clean: ## Remove previous build
 	@rm -rf build

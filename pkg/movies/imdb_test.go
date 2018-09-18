@@ -110,7 +110,7 @@ func TestParseIMDbPage(t *testing.T) {
 		PosterURL: "https://m.media-amazon.com/images/M/MV5BN2Y5ZTU4YjctMDRmMC00MTg4LWE1M2MtMjk4MzVmOTE4YjkzXkEyXkFqcGdeQXVyNTc1NTQxODI@._V1_UX182_CR0,0,182,268_AL_.jpg",
 	}
 
-	doc, err := utils.GetFileDocument("../../samples/imdb.html")
+	doc, err := utils.GetFileDocument("../../test_samples/imdb.html")
 
 	if err != nil {
 		t.Error(err)
@@ -163,7 +163,7 @@ func TestParseSearchPage(t *testing.T) {
 		{83, MovieID{"0199812", "Ninja Operation 6: Champion on Fire", 1987, "Ninja Avengers"}},
 	}
 
-	doc, err := utils.GetFileDocument("../../samples/imdb_search.html")
+	doc, err := utils.GetFileDocument("../../test_samples/imdb_search.html")
 
 	if err != nil {
 		t.Error(err)

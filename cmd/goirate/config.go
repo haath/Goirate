@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"strconv"
 
 	"git.gmantaos.com/haath/Goirate/pkg/series"
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
@@ -17,6 +18,7 @@ var Config struct {
 	torrents.SearchFilters
 	TVDBCredentials series.TVDBCredentials `toml:"tvdb"`
 	RPCConfig       RPCConfig              `toml:"transmission_rpc"`
+	SMTPConfig      SMTPConfig             `toml:"smtp"`
 	DownloadDir     struct {
 		General string `toml:"general"`
 		Movies  string `toml:"movies"`
@@ -24,8 +26,9 @@ var Config struct {
 		Music   string `toml:"music"`
 	} `toml:"download_dirs"`
 	Watchlist struct {
-		Email    bool `toml:"email"`
-		Download bool `toml:"download"`
+		SendEmail bool   `toml:"send_email"`
+		Email     string `toml:"email"`
+		Download  bool   `toml:"download"`
 	} `toml:"watchlist"`
 }
 
@@ -87,18 +90,37 @@ func ImportConfig() {
 			log.Fatal(err)
 		}
 
-		setOrDefault := func(val *string, env string) {
+		setOrDefault := func(val *string, env string, defaultVal string) {
 			if os.Getenv(env) != "" {
 				*val = os.Getenv(env)
 			} else if *val == "" {
-				*val = path.Join(usr.HomeDir, "Downloads")
+				*val = defaultVal
 			}
 		}
 
-		setOrDefault(&Config.DownloadDir.General, "GOIRATE_DOWNLOADS_DIR")
-		setOrDefault(&Config.DownloadDir.Movies, "GOIRATE_DOWNLOADS_MOVIES")
-		setOrDefault(&Config.DownloadDir.Series, "GOIRATE_DOWNLOADS_SERIES")
-		setOrDefault(&Config.DownloadDir.Music, "GOIRATE_DOWNLOADS_MUSIC")
+		defaultDownloadsDir := path.Join(usr.HomeDir, "Downloads")
+		setOrDefault(&Config.DownloadDir.General, "GOIRATE_DOWNLOADS_DIR", defaultDownloadsDir)
+		setOrDefault(&Config.DownloadDir.Movies, "GOIRATE_DOWNLOADS_MOVIES", defaultDownloadsDir)
+		setOrDefault(&Config.DownloadDir.Series, "GOIRATE_DOWNLOADS_SERIES", defaultDownloadsDir)
+		setOrDefault(&Config.DownloadDir.Music, "GOIRATE_DOWNLOADS_MUSIC", defaultDownloadsDir)
+
+		setOrDefault(&Config.SMTPConfig.Host, "GOIRATE_SMTP_HOST", "smtp.gmail.com")
+		setOrDefault(&Config.SMTPConfig.Username, "GOIRATE_SMTP_USERNAME", "")
+		setOrDefault(&Config.SMTPConfig.Password, "GOIRATE_SMTP_PASSWORD", "")
+
+		if os.Getenv("GOIRATE_SMTP_PORT") != "" {
+			port, err := strconv.ParseUint(os.Getenv("GOIRATE_SMTP_PORT"), 10, 16)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			Config.SMTPConfig.Port = uint16(port)
+
+		} else if Config.SMTPConfig.Port == 0 {
+
+			Config.SMTPConfig.Port = 587
+		}
 	}
 
 	ExportConfig()

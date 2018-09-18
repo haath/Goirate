@@ -130,6 +130,7 @@ func TestScan(t *testing.T) {
 
 	var scanCmd scanCommand
 	scanCmd.MagnetLink = true
+	scanCmd.Count = 100
 
 	output, err = CaptureCommand(scanCmd.Execute)
 

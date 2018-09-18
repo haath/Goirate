@@ -56,6 +56,15 @@ type scanCommand struct {
 	Quiet    bool `long:"quiet" short:"q" description:"Do not print anything to the standard output."`
 }
 
+type seriesTorrent struct {
+	Episode series.Episode   `json:"episode"`
+	Torrent torrents.Torrent `json:"torrent"`
+}
+type seriesTorrents struct {
+	Series   *series.Series  `json:"series"`
+	Torrents []seriesTorrent `json:"torrents"`
+}
+
 // Execute is the callback of the series add command.
 func (cmd *addCommand) Execute(args []string) error {
 
@@ -180,7 +189,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 		return err
 	}
 
-	var torrentList []interface{}
+	var torrentList []seriesTorrents
 
 	seriesList := loadSeries()
 
@@ -190,7 +199,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 
 		found := true
 
-		for found && (cmd.Count == 0 || uint(len(torrentList)) < cmd.Count) {
+		for found && (cmd.Count == 0 || seriesTorrentCount(torrentList) < cmd.Count) {
 
 			found, err = cmd.scanSeries(tvdbToken, ser, &torrentList)
 
@@ -203,11 +212,6 @@ func (cmd *scanCommand) Execute(args []string) error {
 				storeSeries(seriesList)
 			}
 		}
-
-		if cmd.Count > 0 && uint(len(torrentList)) == cmd.Count {
-			break
-		}
-
 	}
 
 	if Options.JSON {
@@ -221,6 +225,14 @@ func (cmd *scanCommand) Execute(args []string) error {
 		log.Println(string(torrentsJSON))
 	}
 
+	if !cmd.DryRun {
+		err = cmd.handleSeriesTorrents(torrentList)
+
+		if err != nil {
+			return err
+		}
+	}
+
 	if cmd.Quiet {
 		enableOutput()
 	}
@@ -228,7 +240,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 	return nil
 }
 
-func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Series, torrentList *[]interface{}) (bool, error) {
+func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Series, torrentList *[]seriesTorrents) (bool, error) {
 
 	filters := cmd.GetFilters()
 	filters.MinQuality = ser.MinQuality
@@ -273,45 +285,98 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 		log.Printf("Torrent found for: %s %s\n%s\n%s\n\n", ser.Title, nextEpisode, torrent.FullURL(), torrent.Magnet)
 	}
 
-	*torrentList = append(*torrentList, struct {
-		Series  series.Series    `json:"series"`
-		Torrent torrents.Torrent `json:"torrent"`
-	}{
-		Series:  *ser,
-		Torrent: *torrent,
-	})
+	appendSeriesTorrent(torrentList, ser, nextEpisode, *torrent)
 
 	ser.LastEpisode = nextEpisode
-
-	if !cmd.DryRun {
-		err = cmd.handleSeriesTorrent(ser, torrent)
-	}
 
 	return true, err
 }
 
-func (cmd *scanCommand) handleSeriesTorrent(ser *series.Series, torrent *torrents.Torrent) error {
+func appendSeriesTorrent(torrentList *[]seriesTorrents, ser *series.Series, episode series.Episode, torrent torrents.Torrent) {
 
-	if Config.Watchlist.Email {
+	serTorrent := seriesTorrent{Torrent: torrent, Episode: episode}
 
-		// Send e-mails
+	for i := range *torrentList {
 
+		item := (*torrentList)[i]
+
+		if item.Series.ID == ser.ID {
+
+			(*torrentList)[i].Torrents = append(item.Torrents, serTorrent)
+
+			return
+		}
 	}
 
-	if Config.Watchlist.Download {
+	*torrentList = append(*torrentList, seriesTorrents{
+		Series:   ser,
+		Torrents: []seriesTorrent{serTorrent},
+	})
+}
 
-		// Send the torrent to the transmission daemon for download
+func seriesTorrentCount(torrentList []seriesTorrents) uint {
 
-		transmission, err := Config.RPCConfig.GetClient()
+	var count uint
+	for _, seriesTorrents := range torrentList {
 
-		if err != nil {
-			return err
+		count += uint(len(seriesTorrents.Torrents))
+	}
+	return count
+}
+
+func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents) error {
+
+	for _, seriesTorrents := range seriesTorrentsList {
+
+		if Config.Watchlist.SendEmail {
+
+			log.Printf("Sending e-mail to: %s\n", Config.Watchlist.Email)
+
+			// Send e-mail
+			body, err := LoadTorrentTemplate(seriesTorrents)
+
+			if err != nil {
+				return err
+			}
+
+			var subject string
+
+			if len(seriesTorrents.Torrents) > 1 {
+
+				subject = fmt.Sprintf("[Goirate] New episodes out for %s", seriesTorrents.Series.Title)
+
+			} else {
+
+				subject = fmt.Sprintf("[Goirate] New episode out for %s (%s)", seriesTorrents.Series.Title, seriesTorrents.Torrents[0].Episode)
+			}
+
+			err = Config.SMTPConfig.SendEmail(Config.Watchlist.Email, subject, body)
+
+			if err != nil {
+				return err
+			}
 		}
 
-		err = transmission.AddTorrent(torrent.Magnet, Config.DownloadDir.Series)
+		for _, seriesTorrent := range seriesTorrents.Torrents {
 
-		if err != nil {
-			return err
+			if Config.Watchlist.Download {
+
+				// Send the torrent to the transmission daemon for download
+
+				transmission, err := Config.RPCConfig.GetClient()
+
+				if err != nil {
+					return err
+				}
+
+				err = transmission.AddTorrent(seriesTorrent.Torrent.Magnet, Config.DownloadDir.Series)
+
+				if err != nil {
+					return err
+				}
+
+			}
+
 		}
 
 	}

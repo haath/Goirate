@@ -256,6 +256,10 @@ $ goirate series remove 153021
 | GOIRATE_DOWNLOADS_MOVIES | The directory used to store movie torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_SERIES | The directory used to store series torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_MUSIC | The directory used to store music torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
+| GOIRATE_SMTP_HOST | The address of the SMTP server used for sending out e-mails. | `smtp.gmail.com` |
+| GOIRATE_SMTP_PORT | The port of the SMTP server. | 587 |
+| GOIRATE_SMTP_USERNAME | The username used to authenticate with the SMTP server. | |
+| GOIRATE_SMTP_PASSWORD | The password used to authenticate with the SMTP server. | |
 
 
 

@@ -55,3 +55,8 @@ func (ep *Episode) IsAfter(episode Episode) bool {
 func (ep Episode) String() string {
 	return fmt.Sprintf("S%02dE%02d", ep.Season, ep.Episode)
 }
+
+// LongString returns the string Season xx Episode yy representation of an episode.
+func (ep Episode) LongString() string {
+	return fmt.Sprintf("Season %d, Episode %d", ep.Season, ep.Episode)
+}

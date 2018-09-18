@@ -26,6 +26,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/gobuffalo/packr"
+  packages = ["."]
+  revision = "6c8156ee36301dd007342e79d81c99e7a7834337"
+  version = "v1.13.5"
+
+[[projects]]
   name = "github.com/hekmon/cunits"
   packages = ["."]
   revision = "3c45cb0124f153c1e8bbd2e965cf657c59331d49"
@@ -56,6 +62,12 @@
   revision = "d4647c9c7a84d847478d890b816b7d8b62b0b279"
 
 [[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = [
@@ -67,6 +79,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "22f909b40069fd952287f37084f086e0e39a1a76d00e230284afddae1d2fd14f"
+  inputs-digest = "dc2873a325d8b87cc40e683cfe1bc5f93ec21f911ecd792bbbf71b663eb23c44"
   solver-name = "gps-cdcl"
   solver-version = 1

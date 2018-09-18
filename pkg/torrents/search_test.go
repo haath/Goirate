@@ -24,7 +24,7 @@ func TestSearchTorrentList(t *testing.T) {
 		{SearchFilters{MinSeeders: 500}, "", 0},
 	}
 
-	file, err := os.Open("../../samples/piratebay_movie.html")
+	file, err := os.Open("../../test_samples/piratebay_movie.html")
 
 	if err != nil {
 		t.Error(err)
@@ -169,7 +169,7 @@ func TestUploaderOk(t *testing.T) {
 
 func TestFilterTorrentList(t *testing.T) {
 
-	file, err := os.Open("../../samples/piratebay_search.html")
+	file, err := os.Open("../../test_samples/piratebay_search.html")
 
 	if err != nil {
 		t.Error(err)

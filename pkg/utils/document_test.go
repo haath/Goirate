@@ -63,7 +63,7 @@ func TestGetFileDocument(t *testing.T) {
 
 	expected := "Cast Away (2000) - IMDbTryIMDbProFree"
 
-	doc, err := GetFileDocument("../../samples/imdb.html")
+	doc, err := GetFileDocument("../../test_samples/imdb.html")
 
 	if err != nil {
 		t.Error(err)
