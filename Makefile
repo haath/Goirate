@@ -30,9 +30,11 @@ lint: dep ## Verifies the code through lint, fmt and vet
 	@go vet -composites=false $(PKG_LIST)
 
 test: dep ## Run unit tests
+	@export GOIRATE_DEBUG=false
 	@go test -short ${PKG_LIST}
 
 test-cov: dep ## Run unit tests and generate code coverage
+	@export GOIRATE_DEBUG=false
 	@./scripts/test.sh;
 
 compile: ## Compile the binary file

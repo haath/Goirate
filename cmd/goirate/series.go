@@ -36,11 +36,13 @@ type addCommand struct {
 	MinQuality       torrents.VideoQuality `long:"min-quality" description:"The minimum video quality to accept when scanning for torrents of this series."`
 	VerifiedUploader bool                  `long:"trusted" description:"Only accepted torrents from trusted or verified uploaders for this series."`
 	Force            bool                  `long:"force" short:"f" description:"Overwrite this series if it already exists in the watchlist."`
+	Show             bool                  `long:"ls" description:"Execute the show command after adding."`
 	Args             struct {
 		Title string `positional-arg-name:"<series title>"`
 	} `positional-args:"1" required:"1"`
 }
 type removeCommand struct {
+	Show bool `long:"ls" description:"Execute the show command after removing."`
 	Args struct {
 		Title string `positional-arg-name:"<series title/id>"`
 	} `positional-args:"1" required:"1"`
@@ -51,6 +53,7 @@ type scanCommand struct {
 
 	DryRun   bool `long:"dry-run" description:"Perform the scan for new episodes without downloading torrents, sending notifications or updating the episode numbers in the watchlist."`
 	NoUpdate bool `long:"no-update" description:"Perform the scan for new episodes without updating the last episode aired in the watchlist."`
+	Quiet    bool `long:"quiet" short:"q" description:"Do not print anything to the standard output."`
 }
 
 // Execute is the callback of the series add command.
@@ -96,7 +99,7 @@ func (cmd *addCommand) Execute(args []string) error {
 
 		if cmd.Force {
 
-			seriesList = remove(seriesList, ser.ID, "")
+			remove(&seriesList, ser.ID, "")
 
 		} else {
 
@@ -109,7 +112,10 @@ func (cmd *addCommand) Execute(args []string) error {
 
 	storeSeries(seriesList)
 
-	log.Printf("Added series: %v", ser.Title)
+	if cmd.Show {
+		var showCmd showCommand
+		return showCmd.Execute(args)
+	}
 
 	return nil
 }
@@ -122,9 +128,17 @@ func (cmd *removeCommand) Execute(args []string) error {
 
 	seriesList := loadSeries()
 
-	seriesList = remove(seriesList, id, cmd.Args.Title)
+	if !remove(&seriesList, id, cmd.Args.Title) {
+
+		return fmt.Errorf("no series found on the watchlist matching: %v\vhint: goirate series show", cmd.Args.Title)
+	}
 
 	storeSeries(seriesList)
+
+	if cmd.Show {
+		var showCmd showCommand
+		return showCmd.Execute(args)
+	}
 
 	return nil
 }
@@ -156,6 +170,10 @@ func (cmd *showCommand) Execute(args []string) error {
 // Execute is the callback of the series scan command.
 func (cmd *scanCommand) Execute(args []string) error {
 
+	if cmd.Quiet {
+		disableOutput()
+	}
+
 	tvdbToken, err := tvdbLogin()
 
 	if err != nil {
@@ -183,7 +201,6 @@ func (cmd *scanCommand) Execute(args []string) error {
 			if found && !cmd.DryRun && !cmd.NoUpdate {
 
 				storeSeries(seriesList)
-
 			}
 		}
 
@@ -202,13 +219,17 @@ func (cmd *scanCommand) Execute(args []string) error {
 		}
 
 		log.Println(string(torrentsJSON))
+	}
 
+	if cmd.Quiet {
+		enableOutput()
 	}
 
 	return nil
 }
 
 func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Series, torrentList *[]interface{}) (bool, error) {
+
 	filters := cmd.GetFilters()
 	filters.MinQuality = ser.MinQuality
 	filters.VerifiedUploader = ser.VerifiedUploader
@@ -250,7 +271,6 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 	} else {
 
 		log.Printf("Torrent found for: %s %s\n%s\n%s\n\n", ser.Title, nextEpisode, torrent.FullURL(), torrent.Magnet)
-
 	}
 
 	*torrentList = append(*torrentList, struct {
@@ -394,7 +414,7 @@ func tvdbLogin() (*series.TVDBToken, error) {
 
 	if cred.APIKey == "" || cred.UserKey == "" || cred.Username == "" {
 
-		return nil, fmt.Errorf("the series command requires valid credentials for the TVDB API to be configured at %v, which can be obtained by making a free account at https://www.thetvdb.com/", configPath())
+		return nil, fmt.Errorf("the series command requires valid credentials for the TVDB API to be configured at %v\nthey can be obtained by making a free account at https://www.thetvdb.com/", configPath())
 	}
 
 	tkn, err := cred.Login()
@@ -418,21 +438,32 @@ func containsID(seriesList []series.Series, id int) bool {
 	return false
 }
 
-func remove(seriesList []series.Series, id int, title string) []series.Series {
+func remove(seriesList *[]series.Series, id int, title string) bool {
 
 	var newList []series.Series
+	var found bool
 
-	for _, ser := range seriesList {
+	for _, ser := range *seriesList {
 
 		normalizedTitle := utils.NormalizeQuery(ser.Title)
 
 		if (id == 0 && title != "" && strings.Contains(normalizedTitle, title)) || ser.ID == id {
 
-			log.Printf("Removed series: %v", ser.Title)
+			found = true
 			continue
 		}
 
 		newList = append(newList, ser)
 	}
-	return newList
+	*seriesList = newList
+	return found
+}
+
+func disableOutput() {
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+}
+
+func enableOutput() {
+	log.SetOutput(os.Stdout)
 }

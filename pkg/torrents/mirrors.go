@@ -109,9 +109,9 @@ func parseLoadTime(speedTitle string) float32 {
 
 func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []Torrent, error) {
 
-	client := utils.HTTPClient{Timeout: 2 * time.Second}
+	timeout := 2 * time.Second
 
-	for client.Timeout < 10*time.Second {
+	for timeout < 10*time.Second {
 
 		// Return the first mirror that responds to HTTP GET
 		for _, mirror := range mirrors {
@@ -122,7 +122,7 @@ func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []T
 
 			scraper := NewScraper(mirror.URL)
 
-			torrents, err := scraper.Search(query)
+			torrents, err := scraper.SearchTimeout(query, timeout)
 
 			if err == nil && len(torrents) > 0 {
 
@@ -131,7 +131,7 @@ func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []T
 			}
 		}
 
-		client.Timeout *= 2
+		timeout *= 2
 	}
 
 	if trustSource {

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"log"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
@@ -19,17 +18,13 @@ type SearchCommand struct {
 // Execute is the callback of the mirrors command.
 func (m *SearchCommand) Execute(args []string) error {
 
-	if !m.ValidOutputFlags() {
-		return errors.New("too many flags specifying the kind of output")
-	}
-
 	torrents, err := m.GetTorrents(m.Args.Query)
 
 	if err != nil {
 		return err
 	}
 
-	torrents = m.filterTorrentList(torrents)
+	torrents = m.GetFilters().FilterTorrentsCount(torrents, m.Count)
 
 	if Options.JSON {
 		torrentsJSON, err := json.MarshalIndent(torrents, "", "   ")
@@ -59,24 +54,6 @@ func (m *SearchCommand) Execute(args []string) error {
 	}
 
 	return nil
-}
-
-func (m *SearchCommand) filterTorrentList(torrentList []torrents.Torrent) []torrents.Torrent {
-
-	var filtered []torrents.Torrent
-
-	for _, torrent := range torrentList {
-
-		if m.GetFilters().IsOk(&torrent) {
-			filtered = append(filtered, torrent)
-		}
-
-		if m.Count > 0 && uint(len(filtered)) >= m.Count {
-			break
-		}
-	}
-
-	return filtered
 }
 
 func getTorrentsTable(torrents []torrents.Torrent) string {

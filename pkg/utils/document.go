@@ -140,6 +140,13 @@ func HTTPGet(url string) (*goquery.Document, error) {
 	return client.Get(url)
 }
 
+// HTTPGetJSON fetches an HTTP url and deserializes the JSON response into resp.
+// It will also set the appropriate headers to make sure the pages are returned in English.
+func HTTPGetJSON(url string, resp interface{}) error {
+	var client HTTPClient
+	return client.GetJSON(url, &resp)
+}
+
 // HTTPPost executes an HTTP post request on the given url by serializing the
 // given object into JSON.
 func HTTPPost(url string, req interface{}, resp interface{}) error {

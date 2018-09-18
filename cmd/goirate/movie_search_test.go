@@ -13,12 +13,24 @@ func TestMovieSearchExecute(t *testing.T) {
 	Options.JSON = true
 	cmd.Args.Query = "avengers"
 
-	output, _ := CaptureCommand(cmd.Execute)
+	output, err := CaptureCommand(cmd.Execute)
+
+	if err != nil {
+		t.Error(output)
+		t.Error(err)
+	}
 
 	var movies []imdb.MovieID
 	json.Unmarshal([]byte(output), &movies)
 
 	Options.JSON = false
+
+	output, err = CaptureCommand(cmd.Execute)
+
+	if err != nil {
+		t.Error(output)
+		t.Error(err)
+	}
 }
 
 func TestGetMoviesTable(t *testing.T) {

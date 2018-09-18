@@ -1,6 +1,9 @@
 package utils
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestHTTPGet(t *testing.T) {
 	_, err := HTTPGet("https://www.google.com/")
@@ -25,6 +28,35 @@ func TestHTTPGetStatus(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected 404, got: %v", res)
 	}
+}
+
+func TestHTTPPost(t *testing.T) {
+	obj := []struct {
+		Title  string `json:"title"`
+		Body   string `json:"body"`
+		UserID int    `json:"userId"`
+		ID     int    `json:"id"`
+	}{
+		{
+			"some title",
+			"super special body",
+			123456,
+			102,
+		},
+		{},
+	}
+
+	err := HTTPPost("https://jsonplaceholder.typicode.com/posts", obj[0], &obj[1])
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !reflect.DeepEqual(obj[0], obj[1]) {
+		t.Fatalf("got %v, want %v", obj[1], obj[0])
+	}
+
+	HTTPGetJSON("https://jsonplaceholder.typicode.com/posts/102", &obj[1])
 }
 
 func TestGetFileDocument(t *testing.T) {

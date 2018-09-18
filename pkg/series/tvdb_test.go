@@ -82,33 +82,3 @@ func TestLastEpisode(t *testing.T) {
 		})
 	}
 }
-
-func TestNextEpisode(t *testing.T) {
-
-	table := []struct {
-		in   int
-		last Episode
-		next Episode
-	}{
-		{261690, Episode{6, 10}, Episode{6, 11}},
-		{121361, Episode{1, 0}, Episode{1, 1}},
-		{255316, Episode{5, 24}, Episode{6, 1}},
-	}
-
-	tkn := login(t)
-
-	for _, tt := range table {
-		t.Run(fmt.Sprint(tt.in), func(t *testing.T) {
-
-			next, err := tkn.NextEpisode(tt.in, tt.last)
-			if err != nil {
-				t.Error(err)
-			}
-
-			if next != tt.next {
-				t.Errorf("got %v, want %v", next, tt.next)
-			}
-
-		})
-	}
-}

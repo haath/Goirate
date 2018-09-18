@@ -105,6 +105,24 @@ func (f SearchFilters) FilterTorrents(torrents []Torrent) []Torrent {
 	return filtered
 }
 
+// FilterTorrentsCount filters the given list of torrents, returning only the ones that
+// comply with the filters, while also limiting the result to the number specified by count.
+func (f SearchFilters) FilterTorrentsCount(torrents []Torrent, count uint) []Torrent {
+
+	var filtered []Torrent
+
+	for _, torrent := range f.FilterTorrents(torrents) {
+
+		filtered = append(filtered, torrent)
+
+		if count > 0 && uint(len(filtered)) >= count {
+			break
+		}
+	}
+
+	return filtered
+}
+
 // PickVideoTorrent functions similar to SearchTorrentList(), but instead returns the torrent with the best available video quality
 // with at least one seeder.
 func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, error) {

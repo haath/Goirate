@@ -209,3 +209,36 @@ func TestSearch(t *testing.T) {
 		t.Errorf("Search yielded 0 torrents")
 	}
 }
+
+func TestSearchVideoTorrents(t *testing.T) {
+
+	scraper, err := FindScraper("black panther")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	torrents, err := scraper.SearchVideoTorrents("black panther", SearchFilters{}, "2018")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	count := func(quality VideoQuality) int {
+		c := 0
+		for _, tor := range torrents {
+			if tor.VideoQuality == quality {
+				c++
+			}
+		}
+		return c
+	}
+
+	if len(torrents) == 0 {
+		t.Errorf("video torrents not found")
+	}
+
+	if count(Default) > 1 || count(Low) > 1 || count(Medium) > 1 || count(High) > 1 {
+		t.Errorf("duplicate video torrent qualities: %v", torrents)
+	}
+}

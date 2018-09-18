@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"log"
 	"os"
@@ -41,6 +42,10 @@ type positionalArgs struct {
 
 func (a torrentSearchArgs) GetScraper(query string) (torrents.PirateBayScaper, error) {
 
+	if !a.ValidOutputFlags() {
+		return nil, errors.New("too many flags specifying the kind of output")
+	}
+
 	var scraper torrents.PirateBayScaper
 
 	if a.Mirror != "" {
@@ -68,6 +73,10 @@ func (a torrentSearchArgs) GetScraper(query string) (torrents.PirateBayScaper, e
 }
 
 func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error) {
+
+	if !a.ValidOutputFlags() {
+		return nil, errors.New("too many flags specifying the kind of output")
+	}
 
 	if a.Mirror != "" {
 
@@ -108,23 +117,6 @@ func (a torrentSearchArgs) GetFilters() torrents.SearchFilters {
 	return a.SearchFilters
 }
 
-func main() {
-
-	log.SetFlags(0)
-	log.SetOutput(os.Stdout)
-
-	ImportConfig()
-
-	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
-
-	Options.Version = func() {
-		log.Printf("Goirate build: %v\n", VERSION)
-		os.Exit(0)
-	}
-
-	parser.Parse()
-}
-
 func configDir() string {
 	usr, err := user.Current()
 	if err != nil {
@@ -152,4 +144,25 @@ func configDir() string {
 	}
 
 	return dir
+}
+
+func main() {
+
+	log.SetFlags(0)
+	log.SetOutput(os.Stdout)
+
+	ImportConfig()
+
+	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
+
+	Options.Version = func() {
+		log.Printf("Goirate build: %v\n", VERSION)
+		os.Exit(0)
+	}
+
+	_, err := parser.Parse()
+
+	if err != nil {
+		os.Exit(1)
+	}
 }

@@ -3,9 +3,13 @@ package main
 import (
 	"reflect"
 	"testing"
+
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 )
 
-func TestImportExport(t *testing.T) {
+func TestImportExpor(t *testing.T) {
+
+	reset()
 
 	whitelist := []string{"allowed_user1", "allowed_user2"}
 	blacklist := []string{"banned_user", "bad_boye"}
@@ -23,4 +27,43 @@ func TestImportExport(t *testing.T) {
 	if !reflect.DeepEqual(Config.Uploaders.Whitelist, whitelist) {
 		t.Errorf("\ngot %v\nwant %v", Config.Uploaders.Whitelist, whitelist)
 	}
+
+	reset()
+}
+
+func TestExecute(t *testing.T) {
+
+	reset()
+
+	var cmd ConfigCommand
+
+	cmd.MaxQuality = torrents.Medium
+	cmd.MinQuality = torrents.Low
+	cmd.VerifiedUploader = true
+	cmd.MinSize = "12 GB"
+	cmd.Uploaders.Whitelist = []string{"allowed_user1", "allowed_user2"}
+	cmd.Uploaders.Blacklist = []string{"banned_user", "bad_boye"}
+
+	_, err := CaptureCommand(cmd.Execute)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ImportConfig()
+
+	if !reflect.DeepEqual(Config.SearchFilters, cmd.SearchFilters) {
+		t.Errorf("\ngot %v\nwant %v", Config, cmd)
+	}
+
+	reset()
+}
+
+func reset() {
+
+	Config.SearchFilters = torrents.SearchFilters{}
+	Config.Uploaders.Whitelist = []string{}
+	Config.Uploaders.Blacklist = []string{}
+
+	ExportConfig()
 }

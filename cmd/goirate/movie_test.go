@@ -13,16 +13,20 @@ func TestMovieExecute(t *testing.T) {
 	var cmd MovieCommand
 	Options.JSON = true
 
-	cmd.Args.Query = "black person"
+	cmd.Args.Query = "black panther"
 
 	output, err := CaptureCommand(cmd.Execute)
+
+	if err != nil {
+		log.Println(output)
+		t.Error(err)
+	}
 
 	var moviesJSON []movies.Movie
 	json.Unmarshal([]byte(output), &moviesJSON)
 
 	cmd.MagnetLink = true
 
-	log.Println(cmd.Args.Query)
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err == nil {
@@ -34,13 +38,13 @@ func TestMovieExecute(t *testing.T) {
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {
+		log.Println(output)
 		t.Error(err)
 	}
 
 	cmd.MagnetLink = false
 	cmd.Args.Query = "0848228"
 
-	log.Println(cmd.Args.Query)
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {
@@ -49,7 +53,6 @@ func TestMovieExecute(t *testing.T) {
 
 	cmd.Args.Query = "https://www.imdb.com/title/tt0315983/"
 
-	log.Println(cmd.Args.Query)
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 
@@ -24,10 +23,6 @@ type moviePositionalArgs struct {
 
 // Execute is the callback of the movie command.
 func (m *MovieCommand) Execute(args []string) error {
-
-	if !m.ValidOutputFlags() {
-		return errors.New("too many flags specifying the kind of output")
-	}
 
 	var movie *movies.Movie
 	var err error

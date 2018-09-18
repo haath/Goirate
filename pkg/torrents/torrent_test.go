@@ -1,6 +1,7 @@
 package torrents
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -70,5 +71,26 @@ func TestSizeString(t *testing.T) {
 				t.Errorf("\ngot: %q\nwant %q", s.SizeString(), tt.out)
 			}
 		})
+	}
+}
+
+func TestMarshalJSON(t *testing.T) {
+
+	tor := Torrent{
+		Title:      "some torrent",
+		Size:       1200000,
+		MirrorURL:  "base_url",
+		TorrentURL: "torrent_url",
+	}
+
+	json, err := tor.MarshalJSON()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !strings.Contains(string(json), "base_url/torrent_url") || !strings.Contains(string(json), "1.2 GB") {
+
+		t.Errorf("error unmarshaling json: %v", string(json))
 	}
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"strings"
 	"testing"
 
 	"git.gmantaos.com/haath/Goirate/pkg/series"
@@ -84,6 +85,20 @@ func TestSeriesCommands(t *testing.T) {
 		t.Errorf("expected to print 2 series, instead got:\n%v", jsonOut)
 	}
 
+	Options.JSON = false
+
+	tableOut, err := CaptureCommand(showCmd.Execute)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !strings.Contains(tableOut, "|   ID   |        Series        | Season | Last Episode | Min. Quality |") ||
+		!strings.Contains(tableOut, "The Americans (2013)") {
+
+		t.Errorf("Wrong table:\n%v\n", tableOut)
+	}
+
 	var rmCmd removeCommand
 	rmCmd.Args.Title = "americans"
 	rmCmd.Execute([]string{})
@@ -94,6 +109,52 @@ func TestSeriesCommands(t *testing.T) {
 
 	if len(stored) != 0 {
 		t.Errorf("expected to have deleted all series, instead got: %v", stored)
+	}
+
+	Options.JSON = false
+}
+
+func TestScan(t *testing.T) {
+
+	var addCmd addCommand
+	addCmd.Force = true
+	addCmd.Args.Title = "the americans 2013"
+	addCmd.LastEpisode = "season 6 episode 8"
+
+	output, err := CaptureCommand(addCmd.Execute)
+
+	if err != nil {
+		t.Error(output)
+		t.Error(err)
+	}
+
+	var scanCmd scanCommand
+	scanCmd.MagnetLink = true
+
+	output, err = CaptureCommand(scanCmd.Execute)
+
+	if err != nil {
+		t.Error(output)
+		t.Error(err)
+	}
+
+	output = strings.TrimSpace(output)
+
+	magnets := strings.Split(output, "\n")
+
+	if len(magnets) != 2 {
+		t.Errorf("expected 2 magnets, got %v", output)
+	}
+
+	scanCmd.Quiet = true
+	output, err = CaptureCommand(scanCmd.Execute)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if output != "" {
+		t.Errorf("expected no output, got %v", output)
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/PuerkitoBio/goquery"
@@ -162,6 +163,52 @@ func TestUploaderOk(t *testing.T) {
 				t.Errorf("got %v, want %v", ok, tt.out)
 			}
 
+		})
+	}
+}
+
+func TestFilterTorrentList(t *testing.T) {
+
+	file, err := os.Open("../../samples/piratebay_search.html")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(file)
+	if err != nil {
+		t.Error(err)
+	}
+
+	scraper := NewScraper("localhost")
+
+	torrentList := scraper.ParseSearchPage(doc)
+
+	var table = []struct {
+		in    func() SearchFilters
+		count uint
+		out   int
+	}{
+		{func() SearchFilters { return SearchFilters{} }, 0, 30},
+		{func() SearchFilters {
+			cmd := SearchFilters{}
+			cmd.VerifiedUploader = true
+			return cmd
+		}, 0, 21},
+		{func() SearchFilters {
+			cmd := SearchFilters{}
+			return cmd
+		}, 1, 1},
+	}
+
+	for _, tt := range table {
+		t.Run(strconv.Itoa(tt.out), func(t *testing.T) {
+			filt := tt.in()
+
+			s := filt.FilterTorrentsCount(torrentList, tt.count)
+			if len(s) != tt.out {
+				t.Errorf("\ngot: %v\nwant: %v", len(s), tt.out)
+			}
 		})
 	}
 }
