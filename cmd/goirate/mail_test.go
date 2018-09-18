@@ -29,11 +29,13 @@ func TestLoadTorrentTemplate(t *testing.T) {
 
 func TestSendEmail(t *testing.T) {
 
+	resetConfigs()
+
 	ImportConfig()
 
 	inbox := "goirate-test@mailinator.com"
 
-	err := Config.SMTPConfig.SendEmail(inbox, "Test e-mail", "<b>Some</b> body")
+	err := Config.SMTPConfig.SendEmail("Test e-mail", "<b>Some</b> body", inbox)
 
 	if err != nil {
 		t.Error(err)

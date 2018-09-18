@@ -7,6 +7,7 @@ import (
 	"os/user"
 	"path"
 	"strconv"
+	"strings"
 
 	"git.gmantaos.com/haath/Goirate/pkg/series"
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
@@ -26,9 +27,9 @@ var Config struct {
 		Music   string `toml:"music"`
 	} `toml:"download_dirs"`
 	Watchlist struct {
-		SendEmail bool   `toml:"send_email"`
-		Email     string `toml:"email"`
-		Download  bool   `toml:"download"`
+		SendEmail bool     `toml:"send_email"`
+		Emails    []string `toml:"notify"`
+		Download  bool     `toml:"download"`
 	} `toml:"watchlist"`
 }
 
@@ -120,6 +121,15 @@ func ImportConfig() {
 		} else if Config.SMTPConfig.Port == 0 {
 
 			Config.SMTPConfig.Port = 587
+		}
+
+		if os.Getenv("GOIRATE_WATCHLIST_NOTIFY") != "" {
+
+			Config.Watchlist.Emails = strings.Split(os.Getenv("GOIRATE_WATCHLIST_NOTIFY"), ",")
+
+		} else if Config.Watchlist.Emails == nil {
+
+			Config.Watchlist.Emails = []string{}
 		}
 	}
 

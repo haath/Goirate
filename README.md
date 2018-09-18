@@ -260,6 +260,7 @@ $ goirate series remove 153021
 | GOIRATE_SMTP_PORT | The port of the SMTP server. | 587 |
 | GOIRATE_SMTP_USERNAME | The username used to authenticate with the SMTP server. | |
 | GOIRATE_SMTP_PASSWORD | The password used to authenticate with the SMTP server. | |
+| GOIRATE_WATCHLIST_NOTIFY | A comma-separated list of the e-mails to send torrents to. | |
 
 
 
