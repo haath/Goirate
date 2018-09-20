@@ -1,0 +1,7 @@
+description = "This is a configuration file for rocket: automated software delivery as fast and easy as possible. See https://github.com/astrocorp42/rocket"
+
+[github_releases]
+api_key = "$GITHUB_TOKEN"
+assets = [
+  "build/goirate.*",
+]

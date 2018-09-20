@@ -1,7 +1,9 @@
 image: gmantaos/golang-dep-arm
 
 variables:
-  GIT_URL: "git.gmantaos.com"
+  GIT_URL: git.gmantaos.com
+  ROCKET_LAST_TAG: ${CI_COMMIT_TAG}
+  ROCKET_GIT_REPO: gmantaos/Goirate
 
 stages:
   - test
@@ -25,42 +27,49 @@ test:
     name: test_coverage
     paths:
       - test_coverage.*
-    expire_in: 1 week
 
 build-armhf:
   stage: build
-  only:
-    - tags
   tags:
     - arm
     - x32
   script:
     - make build
-    - ./build/goirate --version
-    - ./scripts/publish.sh armhf
-    - mv build/* ${CI_PROJECT_DIR}/
+    - mv ./build/goirate ./build/goirate.armhf
+  artifacts:
+    expire_in: 1h
+    paths: 
+      - ./build/goirate.armhf
 
 build-aarch64:
   stage: build
-  only:
-    - tags
   tags:
     - arm
     - x64
   script:
     - make build
-    - ./build/goirate --version
-    - ./scripts/publish.sh aarch64
-    - mv build/* ${CI_PROJECT_DIR}/
+    - mv ./build/goirate ./build/goirate.aarch64
+  artifacts:
+    expire_in: 1h
+    paths: 
+      - ./build/goirate.aarch64
 
 build-win64:
   stage: build
-  only:
-    - tags
   tags:
     - windows
   script:
     - make build-win64
-    - ./build/goirate --version
-    - ./scripts/publish.sh win64
-    - mv build/* ${CI_PROJECT_DIR}/
+    - mv ./build/goirate ./build/goirate.win64.exe
+  artifacts:
+    expire_in: 1h
+    paths: 
+      - ./build/goirate.win64.exe
+
+publish:
+  stage: deploy
+  only:
+    - tags
+  script:
+    - go get -u github.com/astrocorp42/rocket
+    - rocket

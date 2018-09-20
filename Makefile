@@ -12,7 +12,6 @@ build: dep patch ## Install dependencies and statitcally compile the binary file
 	packr build $(GCC_FLAGS) $(BUILD_FLAGS) ./cmd/goirate
 	@packr clean
 
-
 build-win64: dep patch ## Install dependencies and statitcally compile the binary file on 64-bit windows
 	packr build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
 

@@ -46,8 +46,9 @@ The `Makefile` has a shortcut to running `dep` and `go install`.
 $ make install
 ```
 
-Using `go get` to fetch dependencies is theoretically possible but it is not
-recommended.
+Using `go get` to fetch dependencies is theoretically possible but it is not recommended.
+Also, attempting to install the tool with `go get -u` will not work as it uses [packr](https://github.com/gobuffalo/packr)
+for building. To build yourself use the `Makefile` or have a look at it.
 
 ## ⚓ Command line tool
 
