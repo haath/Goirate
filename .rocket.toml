@@ -3,5 +3,5 @@ description = "This is a configuration file for rocket: automated software deliv
 [github_releases]
 api_key = "$GITHUB_TOKEN"
 assets = [
-  "build/goirate.*",
+  "goirate.*",
 ]
