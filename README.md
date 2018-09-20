@@ -277,10 +277,22 @@ configure the `smtp` settings and specify the list of recipients.
   username = "...@gmail.com"
   password = "..."
 
-[watchlist]
-  send_email = true
+[watchlist_actions]
+  email = "true"
   notify = ["...@gmail.com"]
   ...
+```
+
+Watchlist actions can also be specified individually for each series, by editing the file at `~/.goirate/series.toml`.
+Action-related options that are specified for a specific series, will override those of the global configuration file.
+
+```toml
+[[series]]
+  title = "The Last Ship"
+  ...
+  [series.action]
+    email = "false"
+    notify = []
 ```
 
 ### Automatic Downloads
@@ -297,9 +309,19 @@ configuration.
   password = ""
   ssl = false
 
-[watchlist]
+[watchlist_actions]
   ...
-  download = true
+  download = "true"
+```
+
+Same as with e-mails, this feature can also be enabled or disabled for a specific series at `~/.goirate/series.toml`.
+
+```toml
+[[series]]
+  title = "The Last Ship"
+  ...
+  [series.action]
+    download = "false"
 ```
 
 With this enabled, any torrents found during scanning will have their magnet links added to the [Transmission](https://transmissionbt.com/)

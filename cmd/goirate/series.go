@@ -333,12 +333,19 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 			// Send e-mail
 
-			if Config.Watchlist.Emails == nil || len(Config.Watchlist.Emails) == 0 {
+			notify := Config.Watchlist.Emails
+
+			if len(seriesTorrents.Series.Action.Emails) > 0 {
+
+				notify = seriesTorrents.Series.Action.Emails
+			}
+
+			if notify == nil || len(notify) == 0 {
 
 				return fmt.Errorf("sending e-mails is enabled, but no recipients are specified")
 			}
 
-			log.Printf("Sending e-mail to: %s\n", Config.Watchlist.Emails)
+			log.Printf("Sending e-mail to: %s\n", notify)
 
 			body, err := LoadTorrentTemplate(seriesTorrents)
 
@@ -357,7 +364,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 				subject = fmt.Sprintf("[Goirate] New episode out for %s (%s)", seriesTorrents.Series.Title, seriesTorrents.Torrents[0].Episode)
 			}
 
-			err = Config.SMTPConfig.SendEmail(subject, body, Config.Watchlist.Emails...)
+			err = Config.SMTPConfig.SendEmail(subject, body, notify...)
 
 			if err != nil {
 				return err

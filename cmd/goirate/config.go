@@ -27,7 +27,7 @@ var Config struct {
 		Series  string `toml:"series"`
 		Music   string `toml:"music"`
 	} `toml:"download_dirs"`
-	Watchlist utils.WatchlistAction `toml:"watchlist"`
+	Watchlist utils.WatchlistAction `toml:"watchlist_actions"`
 }
 
 // ConfigCommand defines the config command and holds its options.
