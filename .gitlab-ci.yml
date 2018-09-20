@@ -36,7 +36,7 @@ build-armhf:
     - x32
   script:
     - make build
-    - mv ./build/goirate ${CI_PROJECT_DIR}/build/goirate.armhf
+    - mv ./build/goirate ./build/goirate.armhf
   artifacts:
     expire_in: 1h
     paths: 
@@ -49,7 +49,7 @@ build-aarch64:
     - x64
   script:
     - make build
-    - mv ./build/goirate ${CI_PROJECT_DIR}/build/goirate.aarch64
+    - mv ./build/goirate ./build/goirate.aarch64
   artifacts:
     expire_in: 1h
     paths: 
@@ -61,6 +61,7 @@ build-win64:
     - windows
   script:
     - make build-win64
+    - mkdir -p ${CI_PROJECT_DIR}/build
     - mv ./build/goirate ${CI_PROJECT_DIR}/build/goirate.win64.exe
   artifacts:
     expire_in: 1h
