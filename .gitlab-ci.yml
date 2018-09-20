@@ -8,6 +8,7 @@ variables:
 stages:
   - test
   - build
+  - deploy
 
 before_script:
   # Prepare workspace
