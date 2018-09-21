@@ -26,9 +26,6 @@ install: dep patch ## Compile and install the binary at $GOPATH/bin
 	packr install ./cmd/goirate
 	@packr clean
 
-patch:
-	@./scripts/patch.sh;
-
 lint: dep ## Verifies the code through lint, fmt and vet
 	@echo "Linting..."
 	@golint -set_exit_status $(PKG_LIST)
@@ -44,6 +41,9 @@ test: dep ## Run unit tests
 test-cov: dep ## Run unit tests and generate code coverage
 	@export GOIRATE_DEBUG=false
 	@./scripts/test.sh;
+
+patch:
+	@./scripts/patch.sh;
 
 compile: ## Compile the binary file
 	@packr build -i -v -o $(OUTPUT) ./cmd/goirate

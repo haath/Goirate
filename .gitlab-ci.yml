@@ -44,4 +44,4 @@ github-release:
   - tags
   script:
   - go get -u github.com/c4milo/github-release
-  - github-release $GITHUB_REPO $CI_COMMIT_TAG master " " "goirate.*"
+  - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_TITLE" "goirate.*"
