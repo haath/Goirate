@@ -8,12 +8,19 @@ BUILD_FLAGS		= -i -v -o $(OUTPUT)
 GCC_FLAGS		= --ldflags "-linkmode external -extldflags -static"
 GCC_FLAGS_WIN	= --ldflags "-extldflags -static"
 
+GOX_OUTPUT		= "build/goirate.{{.OS}}.{{.Arch}}"
+
 build: dep patch ## Install dependencies and statitcally compile the binary file
 	packr build $(GCC_FLAGS) $(BUILD_FLAGS) ./cmd/goirate
 	@packr clean
 
 build-win64: dep patch ## Install dependencies and statitcally compile the binary file on 64-bit windows
 	packr build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
+
+cross-compile: dep patch ## Install dependencies and statitcally cross-compile the binary using gox
+	go get github.com/mitchellh/gox
+	packr
+	gox -output $(GOX_OUTPUT) ./cmd/goirate
 
 install: dep patch ## Compile and install the binary at $GOPATH/bin
 	packr install ./cmd/goirate

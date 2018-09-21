@@ -2,65 +2,46 @@ image: gmantaos/golang-dep-arm
 
 variables:
   GIT_URL: git.gmantaos.com
+  GITHUB_REPO: gmantaos/Goirate
 
 stages:
-  - test
-  - build
-  - deploy
+- test
+- build
+- deploy
 
 before_script:
-  # Prepare workspace
-  - mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
-  - rm -rf "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}" || true
-  - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
-  - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
+# Prepare workspace
+- mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
+- rm -rf "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}" || true
+- ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
+- cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 
 test:
   stage: test
   retry: 2
   script:
-    - make lint
-    - make test-cov
-    - mv build/* ${CI_PROJECT_DIR}/
+  - make lint
+  - make test-cov
+  - mv build/* ${CI_PROJECT_DIR}/
   artifacts:
     name: test_coverage
     paths:
-      - test_coverage.*
+    - test_coverage.*
 
-build-armhf:
+build:
   stage: build
-  only:
-    - tags
-  tags:
-    - arm
-    - x32
   script:
-    - make build
-    - ./build/goirate --version
-    - ./scripts/publish.sh armhf
-    - mv build/* ${CI_PROJECT_DIR}/
+  - make clean
+  - make cross-compile
+  - mv build/goirate.* ${CI_PROJECT_DIR}/
+  artifacts:
+    paths:
+    - goirate.*
 
-build-aarch64:
-  stage: build
+github-release:
+  stage: deploy
   only:
-    - tags
-  tags:
-    - arm
-    - x64
+  - tags
   script:
-    - make build
-    - ./build/goirate --version
-    - ./scripts/publish.sh aarch64
-    - mv build/* ${CI_PROJECT_DIR}/
-
-build-win64:
-  stage: build
-  only:
-    - tags
-  tags:
-    - win64
-  script:
-    - make build-win64
-    - ./build/goirate --version
-    - ./scripts/publish.sh win64
-    - mv build/* ${CI_PROJECT_DIR}/
+  - go get -u github.com/c4milo/github-release
+  - github-release $GITHUB_REPO $CI_COMMIT_TAG master " " "goirate.*"
