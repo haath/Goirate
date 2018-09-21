@@ -75,10 +75,9 @@ func (cmd *UpdateCommand) Execute(args []string) error {
 
 		return doUpdate(binaryURL)
 
-	} else {
-
-		log.Printf("Up to date. (%v)", currentVersion)
 	}
+	
+	log.Printf("Up to date. (%v)", currentVersion)
 
 	return nil
 }
