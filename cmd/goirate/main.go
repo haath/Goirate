@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/user"
 	"path"
-	"runtime"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
@@ -22,10 +21,11 @@ var Options struct {
 	// Commands
 	Config      ConfigCommand      `command:"config" description:"Edit the application's configuration."`
 	Mirrors     MirrorsCommand     `command:"mirrors" description:"Get a list of PirateBay mirrors."`
-	Search      SearchCommand      `command:"search" alias:"s" description:"Search for torrents."`
+	Search      SearchCommand      `command:"search" description:"Search for torrents."`
 	Series      SeriesCommand      `command:"series" alias:"s" description:"Manage the series watchlist or perform a scan."`
 	Movie       MovieCommand       `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
 	MovieSearch MovieSearchCommand `command:"movie-search" description:"Search IMDb for movies to retrieve their IMDbID and release year."`
+	Update      UpdateCommand      `command:"update" alias:"u" description:"Update the tool."`
 }
 
 type torrentSearchArgs struct {
@@ -153,8 +153,6 @@ func main() {
 	log.SetOutput(os.Stdout)
 
 	ImportConfig()
-
-	log.Printf("%v.%v\n", runtime.GOOS, runtime.GOARCH)
 
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
 

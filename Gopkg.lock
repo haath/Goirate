@@ -44,6 +44,16 @@
   revision = "5e0fdaaae2caa3f095dc45b44a487068cc668b5b"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/inconshreveable/go-update"
+  packages = [
+    ".",
+    "internal/binarydist",
+    "internal/osext"
+  ]
+  revision = "8152e7eb6ccf8679a64582a66b78519688d156ad"
+
+[[projects]]
   name = "github.com/jessevdk/go-flags"
   packages = ["."]
   revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
@@ -79,6 +89,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "dc2873a325d8b87cc40e683cfe1bc5f93ec21f911ecd792bbbf71b663eb23c44"
+  inputs-digest = "8e60020515225dd7a74c7d778e6f845fdb5a20e887a9ca88ae922b8f2c918d89"
   solver-name = "gps-cdcl"
   solver-version = 1

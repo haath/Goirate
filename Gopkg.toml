@@ -55,3 +55,7 @@
 [[constraint]]
   name = "github.com/gobuffalo/packr"
   version = "1.13.3"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/inconshreveable/go-update"
