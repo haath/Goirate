@@ -4,15 +4,9 @@
 [![](https://git.gmantaos.com/haath/Goirate/badges/master/coverage.svg)](https://git.gmantaos.com/haath/Goirate/-/jobs/artifacts/master/browse?job=test)
 [![](https://goreportcard.com/badge/git.gmantaos.com/haath/Goirate)](https://goreportcard.com/report/git.gmantaos.com/haath/Goirate)
 [![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
-[![](https://img.shields.io/badge/download-Bintray-blue.svg)](https://dl.bintray.com/gmantaos/Goirate/)
+[![](https://img.shields.io/github/release/gmantaos/Goirate.svg)](https://github.com/gmantaos/Goirate/releases)
 
 This tool aims to become an all-in-one suite for automating your every pirate-y need.
-
-| <h3>Download</h3> | |
-|--------------|-|
-| win64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/win64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/win64) |
-| armhf | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/armhf/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/armhf) |
-| aarch64 | [ ![Download](https://api.bintray.com/packages/gmantaos/Goirate/aarch64/images/download.svg) ](https://dl.bintray.com/gmantaos/Goirate/aarch64) |
 
 ### 🗺️ P️rogress 
 

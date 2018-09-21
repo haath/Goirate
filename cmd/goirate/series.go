@@ -344,7 +344,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 	for _, seriesTorrents := range seriesTorrentsList {
 
-		if Config.Watchlist.SendEmail.OverwrittenBy(seriesTorrents.Series.Action.SendEmail) {
+		if Config.Watchlist.SendEmail.OverridenBy(seriesTorrents.Series.Action.SendEmail) {
 
 			// Send e-mail
 
@@ -388,7 +388,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 		for _, seriesTorrent := range seriesTorrents.Torrents {
 
-			if Config.Watchlist.Download.OverwrittenBy(seriesTorrents.Series.Action.Download) {
+			if Config.Watchlist.Download.OverridenBy(seriesTorrents.Series.Action.Download) {
 
 				// Send the torrent to the transmission daemon for download
 

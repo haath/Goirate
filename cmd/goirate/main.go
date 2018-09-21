@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"runtime"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
@@ -152,6 +153,8 @@ func main() {
 	log.SetOutput(os.Stdout)
 
 	ImportConfig()
+
+	log.Printf("%v.%v\n", runtime.GOOS, runtime.GOARCH)
 
 	parser := flags.NewParser(&Options, flags.HelpFlag|flags.PassDoubleDash|flags.PrintErrors)
 

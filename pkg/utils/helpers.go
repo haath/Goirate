@@ -22,8 +22,8 @@ type WatchlistAction struct {
 	Download  OptionalBoolean `toml:"download" json:"download"`
 }
 
-// OverwrittenBy returns true if one of this or the other action is true, or if the other action is true.
-func (opt OptionalBoolean) OverwrittenBy(other OptionalBoolean) bool {
+// OverridenBy returns true if one of this or the other action is true, or if the other action is true.
+func (opt OptionalBoolean) OverridenBy(other OptionalBoolean) bool {
 
 	return other == True || (other != False && opt == True)
 }

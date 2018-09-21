@@ -26,3 +26,33 @@ func TestNormalizeQuery(t *testing.T) {
 		})
 	}
 }
+
+func TestOverridenBy(t *testing.T) {
+
+	table := []struct {
+		gen  OptionalBoolean
+		spec OptionalBoolean
+		out  bool
+	}{
+		{Default, Default, false},
+		{Default, False, false},
+		{Default, True, true},
+		{False, Default, false},
+		{False, False, false},
+		{False, True, true},
+		{True, Default, true},
+		{True, False, false},
+		{True, True, true},
+	}
+
+	for _, tt := range table {
+		t.Run(string(tt.gen+tt.spec), func(t *testing.T) {
+
+			s := tt.gen.OverridenBy(tt.spec)
+
+			if tt.out != s {
+				t.Errorf("\ngot: %v\nwant: %v\n", s, tt.out)
+			}
+		})
+	}
+}
