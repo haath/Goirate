@@ -13,3 +13,5 @@
 
 build/
 vendor/
+
+*-packr.go

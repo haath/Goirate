@@ -80,6 +80,11 @@ func (cmd *addCommand) Execute(args []string) error {
 		return err
 	}
 
+	if seriesID == 0 {
+
+		return fmt.Errorf("series not found on TVDB")
+	}
+
 	var episode series.Episode
 
 	if cmd.LastEpisode != "" {

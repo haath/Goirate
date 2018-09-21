@@ -28,20 +28,14 @@ test:
     paths:
     - test_coverage.*
 
-build:
-  stage: build
-  script:
-  - make clean
-  - make cross-compile
-  - mv build/goirate.* ${CI_PROJECT_DIR}/
-  artifacts:
-    paths:
-    - goirate.*
-
 github-release:
   stage: deploy
   only:
   - tags
+  tags:
+  - win64
   script:
+  - make clean
+  - make cross-compile
   - go get -u github.com/c4milo/github-release
-  - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_TITLE" "goirate.*"
+  - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_TITLE" "build/goirate.*"
