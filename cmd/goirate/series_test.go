@@ -41,7 +41,7 @@ func TestSeriesCommands(t *testing.T) {
 	addCmd.Args.Title = "the americans 2013"
 
 	expID := 261690
-	expEp := series.Episode{Season: 6, Episode: 10}
+	expEp := series.Episode{Season: 6, Episode: 10, Title: "START"}
 	expID2 := 280619
 
 	addCmd.Execute([]string{})
@@ -56,8 +56,8 @@ func TestSeriesCommands(t *testing.T) {
 		t.Errorf("Stored 1 series by loaded %v", len(stored))
 	}
 
-	if stored[0].ID != expID || stored[0].LastEpisode != expEp {
-		t.Errorf("\ngot %v %v\nwant %v\n", stored[0], stored[0].LastEpisode, expID)
+	if stored[0].ID != expID || stored[0].LastEpisode.String() != expEp.String() {
+		t.Errorf("\ngot %v %v\nwant %v %v\n", stored[0].ID, stored[0].LastEpisode, expID, expEp)
 	}
 
 	if stored[1].ID != expID2 {

@@ -5,20 +5,23 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Episode represents a unique episode of a series, identified by a
 // pair of a season and episode number.
 type Episode struct {
-	Season  uint `toml:"season" json:"season"`
-	Episode uint `toml:"episode" json:"episode"`
+	Season  uint       `toml:"season" json:"season"`
+	Episode uint       `toml:"episode" json:"episode"`
+	Title   string     `toml:"title" json:"title"`
+	Aired   *time.Time `toml:"aired" json:"aired"`
 }
 
 // ParseEpisodeString will extract the season and episode number from a string
 // description, such as S03E07.
 func ParseEpisodeString(episodeStr string) Episode {
 
-	episode := Episode{1, 1}
+	episode := Episode{Season: 1, Episode: 1}
 
 	episodeStr = strings.ToLower(episodeStr)
 

@@ -13,8 +13,8 @@ func TestSearchQuery(t *testing.T) {
 		ep  Episode
 		out string
 	}{
-		{"Scraping The Barrel", Episode{4, 5}, "scraping the barrel s04e05"},
-		{"Scraping The Barrel", Episode{4, 0}, "scraping the barrel season 4"},
+		{"Scraping The Barrel", Episode{Season: 4, Episode: 5}, "scraping the barrel s04e05"},
+		{"Scraping The Barrel", Episode{Season: 4, Episode: 0}, "scraping the barrel season 4"},
 	}
 
 	for _, tt := range table {
@@ -37,8 +37,8 @@ func TestGetTorrent(t *testing.T) {
 		in Series
 		ep Episode
 	}{
-		{Series{Title: "Game of Thrones"}, Episode{1, 1}},
-		{Series{Title: "Game of Thrones"}, Episode{2, 0}},
+		{Series{Title: "Game of Thrones"}, Episode{Season: 1, Episode: 1}},
+		{Series{Title: "Game of Thrones"}, Episode{Season: 2, Episode: 0}},
 	}
 
 	filters := torrents.SearchFilters{}
@@ -73,9 +73,9 @@ func TestNextEpisode(t *testing.T) {
 		last Episode
 		next Episode
 	}{
-		{261690, Episode{6, 10}, Episode{6, 11}},
-		{121361, Episode{1, 0}, Episode{1, 1}},
-		{255316, Episode{5, 24}, Episode{6, 1}},
+		{261690, Episode{Season: 6, Episode: 10}, Episode{Season: 6, Episode: 11}},
+		{121361, Episode{Season: 1, Episode: 0}, Episode{Season: 1, Episode: 1, Title: "Winter Is Coming"}},
+		{255316, Episode{Season: 5, Episode: 24}, Episode{Season: 6, Episode: 1, Title: "An Infinite Capacity for Taking Pains"}},
 	}
 
 	tkn := login(t)
@@ -90,8 +90,12 @@ func TestNextEpisode(t *testing.T) {
 				t.Error(err)
 			}
 
-			if next != tt.next {
-				t.Errorf("got %v, want %v", next, tt.next)
+			if next.String() != tt.next.String() {
+				t.Errorf("got %v, want %v", next.String(), tt.next.String())
+			}
+
+			if next.Title != tt.next.Title {
+				t.Errorf("got %v, want %v", next.Title, tt.next.Title)
 			}
 
 		})

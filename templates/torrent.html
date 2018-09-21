@@ -12,6 +12,15 @@
     {{range .Torrents}}
 
         <h2>{{.Episode.LongString}}</h2>
+
+        {{if ne .Episode.Title ""}}
+            <strong><i>"{{.Episode.Title}}"</i>&nbsp;</strong>
+        {{end}}
+
+        {{if .Episode.Aired}}
+            <small>{{.Episode.Aired.Format "02/01/2006"}}</small>
+        {{end}}
+
         <hr>
         
         <table cellpadding="4">
@@ -41,7 +50,7 @@
         <a href="{{.Torrent.FullURL}}">{{.Torrent.FullURL}}</a>
 
         <h4>Magnet</h4>
-        <textarea rows="4" cols="50">{{.Torrent.Magnet}}</textarea>
+        <textarea rows="4" cols="50" onclick="this.focus();this.select()" readonly="readonly">{{.Torrent.Magnet}}</textarea>
 
         <br><br>
 

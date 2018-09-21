@@ -62,7 +62,7 @@ func TestLastEpisode(t *testing.T) {
 		in   int
 		last Episode
 	}{
-		{261690, Episode{6, 10}},
+		{261690, Episode{Season: 6, Episode: 10, Title: "START"}},
 	}
 
 	tkn := login(t)
@@ -75,8 +75,8 @@ func TestLastEpisode(t *testing.T) {
 				t.Error(err)
 			}
 
-			if last != tt.last {
-				t.Errorf("got %v, want %v", last, tt.last)
+			if last.String() != tt.last.String() || last.Title != tt.last.Title {
+				t.Errorf("got %v, want %v", last.Aired, tt.last)
 			}
 
 		})

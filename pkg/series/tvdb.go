@@ -75,9 +75,9 @@ func (tkn *TVDBToken) LastEpisode(seriesID int) (Episode, error) {
 
 	var episode Episode
 
-	callback := func(ep Episode, aired *time.Time) {
+	callback := func(ep Episode) {
 
-		if aired == nil || time.Now().Sub(*aired).Hours() < 1 {
+		if ep.Aired == nil || time.Now().Sub(*ep.Aired).Hours() < 1 {
 			return
 		}
 
@@ -97,36 +97,46 @@ func (tkn *TVDBToken) LastEpisode(seriesID int) (Episode, error) {
 func (tkn *TVDBToken) NextEpisode(seriesID int, episode Episode) (Episode, error) {
 
 	nextSeasonOut := false
-	seasonHasMore := false
+	nextSeasonFirst := Episode{Season: episode.Season + 1, Episode: 1}
 
-	callback := func(ep Episode, aired *time.Time) {
-		if ep.Season > episode.Season {
+	seasonHasMore := false
+	curSeasonNext := Episode{Season: episode.Season, Episode: episode.Episode + 1}
+
+	callback := func(ep Episode) {
+		if ep.Season == episode.Season+1 {
 			nextSeasonOut = true
+
+			if ep.Episode == 1 {
+				nextSeasonFirst = ep
+			}
 		}
-		if ep.Season == episode.Season && ep.Episode > episode.Episode {
+		if ep.Season == episode.Season && ep.Episode == episode.Episode+1 {
 			seasonHasMore = true
+			curSeasonNext = ep
 		}
 	}
 
 	err := tkn.getEpisodes(seriesID, callback)
 
 	if nextSeasonOut && !seasonHasMore {
-		episode.Season++
-		episode.Episode = 1
+
+		episode = nextSeasonFirst
+
 	} else {
-		episode.Episode++
+		episode = curSeasonNext
 	}
 
 	return episode, err
 }
 
-func (tkn *TVDBToken) getEpisodes(seriesID int, callback func(Episode, *time.Time)) error {
+func (tkn *TVDBToken) getEpisodes(seriesID int, callback func(Episode)) error {
 
 	var episodeSearchResponse struct {
 		Data []struct {
-			Season     uint   `json:"airedSeason"`
-			Episode    uint   `json:"airedEpisodeNumber"`
-			FirstAired string `json:"firstAired"`
+			Season      uint   `json:"airedSeason"`
+			Episode     uint   `json:"airedEpisodeNumber"`
+			EpisodeName string `json:"episodeName"`
+			FirstAired  string `json:"firstAired"`
 		} `json:"data"`
 		Links struct {
 			Next int `json:"next"`
@@ -151,25 +161,27 @@ func (tkn *TVDBToken) getEpisodes(seriesID int, callback func(Episode, *time.Tim
 
 		for _, ep := range episodeSearchResponse.Data {
 
-			episode := Episode{
-				Season:  ep.Season,
-				Episode: ep.Episode,
-			}
+			var aired *time.Time
 
 			if ep.FirstAired != "" {
 
-				aired, err := time.Parse("2006-01-02", ep.FirstAired)
+				tmp, err := time.Parse("2006-01-02", ep.FirstAired)
 
 				if err != nil {
 					return err
 				}
 
-				callback(episode, &aired)
-
-			} else {
-
-				callback(episode, nil)
+				aired = &tmp
 			}
+
+			episode := Episode{
+				Season:  ep.Season,
+				Episode: ep.Episode,
+				Title:   ep.EpisodeName,
+				Aired:   aired,
+			}
+
+			callback(episode)
 		}
 
 		pageNum++

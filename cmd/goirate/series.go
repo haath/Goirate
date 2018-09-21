@@ -89,6 +89,16 @@ func (cmd *addCommand) Execute(args []string) error {
 
 	if cmd.LastEpisode != "" {
 		episode = series.ParseEpisodeString(cmd.LastEpisode)
+
+		if episode.Episode > 0 {
+			episode.Episode--
+
+			episode, err = tvdbToken.NextEpisode(seriesID, episode)
+
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	if episode.Season == 0 && episode.Episode == 0 {
