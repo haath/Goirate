@@ -119,10 +119,8 @@ func (a torrentSearchArgs) GetFilters() torrents.SearchFilters {
 }
 
 func configDir() string {
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	usr, usrErr := user.Current()
 
 	var dir string
 
@@ -134,12 +132,16 @@ func configDir() string {
 
 		dir = os.Getenv("GOIRATE_DIR")
 
+	} else if usrErr != nil {
+
+		dir = path.Join("~", ".goirate")
+
 	} else {
 
 		dir = path.Join(usr.HomeDir, ".goirate")
 	}
 
-	err = os.MkdirAll(dir, os.ModePerm)
+	err := os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
 		log.Fatal(err)
 	}

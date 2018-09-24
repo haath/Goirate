@@ -62,6 +62,11 @@ func (cmd *UpdateCommand) Execute(args []string) error {
 		return fmt.Errorf("there appears to be an error with the GitHub releases for the project")
 	}
 
+	if os.Getenv("GOIRATE_DEBUG") == "true" {
+
+		log.Printf("%s -> %s [%s.%s]", currentVersion, latestVersion, runtime.GOOS, runtime.GOARCH)
+	}
+
 	if latestVersion.moreRecentThan(currentVersion) {
 
 		log.Printf("Updating to version: %v\n", latestVersion)
@@ -76,7 +81,7 @@ func (cmd *UpdateCommand) Execute(args []string) error {
 		return doUpdate(binaryURL)
 
 	}
-	
+
 	log.Printf("Up to date. (%v)", currentVersion)
 
 	return nil
