@@ -82,11 +82,6 @@ func ImportConfig() {
 			log.Fatal(err)
 		}
 
-		usr, err := user.Current()
-		if err != nil {
-			log.Fatal(err)
-		}
-
 		/*
 			Property-setting closures
 		*/
@@ -112,7 +107,13 @@ func ImportConfig() {
 		/*
 			Download directory options
 		*/
-		defaultDownloadsDir := path.Join(usr.HomeDir, "Downloads")
+		var defaultDownloadsDir string
+		usr, usrErr := user.Current()
+		if usrErr == nil {
+			defaultDownloadsDir = path.Join(usr.HomeDir, "Downloads")
+		} else {
+			defaultDownloadsDir = path.Join("~", "Downloads")
+		}
 		setOrDefault(&Config.DownloadDir.General, "GOIRATE_DOWNLOADS_DIR", defaultDownloadsDir)
 		setOrDefault(&Config.DownloadDir.Movies, "GOIRATE_DOWNLOADS_MOVIES", defaultDownloadsDir)
 		setOrDefault(&Config.DownloadDir.Series, "GOIRATE_DOWNLOADS_SERIES", defaultDownloadsDir)
