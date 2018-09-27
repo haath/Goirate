@@ -19,6 +19,8 @@ before_script:
 test:
   stage: test
   retry: 2
+  tags:
+  - arm
   script:
   - make lint
   - make test-cov
