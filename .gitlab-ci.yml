@@ -40,7 +40,7 @@ github-release:
   script:
   - apk update
   - apk add --no-cache git build-base gcc make
-  - go get -d -u github.com/golang/dep
+  - go get -u github.com/golang/dep/cmd/dep
   - make clean
   - make cross-compile
   - go get -u github.com/c4milo/github-release
