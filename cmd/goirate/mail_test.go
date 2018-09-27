@@ -17,9 +17,9 @@ func TestLoadTorrentTemplate(t *testing.T) {
 	torrents := seriesTorrents{
 		Series: &series.Series{Title: "SUper special show"},
 		Torrents: []seriesTorrent{
-			seriesTorrent{Torrent: torrents.Torrent{MirrorURL: "localhost", TorrentURL: "my/torrent", VerifiedUploader: true}, Episode: series.Episode{Season: 1, Episode: 1}},
-			seriesTorrent{Torrent: torrents.Torrent{MirrorURL: "localhost", TorrentURL: "my/torrent"}, Episode: series.Episode{Season: 1, Episode: 2}},
-			seriesTorrent{Torrent: torrents.Torrent{MirrorURL: "localhost", TorrentURL: "my/torrent"}, Episode: series.Episode{Season: 1, Episode: 2, Title: "Episode Title", Aired: &now}},
+			{Torrent: torrents.Torrent{MirrorURL: "localhost", TorrentURL: "my/torrent", VerifiedUploader: true}, Episode: series.Episode{Season: 1, Episode: 1}},
+			{Torrent: torrents.Torrent{MirrorURL: "localhost", TorrentURL: "my/torrent"}, Episode: series.Episode{Season: 1, Episode: 2}},
+			{Torrent: torrents.Torrent{MirrorURL: "localhost", TorrentURL: "my/torrent"}, Episode: series.Episode{Season: 1, Episode: 2, Title: "Episode Title", Aired: &now}},
 		},
 	}
 

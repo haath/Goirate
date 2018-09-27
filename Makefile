@@ -38,6 +38,10 @@ lint: dep ## Verifies the code through lint, fmt and vet
 	@echo "Vetting..."
 	@go vet -composites=false $(PKG_LIST)
 
+fmt: ## Runs go fmt on each of the packages
+	gofmt -s -w ./cmd
+	gofmt -s -w ./pkg
+
 test: dep ## Run unit tests
 	@export GOIRATE_DEBUG=false
 	@go test -short ${PKG_LIST}

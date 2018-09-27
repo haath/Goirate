@@ -32,7 +32,7 @@ func TestGetMirrorsTable(t *testing.T) {
 		out string
 	}{
 		{[]torrents.Mirror{}, "|   | Country | URL |\n|---|---------|-----|\n"},
-		{[]torrents.Mirror{torrents.Mirror{URL: "https://pirateproxy.sh", Country: "uk", Status: true}}, "|   | Country |          URL           |\n|---|---------|------------------------|\n| x |   UK    | https://pirateproxy.sh |\n"},
+		{[]torrents.Mirror{{URL: "https://pirateproxy.sh", Country: "uk", Status: true}}, "|   | Country |          URL           |\n|---|---------|------------------------|\n| x |   UK    | https://pirateproxy.sh |\n"},
 	}
 
 	for _, tt := range table {

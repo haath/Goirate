@@ -39,7 +39,7 @@ func TestGetMoviesTable(t *testing.T) {
 		out string
 	}{
 		{[]imdb.MovieID{}, "| IMDb ID | Title | Year |\n|---------|-------|------|\n"},
-		{[]imdb.MovieID{imdb.MovieID{IMDbID: "asdf", Title: "Super Awesome film", Year: 2056}}, "| IMDb ID |       Title        | Year |\n|---------|--------------------|------|\n| asdf    | Super Awesome film | 2056 |\n"},
+		{[]imdb.MovieID{{IMDbID: "asdf", Title: "Super Awesome film", Year: 2056}}, "| IMDb ID |       Title        | Year |\n|---------|--------------------|------|\n| asdf    | Super Awesome film | 2056 |\n"},
 	}
 
 	for _, tt := range table {

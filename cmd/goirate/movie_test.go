@@ -27,7 +27,7 @@ func TestMovieExecute(t *testing.T) {
 
 	cmd.MagnetLink = true
 
-	output, err = CaptureCommand(cmd.Execute)
+	_, err = CaptureCommand(cmd.Execute)
 
 	if err == nil {
 		t.Errorf("expected error")
@@ -48,6 +48,7 @@ func TestMovieExecute(t *testing.T) {
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {
+		log.Println(output)
 		t.Error(err)
 	}
 
@@ -56,6 +57,7 @@ func TestMovieExecute(t *testing.T) {
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err != nil {
+		log.Println(output)
 		t.Error(err)
 	}
 }

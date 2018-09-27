@@ -13,16 +13,17 @@ func TestSearchExecute(t *testing.T) {
 	cmd.Args.Query = "avengers"
 	Options.JSON = true
 
-	output, err := CaptureCommand(cmd.Execute)
+	output, _ := CaptureCommand(cmd.Execute)
 
 	var mirrors []torrents.Mirror
 	json.Unmarshal([]byte(output), &mirrors)
 
 	cmd.MagnetLink = true
 
-	output, err = CaptureCommand(cmd.Execute)
+	output, err := CaptureCommand(cmd.Execute)
 
 	if err == nil {
+		t.Error(output)
 		t.Errorf("Expected error")
 	}
 
@@ -33,6 +34,7 @@ func TestSearchExecute(t *testing.T) {
 	output, err = CaptureCommand(cmd.Execute)
 
 	if err == nil {
+		t.Error(output)
 		t.Errorf("Expected error")
 	}
 }
