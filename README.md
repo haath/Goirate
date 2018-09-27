@@ -6,7 +6,21 @@
 [![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![](https://img.shields.io/github/release/gmantaos/Goirate.svg)](https://github.com/gmantaos/Goirate/releases)
 
-This tool aims to become an all-in-one suite for automating your every pirate-y need.
+Watching a lot of movies and series, it quickly became difficult to keep track of what was coming out and when.
+Not to call managing a few torrents tiresome, but when there's 5-10 new episodes for things you watch coming out
+every week, you begin to wonder if all of these extra clicks are really necessary. This also refers to wasted clicks,
+for when you know that an episode aired but you don't quite know yet if there's a torrent out for the 1080p version you prefer.
+With all this in mind, I first attempted automate this with a simple python script, which would run as a cron job, crawl the Pirate Bay 
+for torrents of new episodes, send me the ones it finds via e-mail and update the list of series so that it would begin watching out
+for the next episode. And the funny thing that script **worked like clockwork, monitoring at least 40 different series over a period of two years**.
+
+Then the point came, when I wanted more features and automation, and that old python script was never written to be particularly scalable.
+So I began development of Goirate.
+This tool aims to become an all-in-one suite for automating your every piratey need.
+It works as a CLI program, which is designed to go through the internet searching for torrents much like a human would.
+Expanding upon the original idea of scanning for torrents as part of the cron job, this tool operates on a more robust foundation,
+which is able to detect and go through multiple Pirate Bay mirrors.
+It also expands upon dealing with media, by utilizing APIs, crawling through IMDb and more.
 
 ### 🗺️ P️rogress 
 
@@ -22,13 +36,14 @@ This tool aims to become an all-in-one suite for automating your every pirate-y 
 - [x] Torrent client integration ([Transmission](https://transmissionbt.com/))
 - [ ] Kodi-friendly download storage
 - [ ] Crontab scanner
-    - [ ] Defining handlers for torrents found
+    - [x] Defining handlers for torrents found
         - [x] E-mail notifications
         - [x] Automatic downloads
     - [ ] Watchlist for single torrents
-    - [ ] New series episodes
+    - [x] New series episodes
     - [ ] RSS Feeds (?)
 - [ ] Support for a proxy or VPN to avoid getting flogged
+- [ ] Docker image with Transmission and OpenVPN.
 
 ### Installation
 
