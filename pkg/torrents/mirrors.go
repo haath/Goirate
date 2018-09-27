@@ -2,8 +2,12 @@ package torrents
 
 import (
 	"errors"
+	"flag"
+	"log"
+	"os"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"git.gmantaos.com/haath/Goirate/pkg/utils"
@@ -23,6 +27,13 @@ type Mirror struct {
 // By default the scraper will use proxybay.github.io.
 type MirrorScraper struct {
 	proxySourceURL string
+	MirrorFilters  MirrorFilters
+}
+
+// MirrorFilters define filters for picking a Pirate Bay mirror.
+type MirrorFilters struct {
+	Whitelist []string `toml:"whitelist"`
+	Blacklist []string `toml:"blacklist"`
 }
 
 // SetProxySourceURL overrides the URL at which MirrorScraper will attempt to fetch a list
@@ -49,7 +60,7 @@ func (m *MirrorScraper) GetMirrors() ([]Mirror, error) {
 		return nil, err
 	}
 
-	return parseMirrors(doc), nil
+	return m.parseMirrors(doc), nil
 }
 
 // GetTorrents fetches all available Pirate Bay mirrors and returns the first Pirate Bay page that it finds.
@@ -67,6 +78,7 @@ func (m *MirrorScraper) GetTorrents(query string) ([]Torrent, error) {
 
 // PickMirror fetches all available Pirate Bay mirrors and returns the first one that responds to HTTP get for the given query.
 func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
+
 	mirrors, err := m.GetMirrors()
 
 	if err != nil {
@@ -78,24 +90,59 @@ func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
 	return mirror, err
 }
 
-func parseMirrors(doc *goquery.Document) []Mirror {
+// IsOk returns true if the given mirror complies with the filters.
+func (m *MirrorFilters) IsOk(mirror Mirror) bool {
+
+	if flag.Lookup("test.v") != nil && strings.Contains(mirror.URL, "thepiratebay.vin") {
+		// These mirrors sucks so let's exclude it from tests for now
+
+		return false
+	}
+
+	contains := func(s []string, e string) bool {
+
+		e = strings.ToLower(e)
+
+		for _, a := range s {
+
+			a = strings.ToLower(a)
+
+			if strings.Contains(e, a) {
+				return true
+			}
+		}
+		return false
+	}
+
+	return (len(m.Blacklist) == 0 || (!contains(m.Blacklist, mirror.URL) && !contains(m.Blacklist, mirror.Country))) &&
+		(len(m.Whitelist) == 0 || (contains(m.Whitelist, mirror.URL) || contains(m.Whitelist, mirror.Country)))
+}
+
+func (m *MirrorScraper) parseMirrors(doc *goquery.Document) []Mirror {
 
 	mirrors := make([]Mirror, 0)
 
 	doc.Find("#proxyList > tbody > tr").Each(func(i int, s *goquery.Selection) {
+
 		site, _ := s.Find(".site a").Attr("href")
 		country, _ := s.Find(".country img").Attr("alt")
 		status, _ := s.Find(".status img").Attr("alt")
 
+		country = strings.ToUpper(country)
+
 		mirror := Mirror{site, country, status == "up"}
 
-		mirrors = append(mirrors, mirror)
+		if m.MirrorFilters.IsOk(mirror) {
+
+			mirrors = append(mirrors, mirror)
+		}
 	})
 
 	return mirrors
 }
 
 func parseLoadTime(speedTitle string) float32 {
+
 	r, _ := regexp.Compile("Loaded in (\\-?\\d+\\.\\d+) seconds")
 	m := r.FindStringSubmatch(speedTitle)
 
@@ -109,9 +156,9 @@ func parseLoadTime(speedTitle string) float32 {
 
 func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []Torrent, error) {
 
-	timeout := 2 * time.Second
+	timeout := 3 * time.Second
 
-	for timeout < 10*time.Second {
+	for timeout <= 10*time.Second {
 
 		// Return the first mirror that responds to HTTP GET
 		for _, mirror := range mirrors {
@@ -128,6 +175,9 @@ func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []T
 
 				return &mirror, torrents, nil
 
+			} else if err != nil && os.Getenv("GOIRATE_DEBUG") == "true" {
+
+				log.Print(err)
 			}
 		}
 

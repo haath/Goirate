@@ -57,6 +57,8 @@ func (a torrentSearchArgs) GetScraper(query string) (torrents.PirateBayScaper, e
 
 		var mirrorScraper torrents.MirrorScraper
 
+		mirrorScraper.MirrorFilters = Config.TPBMirrors
+
 		if a.SourceURL != "" {
 			mirrorScraper.SetProxySourceURL(a.SourceURL)
 		}
@@ -87,6 +89,8 @@ func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error)
 	}
 
 	var mirrorScraper torrents.MirrorScraper
+
+	mirrorScraper.MirrorFilters = Config.TPBMirrors
 
 	if a.SourceURL != "" {
 		mirrorScraper.SetProxySourceURL(a.SourceURL)

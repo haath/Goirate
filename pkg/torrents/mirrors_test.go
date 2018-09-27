@@ -28,11 +28,11 @@ func TestMirrorScraper(t *testing.T) {
 func TestParseMirrors(t *testing.T) {
 
 	table := []Mirror{
-		{"https://pirateproxy.sh", "uk", false},
-		{"https://thepbproxy.com", " nl", true},
-		{"https://thetorrents.red", "us", true},
-		{"https://thetorrents-org.prox.space", "us", true},
-		{"https://cruzing.xyz", "us", true},
+		{"https://pirateproxy.sh", "UK", false},
+		{"https://thepbproxy.com", " NL", true},
+		{"https://thetorrents.red", "US", true},
+		{"https://thetorrents-org.prox.space", "US", true},
+		{"https://cruzing.xyz", "US", true},
 	}
 
 	file, err := os.Open("../../test_samples/proxybay.html")
@@ -47,7 +47,9 @@ func TestParseMirrors(t *testing.T) {
 		return
 	}
 
-	mirrors := parseMirrors(doc)
+	var mirrorScraper MirrorScraper
+
+	mirrors := mirrorScraper.parseMirrors(doc)
 
 	if len(mirrors) != 16 {
 		t.Errorf("Expected to parse 16 mirrors. Found %d.\n", len(mirrors))
@@ -80,7 +82,7 @@ func TestGetAndPickMirror(t *testing.T) {
 
 func TestPickMirror(t *testing.T) {
 
-	//expected := Mirror{"https://thepbproxy.com", "nl", true}
+	//expected := Mirror{"https://thepbproxy.com", "NL", true}
 
 	file, err := os.Open("../../test_samples/proxybay.html")
 	if err != nil {
@@ -94,7 +96,9 @@ func TestPickMirror(t *testing.T) {
 		return
 	}
 
-	mirrors := parseMirrors(doc)
+	var mirrorScraper MirrorScraper
+
+	mirrors := mirrorScraper.parseMirrors(doc)
 
 	_, torrents, err := getTorrents(mirrors, "ubuntu", true)
 

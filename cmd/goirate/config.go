@@ -18,6 +18,7 @@ import (
 // Config holds the global goirate configuration
 var Config struct {
 	torrents.SearchFilters
+	TPBMirrors      torrents.MirrorFilters `toml:"tpb_mirrors"`
 	TVDBCredentials series.TVDBCredentials `toml:"tvdb"`
 	RPCConfig       RPCConfig              `toml:"transmission_rpc"`
 	SMTPConfig      SMTPConfig             `toml:"smtp"`
@@ -63,6 +64,11 @@ func ApplyConfig(filters *torrents.SearchFilters) {
 }
 
 // ImportConfig the configuration from config.toml onto the Config variable
+// This function also replaces nil values with default and then exports the configuration
+// before returning. It is implemented this way, so that any execution of the program
+// generates the default configuration, including all of its properties, as opposed
+// to the default behavior of BurntSushi/toml which excludes nil values.
+// This way a user can begin manually configuring the application through config.toml immediately.
 func ImportConfig() {
 
 	if _, err := os.Stat(configPath()); err == nil {
@@ -148,6 +154,16 @@ func ImportConfig() {
 		} else if Config.Watchlist.Emails == nil {
 
 			Config.Watchlist.Emails = []string{}
+		}
+
+		/*
+			Pirate Bay mirror filters
+		*/
+		if Config.TPBMirrors.Whitelist == nil {
+			Config.TPBMirrors.Whitelist = []string{}
+		}
+		if Config.TPBMirrors.Blacklist == nil {
+			Config.TPBMirrors.Blacklist = []string{}
 		}
 	}
 

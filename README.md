@@ -113,6 +113,15 @@ $ goirate mirrors --json
 }
 ```
 
+The mirror-picking process for the entire tool can be configured in your `~/.goirate/config.toml`.
+Both the blacklist and the whitelist can contain partial mirror URLs or country codes.
+
+```toml
+# Only allow mirrors in the US, but do not allow thepiratebay.vin or *.biz domains
+[tpb_mirrors]
+  whitelist = ["US"]
+  blacklist = ["thepiratebay.vin", ".biz"]
+```
 
 #### Searching for torrents
 

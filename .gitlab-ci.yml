@@ -33,7 +33,7 @@ github-release:
   only:
   - tags
   tags:
-  - win64
+  - amd64
   script:
   - make clean
   - make cross-compile

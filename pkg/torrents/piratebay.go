@@ -146,9 +146,14 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 
 func (s *pirateBayScaper) SearchVideoTorrents(query string, filters SearchFilters, contains ...string) ([]Torrent, error) {
 
+	return s.SearchVideoTorrentsTimeout(query, filters, 0, contains...)
+}
+
+func (s *pirateBayScaper) SearchVideoTorrentsTimeout(query string, filters SearchFilters, timeout time.Duration, contains ...string) ([]Torrent, error) {
+
 	query = utils.NormalizeQuery(query)
 
-	trnts, err := s.Search(query)
+	trnts, err := s.SearchTimeout(query, timeout)
 
 	if err != nil {
 		return nil, err
@@ -176,7 +181,12 @@ func (s *pirateBayScaper) SearchVideoTorrents(query string, filters SearchFilter
 		torrentTitle := utils.NormalizeQuery(torrent.Title)
 
 		if matches(torrentTitle) {
+
 			titleFiltered = append(titleFiltered, torrent)
+
+		} else if os.Getenv("GOIRATE_DEBUG") == "true" {
+
+			log.Printf("%s != %v", torrent.Title, contains)
 		}
 
 	}
