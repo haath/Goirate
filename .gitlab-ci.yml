@@ -38,6 +38,8 @@ github-release:
   tags:
   - amd64
   script:
+  - apk update
+  - apk add --no-cache git build-base gcc make
   - go get -d -u github.com/golang/dep
   - make clean
   - make cross-compile
