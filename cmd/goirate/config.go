@@ -18,17 +18,18 @@ import (
 // Config holds the global goirate configuration
 var Config struct {
 	torrents.SearchFilters
+	KodiMediaPaths  bool                   `toml:"kodi_media_paths"`
 	TPBMirrors      torrents.MirrorFilters `toml:"tpb_mirrors"`
 	TVDBCredentials series.TVDBCredentials `toml:"tvdb"`
 	RPCConfig       RPCConfig              `toml:"transmission_rpc"`
 	SMTPConfig      SMTPConfig             `toml:"smtp"`
+	Watchlist       utils.WatchlistActions `toml:"actions"`
 	DownloadDir     struct {
 		General string `toml:"general"`
 		Movies  string `toml:"movies"`
 		Series  string `toml:"series"`
 		Music   string `toml:"music"`
 	} `toml:"download_dirs"`
-	Watchlist utils.WatchlistAction `toml:"watchlist_actions"`
 }
 
 // ConfigCommand defines the config command and holds its options.
@@ -98,6 +99,24 @@ func ImportConfig() {
 				*val = defaultVal
 			}
 		}
+		setOrDefaultQuality := func(val *torrents.VideoQuality, env string, defaultVal torrents.VideoQuality) {
+			if os.Getenv(env) != "" {
+				*val = torrents.VideoQuality(os.Getenv(env))
+			} else if *val == "" {
+				*val = defaultVal
+			}
+		}
+		setOrDefaultInt := func(val *int, env string, defaultVal int) {
+			if os.Getenv(env) != "" {
+				num, err := strconv.ParseInt(os.Getenv(env), 10, 32)
+				if err != nil {
+					log.Fatal(err)
+				}
+				*val = int(num)
+			} else if *val == 0 {
+				*val = defaultVal
+			}
+		}
 		setOrDefaultUint := func(val *uint16, env string, defaultVal uint16) {
 			if os.Getenv(env) != "" {
 				num, err := strconv.ParseUint(os.Getenv(env), 10, 16)
@@ -109,6 +128,28 @@ func ImportConfig() {
 				*val = defaultVal
 			}
 		}
+		setOptionalBool := func(val *utils.OptionalBoolean, env string, defaultVal utils.OptionalBoolean) {
+			if os.Getenv(env) == "true" {
+				*val = utils.True
+			} else if *val == "" {
+				*val = defaultVal
+			}
+		}
+		setBool := func(val *bool, env string) {
+			if os.Getenv(env) == "true" {
+				*val = true
+			}
+		}
+
+		/*
+			Search filters
+		*/
+		setBool(&Config.VerifiedUploader, "GOIRATE_VERIFIED_UPLOADER")
+		setOrDefaultQuality(&Config.MinQuality, "GOIRATE_MIN_QUALITY", "")
+		setOrDefaultQuality(&Config.MaxQuality, "GOIRATE_MAX_QUALITY", "")
+		setOrDefault(&Config.MinSize, "GOIRATE_MIN_SIZE", "")
+		setOrDefault(&Config.MaxSize, "GOIRATE_MAX_SIZE", "")
+		setOrDefaultInt(&Config.MinSeeders, "GOIRATE_MIN_SEEDERS", 0)
 
 		/*
 			Download directory options
@@ -147,14 +188,16 @@ func ImportConfig() {
 		/*
 			Watchlist options
 		*/
-		if os.Getenv("GOIRATE_WATCHLIST_NOTIFY") != "" {
+		if os.Getenv("GOIRATE_ACTIONS_NOTIFY") != "" {
 
-			Config.Watchlist.Emails = strings.Split(os.Getenv("GOIRATE_WATCHLIST_NOTIFY"), ",")
+			Config.Watchlist.Emails = strings.Split(os.Getenv("GOIRATE_ACTIONS_NOTIFY"), ",")
 
 		} else if Config.Watchlist.Emails == nil {
 
 			Config.Watchlist.Emails = []string{}
 		}
+		setOptionalBool(&Config.Watchlist.SendEmail, "GOIRATE_ACTIONS_EMAIL", "")
+		setOptionalBool(&Config.Watchlist.Download, "GOIRATE_ACTIONS_DOWNLOAD", "")
 
 		/*
 			Pirate Bay mirror filters
@@ -165,6 +208,11 @@ func ImportConfig() {
 		if Config.TPBMirrors.Blacklist == nil {
 			Config.TPBMirrors.Blacklist = []string{}
 		}
+
+		/*
+			Misc.
+		*/
+		setBool(&Config.KodiMediaPaths, "GOIRATE_KODI_MEDIA_PATHS")
 	}
 
 	ExportConfig()

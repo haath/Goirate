@@ -14,9 +14,9 @@ const (
 	False OptionalBoolean = "false"
 )
 
-// WatchlistAction defines actions to be taken upon discovering a new torrent,
+// WatchlistActions defines actions to be taken upon discovering a new torrent,
 // along with any parameters regarding said action.
-type WatchlistAction struct {
+type WatchlistActions struct {
 	SendEmail OptionalBoolean `toml:"email" json:"email"`
 	Emails    []string        `toml:"notify" json:"notify"`
 	Download  OptionalBoolean `toml:"download" json:"download"`

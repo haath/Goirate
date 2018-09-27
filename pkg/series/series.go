@@ -10,12 +10,12 @@ import (
 // Series holds the title of a series along
 // with the next episode expected to come out.
 type Series struct {
-	ID               int                   `toml:"id" json:"id"`
-	Title            string                `toml:"title" json:"title"`
-	MinQuality       torrents.VideoQuality `toml:"min_quality" json:"min_quality"`
-	VerifiedUploader bool                  `toml:"only_trusted" json:"only_trusted"`
-	LastEpisode      Episode               `toml:"last_episode" json:"last_episode"`
-	Action           utils.WatchlistAction `toml:"action" json:"action"`
+	ID               int                    `toml:"id" json:"id"`
+	Title            string                 `toml:"title" json:"title"`
+	MinQuality       torrents.VideoQuality  `toml:"min_quality" json:"min_quality"`
+	VerifiedUploader bool                   `toml:"only_trusted" json:"only_trusted"`
+	LastEpisode      Episode                `toml:"last_episode" json:"last_episode"`
+	Actions          utils.WatchlistActions `toml:"actions" json:"actions"`
 }
 
 // NextEpisode uses the TVDB API to make a best guess as to which is the next episode

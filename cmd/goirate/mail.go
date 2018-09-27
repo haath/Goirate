@@ -42,13 +42,13 @@ func (cfg *SMTPConfig) SendEmail(subject, body string, to ...string) error {
 	return err
 }
 
-// LoadTorrentTemplate generates the torrent notification e-mail by loading the template
+// LoadSeriesTemplate generates the torrent notification e-mail by loading the template
 // and populating it with the given data.
-func LoadTorrentTemplate(data interface{}) (string, error) {
+func LoadSeriesTemplate(data interface{}) (string, error) {
 
 	box := packr.NewBox("../../templates")
 
-	html, err := box.MustString("torrent.html")
+	html, err := box.MustString("series.html")
 
 	if err != nil {
 		return "", err

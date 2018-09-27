@@ -116,7 +116,7 @@ func (cmd *addCommand) Execute(args []string) error {
 		VerifiedUploader: cmd.VerifiedUploader,
 		LastEpisode:      episode,
 	}
-	ser.Action.Emails = []string{}
+	ser.Actions.Emails = []string{}
 
 	seriesList := loadSeries()
 
@@ -344,15 +344,15 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 	for _, seriesTorrents := range seriesTorrentsList {
 
-		if Config.Watchlist.SendEmail.OverridenBy(seriesTorrents.Series.Action.SendEmail) {
+		if Config.Watchlist.SendEmail.OverridenBy(seriesTorrents.Series.Actions.SendEmail) {
 
 			// Send e-mail
 
 			notify := Config.Watchlist.Emails
 
-			if len(seriesTorrents.Series.Action.Emails) > 0 {
+			if len(seriesTorrents.Series.Actions.Emails) > 0 {
 
-				notify = seriesTorrents.Series.Action.Emails
+				notify = seriesTorrents.Series.Actions.Emails
 			}
 
 			if notify == nil || len(notify) == 0 {
@@ -362,7 +362,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 			log.Printf("Sending e-mail to: %s\n", notify)
 
-			body, err := LoadTorrentTemplate(seriesTorrents)
+			body, err := LoadSeriesTemplate(seriesTorrents)
 
 			if err != nil {
 				return err
@@ -388,7 +388,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 		for _, seriesTorrent := range seriesTorrents.Torrents {
 
-			if Config.Watchlist.Download.OverridenBy(seriesTorrents.Series.Action.Download) {
+			if Config.Watchlist.Download.OverridenBy(seriesTorrents.Series.Actions.Download) {
 
 				// Send the torrent to the transmission daemon for download
 

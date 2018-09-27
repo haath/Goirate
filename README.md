@@ -219,8 +219,8 @@ For this tool to manage series, you need to obtain an API key from [TheTVDB.com]
 and include it in Goirate's configuration at `~/.goirate/config.toml`.
 
 Create a watchlist of series, by using the `series add` command.
-This stores a list of your series on your account's configuration, along
-with the last episode watched for each one. The names can be partial, as they
+This stores a list of your series in your account's configuration, specifically in `~/.goirate/series.toml`,
+along with the last episode watched for each one. The names can be partial, as they
 will be used to search for the full name on the TVDB API. If the last episode is
 not specified, the API will be used to fetch the number of the last episode that
 aired for this series.
@@ -232,7 +232,7 @@ $ goirate series add "expanse"
 ```
 
 The `series show` command can be used to display the series currently on the 
-watchlist. The `-j` flag also applies here, printing out the JSON format instead.
+watchlist. The `-j` flag also applies here, printing out the list in JSON format instead.
 
 ```sh
 $ goirate series show
@@ -281,7 +281,7 @@ configure the `smtp` settings and specify the list of recipients.
   username = "...@gmail.com"
   password = "..."
 
-[watchlist_actions]
+[actions]
   email = "true"
   notify = ["...@gmail.com"]
   ...
@@ -294,7 +294,7 @@ Action-related options that are specified for a specific series, will override t
 [[series]]
   title = "The Last Ship"
   ...
-  [series.action]
+  [series.actions]
     email = "false"
     notify = []
 ```
@@ -313,7 +313,7 @@ configuration.
   password = ""
   ssl = false
 
-[watchlist_actions]
+[actions]
   ...
   download = "true"
 ```
@@ -324,7 +324,7 @@ Same as with e-mails, this feature can also be enabled or disabled for a specifi
 [[series]]
   title = "The Last Ship"
   ...
-  [series.action]
+  [series.actions]
     download = "false"
 ```
 
@@ -333,10 +333,19 @@ daemon. Whether or not they begin downloading immediately once they are added de
 
 ## Environment Variables
 
+These variables are used to configured Goirate when editing the configuration file 
+
 | Variable | Description | Default |
 | -------- | ----------- | ------- |
 | GOIRATE_DEBUG | If set to `true`, it enables additional diagnostic messages. | |
 | GOIRATE_DIR | The directory used to store configurations and lists. | `~/.goirate` |
+| GOIRATE_VERIFIED_UPLOADER | Whether to only accept torrents from trusted or verified uploaders. | `false` |
+| GOIRATE_MIN_QUALITY | The minimal acceptable quality for a torrent. |  |
+| GOIRATE_MAX_QUALITY | The maximum acceptable quality for a torrent. |  |
+| GOIRATE_MIN_SIZE | The minimum acceptable size for a torrent. |  |
+| GOIRATE_MAX_SIZE | The maximum acceptable size for a torrent. |  |
+| GOIRATE_MIN_SEEDERS | The minimum acceptable amount of seeders for a torrent. | `0` |
+| GOIRATE_KODI_MEDIA_PATHS | Use Kodi-friendly paths when downloading media like movies, music albums and episodes. | `false` |
 | GOIRATE_DOWNLOADS_DIR | The directory used to store torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_MOVIES | The directory used to store movie torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_SERIES | The directory used to store series torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
@@ -350,8 +359,7 @@ daemon. Whether or not they begin downloading immediately once they are added de
 | GOIRATE_SMTP_PORT | The port of the SMTP server. | 587 |
 | GOIRATE_SMTP_USERNAME | The username used to authenticate with the SMTP server. | |
 | GOIRATE_SMTP_PASSWORD | The password used to authenticate with the SMTP server. | |
-| GOIRATE_WATCHLIST_NOTIFY | A comma-separated list of the e-mails to send torrents to. | |
-
-
-
+| GOIRATE_ACTIONS_EMAIL | Enable e-mail notifications for torrents found when scanning. Requires a valid SMTP configuration. | `false` |
+| GOIRATE_ACTIONS_NOTIFY | A comma-separated list of the e-mails to send torrents to. | |
+| GOIRATE_ACTIONS_DOWNLOAD | Enable automatic torrent downloads with [Transmission](https://transmissionbt.com/). Requires a valid RPC configuration. | `false` |
 

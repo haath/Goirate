@@ -9,7 +9,7 @@ import (
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 )
 
-func TestLoadTorrentTemplate(t *testing.T) {
+func TestLoadSeriesTemplate(t *testing.T) {
 
 	now := time.Now()
 	exp := now.Format("02/01/2006")
@@ -23,7 +23,7 @@ func TestLoadTorrentTemplate(t *testing.T) {
 		},
 	}
 
-	tmpl, err := LoadTorrentTemplate(torrents)
+	tmpl, err := LoadSeriesTemplate(torrents)
 
 	if err != nil {
 		t.Error(err)
