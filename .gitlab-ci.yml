@@ -31,12 +31,14 @@ test:
     - test_coverage.*
 
 github-release:
+  image: golang:alpine
   stage: deploy
   only:
   - tags
   tags:
   - amd64
   script:
+  - go get -d -u github.com/golang/dep
   - make clean
   - make cross-compile
   - go get -u github.com/c4milo/github-release
