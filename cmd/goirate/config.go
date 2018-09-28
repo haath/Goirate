@@ -262,3 +262,12 @@ func configPath() string {
 
 	return path.Join(configDir(), "config.toml")
 }
+
+// GetMirrorScraper returns a scraper for Pirate Bay mirrors, with the appropriate
+// configuration passed to it from the Config variable.
+func GetMirrorScraper() torrents.MirrorScraper {
+
+	return torrents.MirrorScraper{
+		MirrorFilters: Config.TPBMirrors,
+	}
+}

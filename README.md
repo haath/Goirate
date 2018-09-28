@@ -45,7 +45,23 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 - [ ] Support for a proxy or VPN to avoid getting flogged
 - [ ] Docker image with Transmission and OpenVPN.
 
-### Installation
+## Installation
+
+You can find compiled binaries for your architecture on the [GitHub releases page](https://github.com/gmantaos/Goirate/releases).
+
+### Updating
+
+The tool comes with a self-updater.
+
+```sh
+$ goirate update
+Updating to version: 0.9.1
+
+$ goirate --version
+Goirate build: 0.9.1
+```
+
+### Build from source
 
 By default [dep](https://github.com/golang/dep) is used for dependency management.
 

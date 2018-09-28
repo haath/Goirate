@@ -23,6 +23,17 @@ type Mirror struct {
 	Status  bool   `json:"status"`
 }
 
+// FallbackMirror returns a default Pirate Bay mirror for when the list of mirrors is unavailable.
+// The mirror chosen for this, is one that I have personally experienced to be generally available and reliable,
+// for the time being, and it should in no way reflect a long-term solution for mirror availabilty.
+func FallbackMirror() Mirror {
+
+	return Mirror{
+		URL:     "https://pirateproxy.mx/",
+		Country: "UK",
+	}
+}
+
 // MirrorScraper holds the url to a torrents proxy list.
 // By default the scraper will use proxybay.github.io.
 type MirrorScraper struct {
@@ -32,6 +43,7 @@ type MirrorScraper struct {
 
 // MirrorFilters define filters for picking a Pirate Bay mirror.
 type MirrorFilters struct {
+	Preferred string   `toml:"preferred"`
 	Whitelist []string `toml:"whitelist"`
 	Blacklist []string `toml:"blacklist"`
 }
@@ -65,13 +77,14 @@ func (m *MirrorScraper) GetMirrors() ([]Mirror, error) {
 
 // GetTorrents fetches all available Pirate Bay mirrors and returns the first Pirate Bay page that it finds.
 func (m *MirrorScraper) GetTorrents(query string) ([]Torrent, error) {
+
 	mirrors, err := m.GetMirrors()
 
 	if err != nil {
 		return nil, err
 	}
 
-	_, torrents, err := getTorrents(mirrors, query, true)
+	_, torrents, err := m.getTorrents(mirrors, query, true)
 
 	return torrents, err
 }
@@ -85,7 +98,7 @@ func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
 		return nil, err
 	}
 
-	mirror, _, err := getTorrents(mirrors, query, true)
+	mirror, _, err := m.getTorrents(mirrors, query, true)
 
 	return mirror, err
 }
@@ -94,7 +107,8 @@ func (m *MirrorScraper) PickMirror(query string) (*Mirror, error) {
 func (m *MirrorFilters) IsOk(mirror Mirror) bool {
 
 	if flag.Lookup("test.v") != nil && strings.Contains(mirror.URL, "thepiratebay.vin") {
-		// These mirrors sucks so let's exclude it from tests for now
+
+		// This mirror sucks so let's exclude it from tests for now
 
 		return false
 	}
@@ -141,20 +155,14 @@ func (m *MirrorScraper) parseMirrors(doc *goquery.Document) []Mirror {
 	return mirrors
 }
 
-func parseLoadTime(speedTitle string) float32 {
+func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []Torrent, error) {
 
-	r, _ := regexp.Compile("Loaded in (\\-?\\d+\\.\\d+) seconds")
-	m := r.FindStringSubmatch(speedTitle)
+	if m.MirrorFilters.Preferred != "" {
 
-	if len(m) > 0 {
-		val, _ := strconv.ParseFloat(m[1], 32)
-
-		return float32(val)
+		mirrors = append([]Mirror{{URL: m.MirrorFilters.Preferred}}, mirrors...)
 	}
-	return 0.0
-}
 
-func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []Torrent, error) {
+	mirrors = append(mirrors, FallbackMirror())
 
 	timeout := 3 * time.Second
 
@@ -185,8 +193,21 @@ func getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []T
 	}
 
 	if trustSource {
-		return getTorrents(mirrors, query, false)
+		return m.getTorrents(mirrors, query, false)
 	}
 
 	return nil, nil, errors.New("all Pirate Bay proxies seem to be unreachable")
+}
+
+func parseLoadTime(speedTitle string) float32 {
+
+	r, _ := regexp.Compile("Loaded in (\\-?\\d+\\.\\d+) seconds")
+	m := r.FindStringSubmatch(speedTitle)
+
+	if len(m) > 0 {
+		val, _ := strconv.ParseFloat(m[1], 32)
+
+		return float32(val)
+	}
+	return 0.0
 }

@@ -100,7 +100,7 @@ func TestPickMirror(t *testing.T) {
 
 	mirrors := mirrorScraper.parseMirrors(doc)
 
-	_, torrents, err := getTorrents(mirrors, "ubuntu", true)
+	_, torrents, err := mirrorScraper.getTorrents(mirrors, "ubuntu", true)
 
 	if err != nil {
 		t.Error(err)
