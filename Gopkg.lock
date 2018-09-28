@@ -10,20 +10,20 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:b16fbfbcc20645cb419f78325bb2e85ec729b338e996a228124d68931a6f2a37"
+  digest = "1:9f3b30d9f8e0d7040f729b82dcbc8f0dead820a133b3147ce355fc451f32d761"
   name = "github.com/BurntSushi/toml"
   packages = ["."]
   pruneopts = "UT"
-  revision = "b26d9c308763d68093482582cea63d69be07a0f0"
-  version = "v0.3.0"
+  revision = "3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005"
+  version = "v0.3.1"
 
 [[projects]]
-  digest = "1:bff7b2530f02b143623e260c11df5cbf34e0faeaca6aa001a8be31f333518ca9"
+  digest = "1:a62f6ed230a8cd138a9efbe718e7d0b0294f139266f5f55cd942769a9aac8de2"
   name = "github.com/PuerkitoBio/goquery"
   packages = ["."]
   pruneopts = "UT"
-  revision = "a86ea073017a6beddef78c8659e7224e8ca634b0"
-  version = "v1.4.0"
+  revision = "dc2ec5c7ca4d9aae063b79b9f581dd3ea6afd2b2"
+  version = "v1.4.1"
 
 [[projects]]
   digest = "1:66b3310cf22cdc96c35ef84ede4f7b9b370971c4025f394c89a2638729653b11"
@@ -34,12 +34,12 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:f45caa3c5c4541c3a73b9fa2b38db97fcbda57618eaaaf45dd5c728362ad8f09"
+  digest = "1:c8ad4ba32ae8b71ef2bf5e1bad402aeb99ce77a1240f9b684db8b1ff5353e7ab"
   name = "github.com/gobuffalo/packr"
   packages = ["."]
   pruneopts = "UT"
-  revision = "6c8156ee36301dd007342e79d81c99e7a7834337"
-  version = "v1.13.5"
+  revision = "5a2cbb54c4e7d482e3f518c56f1f86f133d5204f"
+  version = "v1.13.7"
 
 [[projects]]
   digest = "1:9715d8b13bda6dada8327ad7d4791ec8d4c2be49a660c8a9293361f80daac913"
@@ -78,20 +78,20 @@
   version = "v1.4.0"
 
 [[projects]]
-  digest = "1:e2d1d410fb367567c2b53ed9e2d719d3c1f0891397bb2fa49afd747cfbf1e8e4"
+  digest = "1:cdb899c199f907ac9fb50495ec71212c95cb5b0e0a8ee0800da0238036091033"
   name = "github.com/mattn/go-runewidth"
   packages = ["."]
   pruneopts = "UT"
-  revision = "9e777a8366cce605130a531d2cd6363d07ad7317"
-  version = "v0.0.2"
+  revision = "ce7b0b5c7b45a81508558cd1dba6bb1e4ddb51bb"
+  version = "v0.0.3"
 
 [[projects]]
   branch = "master"
-  digest = "1:4daa045e1e1f3e23f4b07db6880cdf9f259dab65312dfe244a878e6070faaf77"
+  digest = "1:f611266e3ac01ab4adb6f1d67f6c1be82998d02f452faff450596658712d860b"
   name = "github.com/olekukonko/tablewriter"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d4647c9c7a84d847478d890b816b7d8b62b0b279"
+  revision = "be2c049b30ccd4d3fd795d6bf7dce74e42eeedaa"
 
 [[projects]]
   digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
@@ -103,14 +103,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0516820422512741f45f4e72d4ade116c1d1bf3bb2d846001d42f6787ec00f22"
+  digest = "1:a367927017e67fb73acff1959106cb512b13fcec1a1f394a4dbf9dfb9a78b5b6"
   name = "golang.org/x/net"
   packages = [
     "html",
     "html/atom",
   ]
   pruneopts = "UT"
-  revision = "2491c5de3490fced2f6cff376127c667efeed857"
+  revision = "4dfa2610cdf3b287375bbba5b8f2a14d3b01d8de"
 
 [solve-meta]
   analyzer-name = "dep"

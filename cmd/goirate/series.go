@@ -155,7 +155,7 @@ func (cmd *removeCommand) Execute(args []string) error {
 
 	if !remove(&seriesList, id, cmd.Args.Title) {
 
-		return fmt.Errorf("no series found on the watchlist matching: %v\vhint: goirate series show", cmd.Args.Title)
+		return fmt.Errorf("no series found on the watchlist matching: %v\nhint: goirate series show", cmd.Args.Title)
 	}
 
 	storeSeries(seriesList)
@@ -352,6 +352,9 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 	for _, seriesTorrents := range seriesTorrentsList {
 
+		/*
+			Send e-mails, groupins episode torrents per series
+		*/
 		if Config.Watchlist.SendEmail.OverridenBy(seriesTorrents.Series.Actions.SendEmail) {
 
 			// Send e-mail
@@ -394,6 +397,9 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 			}
 		}
 
+		/*
+			Loop over individual torrents to send each of them to Transmission for download
+		*/
 		for _, seriesTorrent := range seriesTorrents.Torrents {
 
 			if Config.Watchlist.Download.OverridenBy(seriesTorrents.Series.Actions.Download) {
@@ -406,7 +412,20 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 					return err
 				}
 
-				err = transmission.AddTorrent(seriesTorrent.Torrent.Magnet, Config.DownloadDir.Series)
+				downloadPath := Config.DownloadDir.Series
+
+				if Config.KodiMediaPaths {
+
+					downloadPath = path.Join(
+						downloadPath,
+						seriesTorrents.Series.Title,
+						fmt.Sprintf("Season %d", seriesTorrent.Episode.Season),
+					)
+				}
+
+				log.Printf("Downloading: %s %s (%s)\n", seriesTorrents.Series.Title, seriesTorrent.Episode, downloadPath)
+
+				err = transmission.AddTorrent(seriesTorrent.Torrent.Magnet, downloadPath)
 
 				if err != nil {
 					return err
