@@ -259,13 +259,21 @@ func (cmd *scanCommand) Execute(args []string) error {
 func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Series, torrentList *[]seriesTorrents) (bool, error) {
 
 	filters := cmd.GetFilters()
-	filters.MinQuality = ser.MinQuality
-	filters.VerifiedUploader = ser.VerifiedUploader
+
+	if ser.MinQuality != "" {
+		filters.MinQuality = ser.MinQuality
+	}
+	filters.VerifiedUploader = filters.VerifiedUploader || ser.VerifiedUploader
 
 	nextEpisode, err := ser.NextEpisode(tvdbToken)
 
 	if err != nil {
 		return false, err
+	}
+
+	if !cmd.MagnetLink && !Options.JSON && !cmd.TorrentURL {
+
+		log.Printf("Searching for: %s %s\n", ser.Title, nextEpisode)
 	}
 
 	scraper, err := cmd.GetScraper(ser.SearchQuery(nextEpisode))

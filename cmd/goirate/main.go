@@ -138,7 +138,12 @@ func configDir() string {
 
 	} else if usrErr != nil {
 
-		dir = path.Join("~", ".goirate")
+		// Being here usually means we can't produce the current user.
+		// In this case the '~' path will most likely also not be around.
+		// With the crontab in mind, we'll default this case to a directory
+		// in the current working directory of shell. Which in the case of cron,
+		// should be the user's home folder anyway.
+		dir = ".goirate"
 
 	} else {
 
