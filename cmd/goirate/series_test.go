@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"reflect"
 	"strings"
 	"testing"
@@ -181,4 +182,14 @@ func TestCapitalize(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestEpisodeRangeString(t *testing.T) {
+
+	table := []struct {
+		in  seriesTorrents
+		out string
+	}{}
+
+	log.Print(table)
 }

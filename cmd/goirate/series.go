@@ -440,6 +440,27 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 	return nil
 }
 
+func episodeRangeString(seriesTorrents seriesTorrents) string {
+
+	min := series.Episode{Season: ^uint(0), Episode: ^uint(0)}
+	max := series.Episode{Season: 0, Episode: 0}
+
+	for _, seriesTorrent := range seriesTorrents.Torrents {
+
+		if min.IsAfter(seriesTorrent.Episode) {
+
+			min = seriesTorrent.Episode
+		}
+
+		if seriesTorrent.Episode.IsAfter(max) {
+
+			max = seriesTorrent.Episode
+		}
+	}
+
+	return fmt.Sprintf("%s - %s", min, max)
+}
+
 func loadSeries() []series.Series {
 
 	var seriesList struct {
