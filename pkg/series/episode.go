@@ -51,7 +51,7 @@ func ParseEpisodeString(episodeStr string) Episode {
 // IsAfter returns true if this episode is sequentially after the given episode.
 func (ep *Episode) IsAfter(episode Episode) bool {
 	return ep.Season > episode.Season ||
-		ep.Episode > episode.Episode
+		(ep.Season == episode.Season && ep.Episode > episode.Episode)
 }
 
 // String returns the string SxxEyy representation of an episode.

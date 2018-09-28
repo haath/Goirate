@@ -1,6 +1,9 @@
 package series
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestParseEpisodeString(t *testing.T) {
 	table := []struct {
@@ -31,6 +34,35 @@ func TestParseEpisodeString(t *testing.T) {
 
 			if ep.LongString() != tt.outLong {
 				t.Errorf("got %v, want %v", ep.LongString(), tt.outLong)
+			}
+		})
+	}
+}
+
+func TestIsAfter(t *testing.T) {
+
+	table := []struct {
+		aft []uint
+		bef []uint
+		out bool
+	}{
+		{[]uint{0, 0}, []uint{0, 3}, false},
+		{[]uint{0, 3}, []uint{0, 3}, false},
+		{[]uint{0, 4}, []uint{0, 3}, true},
+		{[]uint{3, 10}, []uint{0, 12}, true},
+		{[]uint{0, 12}, []uint{3, 10}, false},
+	}
+
+	for _, tt := range table {
+		t.Run(fmt.Sprintf("%v > %v", tt.aft, tt.bef), func(t *testing.T) {
+
+			aft := Episode{Season: tt.aft[0], Episode: tt.aft[1]}
+			bef := Episode{Season: tt.bef[0], Episode: tt.bef[1]}
+
+			s := aft.IsAfter(bef)
+
+			if tt.out != s {
+				t.Errorf("got %v, want %v", s, tt.out)
 			}
 		})
 	}
