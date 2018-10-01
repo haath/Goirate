@@ -2,128 +2,93 @@
 
 
 [[projects]]
-  digest = "1:65e57bdf3461b7e51fd9d7658b0680b922c31b29cd784d33235cf8c5094da683"
   name = "git.gmantaos.com/haath/gobytes"
   packages = ["."]
-  pruneopts = "UT"
   revision = "41f1f1a1e4a3188e4e9a9cf6fc698d93eafd40e2"
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:9f3b30d9f8e0d7040f729b82dcbc8f0dead820a133b3147ce355fc451f32d761"
   name = "github.com/BurntSushi/toml"
   packages = ["."]
-  pruneopts = "UT"
   revision = "3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005"
   version = "v0.3.1"
 
 [[projects]]
-  digest = "1:a62f6ed230a8cd138a9efbe718e7d0b0294f139266f5f55cd942769a9aac8de2"
   name = "github.com/PuerkitoBio/goquery"
   packages = ["."]
-  pruneopts = "UT"
   revision = "dc2ec5c7ca4d9aae063b79b9f581dd3ea6afd2b2"
   version = "v1.4.1"
 
 [[projects]]
-  digest = "1:66b3310cf22cdc96c35ef84ede4f7b9b370971c4025f394c89a2638729653b11"
   name = "github.com/andybalholm/cascadia"
   packages = ["."]
-  pruneopts = "UT"
   revision = "901648c87902174f774fac311d7f176f8647bdaa"
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:c8ad4ba32ae8b71ef2bf5e1bad402aeb99ce77a1240f9b684db8b1ff5353e7ab"
   name = "github.com/gobuffalo/packr"
   packages = ["."]
-  pruneopts = "UT"
   revision = "5a2cbb54c4e7d482e3f518c56f1f86f133d5204f"
   version = "v1.13.7"
 
 [[projects]]
-  digest = "1:9715d8b13bda6dada8327ad7d4791ec8d4c2be49a660c8a9293361f80daac913"
   name = "github.com/hekmon/cunits"
   packages = ["."]
-  pruneopts = "UT"
   revision = "3c45cb0124f153c1e8bbd2e965cf657c59331d49"
   version = "v2.0.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:559994afcc1f274362debeb4cb990b2a2553e3bfaf477e7add9d975f49cd8ba6"
   name = "github.com/hekmon/transmissionrpc"
   packages = ["."]
-  pruneopts = "UT"
   revision = "5e0fdaaae2caa3f095dc45b44a487068cc668b5b"
 
 [[projects]]
   branch = "master"
-  digest = "1:f3b0cfd42716269884bf06df5d5be9e54161d5af0a2f0ccca08717928dd45fc5"
   name = "github.com/inconshreveable/go-update"
   packages = [
     ".",
     "internal/binarydist",
-    "internal/osext",
+    "internal/osext"
   ]
-  pruneopts = "UT"
   revision = "8152e7eb6ccf8679a64582a66b78519688d156ad"
 
 [[projects]]
-  digest = "1:a2cff208d4759f6ba1b1cd228587b0a1869f95f22542ec9cd17fff64430113c7"
   name = "github.com/jessevdk/go-flags"
   packages = ["."]
-  pruneopts = "UT"
   revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
   version = "v1.4.0"
 
 [[projects]]
-  digest = "1:cdb899c199f907ac9fb50495ec71212c95cb5b0e0a8ee0800da0238036091033"
   name = "github.com/mattn/go-runewidth"
   packages = ["."]
-  pruneopts = "UT"
   revision = "ce7b0b5c7b45a81508558cd1dba6bb1e4ddb51bb"
   version = "v0.0.3"
 
 [[projects]]
   branch = "master"
-  digest = "1:f611266e3ac01ab4adb6f1d67f6c1be82998d02f452faff450596658712d860b"
   name = "github.com/olekukonko/tablewriter"
   packages = ["."]
-  pruneopts = "UT"
   revision = "be2c049b30ccd4d3fd795d6bf7dce74e42eeedaa"
 
 [[projects]]
-  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
   name = "github.com/pkg/errors"
   packages = ["."]
-  pruneopts = "UT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:a367927017e67fb73acff1959106cb512b13fcec1a1f394a4dbf9dfb9a78b5b6"
   name = "golang.org/x/net"
   packages = [
     "html",
-    "html/atom",
+    "html/atom"
   ]
-  pruneopts = "UT"
   revision = "4dfa2610cdf3b287375bbba5b8f2a14d3b01d8de"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = [
-    "git.gmantaos.com/haath/gobytes",
-    "github.com/BurntSushi/toml",
-    "github.com/PuerkitoBio/goquery",
-    "github.com/gobuffalo/packr",
-    "github.com/hekmon/transmissionrpc",
-    "github.com/inconshreveable/go-update",
-    "github.com/jessevdk/go-flags",
-    "github.com/olekukonko/tablewriter",
-  ]
+  inputs-digest = "39e0af33d28fe3fb29cfc8bfa033fa6adc2a6f4bac420fa525dba60e6503ed3c"
   solver-name = "gps-cdcl"
   solver-version = 1

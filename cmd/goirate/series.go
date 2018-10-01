@@ -316,38 +316,6 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 	return true, err
 }
 
-func appendSeriesTorrent(torrentList *[]seriesTorrents, ser *series.Series, episode series.Episode, torrent torrents.Torrent) {
-
-	serTorrent := seriesTorrent{Torrent: torrent, Episode: episode}
-
-	for i := range *torrentList {
-
-		item := (*torrentList)[i]
-
-		if item.Series.ID == ser.ID {
-
-			(*torrentList)[i].Torrents = append(item.Torrents, serTorrent)
-
-			return
-		}
-	}
-
-	*torrentList = append(*torrentList, seriesTorrents{
-		Series:   ser,
-		Torrents: []seriesTorrent{serTorrent},
-	})
-}
-
-func seriesTorrentCount(torrentList []seriesTorrents) uint {
-
-	var count uint
-	for _, seriesTorrents := range torrentList {
-
-		count += uint(len(seriesTorrents.Torrents))
-	}
-	return count
-}
-
 func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents) error {
 
 	for _, seriesTorrents := range seriesTorrentsList {
@@ -383,7 +351,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 			if len(seriesTorrents.Torrents) > 1 {
 
-				subject = fmt.Sprintf("[Goirate] New episodes out for %s", seriesTorrents.Series.Title)
+				subject = fmt.Sprintf("[Goirate] New episodes out for %s (%s)", seriesTorrents.Series.Title, episodeRangeString(seriesTorrents))
 
 			} else {
 
@@ -440,10 +408,47 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 	return nil
 }
 
+func appendSeriesTorrent(torrentList *[]seriesTorrents, ser *series.Series, episode series.Episode, torrent torrents.Torrent) {
+
+	serTorrent := seriesTorrent{Torrent: torrent, Episode: episode}
+
+	for i := range *torrentList {
+
+		item := (*torrentList)[i]
+
+		if item.Series.ID == ser.ID {
+
+			(*torrentList)[i].Torrents = append(item.Torrents, serTorrent)
+
+			return
+		}
+	}
+
+	*torrentList = append(*torrentList, seriesTorrents{
+		Series:   ser,
+		Torrents: []seriesTorrent{serTorrent},
+	})
+}
+
+func seriesTorrentCount(torrentList []seriesTorrents) uint {
+
+	var count uint
+	for _, seriesTorrents := range torrentList {
+
+		count += uint(len(seriesTorrents.Torrents))
+	}
+	return count
+}
+
 func episodeRangeString(seriesTorrents seriesTorrents) string {
 
 	min := series.Episode{Season: ^uint(0), Episode: ^uint(0)}
 	max := series.Episode{Season: 0, Episode: 0}
+
+	if len(seriesTorrents.Torrents) == 0 {
+
+		return ""
+	}
 
 	for _, seriesTorrent := range seriesTorrents.Torrents {
 
@@ -456,6 +461,11 @@ func episodeRangeString(seriesTorrents seriesTorrents) string {
 
 			max = seriesTorrent.Episode
 		}
+	}
+
+	if min.Season == max.Season && min.Episode == max.Episode {
+
+		return min.String()
 	}
 
 	return fmt.Sprintf("%s - %s", min, max)

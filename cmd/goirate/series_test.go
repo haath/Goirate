@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"reflect"
 	"strings"
 	"testing"
@@ -189,7 +188,30 @@ func TestEpisodeRangeString(t *testing.T) {
 	table := []struct {
 		in  seriesTorrents
 		out string
-	}{}
+	}{
+		{seriesTorrents{Torrents: []seriesTorrent{}}, ""},
+		{seriesTorrents{Torrents: []seriesTorrent{
+			{Episode: series.Episode{Season: 1, Episode: 4}},
+		}}, "S01E04"},
+		{seriesTorrents{Torrents: []seriesTorrent{
+			{Episode: series.Episode{Season: 1, Episode: 1}},
+			{Episode: series.Episode{Season: 2, Episode: 3}},
+		}}, "S01E01 - S02E03"},
+		{seriesTorrents{Torrents: []seriesTorrent{
+			{Episode: series.Episode{Season: 1, Episode: 1}},
+			{Episode: series.Episode{Season: 2, Episode: 3}},
+			{Episode: series.Episode{Season: 1, Episode: 4}},
+		}}, "S01E01 - S02E03"},
+	}
 
-	log.Print(table)
+	for _, tt := range table {
+		t.Run(tt.out, func(t *testing.T) {
+
+			s := episodeRangeString(tt.in)
+
+			if s != tt.out {
+				t.Errorf("\ngot: %v\nwant: %v", s, tt.out)
+			}
+		})
+	}
 }
