@@ -262,6 +262,15 @@ $ goirate series add "The Walking Dead" -e "Season 3 Episode 1"
 $ goirate series add "expanse"
 ```
 
+You can also add a series by its IMDb ID or URL.
+
+```sh
+$ goirate series add "https://www.imdb.com/title/tt1856010/" --ls
+|   ID   |       Series        | Season | Last Episode | Min. Quality |
+|--------|---------------------|--------|--------------|--------------|
+| 262980 | House of Cards (US) |   5    |      13      |              |
+```
+
 The `series show` command can be used to display the series currently on the 
 watchlist. The `-j` flag also applies here, printing out the list in JSON format instead.
 

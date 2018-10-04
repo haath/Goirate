@@ -15,6 +15,7 @@ func TestSearchQuery(t *testing.T) {
 	}{
 		{"Scraping The Barrel", Episode{Season: 4, Episode: 5}, "scraping the barrel s04e05"},
 		{"Scraping The Barrel", Episode{Season: 4, Episode: 0}, "scraping the barrel season 4"},
+		{"House of Cards (US)", Episode{Season: 3, Episode: 3}, "house of cards s03e03"},
 	}
 
 	for _, tt := range table {

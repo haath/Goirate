@@ -27,6 +27,31 @@ func TestNormalizeQuery(t *testing.T) {
 	}
 }
 
+func TestNormalizeMediaTitle(t *testing.T) {
+	table := []struct {
+		in  string
+		out string
+	}{
+		{"House of Cards (US)", "House of Cards"},
+		{"The Americans (2013)", "The Americans"},
+		{"The Americans [2013]", "The Americans"},
+		{"The {12 34} Americans [2013]", "The Americans"},
+		{"The   {12 34} Americans   [2013]", "The Americans"},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.out, func(t *testing.T) {
+
+			s := NormalizeMediaTitle(tt.in)
+
+			if tt.out != s {
+				t.Errorf("\ngot: %v\nwant: %v\n", s, tt.out)
+			}
+		})
+	}
+
+}
+
 func TestOverridenBy(t *testing.T) {
 
 	table := []struct {

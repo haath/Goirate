@@ -6,6 +6,8 @@ import (
 	"os"
 	"time"
 
+	"git.gmantaos.com/haath/Goirate/pkg/movies"
+
 	"git.gmantaos.com/haath/Goirate/pkg/utils"
 )
 
@@ -57,7 +59,33 @@ func (tkn *TVDBToken) Search(searchName string) (id int, name string, err error)
 		} `json:"data"`
 	}
 
-	searchURL := fmt.Sprintf("%v?name=%v", searchEndpoint, url.QueryEscape(searchName))
+	var searchURL string
+
+	if movies.IsIMDbURL(searchName) {
+
+		imdbID, err := movies.ExtractIMDbID(searchName)
+
+		if err != nil {
+
+			return 0, "", err
+		}
+
+		searchURL = fmt.Sprintf("%v?imdbId=tt%v", searchEndpoint, imdbID)
+
+	} else if movies.IsIMDbID(searchName) {
+
+		searchName, err = movies.FormatIMDbID(searchName)
+
+		if err != nil {
+
+			return 0, "", err
+		}
+
+		searchURL = fmt.Sprintf("%v?imdbId=tt%v", searchEndpoint, searchName)
+	} else {
+
+		searchURL = fmt.Sprintf("%v?name=%v", searchEndpoint, url.QueryEscape(searchName))
+	}
 
 	err = tkn.apiCall(searchURL, &searchResponse)
 

@@ -1,6 +1,9 @@
 package utils
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
 // OptionalBoolean defines a boolean constant that can also be undefined.
 type OptionalBoolean string
@@ -26,6 +29,22 @@ type WatchlistActions struct {
 func (opt OptionalBoolean) OverridenBy(other OptionalBoolean) bool {
 
 	return other == True || (other != False && opt == True)
+}
+
+// NormalizeMediaTitle removes any parts of the title that are in brackets or parentheses.
+func NormalizeMediaTitle(title string) string {
+
+	strip := func(expression, rep string) {
+		re := regexp.MustCompile(expression)
+		title = re.ReplaceAllString(title, rep)
+	}
+
+	strip(`\(.*?\)`, "")
+	strip(`\[.*?\]`, "")
+	strip(`\{.*?\}`, "")
+	strip(`[\s\p{Zs}]{2,}`, " ")
+
+	return strings.TrimSpace(title)
 }
 
 // NormalizeQuery will appropriate replace special characters in a title as to normalize it for better comparisons.
