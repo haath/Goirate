@@ -8,7 +8,7 @@ BUILD_FLAGS		= -i -v -o $(OUTPUT)
 GCC_FLAGS		= --ldflags "-linkmode external -extldflags -static"
 GCC_FLAGS_WIN	= --ldflags "-extldflags -static"
 
-GOX_FLAGS		= -ldflags "-X main.Version=$(CI_COMMIT_TAG)" 
+GOX_FLAGS		= -ldflags "-X main.Version=$(CI_COMMIT_TAG) -d -s -w" -tags netgo -installsuffix netgo
 GOX_ARCHS		= -osarch="darwin/amd64" -os="linux" -os="windows" -os="solaris" 
 GOX_OUTPUT		= "build/goirate.{{.OS}}.{{.Arch}}"
 
