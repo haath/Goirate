@@ -23,10 +23,8 @@ build-win64: dep patch ## Install dependencies and statitcally compile the binar
 cross-compile: dep patch ## Install dependencies and statitcally cross-compile the binary using gox
 	go get github.com/mitchellh/gox
 	packr
-	export CGO_ENABLED=0
+	export CGO_ENABLED=0 ;\
 	gox $(GOX_FLAGS) $(GOX_ARCHS) -output $(GOX_OUTPUT) ./cmd/goirate
-	go build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
-	mv build/goirate build/goirate.linux.amd64
 	@packr clean
 
 install: dep patch ## Compile and install the binary at $GOPATH/bin
