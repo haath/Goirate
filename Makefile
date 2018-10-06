@@ -5,10 +5,10 @@ PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
 BUILD_FLAGS		= -i -v -o $(OUTPUT)
-GCC_FLAGS		= --ldflags "-linkmode external -extldflags -static"
+GCC_FLAGS		= --ldflags "-linkmode external -extldflags -static -s -w"
 GCC_FLAGS_WIN	= --ldflags "-extldflags -static"
 
-GOX_FLAGS		= -ldflags "-X main.Version=$(CI_COMMIT_TAG) -d -s -w" -tags netgo
+GOX_FLAGS		= -ldflags "-X main.Version=$(CI_COMMIT_TAG) -s -w" -tags netgo
 GOX_ARCHS		= -osarch="darwin/amd64" -os="linux" -os="windows" -os="solaris" 
 GOX_OUTPUT		= "build/goirate.{{.OS}}.{{.Arch}}"
 
@@ -25,6 +25,8 @@ cross-compile: dep patch ## Install dependencies and statitcally cross-compile t
 	packr
 	export CGO_ENABLED=0
 	gox $(GOX_FLAGS) $(GOX_ARCHS) -output $(GOX_OUTPUT) ./cmd/goirate
+	go build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
+	mv build/goirate build/goirate.linux.amd64
 	@packr clean
 
 install: dep patch ## Compile and install the binary at $GOPATH/bin

@@ -31,15 +31,13 @@ test:
     - test_coverage.*
 
 github-release:
-  image: golang:alpine
+  image: golang:1.11.1
   stage: deploy
   only:
   - tags
   tags:
   - amd64
   script:
-  - apk update
-  - apk add --no-cache git build-base gcc make
   - go get -u github.com/golang/dep/cmd/dep
   - make clean
   - make cross-compile
