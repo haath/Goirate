@@ -15,6 +15,7 @@ before_script:
 - rm -rf "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}" || true
 - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
+- make dependencies
 
 test:
   stage: test

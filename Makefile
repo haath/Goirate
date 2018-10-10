@@ -44,7 +44,6 @@ fmt: ## Runs go fmt on each of the packages
 	gofmt -s -w ./pkg
 
 test: dep ## Run unit tests
-	@export GOIRATE_DEBUG=false
 	@go test -short ${PKG_LIST}
 
 test-cov: dep ## Run unit tests and generate code coverage
@@ -57,10 +56,12 @@ patch:
 compile: ## Compile the binary file
 	@packr build -i -v -o $(OUTPUT) ./cmd/goirate
 
-dep: Gopkg.toml ## Install dependencies
+dep: Gopkg.toml ## Install package dependencies
 	@dep ensure
-	@go get -u github.com/golang/lint/golint
-	@go get -u github.com/gobuffalo/packr/...
+
+dependencies:
+	go get -u github.com/gobuffalo/packr/...
+	go get -u github.com/golang/lint/golint
 
 clean: ## Remove previous build
 	@rm -rf build
