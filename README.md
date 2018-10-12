@@ -75,7 +75,7 @@ Using `go get` to fetch dependencies is theoretically possible but it is not rec
 Also, attempting to install the tool with `go get -u` will not work as it uses [packr](https://github.com/gobuffalo/packr)
 for building. To build yourself use the `Makefile` or have a look at it.
 
-## ⚓ Command line tool
+## ⚓ Usage
 
 ### Torrents
 
@@ -95,7 +95,7 @@ Commands that search for torrents support the following options.
 
 #### Pirate Bay mirrors
 
-To get a list of The Pirate Bay mirrors, use the `goirate mirrors` command.
+To get a list of The Pirate Bay mirrors, use the `mirrors` command.
 
 ```shell
 $ goirate mirrors
@@ -156,6 +156,8 @@ Both the blacklist and the whitelist can contain partial mirror URLs or country 
 
 #### Searching for torrents
 
+The `search` command can be used to find torrents given a specific query and filters.
+
 ```shell
 $ goirate search "debian"
                                                   Title                                                      Size    Seeds/Peers
@@ -172,6 +174,13 @@ $ goirate search "debian"
  Debian GNU Linux Bible.zip                                                                                 6.1 MB   2 / 2
  https://pirateproxy.sh/torrent/** omitted **
 ---------------------------------------------------------------------------------------------------------------------------------
+```
+
+Much like any other command, you can use the `--help` flag the retrieve the 
+list of available options.
+
+```shell
+$ goirate search --help
 ```
 
 ## Movies
@@ -248,6 +257,14 @@ $ goirate movie-search "harry potter" -c 4
 
 For this tool to manage series, you need to obtain an API key from [TheTVDB.com](https://www.thetvdb.com/)
 and include it in Goirate's configuration at `~/.goirate/config.toml`.
+Once logged in, the following can be found [here](https://www.thetvdb.com/member/api).
+
+```toml
+[tvdb]
+  api_key = "< API Key >"
+  user_key = "< Unique ID >"
+  username = "< Username >"
+```
 
 Create a watchlist of series, by using the `series add` command.
 This stores a list of your series in your account's configuration, specifically in `~/.goirate/series.toml`,
