@@ -2,6 +2,7 @@ package series
 
 import (
 	"fmt"
+	"strings"
 
 	"git.gmantaos.com/haath/Goirate/pkg/torrents"
 	"git.gmantaos.com/haath/Goirate/pkg/utils"
@@ -29,7 +30,9 @@ func (s *Series) NextEpisode(tkn *TVDBToken) (Episode, error) {
 // as it will be used when searching for torrents.
 func (s *Series) SearchQuery(episode Episode) string {
 
-	title := utils.NormalizeMediaTitle(s.Title)
+	title := strings.Replace(s.Title, "'s", "s", -1)
+
+	title = utils.NormalizeMediaTitle(title)
 
 	var query string
 

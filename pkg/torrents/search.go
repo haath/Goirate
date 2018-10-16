@@ -162,6 +162,7 @@ func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[Vide
 	trnts := make(map[VideoQuality]*Torrent)
 
 	fetch := func(q VideoQuality) error {
+
 		filters.MinQuality = q
 		filters.MaxQuality = q
 
