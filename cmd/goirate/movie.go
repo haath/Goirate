@@ -13,8 +13,9 @@ import (
 type MovieCommand struct {
 	torrentSearchArgs
 
-	Year uint                `short:"y" long:"year" description:"The release year of the movie. Used when searching for the movie by title instead of by IMDbID."`
-	Args moviePositionalArgs `positional-args:"1" required:"1"`
+	Year     uint                `short:"y" long:"year" description:"The release year of the movie. Used when searching for the movie by title instead of by IMDbID."`
+	Download bool                `short:"d" long:"download" description:"Add the movie to the transmission daemon for download using the RPC configuration."`
+	Args     moviePositionalArgs `positional-args:"1" required:"1"`
 }
 
 type moviePositionalArgs struct {
@@ -62,13 +63,30 @@ func (m *MovieCommand) Execute(args []string) error {
 		return err
 	}
 
-	if Options.JSON {
+	perQualityTorrents, err := movie.GetTorrents(scraper, filters)
 
-		perQualityTorrents, err := movie.GetTorrents(scraper, filters)
+	if err != nil {
+		return err
+	}
+
+	topTorrent, err := torrents.PickVideoTorrent(perQualityTorrents, filters)
+
+	if err != nil {
+		return err
+	}
+
+	if m.Download && topTorrent != nil {
+
+		// Send the torrent to the transmission daemon for download
+
+		err = m.downloadMovieTorrent(movie, topTorrent)
 
 		if err != nil {
 			return err
 		}
+	}
+
+	if Options.JSON {
 
 		movieObj := struct {
 			movies.Movie
@@ -87,12 +105,6 @@ func (m *MovieCommand) Execute(args []string) error {
 		log.Println(string(movieJSON))
 
 	} else {
-
-		topTorrent, err := movie.GetTorrent(scraper, filters)
-
-		if err != nil {
-			return err
-		}
 
 		if m.MagnetLink {
 
@@ -171,4 +183,22 @@ func (m *MovieCommand) findMovie() (*movies.Movie, error) {
 	}
 
 	return nil, fmt.Errorf("movie not found: %v", m.Args.Query)
+}
+
+func (m *MovieCommand) downloadMovieTorrent(movie *movies.Movie, torrent *torrents.Torrent) error {
+
+	transmission, err := Config.RPCConfig.GetClient()
+
+	if err != nil {
+		return err
+	}
+
+	downloadPath := Config.DownloadDir.Movies
+
+	if !Options.JSON && !m.MagnetLink && !m.TorrentURL {
+
+		log.Printf("Downloading: %s (%s)\n", movie.Title, downloadPath)
+	}
+
+	return transmission.AddTorrent(torrent.Magnet, downloadPath)
 }

@@ -253,6 +253,8 @@ $ goirate movie-search "harry potter" -c 4
 |         |        Hallows: Part 2         |      |
 ```
 
+Using the `-d` or `--download` options will also send the torrent to the running transmission daemon for download.
+
 ## Series
 
 For this tool to manage series, you need to obtain an API key from [TheTVDB.com](https://www.thetvdb.com/)
@@ -420,3 +422,6 @@ These variables are used to configured Goirate when editing the configuration fi
 | GOIRATE_ACTIONS_NOTIFY | A comma-separated list of the e-mails to send torrents to. | |
 | GOIRATE_ACTIONS_DOWNLOAD | Enable automatic torrent downloads with [Transmission](https://transmissionbt.com/). Requires a valid RPC configuration. | `false` |
 
+## Known Issues
+
+- The scanner will read and write to the `~/.goirate/series.toml` file multiple times while running without actually locking the file. So editting the file manually while the `series scan` command is running may cause your changes to be overwritten.
