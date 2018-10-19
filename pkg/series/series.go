@@ -31,7 +31,6 @@ func (s *Series) NextEpisode(tkn *TVDBToken) (Episode, error) {
 func (s *Series) SearchQuery(episode Episode) string {
 
 	title := strings.Replace(s.Title, "'s", "s", -1)
-
 	title = utils.NormalizeMediaTitle(title)
 
 	var query string
@@ -68,7 +67,9 @@ func (s *Series) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.S
 func (s *Series) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, episode Episode) ([]torrents.Torrent, error) {
 
 	query := s.SearchQuery(episode)
-	title := utils.NormalizeMediaTitle(s.Title)
+
+	title := strings.Replace(s.Title, "'s", "s", -1)
+	title = utils.NormalizeMediaTitle(title)
 
 	if episode.Season == 0 && episode.Episode == 0 {
 
