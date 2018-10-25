@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -222,12 +223,12 @@ func (cmd *scanCommand) Execute(args []string) error {
 			if err != nil {
 				return err
 			}
-
-			if found && !cmd.DryRun && !cmd.NoUpdate {
-
-				storeSeries(seriesList)
-			}
 		}
+	}
+
+	if !cmd.DryRun && !cmd.NoUpdate {
+
+		storeSeries(seriesList)
 	}
 
 	if Options.JSON {
@@ -492,6 +493,10 @@ func loadSeries() []series.Series {
 		}
 
 	}
+
+	sort.Slice(seriesList.Series, func(i, j int) bool {
+		return seriesList.Series[i].Title < seriesList.Series[j].Title
+	})
 
 	return seriesList.Series
 }
