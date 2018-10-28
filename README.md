@@ -63,6 +63,12 @@ Goirate build: 0.9.1
 
 ### Build from source
 
+Fetch the project using `go get`.
+
+```sh
+$ go get -d git.gmantaos.com/haath/Goirate
+```
+
 By default [dep](https://github.com/golang/dep) is used for dependency management.
 
 The `Makefile` has a shortcut to running `dep` and `go install`.
