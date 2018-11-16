@@ -1,5 +1,10 @@
 package torrents
 
+import (
+	"sort"
+	"strings"
+)
+
 /*
 	Source: https://en.wikipedia.org/wiki/Pirated_movie_release_types#Release_formats
 */
@@ -66,12 +71,46 @@ var releaseLabels = map[VideoRelease][]string{
 	Screener:  {"SCR", "SCREENER", "DVDSCR", "DVDSCREENER", "BDSCR"},
 	DDC:       {"DDC"},
 	R5:        {"R5", "R5.LINE", "R5.AC3.5.1.HQ"},
-	DVDRip:    {"DVDRip", "DVDMux"},
+	DVDRip:    {"DVDRip", "DVDMux", "Xvid"},
 	DVDR:      {"DVDR", "DVD-Full", "Full-Rip", "ISO rip", "lossless rip", "untouched rip", "DVD-5", "DVD-9"},
 	TVRip:     {"DSR", "DSRip", "SATRip", "DTHRip", "DVBRip", "HDTV", "PDTV", "DTVRip", "TVRip", "HDTVRip"},
 	VODRip:    {"VODRip", "VODR"},
 	WEBDL:     {"WEBDL", "WEB DL", "WEB-DL", "HDRip", "WEB-DLRip"},
 	WEBRip:    {"WEBRip", "WEB Rip", "WEB-Rip", "WEB"},
 	WEBCap:    {"WEB-Cap", "WEBCAP", "WEB Cap"},
-	BDRip:     {"Blu-Ray", "BluRay", "BLURAY", "BDRip", "BRRip", "BDMV", "BDR", "BD25", "BD50", "BD5", "BD9"},
+	BDRip:     {"Blu-Ray", "BluRay", "BLURAY", "BDRip", "BRRip", "BDMV", "BDR", "BD25", "BD50", "BD5", "BD9", "BR-rip"},
+}
+
+// ExtractVideoRelease parses a torrent's title and returns its video release type, if it exists.
+func ExtractVideoRelease(torrentTitle string) VideoRelease {
+
+	torrentTitle = strings.ToLower(torrentTitle)
+
+	labelReleaseMap := map[string]VideoRelease{}
+	var sortedLaebels []string
+
+	// Create a mapping of label -> release
+	for release, labels := range releaseLabels {
+
+		for _, label := range labels {
+
+			labelReleaseMap[label] = release
+			sortedLaebels = append(sortedLaebels, label)
+		}
+	}
+
+	// Sort labels in descending order
+	sort.Slice(sortedLaebels, func(i, j int) bool {
+		return len(sortedLaebels[i]) > len(sortedLaebels[j])
+	})
+
+	for _, label := range sortedLaebels {
+
+		if strings.Contains(torrentTitle, strings.ToLower(label)) {
+
+			return labelReleaseMap[label]
+		}
+	}
+
+	return ""
 }

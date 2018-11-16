@@ -15,6 +15,7 @@ type Torrent struct {
 	Leeches          int          `json:"leeches"`
 	VerifiedUploader bool         `json:"verified_uploader"`
 	VideoQuality     VideoQuality `json:"video_quality"`
+	VideoRelease     VideoRelease `json:"video_release"`
 	MirrorURL        string       `json:"mirror_url"`
 	TorrentURL       string       `json:"torrent_path"`
 	Magnet           string       `json:"magnet"`

@@ -2,13 +2,32 @@ package torrents
 
 import (
 	"fmt"
-	"net/url"
 	"os"
 	"strconv"
 	"testing"
 
 	"github.com/PuerkitoBio/goquery"
 )
+
+func OpenTestSample(sampleFile string) ([]Torrent, error) {
+
+	file, err := os.Open(sampleFile)
+
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := goquery.NewDocumentFromReader(file)
+	if err != nil {
+		return nil, err
+	}
+
+	scraper := NewScraper("localhost")
+
+	torrentList := scraper.ParseSearchPage(doc)
+
+	return torrentList, nil
+}
 
 func TestSearchTorrentList(t *testing.T) {
 	table := []struct {
@@ -24,23 +43,11 @@ func TestSearchTorrentList(t *testing.T) {
 		{SearchFilters{MinSeeders: 500}, "", 0},
 	}
 
-	file, err := os.Open("../../test_samples/piratebay_movie.html")
+	torrents, err := OpenTestSample("../../test_samples/piratebay_movie.html")
 
 	if err != nil {
 		t.Error(err)
-		return
 	}
-
-	doc, err := goquery.NewDocumentFromReader(file)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	u, _ := url.Parse("localhost")
-	scraper := pirateBayScaper{u}
-
-	torrents := scraper.ParseSearchPage(doc)
 
 	for _, tt := range table {
 		t.Run(fmt.Sprintf("%v", tt.in), func(t *testing.T) {
@@ -169,20 +176,11 @@ func TestUploaderOk(t *testing.T) {
 
 func TestFilterTorrentList(t *testing.T) {
 
-	file, err := os.Open("../../test_samples/piratebay_search.html")
+	torrentList, err := OpenTestSample("../../test_samples/piratebay_search.html")
 
 	if err != nil {
 		t.Error(err)
 	}
-
-	doc, err := goquery.NewDocumentFromReader(file)
-	if err != nil {
-		t.Error(err)
-	}
-
-	scraper := NewScraper("localhost")
-
-	torrentList := scraper.ParseSearchPage(doc)
 
 	var table = []struct {
 		in    func() SearchFilters
