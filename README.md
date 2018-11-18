@@ -398,7 +398,8 @@ daemon. Whether or not they begin downloading immediately once they are added de
 
 ## Environment Variables
 
-These variables are used to configured Goirate when editing the configuration file 
+These variables are used to configure Goirate, when editing the configuration file is not preferable.
+For example inside a Docker container.
 
 | Variable | Description | Default |
 | -------- | ----------- | ------- |
@@ -431,3 +432,4 @@ These variables are used to configured Goirate when editing the configuration fi
 ## Known Issues
 
 - The scanner will read and write to the `~/.goirate/series.toml` file multiple times while running without actually locking the file. So editting the file manually while the `series scan` command is running may cause your changes to be overwritten.
+- To fill the configuration file at `~/.goirate/options.toml` with the default options, the file is overwritten every time the tool runs. Meaning that even for operations that do not affect the configuration, the file is opened with write privileges. This is temporary until I can figure out a better way to update the config file with new options whenever there's an update.
