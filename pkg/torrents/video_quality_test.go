@@ -36,10 +36,13 @@ func TestBetterThan(t *testing.T) {
 
 func TestNumeric(t *testing.T) {
 
+	var q VideoQuality
+
 	if High.numeric() < Medium.numeric() ||
 		Medium.numeric() < Low.numeric() ||
 		Low.numeric() < Default.numeric() ||
-		UHD.numeric() < High.numeric() {
+		UHD.numeric() < High.numeric() ||
+		q.numeric() != Default.numeric() {
 		t.Errorf("Error with VideoQuality numeric conversion")
 	}
 }

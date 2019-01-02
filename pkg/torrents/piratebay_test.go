@@ -29,6 +29,8 @@ var videoQualityTests = []struct {
 	{"The.Expanse.S02E03.WEB-DL.XviD-FUM[ettv]", Default},
 	{"The.Expanse.S02E03.480p.164mb.hdtv.x264-][ Static ][ 09- mp4", Low},
 	{"Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG", Medium},
+	{"Avengers.Infinity.War.2018.Multi.UHD.Blu-ray.2160p.x265.Atmos.Tr", UHD},
+	{"Avatar (2009) UHD 4K Upscaled x264 DTS Soup", UHD},
 }
 
 func TestNewScraper(t *testing.T) {
@@ -238,7 +240,7 @@ func TestSearchVideoTorrents(t *testing.T) {
 		t.Errorf("video torrents not found")
 	}
 
-	if count(Default) > 1 || count(Low) > 1 || count(Medium) > 1 || count(High) > 1 {
+	if count(Default) > 1 || count(Low) > 1 || count(Medium) > 1 || count(High) > 1 || count(UHD) > 1 {
 		t.Errorf("duplicate video torrent qualities: %v", torrents)
 	}
 }

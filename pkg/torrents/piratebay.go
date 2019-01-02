@@ -340,7 +340,8 @@ func extractUploadTime(description string) time.Time {
 
 func extractVideoQuality(title string) VideoQuality {
 	title = strings.ToLower(title)
-	if strings.Contains(title, string(UHD)) || strings.Contains(title, "4K") {
+	if strings.Contains(title, string(UHD)) || strings.Contains(title, "4k") ||
+		strings.Contains(title, "uhd") || strings.Contains(title, "ultrahd") {
 		return UHD
 	} else if strings.Contains(title, string(High)) {
 		return High
