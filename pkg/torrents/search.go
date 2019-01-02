@@ -138,6 +138,9 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 			(filters.MinQuality == "" || !t.VideoQuality.WorseThan(filters.MinQuality))
 	}
 
+	if t, exists := trnts[UHD]; exists && t.Seeders > 0 && ok(t) {
+		return t, nil
+	}
 	if t, exists := trnts[High]; exists && t.Seeders > 0 && ok(t) {
 		return t, nil
 	}
@@ -189,6 +192,9 @@ func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[Vide
 		return nil, err
 	}
 	if err := fetch(High); err != nil {
+		return nil, err
+	}
+	if err := fetch(UHD); err != nil {
 		return nil, err
 	}
 

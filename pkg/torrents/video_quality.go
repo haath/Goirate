@@ -15,6 +15,9 @@ const (
 
 	// High represents the 1080p quality.
 	High VideoQuality = "1080p"
+
+	// UHD represents the 2160p quality.
+	UHD VideoQuality = "2160p"
 )
 
 // WorseThan will return true if the quality passed as an argument is
@@ -39,6 +42,8 @@ func (q VideoQuality) numeric() int {
 		return 2
 	case High:
 		return 3
+	case UHD:
+		return 4
 	default:
 		return 0
 	}
