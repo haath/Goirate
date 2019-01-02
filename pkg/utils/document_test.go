@@ -34,14 +34,10 @@ func TestHTTPPost(t *testing.T) {
 	obj := []struct {
 		Title  string `json:"title"`
 		Body   string `json:"body"`
-		UserID int    `json:"userId"`
-		ID     int    `json:"id"`
 	}{
 		{
 			"some title",
 			"super special body",
-			1234567,
-			1234567,
 		},
 		{},
 	}
