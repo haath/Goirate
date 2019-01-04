@@ -107,12 +107,14 @@ func parseVersion(versionString string) (version, bool) {
 	r, _ := regexp.Compile(`v?(\d+).(\d+).(\d+)`)
 	m := r.FindStringSubmatch(strings.TrimSpace(versionString))
 
-	var major, minor, patch uint
+	var major, minor, patch uint64
 	valid := true
 
 	if len(m) > 0 {
 
-		major, err := strconv.ParseUint(m[1], 10, 64)
+		var err error
+
+		major, err = strconv.ParseUint(m[1], 10, 64)
 
 		if err != nil {
 			valid = false
