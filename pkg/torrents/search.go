@@ -141,18 +141,23 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 	var torrent *Torrent
 
 	if t, exists := trnts[UHD]; exists && t.Seeders > 0 && ok(t) {
+
 		torrent = t
-	}
-	if t, exists := trnts[High]; exists && t.Seeders > 0 && ok(t) {
+
+	} else if t, exists := trnts[High]; exists && t.Seeders > 0 && ok(t) {
+
 		torrent = t
-	}
-	if t, exists := trnts[Medium]; exists && t.Seeders > 0 && ok(t) {
+
+	} else if t, exists := trnts[Medium]; exists && t.Seeders > 0 && ok(t) {
+
 		torrent = t
-	}
-	if t, exists := trnts[Low]; exists && t.Seeders > 0 && ok(t) {
+
+	} else if t, exists := trnts[Low]; exists && t.Seeders > 0 && ok(t) {
+
 		torrent = t
-	}
-	if t, exists := trnts[Default]; exists && t.Seeders > 0 && ok(t) {
+
+	} else if t, exists := trnts[Default]; exists && t.Seeders > 0 && ok(t) {
+		
 		torrent = t
 	}
 
