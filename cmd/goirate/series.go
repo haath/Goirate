@@ -83,26 +83,22 @@ func (cmd *addCommand) Execute(args []string) error {
 
 	if seriesID == 0 {
 
-		return fmt.Errorf("series not found on TVDB")
+		return fmt.Errorf("series not found on the TVDB")
 	}
 
 	var episode series.Episode
 
 	if cmd.LastEpisode != "" {
+
 		episode = series.ParseEpisodeString(cmd.LastEpisode)
 
-		if episode.Episode > 0 {
-			episode.Episode--
+		if episode.Season == 0 && episode.Episode == 0 {
 
-			episode, err = tvdbToken.NextEpisode(seriesID, episode)
-
-			if err != nil {
-				return err
-			}
+			return fmt.Errorf("unable to parse the last episode number from: %v", cmd.LastEpisode)
 		}
-	}
 
-	if episode.Season == 0 && episode.Episode == 0 {
+	} else {
+
 		episode, err = tvdbToken.LastEpisode(seriesID)
 
 		if err != nil {

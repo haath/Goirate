@@ -257,12 +257,7 @@ func extractUploadTime(description string) time.Time {
 	/*
 		First check the MM-DD HH:mm format
 	*/
-	r, err := regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d\d):(\d\d)`)
-
-	if err != nil {
-		log.Fatalf("Error extracting upload time: %v\n", err)
-	}
-
+	r, _ := regexp.Compile(`Uploaded\s*(\d\d)-(\d\d)\s*(\d\d):(\d\d)`)
 	m := r.FindStringSubmatch(description)
 
 	if len(m) > 0 {
@@ -329,28 +324,29 @@ func extractUploadTime(description string) time.Time {
 	m = r.FindStringSubmatch(description)
 
 	if len(m) == 0 {
-		log.Printf("Failed at parsing date from: %v\n", description)
+		return time.Time{}
 	}
 
 	minutes, _ := strconv.Atoi(m[1])
-	minAgo := time.Now().Add(time.Duration(-minutes) * time.Minute)
+	minutesAgo := time.Now().Add(time.Duration(-minutes) * time.Minute)
 
-	return minAgo
+	return minutesAgo
 }
 
 func extractVideoQuality(title string) VideoQuality {
+	quality := Default
 	title = strings.ToLower(title)
 	if strings.Contains(title, string(UHD)) || strings.Contains(title, "4k") ||
 		strings.Contains(title, "uhd") || strings.Contains(title, "ultrahd") {
-		return UHD
+		quality = UHD
 	} else if strings.Contains(title, string(High)) {
-		return High
+		quality = High
 	} else if strings.Contains(title, string(Medium)) {
-		return Medium
+		quality = Medium
 	} else if strings.Contains(title, string(Low)) {
-		return Low
+		quality = Low
 	}
-	return Default
+	return quality
 }
 
 func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent, error) {

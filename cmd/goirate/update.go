@@ -103,33 +103,35 @@ func doUpdate(binaryURL string) error {
 }
 
 func parseVersion(versionString string) (version, bool) {
+
 	r, _ := regexp.Compile(`v?(\d+).(\d+).(\d+)`)
 	m := r.FindStringSubmatch(strings.TrimSpace(versionString))
+
+	var major, minor, patch uint
+	valid := true
 
 	if len(m) > 0 {
 
 		major, err := strconv.ParseUint(m[1], 10, 64)
 
 		if err != nil {
-			return version{}, false
+			valid = false
 		}
 
-		minor, err := strconv.ParseUint(m[2], 10, 64)
+		minor, err = strconv.ParseUint(m[2], 10, 64)
 
 		if err != nil {
-			return version{}, false
+			valid = false
 		}
 
-		patch, err := strconv.ParseUint(m[3], 10, 64)
+		patch, err = strconv.ParseUint(m[3], 10, 64)
 
 		if err != nil {
-			return version{}, false
+			valid = false
 		}
-
-		return version{major, minor, patch}, true
 	}
 
-	return version{}, false
+	return version{major, minor, patch}, valid
 }
 
 func (ver version) moreRecentThan(other version) bool {

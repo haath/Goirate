@@ -25,7 +25,7 @@ type Mirror struct {
 
 // FallbackMirror returns a default Pirate Bay mirror for when the list of mirrors is unavailable.
 // The mirror chosen for this, is one that I have personally experienced to be generally available and reliable,
-// for the time being, and it should in no way reflect a long-term solution for mirror availabilty.
+// for the time being, and it should in no way reflect a long-term solution for mirror availability.
 func FallbackMirror() Mirror {
 
 	return Mirror{

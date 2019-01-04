@@ -138,23 +138,25 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 			(filters.MinQuality == "" || !t.VideoQuality.WorseThan(filters.MinQuality))
 	}
 
+	var torrent *Torrent
+
 	if t, exists := trnts[UHD]; exists && t.Seeders > 0 && ok(t) {
-		return t, nil
+		torrent = t
 	}
 	if t, exists := trnts[High]; exists && t.Seeders > 0 && ok(t) {
-		return t, nil
+		torrent = t
 	}
 	if t, exists := trnts[Medium]; exists && t.Seeders > 0 && ok(t) {
-		return t, nil
+		torrent = t
 	}
 	if t, exists := trnts[Low]; exists && t.Seeders > 0 && ok(t) {
-		return t, nil
+		torrent = t
 	}
 	if t, exists := trnts[Default]; exists && t.Seeders > 0 && ok(t) {
-		return t, nil
+		torrent = t
 	}
 
-	return nil, nil
+	return torrent, nil
 }
 
 // SearchVideoTorrentList will find the first torrent in the list for each video quality, that also match the given filters.
@@ -171,34 +173,32 @@ func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[Vide
 
 		torrent, err := SearchTorrentList(torrents, filters)
 
-		if err != nil {
-			return err
-		}
-
-		if torrent != nil {
+		if err == nil && torrent != nil {
 			trnts[q] = torrent
 		}
 
-		return nil
+		return err
 	}
 
-	if err := fetch(Default); err != nil {
-		return nil, err
+	var err error
+
+	if err == nil {
+		err = fetch(Default)
 	}
-	if err := fetch(Low); err != nil {
-		return nil, err
+	if err == nil {
+		err = fetch(Low)
 	}
-	if err := fetch(Medium); err != nil {
-		return nil, err
+	if err == nil {
+		err = fetch(Medium)
 	}
-	if err := fetch(High); err != nil {
-		return nil, err
+	if err == nil {
+		err = fetch(High)
 	}
-	if err := fetch(UHD); err != nil {
-		return nil, err
+	if err == nil {
+		err = fetch(UHD)
 	}
 
-	return trnts, nil
+	return trnts, err
 }
 
 // SearchTorrentList will return the first torrent in the list that matches the given filters, returning nil if none is found.
