@@ -22,19 +22,10 @@ Expanding upon the original idea of scanning for torrents as part of the cron jo
 which is able to detect and go through multiple Pirate Bay mirrors.
 It also expands upon dealing with media, by utilizing APIs, crawling through IMDb and more.
 
-### 🗺️ P️rogress 
+### 🗺️ TODO 
 
-- [x] Pirate Bay scraping for booty
-- [x] Command-line plunderin'
-- [x] IMDB Scraper
-- [x] Robust execution - searching multiple mirrors
-- [x] Global configuration management
-- [x] Defining series seasons and episodes
-- [x] TVDB integration
-- [x] Scanning for new series episodes
-- [ ] Defining [sea shanties](https://en.wikipedia.org/wiki/Sea_shanty) and their albums
-- [x] Torrent client integration ([Transmission](https://transmissionbt.com/))
-- [ ] Kodi-friendly download storage
+- [ ] Replace IMDB scraping with OMDB API
+- [ ] Kodi-friendly download storage paths
 - [ ] Crontab scanner
     - [x] Defining handlers for torrents found
         - [x] E-mail notifications
@@ -43,7 +34,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
     - [x] New series episodes
     - [ ] RSS Feeds (?)
 - [ ] Support for a proxy or VPN to avoid getting flogged
-- [ ] Docker image with Transmission and OpenVPN.
+- [ ] Docker image with Transmission and OpenVPN
 
 ## Installation
 
