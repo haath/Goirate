@@ -5,6 +5,7 @@
 [![](https://goreportcard.com/badge/git.gmantaos.com/haath/Goirate)](https://goreportcard.com/report/git.gmantaos.com/haath/Goirate)
 [![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![](https://img.shields.io/github/release/gmantaos/Goirate.svg)](https://github.com/gmantaos/Goirate/releases)
+[![](https://api.codeclimate.com/v1/badges/40e202ffa0f346797f35/maintainability)](https://codeclimate.com/github/gmantaos/Goirate)
 
 Watching a lot of movies and series, it quickly became difficult to keep track of what was coming out and when.
 Not to call managing a few torrents tiresome, but when there's 5-10 new episodes for things you watch coming out
@@ -25,6 +26,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 ### 🗺️ TODO 
 
 - [ ] Replace IMDB scraping with OMDB API
+- [ ] Replace tables in stdout with a more readable format
 - [ ] Kodi-friendly download storage paths
 - [ ] Crontab scanner
     - [x] Defining handlers for torrents found
@@ -34,7 +36,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
     - [x] New series episodes
     - [ ] RSS Feeds (?)
 - [ ] Support for a proxy or VPN to avoid getting flogged
-- [ ] Docker image with Transmission and OpenVPN
+- [ ] Docker image with OpenVPN and maybe a torrent client too
 
 ## Installation
 
