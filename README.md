@@ -28,7 +28,8 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 - [ ] Replace IMDB scraping with OMDB API
 - [ ] Replace tables in stdout with a more readable format
 - [ ] Replace Transmission with qBittorrent (or keep them both?)
-- [ ] Kodi-friendly download storage paths
+- [ ] Add cache & retry system for torrents whose attempts to add to the designated torrent client fail
+- [ ] Kodi-friendly download storage paths (movies/{Title}, series/{Season}/{Title} etc)
 - [ ] Crontab scanner
     - [x] Defining handlers for torrents found
         - [x] E-mail notifications
