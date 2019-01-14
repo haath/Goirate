@@ -39,6 +39,8 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
     - [ ] RSS Feeds (?)
 - [ ] Support for a proxy or VPN to avoid getting flogged
 - [ ] Docker image with OpenVPN and maybe a torrent client too
+- [ ] Major refactor so that all requests within the application are async
+- [ ] Leverage the scalability from the previous point to extend the search capabilities to additional websites and sources
 
 ## Installation
 
