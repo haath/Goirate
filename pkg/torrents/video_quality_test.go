@@ -29,7 +29,7 @@ func TestBetterThan(t *testing.T) {
 		Default.BetterThan(Low) ||
 		Default.BetterThan(Default) ||
 		High.BetterThan(UHD) ||
-		UHD.BetterThan(UHD)  {
+		UHD.BetterThan(UHD) {
 		t.Errorf("Error with VideoQuality numeric conversion")
 	}
 }

@@ -19,20 +19,6 @@ var urlTests = []struct {
 	{"https://localhost:8080/", "https://localhost:8080/"},
 }
 
-var videoQualityTests = []struct {
-	in  string
-	out VideoQuality
-}{
-	{"The.Expanse.S02E03.PROPER.HDTV.x264-KILLERS[ettv]", Default},
-	{"The.Expanse.S02E03.1080p.AMZN.WEBRip.DD5.1.HEVC.x265.sharpysword", High},
-	{"The.Expanse.S02E03.720p.HDTV.x264-AVS", Medium},
-	{"The.Expanse.S02E03.WEB-DL.XviD-FUM[ettv]", Default},
-	{"The.Expanse.S02E03.480p.164mb.hdtv.x264-][ Static ][ 09- mp4", Low},
-	{"Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG", Medium},
-	{"Avengers.Infinity.War.2018.Multi.UHD.Blu-ray.2160p.x265.Atmos.Tr", UHD},
-	{"Avatar (2009) UHD 4K Upscaled x264 DTS Soup", UHD},
-}
-
 func TestNewScraper(t *testing.T) {
 	for _, tt := range urlTests {
 		t.Run(tt.in, func(t *testing.T) {
@@ -183,7 +169,23 @@ func TestExtractUploadTime(t *testing.T) {
 }
 
 func TestExtractVideoQuality(t *testing.T) {
-	for _, tt := range videoQualityTests {
+
+	table := []struct {
+		in  string
+		out VideoQuality
+	}{
+		{"The.Expanse.S02E03.PROPER.HDTV.x264-KILLERS[ettv]", Default},
+		{"The.Expanse.S02E03.1080p.AMZN.WEBRip.DD5.1.HEVC.x265.sharpysword", High},
+		{"The.Expanse.S02E03.720p.HDTV.x264-AVS", Medium},
+		{"The.Expanse.S02E03.WEB-DL.XviD-FUM[ettv]", Default},
+		{"The.Expanse.S02E03.480p.164mb.hdtv.x264-][ Static ][ 09- mp4", Low},
+		{"Avengers Infinity War 2018 NEW PROPER 720p HD-CAM X264 HQ-CPG", Medium},
+		{"Avengers.Infinity.War.2018.Multi.UHD.Blu-ray.2160p.x265.Atmos.Tr", UHD},
+		{"Avatar (2009) UHD 4K Upscaled x264 DTS Soup", UHD},
+		{"Knowing.2009.RUSSIAN.CAM.XviD-ELEKTRI4KA", Default},
+	}
+
+	for _, tt := range table {
 		t.Run(tt.in, func(t *testing.T) {
 			s := extractVideoQuality(tt.in)
 			if s != tt.out {

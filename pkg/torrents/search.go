@@ -157,7 +157,7 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 		torrent = t
 
 	} else if t, exists := trnts[Default]; exists && t.Seeders > 0 && ok(t) {
-		
+
 		torrent = t
 	}
 

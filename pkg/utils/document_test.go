@@ -32,8 +32,8 @@ func TestHTTPGetStatus(t *testing.T) {
 
 func TestHTTPPost(t *testing.T) {
 	obj := []struct {
-		Title  string `json:"title"`
-		Body   string `json:"body"`
+		Title string `json:"title"`
+		Body  string `json:"body"`
 	}{
 		{
 			"some title",
