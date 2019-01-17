@@ -352,7 +352,7 @@ func extractVideoQuality(title string) VideoQuality {
 
 	if containsQualityTerms(string(UHD), "4k", "uhd", "ultrahd") {
 		quality = UHD
-	} else if containsQualityTerms(string(High), "bluray", "brrip") {
+	} else if containsQualityTerms(string(High)) {
 		quality = High
 	} else if containsQualityTerms(string(Medium)) {
 		quality = Medium

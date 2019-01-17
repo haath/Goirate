@@ -71,7 +71,7 @@ func TestSearchTorrentList(t *testing.T) {
 			}
 
 			if tt.out != "" && len(multi) != tt.num {
-				t.Errorf("error fetching multiple qualities: %v", multi)
+				t.Errorf("error fetching multiple qualities. got %v, want %v", multi, tt.num)
 			}
 
 			best, err := PickVideoTorrent(torrents, tt.in)
