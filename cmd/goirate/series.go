@@ -14,11 +14,9 @@ import (
 	"strconv"
 	"strings"
 
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
-
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
-
 	"git.gmantaos.com/haath/Goirate/pkg/series"
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"git.gmantaos.com/haath/Goirate/pkg/utils"
 	"github.com/BurntSushi/toml"
 	"github.com/olekukonko/tablewriter"
 )
@@ -217,7 +215,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 			found, err = cmd.scanSeries(tvdbToken, ser, &torrentList)
 
 			if err != nil {
-				return err
+				log.Println(err)
 			}
 		}
 	}

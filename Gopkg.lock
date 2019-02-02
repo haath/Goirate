@@ -2,19 +2,6 @@
 
 
 [[projects]]
-  digest = "1:3fb25b098a454d4a81acf06dd71f6e4f36bae2e59c3cf997302c3431c27a2110"
-  name = "git.gmantaos.com/haath/Goirate"
-  packages = [
-    "pkg/movies",
-    "pkg/series",
-    "pkg/torrents",
-    "pkg/utils",
-  ]
-  pruneopts = "UT"
-  revision = "196f7d464704d9443e343bf3ece2fee8172f33d4"
-  version = "0.11.0"
-
-[[projects]]
   digest = "1:65e57bdf3461b7e51fd9d7658b0680b922c31b29cd784d33235cf8c5094da683"
   name = "git.gmantaos.com/haath/gobytes"
   packages = ["."]
@@ -129,10 +116,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "git.gmantaos.com/haath/Goirate/pkg/movies",
-    "git.gmantaos.com/haath/Goirate/pkg/series",
-    "git.gmantaos.com/haath/Goirate/pkg/torrents",
-    "git.gmantaos.com/haath/Goirate/pkg/utils",
     "git.gmantaos.com/haath/gobytes",
     "github.com/BurntSushi/toml",
     "github.com/PuerkitoBio/goquery",
