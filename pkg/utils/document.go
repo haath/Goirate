@@ -39,18 +39,21 @@ func (c *HTTPClient) Get(url string) (*goquery.Document, error) {
 	res, err := client.Do(request)
 
 	if err != nil {
+
 		return nil, err
 	}
 
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
+
 		return nil, fmt.Errorf("http: %v -> %v", url, res.StatusCode)
 	}
 
 	// Load the HTML document
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
+
 		return doc, err
 	}
 

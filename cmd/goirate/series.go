@@ -214,7 +214,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 
 			found, err = cmd.scanSeries(tvdbToken, ser, &torrentList)
 
-			if err != nil {
+			if err != nil && os.Getenv("GOIRATE_DEBUG") == "true" {
 				log.Println(err)
 			}
 		}
