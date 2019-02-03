@@ -24,13 +24,13 @@
   version = "0.3.1"
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/hekmon/transmissionrpc"
-
-[[constraint]]
   name = "github.com/gobuffalo/packr"
   version = "1.13.7"
 
 [[constraint]]
   branch = "master"
   name = "github.com/inconshreveable/go-update"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/jaredlmosley/go-qbittorrent"

@@ -18,13 +18,13 @@ import (
 // Config holds the global goirate configuration
 var Config struct {
 	torrents.SearchFilters
-	KodiMediaPaths  bool                   `toml:"kodi_media_paths"`
-	TPBMirrors      torrents.MirrorFilters `toml:"tpb_mirrors"`
-	TVDBCredentials series.TVDBCredentials `toml:"tvdb"`
-	RPCConfig       RPCConfig              `toml:"transmission_rpc"`
-	SMTPConfig      SMTPConfig             `toml:"smtp"`
-	Watchlist       utils.WatchlistActions `toml:"actions"`
-	DownloadDir     struct {
+	KodiMediaPaths    bool                   `toml:"kodi_media_paths"`
+	TPBMirrors        torrents.MirrorFilters `toml:"tpb_mirrors"`
+	TVDBCredentials   series.TVDBCredentials `toml:"tvdb"`
+	QBittorrentConfig QBittorrentConfig      `toml:"qbittorrent"`
+	SMTPConfig        SMTPConfig             `toml:"smtp"`
+	Watchlist         utils.WatchlistActions `toml:"actions"`
+	DownloadDir       struct {
 		General string `toml:"general"`
 		Movies  string `toml:"movies"`
 		Series  string `toml:"series"`
@@ -169,13 +169,9 @@ func ImportConfig() {
 		/*
 			Transmission RPC configurations
 		*/
-		setOrDefault(&Config.RPCConfig.Host, "GOIRATE_RPC_HOST", "localhost")
-		setOrDefaultUint(&Config.RPCConfig.Port, "GOIRATE_RPC_PORT", 9091)
-		setOrDefault(&Config.RPCConfig.Username, "GOIRATE_RPC_USERNAME", "")
-		setOrDefault(&Config.RPCConfig.Password, "GOIRATE_RPC_PASSWORD", "")
-		if os.Getenv("GOIRATE_RPC_SSL") == "true" {
-			Config.RPCConfig.UseSSL = true
-		}
+		setOrDefault(&Config.QBittorrentConfig.URL, "GOIRATE_QBT_URL", "http://localhost:8080")
+		setOrDefault(&Config.QBittorrentConfig.Username, "GOIRATE_QBT_USERNAME", "")
+		setOrDefault(&Config.QBittorrentConfig.Password, "GOIRATE_QBT_PASSWORD", "")
 
 		/*
 			SMTP configurations

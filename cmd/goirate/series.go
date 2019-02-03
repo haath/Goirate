@@ -369,7 +369,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 				// Send the torrent to the transmission daemon for download
 
-				transmission, err := Config.RPCConfig.GetClient()
+				qbt, err := Config.QBittorrentConfig.GetClient()
 
 				if err != nil {
 					return err
@@ -388,7 +388,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 
 				log.Printf("Downloading: %s %s (%s)\n", seriesTorrents.Series.Title, seriesTorrent.Episode, downloadPath)
 
-				err = transmission.AddTorrent(seriesTorrent.Torrent.Magnet, downloadPath)
+				err = qbt.AddTorrent(seriesTorrent.Torrent.Magnet, downloadPath)
 
 				if err != nil {
 					return err

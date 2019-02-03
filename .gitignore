@@ -15,3 +15,6 @@ build/
 vendor/
 
 *-packr.go
+
+# Workspace
+.vscode/

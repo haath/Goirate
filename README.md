@@ -27,7 +27,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 
 - [ ] Replace IMDB scraping with OMDB API
 - [ ] Replace tables in stdout with a more readable format
-- [ ] Replace Transmission with qBittorrent (or keep them both?)
+- [x] Replace Transmission with qBittorrent
 - [ ] Add cache & retry system for torrents whose attempts to add to the designated torrent client fail
 - [ ] Kodi-friendly download storage paths (movies/{Title}, series/{Season}/{Title} etc)
 - [ ] Crontab scanner
@@ -39,6 +39,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
     - [ ] RSS Feeds (?)
 - [ ] Support for a proxy or VPN to avoid getting flogged
 - [ ] Docker image with OpenVPN and maybe a torrent client too
+- [ ] Interactive CLI for search results, so that the user can navigate with the keyboard and select which to send to qBittorrent for download
 - [ ] Major refactor so that all requests within the application are async
 - [ ] Leverage the scalability from the previous point to extend the search capabilities to additional websites and sources
 
@@ -256,7 +257,7 @@ $ goirate movie-search "harry potter" -c 4
 |         |        Hallows: Part 2         |      |
 ```
 
-Using the `-d` or `--download` options will also send the torrent to the running transmission daemon for download.
+Using the `-d` or `--download` options will also send the torrent to the running qBittorrent client for download.
 
 ## Series
 
@@ -363,17 +364,15 @@ Action-related options that are specified for a specific series, will override t
 
 ### Automatic Downloads
 
-The tool can also be configured to automatically send new torrents to a running [Transmission](https://transmissionbt.com/)
-daemon for download. To enable this edit the configuration file at `~/.goirate/config.toml` to include the necessary RPC
+The tool can also be configured to automatically send new torrents to a running [qBittorent](https://www.qbittorrent.org/)
+client for download. To enable this edit the configuration file at `~/.goirate/config.toml` to include the necessary HTTP
 configuration.
 
 ```toml
-[transmission_rpc]
-  host = "localhost"
-  port = 9091
+[qbittorrent]
+  url = "https://localhost:8080"
   username = ""
   password = ""
-  ssl = false
 
 [actions]
   ...
@@ -390,8 +389,8 @@ Same as with e-mails, this feature can also be enabled or disabled for a specifi
     download = "false"
 ```
 
-With this enabled, any torrents found during scanning will have their magnet links added to the [Transmission](https://transmissionbt.com/)
-daemon. Whether or not they begin downloading immediately once they are added depends on the configuration of daemon.
+With this enabled, any torrents found during scanning will have their magnet links added to the [qBittorent](https://www.qbittorrent.org/)
+client. Whether or not they begin downloading immediately once they are added depends on the configuration on the client itself.
 
 ## Environment Variables
 
@@ -413,11 +412,9 @@ For example inside a Docker container.
 | GOIRATE_DOWNLOADS_MOVIES | The directory used to store movie torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_SERIES | The directory used to store series torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
 | GOIRATE_DOWNLOADS_MUSIC | The directory used to store music torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
-| GOIRATE_RPC_HOST | The host of the [Transmission](https://transmissionbt.com/) RPC daemon. | `localhost` |
-| GOIRATE_RPC_PORT | The port of the [Transmission](https://transmissionbt.com/) RPC daemon. | 9091 |
-| GOIRATE_RPC_USERNAME | The username used to authenticate to the RPC daemon. | |
-| GOIRATE_PRC_PASSWORD | The password used to authenticate to the RPC daemon. | |
-| GOIRATE_RPC_SSL | Set to `true` to indicate that the [Transmission](https://transmissionbt.com/) RPC should accessed over SSL. | `false` |
+| GOIRATE_QBT_URL | The url of the [qBittorent](https://www.qbittorrent.org/) http server. | `http://localhost:8080` |
+| GOIRATE_QBT_USERNAME | The username used to authenticate to the qBittorent server. | |
+| GOIRATE_QBT_PASSWORD | The password used to authenticate to the qBittorent server. | |
 | GOIRATE_SMTP_HOST | The address of the SMTP server used for sending out e-mails. | `smtp.gmail.com` |
 | GOIRATE_SMTP_PORT | The port of the SMTP server. | 587 |
 | GOIRATE_SMTP_USERNAME | The username used to authenticate with the SMTP server. | |

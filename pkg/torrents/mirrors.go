@@ -157,6 +157,11 @@ func (m *MirrorScraper) parseMirrors(doc *goquery.Document) []Mirror {
 
 func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource bool) (*Mirror, []Torrent, error) {
 
+	type torrentResponse struct {
+		mirror   *Mirror
+		torrents []Torrent
+	}
+
 	if m.MirrorFilters.Preferred != "" {
 
 		mirrors = append([]Mirror{{URL: m.MirrorFilters.Preferred}}, mirrors...)
@@ -166,30 +171,42 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 
 	timeout := 3 * time.Second
 
-	for timeout <= 10*time.Second {
+	channel := make(chan torrentResponse)
 
-		// Return the first mirror that responds to HTTP GET
-		for _, mirror := range mirrors {
+	searchMirror := func(mirror Mirror) {
 
-			if !mirror.Status && trustSource {
-				continue
+		scraper := NewScraper(mirror.URL)
+
+		torrents, err := scraper.SearchTimeout(query, timeout)
+
+		if err == nil && len(torrents) > 0 {
+
+			select {
+			case channel <- torrentResponse{&mirror, torrents}:
+			default:
 			}
 
-			scraper := NewScraper(mirror.URL)
+		} else if err != nil && os.Getenv("GOIRATE_DEBUG") == "true" {
 
-			torrents, err := scraper.SearchTimeout(query, timeout)
+			log.Print(err)
+		}
+	}
 
-			if err == nil && len(torrents) > 0 {
+	// Return the first mirror that responds to HTTP GET
+	for _, mirror := range mirrors {
 
-				return &mirror, torrents, nil
-
-			} else if err != nil && os.Getenv("GOIRATE_DEBUG") == "true" {
-
-				log.Print(err)
-			}
+		if !mirror.Status && trustSource {
+			continue
 		}
 
-		timeout *= 2
+		go searchMirror(mirror)
+	}
+
+	select {
+	case resp := <-channel:
+		return resp.mirror, resp.torrents, nil
+
+	case <-time.After(timeout):
 	}
 
 	if trustSource {

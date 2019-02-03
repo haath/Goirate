@@ -187,7 +187,7 @@ func (m *MovieCommand) findMovie() (*movies.Movie, error) {
 
 func (m *MovieCommand) downloadMovieTorrent(movie *movies.Movie, torrent *torrents.Torrent) error {
 
-	transmission, err := Config.RPCConfig.GetClient()
+	qbt, err := Config.QBittorrentConfig.GetClient()
 
 	if err != nil {
 		return err
@@ -200,5 +200,5 @@ func (m *MovieCommand) downloadMovieTorrent(movie *movies.Movie, torrent *torren
 		log.Printf("Downloading: %s (%s)\n", movie.Title, downloadPath)
 	}
 
-	return transmission.AddTorrent(torrent.Magnet, downloadPath)
+	return qbt.AddTorrent(torrent.Magnet, downloadPath)
 }
