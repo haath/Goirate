@@ -16,12 +16,12 @@ type QBittorrentConfig struct {
 	Password string `toml:"password"`
 }
 
-// QBittorrentClient is a simple wrapper of the underlying transmissionrpc.Client.
+// QBittorrentClient is a simple wrapper of the underlying go-qbittorrent client.
 type QBittorrentClient struct {
 	*qbt.Client
 }
 
-// GetQBittorrentClient returns a transmission RPC client connected with the given configuration.
+// GetClient returns a qBittorrent HTTP client connected with the given configuration.
 func (cfg *QBittorrentConfig) GetClient() (client *QBittorrentClient, err error) {
 
 	qb := qbt.NewClient(cfg.URL)
