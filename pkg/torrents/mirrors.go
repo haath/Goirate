@@ -169,7 +169,7 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 
 	mirrors = append(mirrors, FallbackMirror())
 
-	timeout := 3 * time.Second
+	timeout := 4 * time.Second
 
 	channel := make(chan torrentResponse)
 
@@ -206,7 +206,7 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 	case resp := <-channel:
 		return resp.mirror, resp.torrents, nil
 
-	case <-time.After(timeout):
+	case <-time.After(timeout + time.Second):
 	}
 
 	if trustSource {
