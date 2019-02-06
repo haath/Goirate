@@ -16,18 +16,18 @@ build: dep patch ## Install dependencies and statitcally compile the binary file
 	packr build $(GCC_FLAGS) $(BUILD_FLAGS) ./cmd/goirate
 	@packr clean
 
-build-win64: dep patch ## Install dependencies and statitcally compile the binary file on 64-bit windows
+build-win64: dep patch ## Installs dependencies and statitcally compiles the binary file on 64-bit windows
 	packr build $(GCC_FLAGS_WIN) $(BUILD_FLAGS) ./cmd/goirate
 	@packr clean
 
-cross-compile: dep patch ## Install dependencies and statitcally cross-compile the binary using gox
+cross-compile: dep patch ## Installs dependencies and statitcally cross-compiles the binary using gox
 	go get github.com/mitchellh/gox
 	packr
 	export CGO_ENABLED=0 ;\
 	gox $(GOX_FLAGS) $(GOX_ARCHS) -output $(GOX_OUTPUT) ./cmd/goirate
 	@packr clean
 
-install: dep patch ## Compile and install the binary at $GOPATH/bin
+install: dep patch ## Compiles and install the binary at $GOPATH/bin
 	packr install ./cmd/goirate
 	@packr clean
 
@@ -43,28 +43,29 @@ fmt: ## Runs go fmt on each of the packages
 	gofmt -s -w ./cmd
 	gofmt -s -w ./pkg
 
-test: dep ## Run unit tests
+test: dep ## Runs unit tests
 	@go test -short ${PKG_LIST}
 
-test-cov: dep ## Run unit tests and generate code coverage
+test-cov: dep ## Rusn unit tests and generate code coverage
 	@export GOIRATE_DEBUG=false
 	@./scripts/test.sh;
 
-patch:
-	@./scripts/patch.sh;
-
-compile: ## Compile the binary file
+compile: ## Compiles the binary file
 	@packr build -i -v -o $(OUTPUT) ./cmd/goirate
 
-dep: Gopkg.toml ## Install package dependencies
+dep: Gopkg.toml ## Installs package dependencies with dep ensure
 	@dep ensure
 
-dependencies:
+install-tools: ## Installs dep, packr and golint
+	go get -u github.com/golang/dep/cmd/dep
 	go get -u github.com/gobuffalo/packr/...
 	go get -u golang.org/x/lint/golint
 
 clean: ## Remove previous build
 	@rm -rf build
+
+patch:
+	@./scripts/patch.sh;
 
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "make \033[36m%-30s\033[0m %s\n", $$1, $$2}'
