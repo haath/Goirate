@@ -3,10 +3,11 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
-	"github.com/olekukonko/tablewriter"
 	"log"
 	"strings"
+
+	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"github.com/olekukonko/tablewriter"
 )
 
 // MirrorsCommand defines the mirrors command and holds its options.

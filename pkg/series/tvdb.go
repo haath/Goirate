@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"git.gmantaos.com/haath/Goirate/pkg/movies"
-
 	"git.gmantaos.com/haath/Goirate/pkg/utils"
 )
 
@@ -105,7 +104,7 @@ func (tkn *TVDBToken) LastEpisode(seriesID int) (Episode, error) {
 
 	callback := func(ep Episode) {
 
-		if ep.Aired == nil || time.Now().Sub(*ep.Aired).Hours() < 1 {
+		if !ep.HasAired() {
 			return
 		}
 
@@ -122,7 +121,7 @@ func (tkn *TVDBToken) LastEpisode(seriesID int) (Episode, error) {
 
 // NextEpisode uses the TVDB API to make a best guess as to which episode is sequentially
 // next to the one given.
-func (tkn *TVDBToken) NextEpisode(seriesID int, episode Episode) (Episode, error) {
+func (tkn *TVDBToken) NextEpisode(seriesID int, episode Episode) (nextEpisode Episode, err error) {
 
 	nextSeasonOut := false
 	nextSeasonFirst := Episode{Season: episode.Season + 1, Episode: 1}
@@ -131,30 +130,35 @@ func (tkn *TVDBToken) NextEpisode(seriesID int, episode Episode) (Episode, error
 	curSeasonNext := Episode{Season: episode.Season, Episode: episode.Episode + 1}
 
 	callback := func(ep Episode) {
+
 		if ep.Season == episode.Season+1 {
+
 			nextSeasonOut = true
 
 			if ep.Episode == 1 {
+
 				nextSeasonFirst = ep
 			}
 		}
 		if ep.Season == episode.Season && ep.Episode == episode.Episode+1 {
+
 			seasonHasMore = true
 			curSeasonNext = ep
 		}
 	}
 
-	err := tkn.getEpisodes(seriesID, callback)
+	err = tkn.getEpisodes(seriesID, callback)
 
 	if nextSeasonOut && !seasonHasMore {
 
-		episode = nextSeasonFirst
+		nextEpisode = nextSeasonFirst
 
 	} else {
-		episode = curSeasonNext
+
+		nextEpisode = curSeasonNext
 	}
 
-	return episode, err
+	return
 }
 
 func (tkn *TVDBToken) getEpisodes(seriesID int, callback func(Episode)) error {

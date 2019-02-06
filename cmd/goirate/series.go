@@ -53,6 +53,7 @@ type scanCommand struct {
 	DryRun   bool `long:"dry-run" description:"Perform the scan for new episodes without downloading torrents, sending notifications or updating the episode numbers in the watchlist."`
 	NoUpdate bool `long:"no-update" description:"Perform the scan for new episodes without updating the last episode aired in the watchlist."`
 	Quiet    bool `long:"quiet" short:"q" description:"Do not print anything to the standard output."`
+	Quick    bool `long:"quick" description:"Perform a quick scan, only searching for torrents for episodes that were found on the TVDB API."`
 }
 
 type seriesTorrent struct {
@@ -263,7 +264,13 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 	nextEpisode, err := ser.NextEpisode(tvdbToken)
 
 	if err != nil {
+
 		return false, err
+	}
+
+	if cmd.Quick && !nextEpisode.HasAired() {
+
+		return false, nil
 	}
 
 	if !cmd.MagnetLink && !Options.JSON && !cmd.TorrentURL {
@@ -274,16 +281,19 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 	scraper, err := cmd.GetScraper(ser.SearchQuery(nextEpisode))
 
 	if err != nil {
+
 		return false, err
 	}
 
 	torrent, err := ser.GetTorrent(scraper, filters, nextEpisode)
 
 	if err != nil {
+
 		return false, err
 	}
 
 	if torrent == nil {
+
 		return false, nil
 	}
 

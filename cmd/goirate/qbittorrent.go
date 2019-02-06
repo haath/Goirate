@@ -53,6 +53,8 @@ func (client *QBittorrentClient) AddTorrent(magnetLink, downloadDir string) erro
 
 	resp, err := client.DownloadFromLink(magnetLink, options)
 
+	defer resp.Body.Close()
+
 	if err != nil {
 
 		return err

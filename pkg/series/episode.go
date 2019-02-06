@@ -49,17 +49,26 @@ func ParseEpisodeString(episodeStr string) Episode {
 }
 
 // IsAfter returns true if this episode is sequentially after the given episode.
-func (ep *Episode) IsAfter(episode Episode) bool {
+func (ep Episode) IsAfter(episode Episode) bool {
+
 	return ep.Season > episode.Season ||
 		(ep.Season == episode.Season && ep.Episode > episode.Episode)
 }
 
 // String returns the string SxxEyy representation of an episode.
 func (ep Episode) String() string {
+
 	return fmt.Sprintf("S%02dE%02d", ep.Season, ep.Episode)
 }
 
 // LongString returns the string Season xx Episode yy representation of an episode.
 func (ep Episode) LongString() string {
+
 	return fmt.Sprintf("Season %d, Episode %d", ep.Season, ep.Episode)
+}
+
+// HasAired returns true if the episode's airing date and time is prior to the current date and time.
+func (ep Episode) HasAired() bool {
+
+	return ep.Aired != nil && time.Now().Sub(*ep.Aired).Hours() >= 1
 }
