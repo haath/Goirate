@@ -1,7 +1,7 @@
 image: golang:1.11.5
 
 variables:
-  GIT_URL: git.gmantaos.com
+  GIT_URL: gitlab.com
   GITHUB_REPO: gmantaos/Goirate
 
 stages:
@@ -20,9 +20,6 @@ before_script:
 test:
   stage: test
   retry: 2
-  tags:
-  - amd64
-  - docker
   script:
   - make lint
   - make test-cov
@@ -32,15 +29,18 @@ test:
     paths:
     - test_coverage.*
 
+build:
+  stage: build
+  script:
+  - make clean
+  - make cross-compile
+
 github-release:
   stage: deploy
   only:
   - tags
-  tags:
-  - amd64
-  - docker
+  dependencies:
+  - build
   script:
-  - make clean
-  - make cross-compile
   - go get -u github.com/c4milo/github-release
   - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_DESCRIPTION" "build/goirate.*"

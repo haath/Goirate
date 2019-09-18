@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"strings"
 
-	"git.gmantaos.com/haath/Goirate/pkg/series"
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/Goirate/pkg/series"
+	"gitlab.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/utils"
 	"github.com/BurntSushi/toml"
 )
 

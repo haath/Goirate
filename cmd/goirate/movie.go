@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"git.gmantaos.com/haath/Goirate/pkg/movies"
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/movies"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 )
 
 // MovieCommand defines the movie command and holds its options.

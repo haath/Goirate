@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 )
 
 func TestSearchQuery(t *testing.T) {

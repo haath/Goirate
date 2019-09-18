@@ -1,7 +1,7 @@
 package torrents
 
 import (
-	"git.gmantaos.com/haath/gobytes"
+	"gitlab.com/haath/gobytes"
 )
 
 // UploaderFilters holds filters regarding the acceptance of a torrent's uploader.

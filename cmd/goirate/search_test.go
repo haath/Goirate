@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 )
 
 func TestSearchExecute(t *testing.T) {

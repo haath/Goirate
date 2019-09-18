@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	imdb "git.gmantaos.com/haath/Goirate/pkg/movies"
+	imdb "gitlab.com/haath/Goirate/pkg/movies"
 	"github.com/olekukonko/tablewriter"
 )
 

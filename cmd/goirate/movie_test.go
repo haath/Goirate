@@ -5,7 +5,7 @@ import (
 	"log"
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/movies"
+	"gitlab.com/haath/Goirate/pkg/movies"
 )
 
 func TestMovieExecute(t *testing.T) {

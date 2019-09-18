@@ -3,7 +3,7 @@ package movies
 import (
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 )
 
 func TestGetURL(t *testing.T) {

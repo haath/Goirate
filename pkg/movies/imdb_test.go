@@ -3,7 +3,7 @@ package movies
 import (
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/Goirate/pkg/utils"
 )
 
 func TestFormatIMDbID(t *testing.T) {

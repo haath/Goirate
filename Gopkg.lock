@@ -3,7 +3,7 @@
 
 [[projects]]
   digest = "1:65e57bdf3461b7e51fd9d7658b0680b922c31b29cd784d33235cf8c5094da683"
-  name = "git.gmantaos.com/haath/gobytes"
+  name = "gitlab.com/haath/gobytes"
   packages = ["."]
   pruneopts = "UT"
   revision = "41f1f1a1e4a3188e4e9a9cf6fc698d93eafd40e2"
@@ -133,7 +133,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "git.gmantaos.com/haath/gobytes",
+    "gitlab.com/haath/gobytes",
     "github.com/BurntSushi/toml",
     "github.com/PuerkitoBio/goquery",
     "github.com/gobuffalo/packr",

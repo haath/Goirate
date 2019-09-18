@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"git.gmantaos.com/haath/Goirate/pkg/movies"
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/Goirate/pkg/movies"
+	"gitlab.com/haath/Goirate/pkg/utils"
 )
 
 // TVDBCredentials holds the credentials used to authenticate

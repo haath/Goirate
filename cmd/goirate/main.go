@@ -8,7 +8,7 @@ import (
 	"os/user"
 	"path"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
 )
 

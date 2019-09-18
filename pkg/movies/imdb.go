@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/Goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
 )
 

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/series"
+	"gitlab.com/haath/Goirate/pkg/series"
 )
 
 func TestStoreLoadSeries(t *testing.T) {

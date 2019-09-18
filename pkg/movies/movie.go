@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strings"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
-	"git.gmantaos.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/utils"
 )
 
 // MovieID holds the defining properties of an IMDb movie as they appear in search results.

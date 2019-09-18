@@ -16,7 +16,7 @@
   name = "github.com/olekukonko/tablewriter"
 
 [[constraint]]
-  name = "git.gmantaos.com/haath/gobytes"
+  name = "gitlab.com/haath/gobytes"
   version = "1.1.1"
   
 [[constraint]]

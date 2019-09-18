@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 )
 
 func TestImportExpor(t *testing.T) {

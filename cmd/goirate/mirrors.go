@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"git.gmantaos.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/Goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
 )
 
