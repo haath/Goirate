@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"gitlab.com/haath/Goirate/pkg/series"
-	"gitlab.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/series"
+	"gitlab.com/haath/goirate/pkg/torrents"
 )
 
 func TestLoadSeriesTemplate(t *testing.T) {

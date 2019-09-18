@@ -12,7 +12,7 @@ import (
 	"time"
 	"unicode"
 
-	"gitlab.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/goirate/pkg/utils"
 	"gitlab.com/haath/gobytes"
 	"github.com/PuerkitoBio/goquery"
 )

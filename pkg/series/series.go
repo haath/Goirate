@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/haath/Goirate/pkg/torrents"
-	"gitlab.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 // Series holds the title of a series along

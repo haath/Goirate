@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"gitlab.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/torrents"
 )
 
 func TestMirrorsExecute(t *testing.T) {

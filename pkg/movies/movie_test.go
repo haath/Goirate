@@ -3,7 +3,7 @@ package movies
 import (
 	"testing"
 
-	"gitlab.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/torrents"
 )
 
 func TestGetURL(t *testing.T) {

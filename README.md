@@ -1,8 +1,8 @@
 ![Logo](assets/logo.png)
 
-[![](https://gitlab.com/haath/Goirate/badges/master/pipeline.svg)](https://gitlab.com/haath/Goirate/pipelines)
-[![](https://gitlab.com/haath/Goirate/badges/master/coverage.svg)](https://gitlab.com/haath/Goirate/-/jobs/artifacts/master/browse?job=test)
-[![](https://goreportcard.com/badge/gitlab.com/haath/Goirate)](https://goreportcard.com/report/gitlab.com/haath/Goirate)
+[![](https://gitlab.com/haath/goirate/badges/master/pipeline.svg)](https://gitlab.com/haath/goirate/pipelines)
+[![](https://gitlab.com/haath/goirate/badges/master/coverage.svg)](https://gitlab.com/haath/goirate/-/jobs/artifacts/master/browse?job=test)
+[![](https://goreportcard.com/badge/gitlab.com/haath/goirate)](https://goreportcard.com/report/gitlab.com/haath/goirate)
 [![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![](https://img.shields.io/github/release/gmantaos/Goirate.svg)](https://github.com/gmantaos/Goirate/releases)
 [![](https://api.codeclimate.com/v1/badges/40e202ffa0f346797f35/maintainability)](https://codeclimate.com/github/gmantaos/Goirate)
@@ -64,7 +64,7 @@ Goirate build: 0.9.1
 Fetch the project using `go get`.
 
 ```sh
-$ go get -d gitlab.com/haath/Goirate
+$ go get -d gitlab.com/haath/goirate
 ```
 
 By default [dep](https://github.com/golang/dep) is used for dependency management.

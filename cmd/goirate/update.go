@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/goirate/pkg/utils"
 	update "github.com/inconshreveable/go-update"
 )
 

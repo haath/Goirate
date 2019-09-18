@@ -14,9 +14,9 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/haath/Goirate/pkg/series"
-	"gitlab.com/haath/Goirate/pkg/torrents"
-	"gitlab.com/haath/Goirate/pkg/utils"
+	"gitlab.com/haath/goirate/pkg/series"
+	"gitlab.com/haath/goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/utils"
 	"github.com/BurntSushi/toml"
 	"github.com/olekukonko/tablewriter"
 )

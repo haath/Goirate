@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	imdb "gitlab.com/haath/Goirate/pkg/movies"
+	imdb "gitlab.com/haath/goirate/pkg/movies"
 )
 
 func TestMovieSearchExecute(t *testing.T) {

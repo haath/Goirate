@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"log"
 
-	"gitlab.com/haath/Goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
 )
 
