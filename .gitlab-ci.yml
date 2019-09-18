@@ -31,12 +31,6 @@ test:
     paths:
     - test_coverage.*
 
-build:
-  stage: build
-  script:
-  - make clean
-  - make cross-compile
-
 github-release:
   stage: deploy
   only:
@@ -44,5 +38,7 @@ github-release:
   dependencies:
   - build
   script:
+  - make clean
+  - make cross-compile
   - go get -u github.com/c4milo/github-release
   - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_DESCRIPTION" "build/goirate.*"
