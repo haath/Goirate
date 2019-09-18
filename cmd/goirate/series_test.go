@@ -44,11 +44,20 @@ func TestSeriesCommands(t *testing.T) {
 	expEp := series.Episode{Season: 6, Episode: 10, Title: "START"}
 	expID2 := 280619
 
-	addCmd.Execute([]string{})
-	addCmd.Execute([]string{})
+	err := addCmd.Execute([]string{})
+	if err != nil {
+		t.Error(err)
+	}
+	err = addCmd.Execute([]string{})
+	if err != nil {
+		t.Error(err)
+	}
 
 	addCmd.Args.Title = "the expanse"
-	addCmd.Execute([]string{})
+	err = addCmd.Execute([]string{})
+	if err != nil {
+		t.Error(err)
+	}
 
 	stored := loadSeries()
 
