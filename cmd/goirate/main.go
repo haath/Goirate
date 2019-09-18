@@ -8,8 +8,8 @@ import (
 	"os/user"
 	"path"
 
-	"gitlab.com/haath/goirate/pkg/torrents"
 	"github.com/jessevdk/go-flags"
+	"gitlab.com/haath/goirate/pkg/torrents"
 )
 
 // Options holds the command line options for the cli program

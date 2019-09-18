@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/BurntSushi/toml"
 	"gitlab.com/haath/goirate/pkg/series"
 	"gitlab.com/haath/goirate/pkg/torrents"
 	"gitlab.com/haath/goirate/pkg/utils"
-	"github.com/BurntSushi/toml"
 )
 
 // Config holds the global goirate configuration

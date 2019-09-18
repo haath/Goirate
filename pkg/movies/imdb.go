@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/haath/goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 // BaseURL is the base for IMDb URLS.

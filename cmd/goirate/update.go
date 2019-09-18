@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/haath/goirate/pkg/utils"
 	update "github.com/inconshreveable/go-update"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 // LatestReleaseURL is the API endpoint through which information about the latest release is retrieved.

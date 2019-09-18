@@ -14,11 +14,11 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/BurntSushi/toml"
+	"github.com/olekukonko/tablewriter"
 	"gitlab.com/haath/goirate/pkg/series"
 	"gitlab.com/haath/goirate/pkg/torrents"
 	"gitlab.com/haath/goirate/pkg/utils"
-	"github.com/BurntSushi/toml"
-	"github.com/olekukonko/tablewriter"
 )
 
 // SeriesCommand is the command used to add or remove series from the watchlist

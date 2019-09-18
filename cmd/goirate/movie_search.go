@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log"
 
-	imdb "gitlab.com/haath/goirate/pkg/movies"
 	"github.com/olekukonko/tablewriter"
+	imdb "gitlab.com/haath/goirate/pkg/movies"
 )
 
 // MovieSearchCommand is the command used to search for movies on IMDb.

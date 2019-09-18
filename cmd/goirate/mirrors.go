@@ -6,8 +6,8 @@ import (
 	"log"
 	"strings"
 
-	"gitlab.com/haath/goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
+	"gitlab.com/haath/goirate/pkg/torrents"
 )
 
 // MirrorsCommand defines the mirrors command and holds its options.

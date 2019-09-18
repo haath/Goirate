@@ -12,9 +12,9 @@ import (
 	"time"
 	"unicode"
 
-	"gitlab.com/haath/goirate/pkg/utils"
-	"gitlab.com/haath/gobytes"
 	"github.com/PuerkitoBio/goquery"
+	"gitlab.com/haath/gobytes"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 // PirateBayScaper holds the url of a PirateBay mirror on which to run torrent searches.

@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"log"
 
-	"gitlab.com/haath/goirate/pkg/torrents"
 	"github.com/olekukonko/tablewriter"
+	"gitlab.com/haath/goirate/pkg/torrents"
 )
 
 // SearchCommand defines the search command and holds its options.

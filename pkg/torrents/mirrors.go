@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.com/haath/goirate/pkg/utils"
 	"github.com/PuerkitoBio/goquery"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 const defaultProxySourceURL string = "https://proxybay.github.io/"

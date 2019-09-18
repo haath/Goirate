@@ -44,7 +44,7 @@ func TestGetTorrentsTable(t *testing.T) {
 		in  []torrents.Torrent
 		out string
 	}{
-		{[]torrents.Torrent{}, " Title  Size  Seeds/Peers \n--------------------------\n"},
+		{[]torrents.Torrent{}, " Title  Size  Seeds/Peers \n---------------------------\n"},
 	}
 
 	for _, tt := range table {
