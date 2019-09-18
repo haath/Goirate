@@ -20,8 +20,6 @@ before_script:
 test:
   stage: test
   retry: 2
-  tags:
-  - freya
   script:
   - make lint
   - make test-cov
