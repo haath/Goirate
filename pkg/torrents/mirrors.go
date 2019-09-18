@@ -162,6 +162,8 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 		torrents []Torrent
 	}
 
+	var workingMirror *Mirror
+
 	if m.MirrorFilters.Preferred != "" {
 
 		mirrors = append([]Mirror{{URL: m.MirrorFilters.Preferred}}, mirrors...)
@@ -178,6 +180,10 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 		scraper := NewScraper(mirror.URL)
 
 		torrents, err := scraper.SearchTimeout(query, timeout)
+
+		if len(torrents) > 0 {
+			workingMirror = &mirror
+		}
 
 		if err == nil && len(torrents) > 0 {
 
@@ -210,7 +216,13 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 	}
 
 	if trustSource {
+		
 		return m.getTorrents(mirrors, query, false)
+	}
+
+	if workingMirror != nil {
+
+		return workingMirror, []Torrent{}, nil
 	}
 
 	return nil, nil, errors.New("all Pirate Bay proxies seem to be unreachable")
