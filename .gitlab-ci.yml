@@ -35,8 +35,6 @@ github-release:
   stage: deploy
   only:
   - tags
-  dependencies:
-  - build
   script:
   - make clean
   - make cross-compile
