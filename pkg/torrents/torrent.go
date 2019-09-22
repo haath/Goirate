@@ -63,3 +63,15 @@ func (t *Torrent) MarshalJSON() ([]byte, error) {
 		Alias:      (*Alias)(t),
 	})
 }
+
+type sortBySeeds []Torrent
+
+func (s sortBySeeds) Len() int {
+	return len(s)
+}
+func (s sortBySeeds) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+func (s sortBySeeds) Less(i, j int) bool {
+	return s[i].Seeders > s[j].Seeders
+}

@@ -1,6 +1,8 @@
 package torrents
 
 import (
+	"sort"
+
 	"gitlab.com/haath/gobytes"
 )
 
@@ -168,6 +170,8 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 // Since it returns one torrent for each known quality, the MinQuality and MaxQuality of the given filters are ignored.
 // Returns nil if none are found.
 func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[VideoQuality]*Torrent, error) {
+
+	sort.Sort(sortBySeeds(torrents))
 
 	trnts := make(map[VideoQuality]*Torrent)
 

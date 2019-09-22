@@ -29,6 +29,7 @@ type Movie struct {
 // GetURL formats the IMDbID of the movie object and returns the full
 // URL to the movie's page on IMDb.
 func (m MovieID) GetURL() (*url.URL, error) {
+
 	formattedID, err := FormatIMDbID(m.IMDbID)
 
 	if err != nil {
@@ -42,6 +43,7 @@ func (m MovieID) GetURL() (*url.URL, error) {
 
 // FormattedDuration returns the duration of the movie in human-readable format.
 func (m Movie) FormattedDuration() string {
+
 	hours := m.Duration / 60
 	minutes := m.Duration % 60
 
@@ -80,14 +82,22 @@ func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.Se
 		return nil, err
 	}
 
-	if trnts == nil && m.AltTitle != "" {
+	if m.AltTitle != "" {
 
-		trnts, err = getTorrents(scraper, filters, m.AltTitle, m.Year)
+		altTitleTorrents, err := getTorrents(scraper, filters, m.AltTitle, m.Year)
 
 		if err != nil {
 			return nil, err
 		}
 
+		trnts = append(trnts, altTitleTorrents...)
+
+		torrentsQualityMap, _ := torrents.SearchVideoTorrentList(trnts, filters)
+		var perQualitySlice []torrents.Torrent
+		for _, value := range torrentsQualityMap {
+			perQualitySlice = append(perQualitySlice, *value)
+		}
+		trnts = perQualitySlice
 	}
 
 	return trnts, nil
@@ -103,7 +113,6 @@ func getTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilter
 	if year == 0 {
 
 		return scraper.SearchVideoTorrents(title, filters, title)
-
 	}
 
 	return scraper.SearchVideoTorrents(title, filters, title, fmt.Sprint(year))
