@@ -9,7 +9,7 @@ import (
 )
 
 // QBittorrentConfig holds the configuration and credentials for communicating with the
-// transmission daemon RPC service.
+// qBittorrent daemon RPC service.
 type QBittorrentConfig struct {
 	URL      string `toml:"url"`
 	Username string `toml:"username"`
@@ -43,7 +43,7 @@ func (cfg *QBittorrentConfig) GetClient() (client *QBittorrentClient, err error)
 	return
 }
 
-// AddTorrent sends the given magnet link to the transmission daemon and begins its download,
+// AddTorrent sends the given magnet link to the qBittorrent daemon and begins its download,
 // configuring the downloaded files to be placed at the specified output directory.
 func (client *QBittorrentClient) AddTorrent(magnetLink, downloadDir string) error {
 

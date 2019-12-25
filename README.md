@@ -408,10 +408,10 @@ For example inside a Docker container.
 | GOIRATE_MAX_SIZE | The maximum acceptable size for a torrent. |  |
 | GOIRATE_MIN_SEEDERS | The minimum acceptable amount of seeders for a torrent. | `0` |
 | GOIRATE_KODI_MEDIA_PATHS | Use Kodi-friendly paths when downloading media like movies, music albums and episodes. | `false` |
-| GOIRATE_DOWNLOADS_DIR | The directory used to store torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
-| GOIRATE_DOWNLOADS_MOVIES | The directory used to store movie torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
-| GOIRATE_DOWNLOADS_SERIES | The directory used to store series torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
-| GOIRATE_DOWNLOADS_MUSIC | The directory used to store music torrent downloads this tool initiates using [Transmission](https://transmissionbt.com/). | `~/Downloads` |
+| GOIRATE_DOWNLOADS_DIR | The directory used to store torrent downloads this tool initiates using [qBittorrent](https://qBittorrentbt.com/). | `~/Downloads` |
+| GOIRATE_DOWNLOADS_MOVIES | The directory used to store movie torrent downloads this tool initiates using [qBittorrent](https://qBittorrentbt.com/). | `~/Downloads` |
+| GOIRATE_DOWNLOADS_SERIES | The directory used to store series torrent downloads this tool initiates using [qBittorrent](https://qBittorrentbt.com/). | `~/Downloads` |
+| GOIRATE_DOWNLOADS_MUSIC | The directory used to store music torrent downloads this tool initiates using [qBittorrent](https://qBittorrentbt.com/). | `~/Downloads` |
 | GOIRATE_QBT_URL | The url of the [qBittorent](https://www.qbittorrent.org/) http server. | `http://localhost:8080` |
 | GOIRATE_QBT_USERNAME | The username used to authenticate to the qBittorent server. | |
 | GOIRATE_QBT_PASSWORD | The password used to authenticate to the qBittorent server. | |
@@ -421,7 +421,7 @@ For example inside a Docker container.
 | GOIRATE_SMTP_PASSWORD | The password used to authenticate with the SMTP server. | |
 | GOIRATE_ACTIONS_EMAIL | Enable e-mail notifications for torrents found when scanning. Requires a valid SMTP configuration. | `false` |
 | GOIRATE_ACTIONS_NOTIFY | A comma-separated list of the e-mails to send torrents to. | |
-| GOIRATE_ACTIONS_DOWNLOAD | Enable automatic torrent downloads with [Transmission](https://transmissionbt.com/). Requires a valid RPC configuration. | `false` |
+| GOIRATE_ACTIONS_DOWNLOAD | Enable automatic torrent downloads with [qBittorrent](https://qBittorrentbt.com/). Requires a valid RPC configuration. | `false` |
 
 ## Known Issues
 

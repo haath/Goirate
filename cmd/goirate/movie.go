@@ -13,9 +13,10 @@ import (
 type MovieCommand struct {
 	torrentSearchArgs
 
-	Year     uint                `short:"y" long:"year" description:"The release year of the movie. Used when searching for the movie by title instead of by IMDbID."`
-	Download bool                `short:"d" long:"download" description:"Add the movie to the transmission daemon for download using the RPC configuration."`
-	Args     moviePositionalArgs `positional-args:"1" required:"1"`
+	Year      uint                `short:"y" long:"year" description:"The release year of the movie. Used when searching for the movie by title instead of by IMDbID."`
+	Download  bool                `short:"d" long:"download" description:"Send the movie to the qBittorret client for download using the RPC configuration."`
+	NoTorrent bool                `long:"no-torrent" description:"Do not search for torrents."`
+	Args      moviePositionalArgs `positional-args:"1" required:"1"`
 }
 
 type moviePositionalArgs struct {
@@ -56,33 +57,32 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	}
 
-	scraper, err := m.GetScraper(movie.SearchQuery())
-	filters := m.GetFilters()
+	var perQualityTorrents []torrents.Torrent
+	var topTorrent *torrents.Torrent
 
-	if err != nil {
-		return err
-	}
+	if !m.NoTorrent {
 
-	perQualityTorrents, err := movie.GetTorrents(scraper, filters)
+		scraper, err := m.GetScraper(movie.SearchQuery())
+		filters := m.GetFilters()
 
-	if err != nil {
-		return err
-	}
+		if err == nil {
 
-	topTorrent, err := torrents.PickVideoTorrent(perQualityTorrents, filters)
+			perQualityTorrents, err = movie.GetTorrents(scraper, filters)
 
-	if err != nil {
-		return err
-	}
+			if err == nil {
 
-	if m.Download && topTorrent != nil {
+				topTorrent, err = torrents.PickVideoTorrent(perQualityTorrents, filters)
 
-		// Send the torrent to the transmission daemon for download
+				if m.Download && topTorrent != nil {
 
-		err = m.downloadMovieTorrent(movie, topTorrent)
+					// Send the torrent to the qBittorrent daemon for download
+					err = m.downloadMovieTorrent(movie, topTorrent)
 
-		if err != nil {
-			return err
+					if err != nil {
+						return err
+					}
+				}
+			}
 		}
 	}
 
@@ -106,7 +106,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	} else {
 
-		if m.MagnetLink {
+		if m.MagnetLink && !m.NoTorrent {
 
 			if topTorrent == nil {
 				return fmt.Errorf("no torrent found for: %v", movie.Title)
@@ -114,7 +114,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 			log.Println(topTorrent.Magnet)
 
-		} else if m.TorrentURL {
+		} else if m.TorrentURL && !m.NoTorrent {
 
 			if topTorrent == nil {
 				return fmt.Errorf("no torrent found for: %v", movie.Title)
@@ -144,19 +144,21 @@ func (m *MovieCommand) Execute(args []string) error {
 
 			log.Println("")
 
-			if topTorrent == nil {
-				log.Println("No torrent found")
-			} else {
+			if !m.NoTorrent {
 
-				log.Println(topTorrent.Title)
+				if topTorrent == nil {
+					log.Println("No torrent found")
+				} else {
 
-				log.Printf("URL:\t\t%v\n", topTorrent.FullURL())
-				log.Printf("Seeds/Peers:\t%v\n", topTorrent.PeersString())
-				log.Printf("Size:\t\t%v\n", topTorrent.SizeString())
-				log.Printf("Trusted:\t%v\n", topTorrent.VerifiedUploader)
-				log.Printf("Magnet:\n%v\n", topTorrent.Magnet)
+					log.Println(topTorrent.Title)
+
+					log.Printf("URL:\t\t%v\n", topTorrent.FullURL())
+					log.Printf("Seeds/Peers:\t%v\n", topTorrent.PeersString())
+					log.Printf("Size:\t\t%v\n", topTorrent.SizeString())
+					log.Printf("Trusted:\t%v\n", topTorrent.VerifiedUploader)
+					log.Printf("Magnet:\n%v\n", topTorrent.Magnet)
+				}
 			}
-
 		}
 
 	}

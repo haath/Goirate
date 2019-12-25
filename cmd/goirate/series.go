@@ -371,13 +371,13 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 		}
 
 		/*
-			Loop over individual torrents to send each of them to Transmission for download
+			Loop over individual torrents to send each of them to qBittorrent for download
 		*/
 		for _, seriesTorrent := range seriesTorrents.Torrents {
 
 			if Config.Watchlist.Download.OverridenBy(seriesTorrents.Series.Actions.Download) {
 
-				// Send the torrent to the transmission daemon for download
+				// Send the torrent to the qBittorrent daemon for download
 
 				qbt, err := Config.QBittorrentConfig.GetClient()
 

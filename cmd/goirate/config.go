@@ -167,7 +167,7 @@ func ImportConfig() {
 		setOrDefault(&Config.DownloadDir.Music, "GOIRATE_DOWNLOADS_MUSIC", defaultDownloadsDir)
 
 		/*
-			Transmission RPC configurations
+			qBittorrent RPC configurations
 		*/
 		setOrDefault(&Config.QBittorrentConfig.URL, "GOIRATE_QBT_URL", "http://localhost:8080")
 		setOrDefault(&Config.QBittorrentConfig.Username, "GOIRATE_QBT_USERNAME", "")
