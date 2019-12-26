@@ -27,12 +27,6 @@ func TestMovieExecute(t *testing.T) {
 
 	cmd.MagnetLink = true
 
-	_, err = CaptureCommand(cmd.Execute)
-
-	if err == nil {
-		t.Errorf("expected error")
-	}
-
 	Options.JSON = false
 
 	output, err = CaptureCommand(cmd.Execute)

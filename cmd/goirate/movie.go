@@ -33,28 +33,19 @@ func (m *MovieCommand) Execute(args []string) error {
 
 		movie, err = movies.GetMovie(m.Args.Query)
 
-		if err != nil {
-			return err
-		}
-
 	} else if movies.IsIMDbURL(m.Args.Query) {
 
 		imdbID, _ := movies.ExtractIMDbID(m.Args.Query)
 
 		movie, err = movies.GetMovie(imdbID)
 
-		if err != nil {
-			return err
-		}
-
 	} else {
 
 		movie, err = m.findMovie()
+	}
 
-		if err != nil {
-			return err
-		}
-
+	if err != nil {
+		return err
 	}
 
 	var perQualityTorrents []torrents.Torrent
@@ -72,6 +63,10 @@ func (m *MovieCommand) Execute(args []string) error {
 			if err == nil {
 
 				topTorrent, err = torrents.PickVideoTorrent(perQualityTorrents, filters)
+
+				if err != nil {
+					return err
+				}
 
 				if m.Download && topTorrent != nil {
 
