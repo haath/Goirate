@@ -31,7 +31,6 @@ func TestSearch(t *testing.T) {
 		out     int
 		outName string
 	}{
-		{"walking dead", 153021, "The Walking Dead"},
 		{"expanse", 280619, "The Expanse"},
 		{"strike back", 148581, "Strike Back"},
 	}
