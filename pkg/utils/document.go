@@ -31,8 +31,7 @@ func (c *HTTPClient) Get(url string) (*goquery.Document, error) {
 	request.Header.Set("Accept-Language", "en-US,en;q=0.8,gd;q=0.6")
 	request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
 	request.Header.Set("X-FORWARDED-FOR", "165.234.102.177")
-	
-	defer request.Close()
+	request.Close = true
 
 	if c.AuthToken != "" {
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer: %v", c.AuthToken))
