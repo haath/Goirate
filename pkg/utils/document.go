@@ -72,6 +72,7 @@ func (c *HTTPClient) GetJSON(url string, resp interface{}) error {
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Set("Accept-Language", "en-US,en;q=0.8,gd;q=0.6")
 	request.Header.Set("Accept", "application/json")
+	request.Close = true
 
 	if c.AuthToken != "" {
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer %v", c.AuthToken))
@@ -113,6 +114,7 @@ func (c *HTTPClient) Post(url string, req interface{}, resp interface{}) error {
 	request, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonBytes))
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Accept", "application/json")
+	request.Close = true
 
 	if c.AuthToken != "" {
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer: %v", c.AuthToken))
