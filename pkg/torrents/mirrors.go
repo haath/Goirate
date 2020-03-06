@@ -29,7 +29,7 @@ type Mirror struct {
 func FallbackMirror() Mirror {
 
 	return Mirror{
-		URL:     "https://www.tpbay.win/",
+		URL:     "https://thepiratebay.org",
 		Country: "US",
 	}
 }

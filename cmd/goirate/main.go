@@ -10,6 +10,7 @@ import (
 
 	"github.com/jessevdk/go-flags"
 	"gitlab.com/haath/goirate/pkg/torrents"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 // Options holds the command line options for the cli program
@@ -158,7 +159,7 @@ func configDir() string {
 func main() {
 
 	log.SetFlags(0)
-	log.SetOutput(os.Stdout)
+	log.SetOutput(&utils.GoirateLogger{})
 
 	ImportConfig()
 

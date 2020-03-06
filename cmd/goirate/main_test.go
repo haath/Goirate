@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -13,6 +14,17 @@ func CaptureCommand(cmd func([]string) error) (string, error) {
 	log.SetOutput(&buf)
 	err := cmd(nil)
 	log.SetOutput(os.Stdout)
+
+	var filtered bytes.Buffer
+
+	for _, line := range strings.Split(buf.String(), "\n") {
+
+		if !strings.Contains(line, "Unsolicited response received on idle HTTP channel") {
+
+			filtered.WriteString(line)
+		}
+	}
+
 	return buf.String(), err
 }
 
