@@ -25,6 +25,40 @@ func TestMirrorScraper(t *testing.T) {
 	}
 }
 
+func TestIsOk(t *testing.T) {
+	var mf MirrorFilters
+
+	table := []struct {
+		whitelist []string
+		blacklist []string
+		mirrorURL string
+		isOk      bool
+	}{
+		{
+			[]string{},
+			[]string{"pirateproxy.mx"},
+			"https://pirateproxy.mx",
+			false,
+		},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.mirrorURL, func(t *testing.T) {
+
+			mf.Whitelist = tt.whitelist
+			mf.Blacklist = tt.blacklist
+
+			mirror := Mirror{URL: tt.mirrorURL, Country: "US", Status: true}
+
+			isOk := mf.IsOk(mirror)
+
+			if isOk != tt.isOk {
+				t.Errorf("got %v, want %v", isOk, tt.isOk)
+			}
+		})
+	}
+}
+
 func TestParseMirrors(t *testing.T) {
 
 	table := []Mirror{

@@ -29,8 +29,8 @@ type Mirror struct {
 func FallbackMirror() Mirror {
 
 	return Mirror{
-		URL:     "https://pirateproxy.mx/",
-		Country: "UK",
+		URL:     "https://www.tpbay.win/",
+		Country: "US",
 	}
 }
 
@@ -216,7 +216,7 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 	}
 
 	if trustSource {
-		
+
 		return m.getTorrents(mirrors, query, false)
 	}
 
