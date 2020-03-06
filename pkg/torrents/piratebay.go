@@ -69,7 +69,14 @@ func (s *pirateBayScaper) SearchURL(query string) string {
 	query = utils.NormalizeQuery(query)
 
 	searchURL, _ := url.Parse(s.URL())
-	searchURL.Path = path.Join("/search", query)
+	searchURL.Path = "/search.php"
+
+	queryBuilder := searchURL.Query()
+	queryBuilder.Set("orderby", "99")
+	queryBuilder.Set("page", "0")
+	queryBuilder.Set("q", url.QueryEscape(query))
+
+	searchURL.RawQuery = queryBuilder.Encode()
 
 	return searchURL.String()
 }
