@@ -19,13 +19,13 @@ func CaptureCommand(cmd func([]string) error) (string, error) {
 
 	for _, line := range strings.Split(buf.String(), "\n") {
 
-		if !strings.Contains(line, "Unsolicited response received on idle HTTP channel") {
+		if line != "" && !strings.Contains(line, "Unsolicited response received on idle HTTP channel") {
 
-			filtered.WriteString(line)
+			filtered.WriteString(line + "\n")
 		}
 	}
 
-	return buf.String(), err
+	return filtered.String(), err
 }
 
 func TestGetScraper(t *testing.T) {

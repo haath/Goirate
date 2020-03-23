@@ -1,6 +1,7 @@
 package torrents
 
 import (
+	"fmt"
 	"log"
 	"math"
 	"net/url"
@@ -20,7 +21,7 @@ import (
 // PirateBayScaper holds the url of a PirateBay mirror on which to run torrent searches.
 type PirateBayScaper interface {
 	URL() string
-	SearchURL(query string) string
+	SearchURLs(query string) []string
 	Search(query string) ([]Torrent, error)
 	SearchTimeout(query string, timeout time.Duration) ([]Torrent, error)
 	SearchVideoTorrents(query string, filters SearchFilters, contains ...string) ([]Torrent, error)
@@ -64,21 +65,38 @@ func (s *pirateBayScaper) URL() string {
 	return s.url.String()
 }
 
-func (s *pirateBayScaper) SearchURL(query string) string {
+func (s *pirateBayScaper) SearchURLs(query string) []string {
 
 	query = utils.NormalizeQuery(query)
 
-	searchURL, _ := url.Parse(s.URL())
-	searchURL.Path = "/search.php"
+	var urls []string
 
+	searchURL, _ := url.Parse(s.URL())
+
+	// First url (legacy)
+	searchURL.Path = path.Join("/search", query)
+	urls = append(urls, searchURL.String())
+
+	// Second url (piratesbaycc.com)
+	searchURL.Path = "/search.php"
 	queryBuilder := searchURL.Query()
 	queryBuilder.Set("orderby", "99")
 	queryBuilder.Set("page", "0")
 	queryBuilder.Set("q", url.QueryEscape(query))
-
 	searchURL.RawQuery = queryBuilder.Encode()
+	urls = append(urls, searchURL.String())
 
-	return searchURL.String()
+	// third url (knaben)
+	searchURL.Path = "/s/"
+	queryBuilder = searchURL.Query()
+	queryBuilder.Set("orderby", "99")
+	queryBuilder.Set("page", "0")
+	queryBuilder.Set("category", "0")
+	queryBuilder.Set("q", url.QueryEscape(query))
+	searchURL.RawQuery = queryBuilder.Encode()
+	urls = append(urls, searchURL.String())
+
+	return urls
 }
 
 func (s *pirateBayScaper) SearchTimeout(query string, timeout time.Duration) ([]Torrent, error) {
@@ -119,8 +137,8 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 		}, description)
 
 		title := cells[1].Find(".detName > .detLink").Text()
-		urlString, _ := cells[1].Find(".detName > .detLink").Attr("href")
-		URL, _ := url.Parse(urlString)
+		urlPathString, _ := cells[1].Find(".detName > .detLink").Attr("href")
+		urlPath, _ := url.Parse(urlPathString)
 		magnet, _ := cells[1].ChildrenFiltered("a").First().Attr("href")
 		seeders, _ := strconv.Atoi(cells[2].Text())
 		leeches, _ := strconv.Atoi(cells[3].Text())
@@ -132,6 +150,11 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 		quality := extractVideoQuality(title)
 		releaseType := ExtractVideoRelease(title)
 
+		torrentURLPath := urlPath.Path
+		if urlPath.RawQuery != "" {
+			torrentURLPath += fmt.Sprintf("?%s", urlPath.RawQuery)
+		}
+
 		torrent := Torrent{
 			Title:            title,
 			Size:             size,
@@ -140,7 +163,7 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 			VerifiedUploader: verified,
 			VideoQuality:     quality,
 			VideoRelease:     releaseType,
-			TorrentURL:       URL.Path,
+			TorrentURL:       torrentURLPath,
 			Magnet:           magnet,
 			UploadTime:       uploadTime,
 			MirrorURL:        s.URL(),
@@ -371,21 +394,57 @@ func extractVideoQuality(title string) VideoQuality {
 
 func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent, error) {
 
-	searchURL := s.SearchURL(query)
+	searchURLs := s.SearchURLs(query)
 
-	if os.Getenv("GOIRATE_DEBUG") == "true" {
-		log.Printf("Search url: %s\n", searchURL)
+	torrentsChannel := make(chan []Torrent)
+	errorChannel := make(chan error)
+
+	for _, searchURL := range searchURLs {
+
+		searchURL = strings.Replace(searchURL, "%2B", "+", -1)
+
+		if os.Getenv("GOIRATE_DEBUG") == "true" {
+			log.Printf("Search url: %s\n", searchURL)
+		}
+
+		go func() {
+
+			client := utils.HTTPClient{
+				Timeout: timeout,
+			}
+
+			doc, err := client.Get(searchURL)
+
+			if err == nil {
+
+				torrentsChannel <- s.ParseSearchPage(doc)
+				errorChannel <- nil
+
+			} else {
+
+				torrentsChannel <- nil
+				errorChannel <- err
+
+			}
+		}()
 	}
 
-	client := utils.HTTPClient{
-		Timeout: timeout,
+	var allTorrents []Torrent
+	var allError error
+
+	for i := 0; i < len(searchURLs); i++ {
+
+		torrents := <-torrentsChannel
+		err := <-errorChannel
+
+		if err != nil {
+			allError = err
+		}
+
+		if torrents != nil {
+			allTorrents = append(allTorrents, torrents...)
+		}
 	}
 
-	doc, err := client.Get(searchURL)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return s.ParseSearchPage(doc), nil
+	return allTorrents, allError
 }

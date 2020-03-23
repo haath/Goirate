@@ -53,7 +53,7 @@ func TestSearchURL(t *testing.T) {
 	for _, tt := range searchTests {
 		t.Run(tt.in, func(t *testing.T) {
 			s := NewScraper("https://pirateproxy.sh/")
-			searchURL := s.SearchURL(tt.in)
+			searchURL := s.SearchURLs(tt.in)[1]
 			if searchURL != tt.out {
 				t.Errorf("got %q, want %q", searchURL, tt.out)
 			}

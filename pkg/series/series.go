@@ -63,7 +63,7 @@ func (s *Series) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.S
 	return torrents.PickVideoTorrent(filteredTorrents, filters)
 }
 
-// GetTorrents will attempt to find torrent for an episode of this series.
+// GetTorrents will attempt to find a torrent for an episode of this series.
 func (s *Series) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, episode Episode) ([]torrents.Torrent, error) {
 
 	query := s.SearchQuery(episode)

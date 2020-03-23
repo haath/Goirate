@@ -208,11 +208,17 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 		go searchMirror(mirror)
 	}
 
+	var allTorrents []Torrent
+
 	select {
 	case resp := <-channel:
-		return resp.mirror, resp.torrents, nil
+		allTorrents = append(allTorrents, resp.torrents...)
 
 	case <-time.After(timeout + time.Second):
+	}
+
+	if len(allTorrents) > 0 {
+		return workingMirror, allTorrents, nil
 	}
 
 	if trustSource {

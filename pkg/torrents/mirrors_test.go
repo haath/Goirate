@@ -62,7 +62,7 @@ func TestIsOk(t *testing.T) {
 func TestParseMirrors(t *testing.T) {
 
 	table := []Mirror{
-		{"https://pirateproxy.sh", "UK", false},
+		{"https://knaben.xyz", "UK", false},
 		{"https://thepbproxy.com", " NL", true},
 		{"https://thetorrents.red", "US", true},
 		{"https://thetorrents-org.prox.space", "US", true},
@@ -115,8 +115,6 @@ func TestGetAndPickMirror(t *testing.T) {
 }
 
 func TestPickMirror(t *testing.T) {
-
-	//expected := Mirror{"https://thepbproxy.com", "NL", true}
 
 	file, err := os.Open("../../test_samples/proxybay.html")
 	if err != nil {
