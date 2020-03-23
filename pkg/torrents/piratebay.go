@@ -401,10 +401,10 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 
 	for _, searchURL := range searchURLs {
 
-		searchURL = strings.Replace(searchURL, "%2B", "+", -1)
+		searchURLformatted := strings.Replace(searchURL, "%2B", "+", -1)
 
 		if os.Getenv("GOIRATE_DEBUG") == "true" {
-			log.Printf("Search url: %s\n", searchURL)
+			log.Printf("Search url: %s\n", searchURLformatted)
 		}
 
 		go func() {
@@ -413,7 +413,7 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 				Timeout: timeout,
 			}
 
-			doc, err := client.Get(searchURL)
+			doc, err := client.Get(searchURLformatted)
 
 			if err == nil {
 
