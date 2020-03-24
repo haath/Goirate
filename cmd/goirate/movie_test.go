@@ -13,7 +13,7 @@ func TestMovieExecute(t *testing.T) {
 	var cmd MovieCommand
 	Options.JSON = true
 
-	cmd.Args.Query = "black panther"
+	cmd.Args.Query = "the avengers"
 
 	output, err := CaptureCommand(cmd.Execute)
 
