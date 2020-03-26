@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"os"
 	"reflect"
 	"strings"
 	"testing"
@@ -138,34 +139,37 @@ func TestScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	var scanCmd scanCommand
-	scanCmd.MagnetLink = true
-	scanCmd.Count = 100
+	if os.Getenv("CI") != "" {
 
-	output, err = CaptureCommand(scanCmd.Execute)
+		var scanCmd scanCommand
+		scanCmd.MagnetLink = true
+		scanCmd.Count = 100
 
-	if err != nil {
-		t.Error(output)
-		t.Error(err)
-	}
+		output, err = CaptureCommand(scanCmd.Execute)
 
-	output = strings.TrimSpace(output)
+		if err != nil {
+			t.Error(output)
+			t.Error(err)
+		}
 
-	magnets := strings.Split(output, "\n")
+		output = strings.TrimSpace(output)
 
-	if len(magnets) != 2 {
-		t.Errorf("expected 2 magnets, got %v", output)
-	}
+		magnets := strings.Split(output, "\n")
 
-	scanCmd.Quiet = true
-	output, err = CaptureCommand(scanCmd.Execute)
+		if len(magnets) != 2 {
+			t.Errorf("expected 2 magnets, got %v", output)
+		}
 
-	if err != nil {
-		t.Error(err)
-	}
+		scanCmd.Quiet = true
+		output, err = CaptureCommand(scanCmd.Execute)
 
-	if output != "" {
-		t.Errorf("expected no output, got %v", output)
+		if err != nil {
+			t.Error(err)
+		}
+
+		if output != "" {
+			t.Errorf("expected no output, got %v", output)
+		}
 	}
 }
 
