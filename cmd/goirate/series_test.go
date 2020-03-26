@@ -139,7 +139,7 @@ func TestScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	if os.Getenv("CI") != "" {
+	if os.Getenv("CI_JOB_ID") == "" {
 
 		var scanCmd scanCommand
 		scanCmd.MagnetLink = true

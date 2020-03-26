@@ -26,7 +26,7 @@ func TestMovieExecute(t *testing.T) {
 	var moviesJSON []movies.Movie
 	json.Unmarshal([]byte(output), &moviesJSON)
 
-	if os.Getenv("CI") != "" {
+	if os.Getenv("CI_JOB_ID") == "" {
 
 		cmd.MagnetLink = true
 
