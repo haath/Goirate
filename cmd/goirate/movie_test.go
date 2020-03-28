@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"log"
-	"os"
 	"testing"
 
 	"gitlab.com/haath/goirate/pkg/movies"
@@ -26,37 +25,34 @@ func TestMovieExecute(t *testing.T) {
 	var moviesJSON []movies.Movie
 	json.Unmarshal([]byte(output), &moviesJSON)
 
-	if os.Getenv("CI_JOB_ID") == "" {
+	cmd.MagnetLink = true
 
-		cmd.MagnetLink = true
+	Options.JSON = false
 
-		Options.JSON = false
+	output, err = CaptureCommand(cmd.Execute)
 
-		output, err = CaptureCommand(cmd.Execute)
+	if err != nil {
+		log.Println(output)
+		t.Error(err)
+	}
 
-		if err != nil {
-			log.Println(output)
-			t.Error(err)
-		}
+	cmd.MagnetLink = false
+	cmd.Args.Query = "0848228"
 
-		cmd.MagnetLink = false
-		cmd.Args.Query = "0848228"
+	output, err = CaptureCommand(cmd.Execute)
 
-		output, err = CaptureCommand(cmd.Execute)
+	if err != nil {
+		log.Println(output)
+		t.Error(err)
+	}
 
-		if err != nil {
-			log.Println(output)
-			t.Error(err)
-		}
+	cmd.Args.Query = "https://www.imdb.com/title/tt0315983/"
 
-		cmd.Args.Query = "https://www.imdb.com/title/tt0315983/"
+	output, err = CaptureCommand(cmd.Execute)
 
-		output, err = CaptureCommand(cmd.Execute)
-
-		if err != nil {
-			log.Println(output)
-			t.Error(err)
-		}
+	if err != nil {
+		log.Println(output)
+		t.Error(err)
 	}
 }
 
