@@ -3,9 +3,10 @@ package main
 import (
 	"bytes"
 	"log"
-	"os"
 	"strings"
 	"testing"
+
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 func CaptureCommand(cmd func([]string) error) (string, error) {
@@ -13,7 +14,7 @@ func CaptureCommand(cmd func([]string) error) (string, error) {
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
 	err := cmd(nil)
-	log.SetOutput(os.Stdout)
+	log.SetOutput(&utils.GoirateLogger{})
 
 	var filtered bytes.Buffer
 

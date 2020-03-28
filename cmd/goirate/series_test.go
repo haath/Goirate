@@ -104,7 +104,7 @@ func TestSeriesCommands(t *testing.T) {
 	}
 
 	if !strings.Contains(tableOut, "|   ID   |        Series        | Season | Last Episode | Min. Quality |") ||
-		!strings.Contains(tableOut, "The Americans (2013)") {
+		!strings.Contains(tableOut, "The Expanse") {
 
 		t.Errorf("Wrong table:\n%v\n", tableOut)
 	}

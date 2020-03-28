@@ -20,14 +20,16 @@ before_script:
 test:
   stage: test
   retry: 2
-  script:
-  - make lint
-  - make test-cov
-  - mv build/* ${CI_PROJECT_DIR}/
+  tags:
+  - freya
   artifacts:
     name: test_coverage
     paths:
     - test_coverage.*
+  script:
+  - make lint
+  - make test-cov
+  - mv build/* ${CI_PROJECT_DIR}/
 
 github-release:
   stage: deploy
