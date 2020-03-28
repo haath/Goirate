@@ -19,7 +19,7 @@ before_script:
 
 test:
   stage: test
-  retry: 10
+  retry: 2
   script:
   - make lint
   - make test-cov
