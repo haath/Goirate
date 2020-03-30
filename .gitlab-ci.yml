@@ -24,9 +24,9 @@ before_script:
 build:
   stage: build
   artifacts:
-  name: bin
-  paths:
-  - build/goirate.*
+    name: bin
+    paths:
+    - build/goirate.*
   script:
   - make clean
   - make cross-compile
