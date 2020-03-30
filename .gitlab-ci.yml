@@ -1,13 +1,16 @@
 image: golang:1.11.5
 
+
 variables:
   GIT_URL: gitlab.com
   GITHUB_REPO: gmantaos/Goirate
 
+
 stages:
-- test
 - build
+- test
 - deploy
+
 
 before_script:
 # Prepare workspace
@@ -16,6 +19,18 @@ before_script:
 - ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 - cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
 - make install-tools
+
+
+build:
+  stage: build
+  artifacts:
+  name: bin
+  paths:
+  - build/goirate.*
+  script:
+  - make clean
+  - make cross-compile
+
 
 test:
   stage: test
@@ -29,12 +44,13 @@ test:
   - make test-cov
   - mv build/* ${CI_PROJECT_DIR}/
 
+
 github-release:
   stage: deploy
   only:
   - tags
+  dependencies:
+  - build
   script:
-  - make clean
-  - make cross-compile
   - go get -u github.com/c4milo/github-release
   - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_DESCRIPTION" "build/goirate.*"
