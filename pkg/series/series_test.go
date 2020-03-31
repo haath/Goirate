@@ -23,7 +23,7 @@ func TestSearchQuery(t *testing.T) {
 
 			series := Series{Title: tt.in}
 
-			out := series.SearchQuery(tt.ep)
+			out := series.GetSearchQuery(tt.ep)
 
 			if out != tt.out {
 				t.Errorf("got %v, want %v", out, tt.out)
@@ -47,7 +47,7 @@ func TestGetTorrent(t *testing.T) {
 	for _, tt := range table {
 		t.Run(tt.in.Title, func(t *testing.T) {
 
-			scraper, err := torrents.FindScraper(tt.in.SearchQuery(tt.ep))
+			scraper, err := torrents.FindScraper(tt.in.GetSearchQuery(tt.ep))
 
 			if err != nil {
 				t.Error(err)

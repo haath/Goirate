@@ -185,20 +185,22 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 			workingMirror = &mirror
 		}
 
-		if err == nil && len(torrents) > 0 {
+		if os.Getenv("GOIRATE_DEBUG") == "true" {
+			log.Printf("%v -> %v, %v\n", mirror.URL, len(torrents), err)
+		}
 
-			select {
-			case channel <- torrentResponse{&mirror, torrents}:
-			default:
-			}
+		if len(torrents) > 0 {
 
-		} else if err != nil && os.Getenv("GOIRATE_DEBUG") == "true" {
+			channel <- torrentResponse{&mirror, torrents}
 
-			log.Print(err)
+		} else {
+
+			channel <- torrentResponse{nil, nil}
 		}
 	}
 
 	// Return the first mirror that responds to HTTP GET
+	requestsSent := 0
 	for _, mirror := range mirrors {
 
 		if !mirror.Status && trustSource {
@@ -206,15 +208,19 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 		}
 
 		go searchMirror(mirror)
+
+		requestsSent++
 	}
 
 	var allTorrents []Torrent
 
-	select {
-	case resp := <-channel:
-		allTorrents = append(allTorrents, resp.torrents...)
+	for i := 0; i < requestsSent; i++ {
 
-	case <-time.After(timeout + time.Second):
+		resp := <-channel
+
+		if resp.torrents != nil {
+			allTorrents = append(allTorrents, resp.torrents...)
+		}
 	}
 
 	if len(allTorrents) > 0 {

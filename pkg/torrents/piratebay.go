@@ -24,7 +24,7 @@ type PirateBayScaper interface {
 	SearchURLs(query string) []string
 	Search(query string) ([]Torrent, error)
 	SearchTimeout(query string, timeout time.Duration) ([]Torrent, error)
-	SearchVideoTorrents(query string, filters SearchFilters, contains ...string) ([]Torrent, error)
+	SearchVideoTorrents(query string, filters SearchFilters) ([]Torrent, error)
 	ParseSearchPage(doc *goquery.Document) []Torrent
 }
 
@@ -176,12 +176,12 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 	return torrents
 }
 
-func (s *pirateBayScaper) SearchVideoTorrents(query string, filters SearchFilters, contains ...string) ([]Torrent, error) {
+func (s *pirateBayScaper) SearchVideoTorrents(query string, filters SearchFilters) ([]Torrent, error) {
 
-	return s.SearchVideoTorrentsTimeout(query, filters, 0, contains...)
+	return s.SearchVideoTorrentsTimeout(query, filters, 0)
 }
 
-func (s *pirateBayScaper) SearchVideoTorrentsTimeout(query string, filters SearchFilters, timeout time.Duration, contains ...string) ([]Torrent, error) {
+func (s *pirateBayScaper) SearchVideoTorrentsTimeout(query string, filters SearchFilters, timeout time.Duration) ([]Torrent, error) {
 
 	query = utils.NormalizeQuery(query)
 
@@ -193,37 +193,7 @@ func (s *pirateBayScaper) SearchVideoTorrentsTimeout(query string, filters Searc
 
 	filtered := filters.FilterTorrents(trnts)
 
-	matches := func(torrentTitle string) bool {
-		for _, val := range contains {
-
-			val = utils.NormalizeQuery(val)
-
-			if !strings.Contains(torrentTitle, strings.ToLower(val)) {
-
-				return false
-			}
-		}
-		return true
-	}
-
-	var titleFiltered []Torrent
-
-	for _, torrent := range filtered {
-
-		torrentTitle := utils.NormalizeQuery(torrent.Title)
-
-		if matches(torrentTitle) {
-
-			titleFiltered = append(titleFiltered, torrent)
-
-		} else if os.Getenv("GOIRATE_DEBUG") == "true" {
-
-			log.Printf("%s != %v", torrent.Title, contains)
-		}
-
-	}
-
-	perQuality, err := SearchVideoTorrentList(titleFiltered, filters)
+	perQuality, err := SearchVideoTorrentList(filtered, filters)
 
 	if err != nil {
 		return nil, err
@@ -235,7 +205,7 @@ func (s *pirateBayScaper) SearchVideoTorrentsTimeout(query string, filters Searc
 	}
 
 	if os.Getenv("GOIRATE_DEBUG") == "true" {
-		log.Printf("%d => %d => %d => %d", len(trnts), len(filtered), len(titleFiltered), len(perQuality))
+		log.Printf("%d => %d => %d", len(trnts), len(filtered), len(perQuality))
 	}
 
 	return perQualitySlice, nil

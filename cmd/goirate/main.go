@@ -113,11 +113,11 @@ func (a *torrentSearchArgs) ValidOutputFlags() bool {
 	return outputFlags <= 1
 }
 
-func (a torrentSearchArgs) GetFilters() torrents.SearchFilters {
+func (a torrentSearchArgs) GetFilters() *torrents.SearchFilters {
 
 	ApplyConfig(&a.SearchFilters)
 
-	return a.SearchFilters
+	return &a.SearchFilters
 }
 
 func configDir() string {

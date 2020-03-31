@@ -2,8 +2,10 @@ package torrents
 
 import (
 	"sort"
+	"strings"
 
 	"gitlab.com/haath/gobytes"
+	"gitlab.com/haath/goirate/pkg/utils"
 )
 
 // UploaderFilters holds filters regarding the acceptance of a torrent's uploader.
@@ -21,6 +23,9 @@ type SearchFilters struct {
 	MaxSize          string          `long:"max-size" description:"Maximum acceptable torrent size." toml:"max-size"`
 	MinSeeders       int             `long:"min-seeders" description:"Minimum acceptable amount of seeders." toml:"min-seeders"`
 	Uploaders        UploaderFilters `toml:"uploaders"`
+
+	// Internal, used to pass multiple substrings for filtering.
+	SearchTerms []string
 }
 
 // MinSizeKB returns the specified minimum size in kilobytes.
@@ -62,29 +67,43 @@ func (f SearchFilters) UploaderOk(uploader string) bool {
 func (f SearchFilters) IsOk(torrent *Torrent) bool {
 
 	maxSize, _ := f.MaxSizeKB()
-
 	minSize, _ := f.MinSizeKB()
 
+	// Check the uploader.
+	if !f.UploaderOk(torrent.Uploader) {
+		return false
+	}
 	if f.VerifiedUploader && !torrent.VerifiedUploader {
 		return false
 	}
 
+	// Check the torrent size.
 	if (torrent.Size > maxSize && maxSize > 0) ||
 		(torrent.Size < minSize && minSize > 0) {
 		return false
 	}
 
+	// Check the quality.
 	if (f.MinQuality != "" && torrent.VideoQuality.WorseThan(f.MinQuality)) ||
 		(f.MaxQuality != "" && torrent.VideoQuality.BetterThan(f.MaxQuality)) {
 		return false
 	}
 
-	if !f.UploaderOk(torrent.Uploader) {
+	// Check the number of seeders.
+	if torrent.Seeders < f.MinSeeders {
 		return false
 	}
 
-	if torrent.Seeders < f.MinSeeders {
-		return false
+	// Check for search terms in the title.
+	torrentTitle := utils.NormalizeQuery(torrent.Title)
+	for _, searchTerm := range f.SearchTerms {
+
+		searchTerm = utils.NormalizeQuery(searchTerm)
+
+		if !strings.Contains(torrentTitle, searchTerm) {
+			// Search term not found.
+			return false
+		}
 	}
 
 	return true

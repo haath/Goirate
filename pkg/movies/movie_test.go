@@ -70,16 +70,11 @@ func TestGetTorrent(t *testing.T) {
 				t.Error(err)
 			}
 
-			tor, err := tt.in.GetTorrent(scraper, filters)
-
-			if err != nil {
-				t.Error(err)
-			}
+			tor, _ := tt.in.GetTorrent(scraper, filters)
 
 			if tor == nil {
 				t.Errorf("No torrent found for: %v", tt.in.Title)
 			}
-
 		})
 	}
 }

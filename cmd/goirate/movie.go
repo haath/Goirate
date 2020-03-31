@@ -53,29 +53,23 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	if !m.NoTorrent {
 
-		scraper, err := m.GetScraper(movie.SearchQuery())
-		filters := m.GetFilters()
+		perQualityTorrents, err = m.getMovieTorrents(movie)
 
-		if err == nil {
+		if len(perQualityTorrents) > 0 {
 
-			perQualityTorrents, err = movie.GetTorrents(scraper, filters)
+			topTorrent, err = torrents.PickVideoTorrent(perQualityTorrents, *m.GetFilters())
 
-			if err == nil {
+			if err != nil {
+				return err
+			}
 
-				topTorrent, err = torrents.PickVideoTorrent(perQualityTorrents, filters)
+			if m.Download && topTorrent != nil {
+
+				// Send the torrent to the qBittorrent daemon for download
+				err = m.downloadMovieTorrent(movie, topTorrent)
 
 				if err != nil {
 					return err
-				}
-
-				if m.Download && topTorrent != nil {
-
-					// Send the torrent to the qBittorrent daemon for download
-					err = m.downloadMovieTorrent(movie, topTorrent)
-
-					if err != nil {
-						return err
-					}
 				}
 			}
 		}
@@ -198,4 +192,34 @@ func (m *MovieCommand) downloadMovieTorrent(movie *movies.Movie, torrent *torren
 	}
 
 	return qbt.AddTorrent(torrent.Magnet, downloadPath)
+}
+
+func (m *MovieCommand) getMovieTorrents(movie *movies.Movie) ([]torrents.Torrent, error) {
+
+	tryGet := func(useAltTitle bool) ([]torrents.Torrent, error) {
+
+		filters := m.GetFilters()
+		filters.SearchTerms = movie.GetSearchTerms(false)
+
+		allTorrents, err := m.GetTorrents(movie.GetSearchQuery(false))
+		var perQualitySlice []torrents.Torrent
+
+		if len(allTorrents) > 0 {
+			torrentsQualityMap, _ := torrents.SearchVideoTorrentList(allTorrents, *filters)
+			for _, value := range torrentsQualityMap {
+				perQualitySlice = append(perQualitySlice, *value)
+			}
+		}
+
+		return perQualitySlice, err
+	}
+
+	trnts, err := tryGet(false)
+
+	if len(trnts) == 0 && movie.AltTitle != "" {
+		// No torrents found with main title, try the alternative title.
+		trnts, err = tryGet(true)
+	}
+
+	return trnts, err
 }

@@ -278,23 +278,20 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 		log.Printf("Searching for: %s %s\n", ser.Title, nextEpisode)
 	}
 
-	scraper, err := cmd.GetScraper(ser.SearchQuery(nextEpisode))
+	filters.SearchTerms = ser.GetSearchTerms(nextEpisode)
+
+	allTorrents, err := cmd.GetTorrents(ser.GetSearchQuery(nextEpisode))
 
 	if err != nil {
 
 		return false, err
 	}
 
-	torrent, err := ser.GetTorrent(scraper, filters, nextEpisode)
+	torrent, err := torrents.PickVideoTorrent(allTorrents, *filters)
 
-	if err != nil {
+	if err != nil || torrent == nil {
 
 		return false, err
-	}
-
-	if torrent == nil {
-
-		return false, nil
 	}
 
 	if cmd.MagnetLink {

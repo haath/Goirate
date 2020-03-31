@@ -26,29 +26,51 @@ func (s *Series) NextEpisode(tkn *TVDBToken) (Episode, error) {
 	return tkn.NextEpisode(s.ID, s.LastEpisode)
 }
 
-// SearchQuery returns the normalized title of the series along with its episode number,
+// GetSearchQuery returns the normalized title of the series along with its episode number,
 // as it will be used when searching for torrents.
-func (s *Series) SearchQuery(episode Episode) string {
+func (s *Series) GetSearchQuery(episode Episode) string {
 
-	title := strings.Replace(s.Title, "'s", "s", -1)
-	title = utils.NormalizeMediaTitle(title)
+	title := s.getNormalizedTitle()
 
-	var query string
+	var searchQuery string
 
 	if episode.Season == 0 && episode.Episode == 0 {
 
-		query = title
+		searchQuery = title
 
 	} else if episode.Episode == 0 {
 
-		query = fmt.Sprintf("%v Season %d", title, episode.Season)
+		searchQuery = fmt.Sprintf("%v Season %d", title, episode.Season)
 
 	} else {
 
-		query = fmt.Sprintf("%v %s", title, episode)
+		searchQuery = fmt.Sprintf("%v %s", title, episode)
 	}
 
-	return utils.NormalizeQuery(query)
+	return utils.NormalizeQuery(searchQuery)
+}
+
+// GetSearchTerms returns a list of strings that should exit in a torrent for the given episode of the series.
+func (s *Series) GetSearchTerms(episode Episode) []string {
+
+	title := s.getNormalizedTitle()
+
+	searchTerms := []string{title}
+
+	if episode.Season == 0 && episode.Episode == 0 {
+
+		// Add nothing.
+
+	} else if episode.Episode == 0 {
+
+		searchTerms = append(searchTerms, fmt.Sprintf("Season %d", episode.Season))
+
+	} else {
+
+		searchTerms = append(searchTerms, episode.String())
+	}
+
+	return searchTerms
 }
 
 // GetTorrent will search The Pirate Bay and return the best torrent that complies with the given filters.
@@ -66,20 +88,15 @@ func (s *Series) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.S
 // GetTorrents will attempt to find a torrent for an episode of this series.
 func (s *Series) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, episode Episode) ([]torrents.Torrent, error) {
 
-	query := s.SearchQuery(episode)
+	searchQuery := s.GetSearchQuery(episode)
+	filters.SearchTerms = s.GetSearchTerms(episode)
+
+	return scraper.SearchVideoTorrents(searchQuery, filters)
+}
+
+func (s *Series) getNormalizedTitle() string {
 
 	title := strings.Replace(s.Title, "'s", "s", -1)
 	title = utils.NormalizeMediaTitle(title)
-
-	if episode.Season == 0 && episode.Episode == 0 {
-
-		return scraper.SearchVideoTorrents(query, filters, title)
-
-	} else if episode.Episode == 0 {
-
-		return scraper.SearchVideoTorrents(query, filters, title, fmt.Sprintf("Season %d", episode.Season))
-
-	}
-
-	return scraper.SearchVideoTorrents(query, filters, title, episode.String())
+	return title
 }

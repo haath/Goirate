@@ -222,7 +222,7 @@ func TestSearchVideoTorrents(t *testing.T) {
 		t.Error(err)
 	}
 
-	torrents, err := scraper.SearchVideoTorrents("black panther", SearchFilters{}, "2018")
+	torrents, err := scraper.SearchVideoTorrents("black panther", SearchFilters{})
 
 	if err != nil {
 		t.Error(err)
