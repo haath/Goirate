@@ -147,24 +147,49 @@ func (f SearchFilters) FilterTorrentsCount(torrents []Torrent, count uint) []Tor
 	return filtered
 }
 
-// SearchVideoTorrents is a shortcut function, to search for video torrents given the filters,
+// SearchVideoTorrents is a shortcut function, to search for torrents given the filters,
 // so that either the specified `MirrorURL` is used or all of them are searched.
-func (f SearchFilters) SearchVideoTorrents(query string) ([]Torrent, error) {
+func (f SearchFilters) SearchTorrents(query string) ([]Torrent, error) {
+
+	var trnts []Torrent
+	var err error
 
 	if f.MirrorURL != "" {
 
 		// A specific mirror was specified.
 		scraper := NewScraper(f.MirrorURL)
-		return scraper.Search(query)
+		trnts, err = scraper.Search(query)
+
+	} else {
+
+		// A specific mirror wasn't specified.
+		mirrorScraper := MirrorScraper{
+			proxySourceURL: f.ProxyListURL,
+			mirrorFilters:  f.MirrorFilters,
+		}
+
+		trnts, err = mirrorScraper.GetTorrents(query)
 	}
 
-	// A specific mirror wasn't specified.
-	mirrorScraper := MirrorScraper{
-		proxySourceURL: f.ProxyListURL,
-		mirrorFilters:  f.MirrorFilters,
+	return trnts, err
+}
+
+// SearchVideoTorrents is a shortcut function, to search for video torrents given the filters,
+// so that either the specified `MirrorURL` is used or all of them are searched.
+func (f SearchFilters) SearchVideoTorrents(query string) ([]Torrent, error) {
+
+	trnts, err := f.SearchTorrents(query)
+
+	var perQualitySlice []Torrent
+
+	if len(trnts) > 0 {
+		torrentsQualityMap, _ := SearchVideoTorrentList(trnts, f)
+		for _, value := range torrentsQualityMap {
+			perQualitySlice = append(perQualitySlice, *value)
+		}
 	}
 
-	return mirrorScraper.GetTorrents(query)
+	return perQualitySlice, err
 }
 
 // PickVideoTorrent functions similar to SearchTorrentList(), but instead returns the torrent with the best available video quality
