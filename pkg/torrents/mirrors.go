@@ -38,7 +38,7 @@ func FallbackMirror() Mirror {
 // By default the scraper will use proxybay.github.io.
 type MirrorScraper struct {
 	proxySourceURL string
-	MirrorFilters  MirrorFilters
+	mirrorFilters  MirrorFilters
 }
 
 // MirrorFilters define filters for picking a Pirate Bay mirror.
@@ -46,6 +46,15 @@ type MirrorFilters struct {
 	Preferred string   `toml:"preferred"`
 	Whitelist []string `toml:"whitelist"`
 	Blacklist []string `toml:"blacklist"`
+}
+
+// NewMirrorScraper initializes a new scraper for a list of piratebay mirrors.
+func NewMirrorScraper(proxySourceURL string, mirrorFilters MirrorFilters) *MirrorScraper {
+
+	return &MirrorScraper{
+		proxySourceURL: proxySourceURL,
+		mirrorFilters:  mirrorFilters,
+	}
 }
 
 // SetProxySourceURL overrides the URL at which MirrorScraper will attempt to fetch a list
@@ -146,7 +155,7 @@ func (m *MirrorScraper) parseMirrors(doc *goquery.Document) []Mirror {
 
 		mirror := Mirror{site, country, status == "up"}
 
-		if m.MirrorFilters.IsOk(mirror) {
+		if m.mirrorFilters.IsOk(mirror) {
 
 			mirrors = append(mirrors, mirror)
 		}
@@ -164,9 +173,9 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 
 	var workingMirror *Mirror
 
-	if m.MirrorFilters.Preferred != "" {
+	if m.mirrorFilters.Preferred != "" {
 
-		mirrors = append([]Mirror{{URL: m.MirrorFilters.Preferred}}, mirrors...)
+		mirrors = append([]Mirror{{URL: m.mirrorFilters.Preferred}}, mirrors...)
 	}
 
 	mirrors = append(mirrors, FallbackMirror())

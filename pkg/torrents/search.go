@@ -25,7 +25,10 @@ type SearchFilters struct {
 	Uploaders        UploaderFilters `toml:"uploaders"`
 
 	// Internal, used to pass multiple substrings for filtering.
-	SearchTerms []string
+	SearchTerms   []string
+	MirrorURL     string
+	ProxyListURL  string
+	MirrorFilters MirrorFilters
 }
 
 // MinSizeKB returns the specified minimum size in kilobytes.
@@ -142,6 +145,26 @@ func (f SearchFilters) FilterTorrentsCount(torrents []Torrent, count uint) []Tor
 	}
 
 	return filtered
+}
+
+// SearchVideoTorrents is a shortcut function, to search for video torrents given the filters,
+// so that either the specified `MirrorURL` is used or all of them are searched.
+func (f SearchFilters) SearchVideoTorrents(query string) ([]Torrent, error) {
+
+	if f.MirrorURL != "" {
+
+		// A specific mirror was specified.
+		scraper := NewScraper(f.MirrorURL)
+		return scraper.Search(query)
+	}
+
+	// A specific mirror wasn't specified.
+	mirrorScraper := MirrorScraper{
+		proxySourceURL: f.ProxyListURL,
+		mirrorFilters:  f.MirrorFilters,
+	}
+
+	return mirrorScraper.GetTorrents(query)
 }
 
 // PickVideoTorrent functions similar to SearchTorrentList(), but instead returns the torrent with the best available video quality

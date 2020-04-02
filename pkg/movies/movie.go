@@ -97,9 +97,9 @@ func (m Movie) GetSearchQuery(useAltTitle bool) string {
 }
 
 // GetTorrent will search The Pirate Bay and return the best torrent that complies with the given filters.
-func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) (*torrents.Torrent, error) {
+func (m Movie) GetTorrent(filters torrents.SearchFilters) (*torrents.Torrent, error) {
 
-	filteredTorrents, err := m.GetTorrents(scraper, filters)
+	filteredTorrents, err := m.GetTorrents(filters)
 
 	if err != nil {
 		return nil, err
@@ -110,15 +110,15 @@ func (m Movie) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.Sea
 
 // GetTorrents will search The Pirate Bay for torrents of this movie that comply with the given filters.
 // It will return one torrent for each video quality.
-func (m Movie) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters) ([]torrents.Torrent, error) {
+func (m Movie) GetTorrents(filters torrents.SearchFilters) ([]torrents.Torrent, error) {
 
 	filters.SearchTerms = m.GetSearchTerms(false)
-	trnts, err := scraper.SearchVideoTorrents(m.GetSearchQuery(false), filters)
+	trnts, err := filters.SearchVideoTorrents(m.GetSearchQuery(false))
 
 	if m.AltTitle != "" {
 
 		filters.SearchTerms = m.GetSearchTerms(true)
-		altTitleTorrents, err := scraper.SearchVideoTorrents(m.GetSearchQuery(true), filters)
+		altTitleTorrents, err := filters.SearchVideoTorrents(m.GetSearchQuery(true))
 
 		if err != nil {
 			return nil, err

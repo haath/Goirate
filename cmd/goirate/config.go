@@ -252,6 +252,9 @@ func applyFilters(dst *torrents.SearchFilters, src *torrents.SearchFilters) {
 	for _, name := range src.Uploaders.Blacklist {
 		dst.Uploaders.Blacklist = append(dst.Uploaders.Blacklist, name)
 	}
+	dst.MirrorURL = src.MirrorURL
+	dst.ProxyListURL = src.ProxyListURL
+	dst.MirrorFilters = src.MirrorFilters
 }
 
 func configPath() string {
@@ -261,9 +264,7 @@ func configPath() string {
 
 // GetMirrorScraper returns a scraper for Pirate Bay mirrors, with the appropriate
 // configuration passed to it from the Config variable.
-func GetMirrorScraper() torrents.MirrorScraper {
+func GetMirrorScraper() *torrents.MirrorScraper {
 
-	return torrents.MirrorScraper{
-		MirrorFilters: Config.TPBMirrors,
-	}
+	return torrents.NewMirrorScraper(Config.ProxyListURL, Config.TPBMirrors)
 }

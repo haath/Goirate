@@ -278,9 +278,7 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 		log.Printf("Searching for: %s %s\n", ser.Title, nextEpisode)
 	}
 
-	filters.SearchTerms = ser.GetSearchTerms(nextEpisode)
-
-	allTorrents, err := cmd.GetTorrents(ser.GetSearchQuery(nextEpisode))
+	allTorrents, err := ser.GetTorrents(*filters, nextEpisode)
 
 	if err != nil {
 

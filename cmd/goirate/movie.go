@@ -53,7 +53,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	if !m.NoTorrent {
 
-		perQualityTorrents, err = m.getMovieTorrents(movie)
+		perQualityTorrents, err = movie.GetTorrents(*m.GetFilters())
 
 		if len(perQualityTorrents) > 0 {
 
@@ -192,34 +192,4 @@ func (m *MovieCommand) downloadMovieTorrent(movie *movies.Movie, torrent *torren
 	}
 
 	return qbt.AddTorrent(torrent.Magnet, downloadPath)
-}
-
-func (m *MovieCommand) getMovieTorrents(movie *movies.Movie) ([]torrents.Torrent, error) {
-
-	tryGet := func(useAltTitle bool) ([]torrents.Torrent, error) {
-
-		filters := m.GetFilters()
-		filters.SearchTerms = movie.GetSearchTerms(false)
-
-		allTorrents, err := m.GetTorrents(movie.GetSearchQuery(false))
-		var perQualitySlice []torrents.Torrent
-
-		if len(allTorrents) > 0 {
-			torrentsQualityMap, _ := torrents.SearchVideoTorrentList(allTorrents, *filters)
-			for _, value := range torrentsQualityMap {
-				perQualitySlice = append(perQualitySlice, *value)
-			}
-		}
-
-		return perQualitySlice, err
-	}
-
-	trnts, err := tryGet(false)
-
-	if len(trnts) == 0 && movie.AltTitle != "" {
-		// No torrents found with main title, try the alternative title.
-		trnts, err = tryGet(true)
-	}
-
-	return trnts, err
 }

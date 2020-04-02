@@ -85,7 +85,6 @@ func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error)
 
 		scraper := torrents.NewScraper(a.Mirror)
 		return scraper.Search(query)
-
 	}
 
 	mirrorScraper := GetMirrorScraper()

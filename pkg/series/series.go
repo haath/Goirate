@@ -74,9 +74,9 @@ func (s *Series) GetSearchTerms(episode Episode) []string {
 }
 
 // GetTorrent will search The Pirate Bay and return the best torrent that complies with the given filters.
-func (s *Series) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, episode Episode) (*torrents.Torrent, error) {
+func (s *Series) GetTorrent(filters torrents.SearchFilters, episode Episode) (*torrents.Torrent, error) {
 
-	filteredTorrents, err := s.GetTorrents(scraper, filters, episode)
+	filteredTorrents, err := s.GetTorrents(filters, episode)
 
 	if err != nil {
 		return nil, err
@@ -86,12 +86,12 @@ func (s *Series) GetTorrent(scraper torrents.PirateBayScaper, filters torrents.S
 }
 
 // GetTorrents will attempt to find a torrent for an episode of this series.
-func (s *Series) GetTorrents(scraper torrents.PirateBayScaper, filters torrents.SearchFilters, episode Episode) ([]torrents.Torrent, error) {
+func (s *Series) GetTorrents(filters torrents.SearchFilters, episode Episode) ([]torrents.Torrent, error) {
 
 	searchQuery := s.GetSearchQuery(episode)
 	filters.SearchTerms = s.GetSearchTerms(episode)
 
-	return scraper.SearchVideoTorrents(searchQuery, filters)
+	return filters.SearchVideoTorrents(searchQuery)
 }
 
 func (s *Series) getNormalizedTitle() string {
