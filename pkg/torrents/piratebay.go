@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -416,5 +417,28 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 		}
 	}
 
-	return allTorrents, allError
+	// Remove duplicates.
+	var duplicatesFiltered []Torrent
+
+	contains := func(title string) bool {
+		for _, t := range duplicatesFiltered {
+			if t.Title == title {
+				return true
+			}
+		}
+		return false
+	}
+
+	for _, torrent := range allTorrents {
+
+		if !contains(torrent.Title) {
+
+			duplicatesFiltered = append(duplicatesFiltered, torrent)
+		}
+	}
+
+	// Sort by seeders.
+	sort.Sort(sortBySeeds(duplicatesFiltered))
+
+	return duplicatesFiltered, allError
 }

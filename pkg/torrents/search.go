@@ -1,7 +1,6 @@
 package torrents
 
 import (
-	"sort"
 	"strings"
 
 	"gitlab.com/haath/gobytes"
@@ -147,7 +146,7 @@ func (f SearchFilters) FilterTorrentsCount(torrents []Torrent, count uint) []Tor
 	return filtered
 }
 
-// SearchVideoTorrents is a shortcut function, to search for torrents given the filters,
+// SearchTorrents is a shortcut function, to search for torrents given the filters,
 // so that either the specified `MirrorURL` is used or all of them are searched.
 func (f SearchFilters) SearchTorrents(query string) ([]Torrent, error) {
 
@@ -237,8 +236,6 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 // Since it returns one torrent for each known quality, the MinQuality and MaxQuality of the given filters are ignored.
 // Returns nil if none are found.
 func SearchVideoTorrentList(torrents []Torrent, filters SearchFilters) (map[VideoQuality]*Torrent, error) {
-
-	sort.Sort(sortBySeeds(torrents))
 
 	trnts := make(map[VideoQuality]*Torrent)
 
