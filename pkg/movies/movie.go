@@ -136,8 +136,3 @@ func (m Movie) GetTorrents(filters torrents.SearchFilters) ([]torrents.Torrent, 
 
 	return trnts, err
 }
-
-// SearchQuery returns the normalized title of the movie, as it will be used when searching for torrents.
-func (m Movie) SearchQuery() string {
-	return utils.NormalizeQuery(m.Title)
-}

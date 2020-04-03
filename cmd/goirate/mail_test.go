@@ -34,7 +34,6 @@ func TestLoadSeriesTemplate(t *testing.T) {
 	}
 }
 
-/*
 func TestSendEmail(t *testing.T) {
 
 	resetConfigs()
@@ -51,4 +50,3 @@ func TestSendEmail(t *testing.T) {
 
 	resetConfigs()
 }
-*/
