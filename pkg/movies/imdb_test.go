@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"reflect"
 	"testing"
 
 	"gitlab.com/haath/goirate/pkg/utils"
@@ -108,6 +109,7 @@ func TestParseIMDbPage(t *testing.T) {
 		Duration:  143,
 		Rating:    7.8,
 		PosterURL: "https://m.media-amazon.com/images/M/MV5BN2Y5ZTU4YjctMDRmMC00MTg4LWE1M2MtMjk4MzVmOTE4YjkzXkEyXkFqcGdeQXVyNTc1NTQxODI@._V1_UX182_CR0,0,182,268_AL_.jpg",
+		Genres:    []string{"Adventure", "Drama", "Romance"},
 	}
 
 	doc, err := utils.GetFileDocument("../../test_samples/imdb.html")
@@ -119,7 +121,7 @@ func TestParseIMDbPage(t *testing.T) {
 
 	movie := ParseIMDbPage(doc)
 
-	if movie != expected {
+	if !reflect.DeepEqual(movie, expected) {
 		t.Errorf("got: %v\nwant: %v\n", movie, expected)
 	}
 }
@@ -247,6 +249,7 @@ func TestGetMovie(t *testing.T) {
 			Duration:  143,
 			Rating:    8.1,
 			PosterURL: "https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg",
+			Genres:    []string{"Action", "Adventure", "Sci-Fi"},
 		}},
 	}
 
@@ -261,7 +264,7 @@ func TestGetMovie(t *testing.T) {
 
 			tt.out.Rating = movie.Rating // Hard-coded tests are bad
 
-			if movie == nil || *movie != tt.out {
+			if movie == nil || !reflect.DeepEqual(*movie, tt.out) {
 				t.Errorf("\ngot %v\nwant %v", movie, tt.out)
 			}
 		})

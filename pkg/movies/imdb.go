@@ -72,6 +72,7 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 	duration := parseDuration(strings.TrimSpace(doc.Find(".subtext time").Text()))
 	imdbURL, _ := doc.Find("link[rel='canonical']").Attr("href")
 	imdbID, _ := ExtractIMDbID(imdbURL)
+	genres := extractGenres(doc)
 
 	movie := Movie{
 		PosterURL: posterURL,
@@ -82,6 +83,7 @@ func ParseIMDbPage(doc *goquery.Document) Movie {
 			IMDbID: imdbID,
 			Year:   uint(year),
 		},
+		Genres: genres,
 	}
 
 	origTitle := doc.Find(".originalTitle")
@@ -123,6 +125,24 @@ func ParseSearchPage(doc *goquery.Document) []MovieID {
 	})
 
 	return movies
+}
+
+func extractGenres(doc *goquery.Document) []string {
+
+	var genres []string
+
+	doc.Find(".subtext a").Each(func(i int, item *goquery.Selection) {
+
+		_, titleExists := item.Attr("title")
+
+		// The only subtext with a title attribute is the release date.
+		// The rest are genres.
+		if !titleExists {
+			genres = append(genres, item.Text())
+		}
+	})
+
+	return genres
 }
 
 func searchURL(query string) string {

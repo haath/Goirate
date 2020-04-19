@@ -122,6 +122,7 @@ func (m *MovieCommand) Execute(args []string) error {
 			log.Printf("IMDbID:\t\t%v\n", movie.IMDbID)
 			log.Printf("Year:\t\t%v\n", movie.Year)
 			log.Printf("Rating:\t\t%v\n", movie.Rating)
+			log.Printf("Genres:\t\t%v\n", movie.GetGenresString())
 
 			if movie.FormattedDuration() != "" {
 				log.Printf("Duration:\t%v\n", movie.FormattedDuration())

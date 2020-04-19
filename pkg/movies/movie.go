@@ -21,9 +21,10 @@ type MovieID struct {
 // Movie holds all the information regarding a movie on IMDb.
 type Movie struct {
 	MovieID
-	Duration  int     `json:"duration"`
-	Rating    float32 `json:"rating"`
-	PosterURL string  `json:"poster_url"`
+	Duration  int      `json:"duration"`
+	Rating    float32  `json:"rating"`
+	PosterURL string   `json:"poster_url"`
+	Genres    []string `json:"genres"`
 }
 
 // GetURL formats the IMDbID of the movie object and returns the full
@@ -58,6 +59,12 @@ func (m Movie) FormattedDuration() string {
 	}
 
 	return strings.TrimSpace(buf.String())
+}
+
+// GetGenresString returns the movie's genres as a comma-separated string.
+func (m Movie) GetGenresString() string {
+
+	return strings.Join(m.Genres, ", ")
 }
 
 // GetSearchTerms returns a list of distinct substrings that should be present in the title of a torrent for this movie.
