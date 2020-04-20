@@ -126,11 +126,9 @@ func (m Movie) GetTorrents(filters torrents.SearchFilters) ([]torrents.Torrent, 
 		filters.SearchTerms = m.GetSearchTerms(true)
 		altTitleTorrents, err := filters.SearchVideoTorrents(m.GetSearchQuery(true))
 
-		if err != nil {
-			return nil, err
+		if altTitleTorrents != nil {
+			trnts = append(trnts, altTitleTorrents...)
 		}
-
-		trnts = append(trnts, altTitleTorrents...)
 	}
 
 	torrentsQualityMap, _ := torrents.SearchVideoTorrentList(trnts, filters)
