@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"time"
 
@@ -21,16 +22,19 @@ type HTTPClient struct {
 
 // Get fetches an HTTP url and returns a goquery.Document.
 // It will also set the appropriate headers to make sure the pages are returned in English.
-func (c *HTTPClient) Get(url string) (*goquery.Document, error) {
+func (c *HTTPClient) Get(urlString string) (*goquery.Document, error) {
 
 	client := http.Client{
 		Timeout: c.Timeout,
 	}
 
-	request, _ := http.NewRequest("GET", url, nil)
+	urlData, _ := url.Parse(urlString)
+
+	request, _ := http.NewRequest("GET", urlString, nil)
 	request.Header.Set("Accept-Language", "en-US,en;q=0.8,gd;q=0.6")
 	request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
 	request.Header.Set("X-FORWARDED-FOR", "165.234.102.177")
+	request.Header.Set("Referer", urlData.Host)
 	request.Close = true
 
 	if c.AuthToken != "" {
@@ -48,7 +52,7 @@ func (c *HTTPClient) Get(url string) (*goquery.Document, error) {
 
 	if res.StatusCode != 200 {
 
-		return nil, fmt.Errorf("http: %v -> %v", url, res.StatusCode)
+		return nil, fmt.Errorf("http: %v -> %v", urlString, res.StatusCode)
 	}
 
 	// Load the HTML document

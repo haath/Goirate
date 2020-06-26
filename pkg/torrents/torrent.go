@@ -3,6 +3,7 @@ package torrents
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -25,7 +26,12 @@ type Torrent struct {
 
 // FullURL returns the absolute URL for this torrent, including the mirror it was scraped from.
 func (t Torrent) FullURL() string {
-	return fmt.Sprintf("%v/%v", strings.Trim(t.MirrorURL, "/"), strings.Trim(t.TorrentURL, "/"))
+	fullURL, _ := url.Parse(t.MirrorURL)
+	fullURL.Path = t.TorrentURL
+
+	fullURLFormatted := strings.ReplaceAll(fullURL.String(), "%3F", "?")
+
+	return fullURLFormatted
 }
 
 // PeersString returns a string representation of the torrent's connected peers
