@@ -30,6 +30,8 @@ func (t Torrent) FullURL() string {
 	fullURL.Path = t.TorrentURL
 
 	fullURLFormatted := strings.ReplaceAll(fullURL.String(), "%3F", "?")
+	fullURLFormatted = strings.ReplaceAll(fullURLFormatted, "%28", "(")
+	fullURLFormatted = strings.ReplaceAll(fullURLFormatted, "%29", ")")
 
 	return fullURLFormatted
 }

@@ -79,7 +79,7 @@ func TestMarshalJSON(t *testing.T) {
 	tor := Torrent{
 		Title:      "some torrent",
 		Size:       1200000,
-		MirrorURL:  "base_url",
+		MirrorURL:  "http://base_url",
 		TorrentURL: "torrent_url",
 	}
 
