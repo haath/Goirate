@@ -23,6 +23,7 @@ import (
 type PirateBayScaper interface {
 	URL() string
 	SearchURLs(query string) []string
+	APISearchURLs(query string) []string
 	Search(query string) ([]Torrent, error)
 	SearchTimeout(query string, timeout time.Duration) ([]Torrent, error)
 	SearchVideoTorrents(query string, filters SearchFilters) ([]Torrent, error)
@@ -95,6 +96,27 @@ func (s *pirateBayScaper) SearchURLs(query string) []string {
 	queryBuilder.Set("category", "0")
 	queryBuilder.Set("q", url.QueryEscape(query))
 	searchURL.RawQuery = queryBuilder.Encode()
+	urls = append(urls, searchURL.String())
+
+	return urls
+}
+
+func (s *pirateBayScaper) APISearchURLs(query string) []string {
+
+	query = utils.NormalizeQuery(query)
+
+	var urls []string
+
+	searchURL, _ := url.Parse(s.URL())
+
+	// first api
+	searchURL.Path = "/api.php"
+	searchURL.RawQuery = "url=/q.php?q=" + query
+	urls = append(urls, searchURL.String())
+
+	// second api
+	searchURL.Path = "/apibay/q.php"
+	searchURL.RawQuery = "q=" + query
 	urls = append(urls, searchURL.String())
 
 	return urls
@@ -365,11 +387,11 @@ func extractVideoQuality(title string) VideoQuality {
 
 func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent, error) {
 
-	searchURLs := s.SearchURLs(query)
-
 	torrentsChannel := make(chan []Torrent)
 	errorChannel := make(chan error)
 
+	// First go through the search URLs for HTML responses.
+	searchURLs := s.SearchURLs(query)
 	for _, searchURL := range searchURLs {
 
 		searchURLformatted := strings.Replace(searchURL, "%2B", "+", -1)
@@ -395,7 +417,39 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 
 				torrentsChannel <- nil
 				errorChannel <- err
+			}
+		}()
+	}
 
+	// Then go through the URLs for JSON responses.
+	apiSearchURLs := s.APISearchURLs(query)
+	for _, searchURL := range apiSearchURLs {
+
+		searchURLformatted := strings.Replace(searchURL, "%2B", "+", -1)
+
+		if os.Getenv("GOIRATE_DEBUG") == "true" {
+			log.Printf("Search api url: %s\n", searchURLformatted)
+		}
+
+		go func() {
+
+			client := utils.HTTPClient{
+				Timeout: timeout,
+			}
+
+			var apiResponse PirateBayAPIResponse
+
+			err := client.GetJSON(searchURLformatted, &apiResponse)
+
+			if err == nil {
+
+				torrentsChannel <- apiResponse.GetTorrents()
+				errorChannel <- nil
+
+			} else {
+
+				torrentsChannel <- nil
+				errorChannel <- err
 			}
 		}()
 	}
@@ -403,7 +457,9 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 	var allTorrents []Torrent
 	var allError error
 
-	for i := 0; i < len(searchURLs); i++ {
+	totalSearchCount := len(searchURLs) + len(apiSearchURLs)
+
+	for i := 0; i < totalSearchCount; i++ {
 
 		torrents := <-torrentsChannel
 		err := <-errorChannel
