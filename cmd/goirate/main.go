@@ -116,6 +116,13 @@ func (a torrentSearchArgs) GetFilters() *torrents.SearchFilters {
 
 	ApplyConfig(&a.SearchFilters)
 
+	if a.Mirror != "" {
+		a.SearchFilters.MirrorURL = a.Mirror
+	}
+	if a.SourceURL != "" {
+		a.SearchFilters.ProxyListURL = a.SourceURL
+	}
+
 	return &a.SearchFilters
 }
 

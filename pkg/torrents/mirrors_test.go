@@ -62,11 +62,11 @@ func TestIsOk(t *testing.T) {
 func TestParseMirrors(t *testing.T) {
 
 	table := []Mirror{
-		{"https://knaben.xyz", "UK", false},
-		{"https://thepbproxy.com", " NL", true},
-		{"https://thetorrents.red", "US", true},
-		{"https://thetorrents-org.prox.space", "US", true},
-		{"https://cruzing.xyz", "US", true},
+		{"https://pirateproxy.cloud", "UK", true},
+		{"https://tpb18.ukpass.co", " US", true},
+		{"https://knaben.xyz/ThePirateBay.php", "NO", false},
+		{"https://tpb.sadzawka.tk", "US", true},
+		{"https://www.tpbay.win", "US", true},
 	}
 
 	file, err := os.Open("../../test_samples/proxybay.html")

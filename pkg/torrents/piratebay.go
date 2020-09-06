@@ -111,12 +111,12 @@ func (s *pirateBayScaper) APISearchURLs(query string) []string {
 
 	// first api
 	searchURL.Path = "/api.php"
-	searchURL.RawQuery = "url=/q.php?q=" + query
+	searchURL.RawQuery = "url=/q.php?q=" + url.QueryEscape(query)
 	urls = append(urls, searchURL.String())
 
 	// second api
 	searchURL.Path = "/apibay/q.php"
-	searchURL.RawQuery = "q=" + query
+	searchURL.RawQuery = "q=" + url.QueryEscape(query)
 	urls = append(urls, searchURL.String())
 
 	return urls
@@ -443,7 +443,9 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 
 			if err == nil {
 
-				torrentsChannel <- apiResponse.GetTorrents()
+				mirrorURL, _ := url.Parse(searchURLformatted)
+
+				torrentsChannel <- apiResponse.GetTorrents(mirrorURL)
 				errorChannel <- nil
 
 			} else {
@@ -457,7 +459,7 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 	var allTorrents []Torrent
 	var allError error
 
-	totalSearchCount := len(searchURLs) + len(apiSearchURLs)
+	totalSearchCount := len(searchURLs) + len(apiSearchURLs) - len(searchURLs)
 
 	for i := 0; i < totalSearchCount; i++ {
 
