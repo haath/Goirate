@@ -459,7 +459,7 @@ func (s *pirateBayScaper) search(query string, timeout time.Duration) ([]Torrent
 	var allTorrents []Torrent
 	var allError error
 
-	totalSearchCount := len(searchURLs) + len(apiSearchURLs) - len(searchURLs)
+	totalSearchCount := len(searchURLs) + len(apiSearchURLs)
 
 	for i := 0; i < totalSearchCount; i++ {
 
