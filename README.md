@@ -11,7 +11,7 @@ Watching a lot of movies and series, it quickly became difficult to keep track o
 Not to call managing a few torrents tiresome, but when there's 5-10 new episodes for things you watch coming out
 every week, you begin to wonder if all of these extra clicks are really necessary. This also refers to wasted clicks,
 for when you know that an episode aired but you don't quite know yet if there's a torrent out for the 1080p version you prefer.
-With all this in mind, I first attempted to automate this with a simple python script, which would run as a cron job, crawl the Pirate Bay 
+With all this in mind, I first attempted to automate this with a simple python script, which would run as a cron job, crawl the Pirate Bay
 for torrents of new episodes, send me the ones it finds via e-mail and update the list of series so that it would begin watching out
 for the next episode. And the funny thing that script **worked like clockwork, monitoring at least 40 different series over a period of two years**.
 
@@ -23,25 +23,16 @@ Expanding upon the original idea of scanning for torrents as part of the cron jo
 which is able to detect and go through multiple Pirate Bay mirrors.
 It also expands upon dealing with media, by utilizing APIs, crawling through IMDb and more.
 
-### 🗺️ TODO 
+### 🗺️ TODO
 
-- [ ] Replace IMDB scraping with OMDB API
-- [ ] Replace tables in stdout with a more readable format
-- [x] Replace Transmission with qBittorrent
-- [ ] Add cache & retry system for torrents whose attempts to add to the designated torrent client fail
-- [ ] Kodi-friendly download storage paths (movies/{Title}, series/{Season}/{Title} etc)
-- [ ] Crontab scanner
-    - [x] Defining handlers for torrents found
-        - [x] E-mail notifications
-        - [x] Automatic downloads
-    - [ ] Watchlist for single torrents
-    - [x] New series episodes
-    - [ ] RSS Feeds (?)
-- [ ] Support for a proxy or VPN to avoid getting flogged
-- [ ] Docker image with OpenVPN and maybe a torrent client too
-- [ ] Interactive CLI for search results, so that the user can navigate with the keyboard and select which to send to qBittorrent for download
-- [ ] Major refactor so that all requests within the application are async
-- [ ] Leverage the scalability from the previous point to extend the search capabilities to additional websites and sources
+- [ ] Replace IMDB scraping with OMDB API.
+- [ ] Replace use of TVDB with free alternative (probably TVMaze).
+- [ ] Replace tables in stdout with a more readable format.
+- [ ] Add cache & retry system for torrents whose attempts to add to the designated torrent client fail.
+- [ ] Support for a proxy or VPN to avoid getting flogged.
+- [ ] Interactive CLI for search results, so that the user can navigate with the keyboard and select which to send to qBittorrent for download.
+- [ ] Add more sources than the PirateBay.
+
 
 ## Installation
 
@@ -180,7 +171,7 @@ $ goirate search "debian"
 ---------------------------------------------------------------------------------------------------------------------------------
 ```
 
-Much like any other command, you can use the `--help` flag the retrieve the 
+Much like any other command, you can use the `--help` flag the retrieve the
 list of available options.
 
 ```shell
@@ -294,7 +285,7 @@ $ goirate series add "https://www.imdb.com/title/tt1856010/" --ls
 | 262980 | House of Cards (US) |   5    |      13      |              |
 ```
 
-The `series show` command can be used to display the series currently on the 
+The `series show` command can be used to display the series currently on the
 watchlist. The `-j` flag also applies here, printing out the list in JSON format instead.
 
 ```sh
@@ -305,7 +296,7 @@ $ goirate series show
 | 153021 | The Walking Dead |   5    |      13      |    1080p     |
 ```
 
-The `series remove` command can be used to remove a series given either a 
+The `series remove` command can be used to remove a series given either a
 case-insensitive substring in its name, or its TVDB ID.
 
 ```sh
@@ -333,7 +324,7 @@ any other side-effects or actions use the `--dry-run` flag.
 
 ### E-mail Notifications
 
-Torrents found when scanning can be sent via e-mail. 
+Torrents found when scanning can be sent via e-mail.
 To enable this, edit the configuration file at `~/.goirate/config.toml` to enable e-mail notifications,
 configure the `smtp` settings and specify the list of recipients.
 

@@ -18,7 +18,7 @@
 [[constraint]]
   name = "gitlab.com/haath/gobytes"
   version = "1.1.1"
-  
+
 [[constraint]]
   name = "github.com/BurntSushi/toml"
   version = "0.3.1"
@@ -33,4 +33,4 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/jaredlmosley/go-qbittorrent"
+  name = "github.com/imerkle/go-qbittorrent"

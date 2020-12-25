@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
 
-	"github.com/jaredlmosley/go-qbittorrent/qbt"
+	"github.com/imerkle/go-qbittorrent/qbt"
 )
 
 // QBittorrentConfig holds the configuration and credentials for communicating with the
@@ -28,14 +26,12 @@ func (cfg *QBittorrentConfig) GetClient() (client *QBittorrentClient, err error)
 
 	if cfg.Username != "" {
 
-		var loggedIn bool
-
-		loggedIn, err = qb.Login(cfg.Username, cfg.Password)
-
-		if os.Getenv("GOIRATE_DEBUG") == "true" {
-
-			log.Printf("qBittorrent login: %t\n", loggedIn)
+		loginOpts := qbt.LoginOptions{
+			Username: cfg.Username,
+			Password: cfg.Password,
 		}
+
+		err = qb.Login(loginOpts)
 	}
 
 	client = &QBittorrentClient{Client: qb}
