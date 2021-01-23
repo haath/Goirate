@@ -26,11 +26,7 @@ func FormatIMDbID(id string) (string, error) {
 		return "", err
 	}
 
-	if idNum < 0 || idNum > 9999999 {
-		return "", errors.New("Invalid IMDb ID: " + id)
-	}
-
-	return fmt.Sprintf("%07d", idNum), nil
+	return fmt.Sprintf("tt%07d", idNum), nil
 }
 
 // IsIMDbID returns true if the string is in a valid IMDbID format.
@@ -51,7 +47,7 @@ func ExtractIMDbID(url string) (string, error) {
 	r, _ := regexp.Compile(`/title/tt(\w+)/?`)
 	m := r.FindStringSubmatch(url)
 
-	if len(m) > 0 && len(m[1]) == 7 {
+	if len(m) > 0 && len(m[1]) >= 7 {
 
 		return FormatIMDbID(m[1])
 	}
@@ -243,5 +239,11 @@ func Search(query string) ([]MovieID, error) {
 		return nil, err
 	}
 
-	return ParseSearchPage(doc), nil
+	movies, err := ParseSearchPage(doc), nil
+
+	if len(movies) == 0 {
+		err = fmt.Errorf("Movie not found on IMDB: %v", query)
+	}
+
+	return movies, err
 }

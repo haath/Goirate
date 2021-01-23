@@ -127,8 +127,8 @@ func TestScan(t *testing.T) {
 
 	var addCmd addCommand
 	addCmd.Force = true
-	addCmd.Args.Title = "the americans 2013"
-	addCmd.LastEpisode = "season 6 episode 8"
+	addCmd.Args.Title = "man in the high castle"
+	addCmd.LastEpisode = "season 4 episode 8"
 
 	output, err := CaptureCommand(addCmd.Execute)
 
@@ -153,7 +153,7 @@ func TestScan(t *testing.T) {
 	magnets := strings.Split(output, "\n")
 
 	if len(magnets) != 2 {
-		t.Errorf("expected 2 magnets, got %v", output)
+		t.Errorf("expected 2 magnets, got %v", magnets)
 	}
 
 	scanCmd.Quiet = true

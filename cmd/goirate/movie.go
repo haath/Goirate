@@ -169,9 +169,7 @@ func (m *MovieCommand) findMovie() (*movies.Movie, error) {
 		if m.Year == 0 || m.Year == movie.Year {
 
 			return movies.GetMovie(movie.IMDbID)
-
 		}
-
 	}
 
 	return nil, fmt.Errorf("movie not found: %v", m.Args.Query)

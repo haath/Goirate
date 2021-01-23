@@ -37,7 +37,7 @@ func (m MovieID) GetURL() (*url.URL, error) {
 		return nil, err
 	}
 
-	urlString := fmt.Sprintf(BaseURL+"/title/tt%v/", formattedID)
+	urlString := fmt.Sprintf(BaseURL+"/title/%v/", formattedID)
 
 	return url.Parse(urlString)
 }
@@ -122,7 +122,7 @@ func (m Movie) GetTorrents(filters torrents.SearchFilters) ([]torrents.Torrent, 
 	trnts, err := filters.SearchVideoTorrents(m.GetSearchQuery(false))
 
 	if m.AltTitle != "" {
-		
+
 		var altTitleTorrents []torrents.Torrent
 
 		filters.SearchTerms = m.GetSearchTerms(true)
