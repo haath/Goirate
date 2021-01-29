@@ -12,9 +12,9 @@ func TestFormatIMDbID(t *testing.T) {
 		in  string
 		out string
 	}{
-		{"123", "0000123"},
+		{"123", "tt0000123"},
 		{"-123", ""},
-		{"123456789", ""},
+		{"123456789", "tt123456789"},
 	}
 
 	for _, tt := range table {
@@ -35,7 +35,7 @@ func TestIsIMDbID(t *testing.T) {
 		{"123", true},
 		{"tt1234567", true},
 		{"-123", false},
-		{"123456789", false},
+		{"123456789", true},
 		{"Hail ceasar", false},
 	}
 
@@ -101,7 +101,7 @@ func TestParseIMDbPage(t *testing.T) {
 
 	expected := Movie{
 		MovieID: MovieID{
-			IMDbID:   "0162222",
+			IMDbID:   "tt0162222",
 			Title:    "Cast Away",
 			Year:     2000,
 			AltTitle: "Third Person",
@@ -159,10 +159,10 @@ func TestParseSearchPage(t *testing.T) {
 		index int
 		movie MovieID
 	}{
-		{0, MovieID{"0848228", "The Avengers", 2012, ""}},
-		{1, MovieID{"0164450", "Fu chou zhe", 1976, "Avengers"}},
-		{22, MovieID{"8277574", "To Avenge", 0, ""}},
-		{83, MovieID{"0199812", "Ninja Operation 6: Champion on Fire", 1987, "Ninja Avengers"}},
+		{0, MovieID{"tt0848228", "The Avengers", 2012, ""}},
+		{1, MovieID{"tt0164450", "Fu chou zhe", 1976, "Avengers"}},
+		{22, MovieID{"tt8277574", "To Avenge", 0, ""}},
+		{83, MovieID{"tt0199812", "Ninja Operation 6: Champion on Fire", 1987, "Ninja Avengers"}},
 	}
 
 	doc, err := utils.GetFileDocument("../../test_samples/imdb_search.html")
@@ -196,8 +196,8 @@ func TestExtractIMDbID(t *testing.T) {
 		in  string
 		out string
 	}{
-		{"https://www.imdb.com/title/tt0848228/?ref_=fn_al_tt_1/", "0848228"},
-		{"https://www.imdb.com/title/tt0848226", "0848226"},
+		{"https://www.imdb.com/title/tt0848228/?ref_=fn_al_tt_1/", "tt0848228"},
+		{"https://www.imdb.com/title/tt0848226", "tt0848226"},
 	}
 
 	for _, tt := range table {
@@ -243,7 +243,7 @@ func TestGetMovie(t *testing.T) {
 		{"tt0848228", Movie{
 			MovieID: MovieID{
 				Title:  "The Avengers",
-				IMDbID: "0848228",
+				IMDbID: "tt0848228",
 				Year:   2012,
 			},
 			Duration:  143,
@@ -276,7 +276,7 @@ func TestSearch(t *testing.T) {
 	expected := MovieID{
 		Title:  "Avengers: Age of Ultron",
 		Year:   2015,
-		IMDbID: "2395427",
+		IMDbID: "tt2395427",
 	}
 
 	movies, err := Search("age of ultron")

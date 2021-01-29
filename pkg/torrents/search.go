@@ -1,7 +1,6 @@
 package torrents
 
 import (
-	"log"
 	"strings"
 
 	"gitlab.com/haath/gobytes"
@@ -197,12 +196,6 @@ func (f SearchFilters) SearchVideoTorrents(query string) ([]Torrent, error) {
 func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, error) {
 
 	trnts, err := SearchVideoTorrentList(torrents, filters)
-
-	log.Println("")
-	log.Println(torrents)
-	log.Println(trnts)
-	log.Println(filters)
-	log.Println("")
 
 	if err != nil {
 		return nil, err

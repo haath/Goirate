@@ -127,8 +127,8 @@ func TestScan(t *testing.T) {
 
 	var addCmd addCommand
 	addCmd.Force = true
-	addCmd.Args.Title = "man in the high castle"
-	addCmd.LastEpisode = "season 4 episode 8"
+	addCmd.Args.Title = "house of cards"
+	addCmd.LastEpisode = "season 6 episode 6"
 
 	output, err := CaptureCommand(addCmd.Execute)
 

@@ -22,6 +22,10 @@ func FormatIMDbID(id string) (string, error) {
 
 	idNum, err := strconv.Atoi(id)
 
+	if idNum < 0 {
+		return "", errors.New("Negative number in IMDB ID")
+	}
+
 	if err != nil {
 		return "", err
 	}
