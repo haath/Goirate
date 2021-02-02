@@ -3,12 +3,31 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"os"
 	"testing"
 
 	"gitlab.com/haath/goirate/pkg/movies"
 )
 
 func TestMovieExecute(t *testing.T) {
+
+	doMovieExecuteTest(t)
+}
+
+func TestMovieExecuteFallback(t *testing.T) {
+
+	// Unset OMDb key to test fallback.
+	curKey := Config.OMDBCredentials.APIKey
+	Config.OMDBCredentials.APIKey = ""
+	os.Unsetenv("GOIRATE_OMDB_API_KEY")
+
+	doMovieExecuteTest(t)
+
+	// Restore OMDb key
+	os.Setenv("GOIRATE_OMDB_API_KEY", curKey)
+}
+
+func doMovieExecuteTest(t *testing.T) {
 
 	var cmd MovieCommand
 	Options.JSON = true
@@ -19,7 +38,7 @@ func TestMovieExecute(t *testing.T) {
 
 	if err != nil {
 		log.Println(output)
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	var moviesJSON []movies.Movie
@@ -33,7 +52,7 @@ func TestMovieExecute(t *testing.T) {
 
 	if err != nil {
 		log.Println(output)
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	cmd.MagnetLink = false
@@ -43,7 +62,7 @@ func TestMovieExecute(t *testing.T) {
 
 	if err != nil {
 		log.Println(output)
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	cmd.Args.Query = "https://www.imdb.com/title/tt0315983/"
@@ -52,11 +71,29 @@ func TestMovieExecute(t *testing.T) {
 
 	if err != nil {
 		log.Println(output)
-		t.Error(err)
+		t.Fatal(err)
 	}
 }
 
-func TestFindMovie(t *testing.T) {
+func TestSearchMovie(t *testing.T) {
+
+	doTestSearchMovie(t)
+}
+
+func TestSearchMovieFallback(t *testing.T) {
+
+	// Unset OMDb key to test fallback.
+	curKey := Config.OMDBCredentials.APIKey
+	Config.OMDBCredentials.APIKey = ""
+	os.Unsetenv("GOIRATE_OMDB_API_KEY")
+
+	doTestSearchMovie(t)
+
+	// Restore OMDb key
+	os.Setenv("GOIRATE_OMDB_API_KEY", curKey)
+}
+
+func doTestSearchMovie(t *testing.T) {
 	table := []struct {
 		in  MovieCommand
 		out movies.Movie
@@ -68,13 +105,13 @@ func TestFindMovie(t *testing.T) {
 	for _, tt := range table {
 		t.Run(tt.in.Args.Query, func(t *testing.T) {
 
-			s, err := tt.in.findMovie()
+			s, err := tt.in.searchMovie()
 
 			if err != nil {
 				t.Error(err)
 			}
 
-			if s.IMDbID != tt.out.IMDbID {
+			if s != tt.out.IMDbID {
 				t.Errorf("\ngot: %v\nwant: %v", s, tt.out)
 			}
 		})

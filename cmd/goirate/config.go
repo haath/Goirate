@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
+	"gitlab.com/haath/goirate/pkg/movies"
 	"gitlab.com/haath/goirate/pkg/series"
 	"gitlab.com/haath/goirate/pkg/torrents"
 	"gitlab.com/haath/goirate/pkg/utils"
@@ -21,6 +22,7 @@ var Config struct {
 	KodiMediaPaths    bool                   `toml:"kodi_media_paths"`
 	TPBMirrors        torrents.MirrorFilters `toml:"tpb_mirrors"`
 	TVDBCredentials   series.TVDBCredentials `toml:"tvdb"`
+	OMDBCredentials   movies.OMDBCredentials `toml:"omdb"`
 	QBittorrentConfig QBittorrentConfig      `toml:"qbittorrent"`
 	SMTPConfig        SMTPConfig             `toml:"smtp"`
 	Watchlist         utils.WatchlistActions `toml:"actions"`
@@ -204,6 +206,14 @@ func ImportConfig() {
 		if Config.TPBMirrors.Blacklist == nil {
 			Config.TPBMirrors.Blacklist = []string{}
 		}
+
+		/*
+			Credentials
+		*/
+		setOrDefault(&Config.TVDBCredentials.APIKey, "TVDB_API_KEY", "")
+		setOrDefault(&Config.TVDBCredentials.UserKey, "TVDB_USER_KEY", "")
+		setOrDefault(&Config.TVDBCredentials.Username, "TVDB_USERNAME", "")
+		setOrDefault(&Config.OMDBCredentials.APIKey, "GOIRATE_OMDB_API_KEY", "")
 
 		/*
 			Misc.

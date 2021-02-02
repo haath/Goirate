@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"github.com/olekukonko/tablewriter"
-	imdb "gitlab.com/haath/goirate/pkg/movies"
+	"gitlab.com/haath/goirate/pkg/movies"
 )
 
 // MovieSearchCommand is the command used to search for movies on IMDb.
@@ -21,18 +21,31 @@ type MovieSearchCommand struct {
 // Execute is the callback of the movie command.
 func (c *MovieSearchCommand) Execute(args []string) error {
 
-	movies, err := imdb.Search(c.Args.Query)
+	var searchResult []movies.MovieID
+	var err error
+
+	omdb := Config.OMDBCredentials
+
+	if omdb.IsEnabled() {
+
+		searchResult, err = omdb.Search(c.Args.Query)
+
+	} else {
+
+		// No OMDb API key provided, fall back to IMDb.
+		searchResult, err = movies.Search(c.Args.Query)
+	}
 
 	if err != nil {
 		return err
 	}
 
-	if c.Count > 0 && uint(len(movies)) > c.Count {
-		movies = movies[:c.Count]
+	if c.Count > 0 && uint(len(searchResult)) > c.Count {
+		searchResult = searchResult[:c.Count]
 	}
 
 	if Options.JSON {
-		moviesJSON, err := json.MarshalIndent(movies, "", "   ")
+		moviesJSON, err := json.MarshalIndent(searchResult, "", "   ")
 
 		if err != nil {
 			return err
@@ -40,13 +53,13 @@ func (c *MovieSearchCommand) Execute(args []string) error {
 
 		log.Println(string(moviesJSON))
 	} else {
-		log.Printf(getMoviesTable(movies))
+		log.Printf(getMoviesTable(searchResult))
 	}
 
 	return nil
 }
 
-func getMoviesTable(movies []imdb.MovieID) string {
+func getMoviesTable(movies []movies.MovieID) string {
 	buf := bytes.NewBufferString("")
 
 	table := tablewriter.NewWriter(buf)

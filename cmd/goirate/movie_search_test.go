@@ -2,12 +2,31 @@ package main
 
 import (
 	"encoding/json"
+	"os"
 	"testing"
 
 	imdb "gitlab.com/haath/goirate/pkg/movies"
 )
 
 func TestMovieSearchExecute(t *testing.T) {
+
+	doTestMovieSearchExecute(t)
+}
+
+func TestMovieSearchExecuteFallback(t *testing.T) {
+
+	// Unset OMDb key to test fallback.
+	curKey := Config.OMDBCredentials.APIKey
+	Config.OMDBCredentials.APIKey = ""
+	os.Unsetenv("GOIRATE_OMDB_API_KEY")
+
+	doTestMovieSearchExecute(t)
+
+	// Restore OMDb key
+	os.Setenv("GOIRATE_OMDB_API_KEY", curKey)
+}
+
+func doTestMovieSearchExecute(t *testing.T) {
 
 	var cmd MovieSearchCommand
 	Options.JSON = true

@@ -413,6 +413,7 @@ For example inside a Docker container.
 | GOIRATE_ACTIONS_EMAIL | Enable e-mail notifications for torrents found when scanning. Requires a valid SMTP configuration. | `false` |
 | GOIRATE_ACTIONS_NOTIFY | A comma-separated list of the e-mails to send torrents to. | |
 | GOIRATE_ACTIONS_DOWNLOAD | Enable automatic torrent downloads with [qBittorrent](https://qBittorrentbt.com/). Requires a valid RPC configuration. | `false` |
+| GOIRATE_OMDB_API_KEY | The API key to use for accessing the [OMDb API](https://www.omdbapi.com/). |  |
 
 ## Known Issues
 

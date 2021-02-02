@@ -26,23 +26,7 @@ type moviePositionalArgs struct {
 // Execute is the callback of the movie command.
 func (m *MovieCommand) Execute(args []string) error {
 
-	var movie *movies.Movie
-	var err error
-
-	if movies.IsIMDbID(m.Args.Query) {
-
-		movie, err = movies.GetMovie(m.Args.Query)
-
-	} else if movies.IsIMDbURL(m.Args.Query) {
-
-		imdbID, _ := movies.ExtractIMDbID(m.Args.Query)
-
-		movie, err = movies.GetMovie(imdbID)
-
-	} else {
-
-		movie, err = m.findMovie()
-	}
+	movie, err := m.getMovie()
 
 	if err != nil {
 		return err
@@ -156,23 +140,63 @@ func (m *MovieCommand) Execute(args []string) error {
 	return nil
 }
 
-func (m *MovieCommand) findMovie() (*movies.Movie, error) {
+func (m *MovieCommand) getMovie() (*movies.Movie, error) {
+
+	omdb := Config.OMDBCredentials
+
+	var err error
+	var imdbID string
+
+	if movies.IsIMDbID(m.Args.Query) {
+
+		imdbID, err = movies.FormatIMDbID(m.Args.Query)
+
+	} else if movies.IsIMDbURL(m.Args.Query) {
+
+		imdbID, err = movies.ExtractIMDbID(m.Args.Query)
+
+	} else {
+
+		imdbID, err = m.searchMovie()
+	}
+
+	if err != nil {
+
+		return nil, err
+	}
+
+	var movie *movies.Movie
+
+	if omdb.IsEnabled() {
+
+		movie, err = omdb.GetMovie(imdbID)
+
+	} else {
+
+		// OMDb API key not configured, fall back to IMDb.
+		movie, err = movies.GetMovie(imdbID)
+	}
+
+	return movie, err
+}
+
+func (m *MovieCommand) searchMovie() (string, error) {
 
 	searchResults, err := movies.Search(m.Args.Query)
 
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	for _, movie := range searchResults {
 
 		if m.Year == 0 || m.Year == movie.Year {
 
-			return movies.GetMovie(movie.IMDbID)
+			return movie.IMDbID, nil
 		}
 	}
 
-	return nil, fmt.Errorf("movie not found: %v", m.Args.Query)
+	return "", fmt.Errorf("movie not found: %v", m.Args.Query)
 }
 
 func (m *MovieCommand) downloadMovieTorrent(movie *movies.Movie, torrent *torrents.Torrent) error {
