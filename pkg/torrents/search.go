@@ -202,29 +202,30 @@ func PickVideoTorrent(torrents []Torrent, filters SearchFilters) (*Torrent, erro
 	}
 
 	ok := func(t *Torrent) bool {
-		return (filters.MaxQuality == "" || !t.VideoQuality.BetterThan(filters.MaxQuality)) &&
+		return (t.Seeders > 0) &&
+			(filters.MaxQuality == "" || !t.VideoQuality.BetterThan(filters.MaxQuality)) &&
 			(filters.MinQuality == "" || !t.VideoQuality.WorseThan(filters.MinQuality))
 	}
 
 	var torrent *Torrent
 
-	if t, exists := trnts[UHD]; exists && t.Seeders > 0 && ok(t) {
+	if t, exists := trnts[UHD]; exists && ok(t) {
 
 		torrent = t
 
-	} else if t, exists := trnts[High]; exists && t.Seeders > 0 && ok(t) {
+	} else if t, exists := trnts[High]; exists && ok(t) {
 
 		torrent = t
 
-	} else if t, exists := trnts[Medium]; exists && t.Seeders > 0 && ok(t) {
+	} else if t, exists := trnts[Medium]; exists && ok(t) {
 
 		torrent = t
 
-	} else if t, exists := trnts[Low]; exists && t.Seeders > 0 && ok(t) {
+	} else if t, exists := trnts[Low]; exists && ok(t) {
 
 		torrent = t
 
-	} else if t, exists := trnts[Default]; exists && t.Seeders > 0 && ok(t) {
+	} else if t, exists := trnts[Default]; exists && ok(t) {
 
 		torrent = t
 	}

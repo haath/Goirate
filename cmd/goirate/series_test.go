@@ -127,8 +127,8 @@ func TestScan(t *testing.T) {
 
 	var addCmd addCommand
 	addCmd.Force = true
-	addCmd.Args.Title = "house of cards"
-	addCmd.LastEpisode = "season 6 episode 6"
+	addCmd.Args.Title = "black mirror"
+	addCmd.LastEpisode = "season 1 episode 1"
 
 	output, err := CaptureCommand(addCmd.Execute)
 
@@ -139,7 +139,7 @@ func TestScan(t *testing.T) {
 
 	var scanCmd scanCommand
 	scanCmd.MagnetLink = true
-	scanCmd.Count = 100
+	scanCmd.Count = 2
 
 	output, err = CaptureCommand(scanCmd.Execute)
 

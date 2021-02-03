@@ -178,6 +178,10 @@ func (s *pirateBayScaper) ParseSearchPage(doc *goquery.Document) []Torrent {
 			torrentURLPath += fmt.Sprintf("?%s", urlPath.RawQuery)
 		}
 
+		if strings.Contains(title, "No results returned") {
+			return
+		}
+
 		torrent := Torrent{
 			Title:            title,
 			Size:             size,
