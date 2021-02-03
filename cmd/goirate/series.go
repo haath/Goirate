@@ -37,13 +37,13 @@ type addCommand struct {
 	Force            bool                  `long:"force" short:"f" description:"Overwrite this series if it already exists in the watchlist."`
 	Show             bool                  `long:"ls" description:"Execute the show command after adding."`
 	Args             struct {
-		Title string `positional-arg-name:"<series title | IMDb id>"`
+		Title string `positional-arg-name:"<title | imdbID>"`
 	} `positional-args:"1" required:"1"`
 }
 type removeCommand struct {
 	Show bool `long:"ls" description:"Execute the show command after removing."`
 	Args struct {
-		Title string `positional-arg-name:"<series title | id>"`
+		Title string `positional-arg-name:"<title | id>"`
 	} `positional-args:"1" required:"1"`
 }
 type showCommand struct{}

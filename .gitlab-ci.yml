@@ -7,8 +7,7 @@ variables:
 
 
 stages:
-- build
-- test
+- build-test
 - deploy
 
 
@@ -22,7 +21,7 @@ before_script:
 
 
 build:
-  stage: build
+  stage: build-test
   artifacts:
     name: bin
     paths:
@@ -33,7 +32,7 @@ build:
 
 
 test:
-  stage: test
+  stage: build-test
   retry: 2
   artifacts:
     name: test_coverage

@@ -20,7 +20,7 @@ type MovieCommand struct {
 }
 
 type moviePositionalArgs struct {
-	Query string `positional-arg-name:"<imdbID/title>"`
+	Query string `positional-arg-name:"<imdb url | imdbID | title>"`
 }
 
 // Execute is the callback of the movie command.
