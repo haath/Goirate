@@ -69,7 +69,7 @@ func (tkn *TVDBToken) Search(searchName string) (id int, name string, err error)
 			return 0, "", err
 		}
 
-		searchURL = fmt.Sprintf("%v?imdbId=tt%v", searchEndpoint, imdbID)
+		searchURL = fmt.Sprintf("%v?imdbId=%v", searchEndpoint, imdbID)
 
 	} else if movies.IsIMDbID(searchName) {
 
@@ -80,7 +80,7 @@ func (tkn *TVDBToken) Search(searchName string) (id int, name string, err error)
 			return 0, "", err
 		}
 
-		searchURL = fmt.Sprintf("%v?imdbId=tt%v", searchEndpoint, searchName)
+		searchURL = fmt.Sprintf("%v?imdbId=%v", searchEndpoint, searchName)
 	} else {
 
 		searchURL = fmt.Sprintf("%v?name=%v", searchEndpoint, url.QueryEscape(searchName))
