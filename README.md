@@ -13,7 +13,7 @@ every week, you begin to wonder if all of these extra clicks are really necessar
 for when you know that an episode aired but you don't quite know yet if there's a torrent out for the 1080p version you prefer.
 With all this in mind, I first attempted to automate this with a simple python script, which would run as a cron job, crawl the Pirate Bay
 for torrents of new episodes, send me the ones it finds via e-mail and update the list of series so that it would begin watching out
-for the next episode. And the funny thing that script **worked like clockwork, monitoring at least 40 different series over a period of two years**.
+for the next episode. And the funny thing that script worked like clockwork, monitoring at least 40 different series over a period of two years.
 
 Then the point came, when I wanted more features and automation, and that old python script was never written to be particularly scalable.
 So I began development of Goirate.
@@ -25,7 +25,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 
 ### 🗺️ TODO
 
-- [ ] Replace IMDB scraping with OMDB API.
+- [x] Replace IMDB scraping with OMDB API.
 - [ ] Replace use of TVDB with free alternative (probably TVMaze).
 - [ ] Replace tables in stdout with a more readable format.
 - [ ] Add cache & retry system for torrents whose attempts to add to the designated torrent client fail.
@@ -34,7 +34,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 - [ ] Add more sources than the PirateBay.
 
 
-## Installation
+## ⚓ Installation
 
 You can find compiled binaries for your architecture on the [GitHub releases page](https://github.com/gmantaos/Goirate/releases).
 
@@ -70,117 +70,14 @@ Using `go get` to fetch dependencies is theoretically possible but it is not rec
 Also, attempting to install the tool with `go get -u` will not work as it uses [packr](https://github.com/gobuffalo/packr)
 for building. To build yourself use the `Makefile` or have a look at it.
 
-## ⚓ Usage
-
-### Torrents
-
-The primary source of this tool's torrents is The Pirate Bay.
-
-Commands that search for torrents support the following options.
-
-| | |
-|-|-|
-| `-j`, `--json` | Output JSON |
-| `--mirror "https://pirateproxy.sh/"` | Use a specific pirate bay mirror |
-| `--source "https://proxybay.bz/"` | Override default mirror list |
-| `--trusted` | Only return torrents whose uploader is either Trusted or VIP |
-| `--only-magnet` | Only output magnet links, one on each line |
-| `--only-url` | Only output torrent urls, one on each line |
-| `-c 7`, `--count 7` | Limit the number of results |
-
-#### Pirate Bay mirrors
-
-To get a list of The Pirate Bay mirrors, use the `mirrors` command.
-
-```shell
-$ goirate mirrors
-|   | Country |                   URL                    |
-|---|---------|------------------------------------------|
-| x |   UK    | https://pirateproxy.sh                   |
-| x |   NL    | https://thepbproxy.com                   |
-| x |   US    | https://thetorrents.red                  |
-| x |   US    | https://thetorrents-org.prox.space       |
-| x |   US    | https://cruzing.xyz                      |
-| x |   US    | https://tpbproxy.nl                      |
-| x |   US    | https://thetorrents.rocks                |
-| x |   US    | https://proxydl.cf                       |
-| x |   US    | https://torrentsblocked.com              |
-| x |   US    | https://tpb.crushus.com/thetorrents.org  |
-| x |   US    | https://ikwilthetorrents.org             |
-| x |   GB    | https://bay.maik.rocks                   |
-|   |   FR    | https://www.piratenbaai.ch               |
-|   |   US    | https://tpbproxy.gdn                     |
-|   |   US    | https://tpb.network                      |
-| x |   FR    | https://thetorrents.freeproxy.fun        |
-```
-
-By default, the tool will attempt to fetch them from [proxybay.github.io](https://proxybay.github.io). To override that set the `-s` option.
-
-```shell
-$ goirate mirrors -s https://proxybay.bz/
-```
-
-You can also integrate the tool with any application by getting the output in JSON format using the `--json` flag.
-
-```shell
-$ goirate mirrors --json
-[
-   {
-      "url": "https://pirateproxy.sh",
-      "country": "uk",
-      "status": true
-   },
-   {
-      "url": "https://thepbproxy.com",
-      "country": "nl",
-      "status": true
-   },
-   ...
-}
-```
-
-The mirror-picking process for the entire tool can be configured in your `~/.goirate/config.toml`.
-Both the blacklist and the whitelist can contain partial mirror URLs or country codes.
-
-```toml
-# Only allow mirrors in the US, but do not allow thepiratebay.vin or *.biz domains
-[tpb_mirrors]
-  whitelist = ["US"]
-  blacklist = ["thepiratebay.vin", ".biz"]
-```
-
-#### Searching for torrents
-
-The `search` command can be used to find torrents given a specific query and filters.
-
-```shell
-$ goirate search "debian"
-                                                  Title                                                      Size    Seeds/Peers
----------------------------------------------------------------------------------------------------------------------------------
- Debian GNU/Linux Bible [ENG] [.pdf]                                                                        7.5 MB   10 / 12
- https://pirateproxy.sh/torrent/** omitted **
----------------------------------------------------------------------------------------------------------------------------------
- Debian 7- System Administration Best Practices, 2013 [PDF]~Storm                                           2.0 MB   9 / 9
- https://pirateproxy.sh/torrent/** omitted **
----------------------------------------------------------------------------------------------------------------------------------
- Debian 9 Stretch minimal install (VirtualBox VDI image)                                                   187.7 MB  6 / 6
- https://pirateproxy.sh/torrent/** omitted **
----------------------------------------------------------------------------------------------------------------------------------
- Debian GNU Linux Bible.zip                                                                                 6.1 MB   2 / 2
- https://pirateproxy.sh/torrent/** omitted **
----------------------------------------------------------------------------------------------------------------------------------
-```
-
-Much like any other command, you can use the `--help` flag the retrieve the
-list of available options.
-
-```shell
-$ goirate search --help
-```
 
 ## Movies
 
-This tool scrapes [IMDb.com](https://www.imdb.com/) for info on movies.
+This tool retrieves info on movies from the [OMDb API](https://www.omdbapi.com).
+It is recommended to obtain an API key, and add it to `~/.goirate/config.toml` or in the `GOIRATE_OMDB_API_KEY` environment variable.
+
+If an OMDb API key is not provided, the [IMDb.com](https://www.imdb.com/) website will be scraped instead as a fallback.
+However this possibility may stop working at any time, if IMDb updates their pages.
 
 #### Search
 
@@ -249,6 +146,7 @@ $ goirate movie-search "harry potter" -c 4
 ```
 
 Using the `-d` or `--download` options will also send the torrent to the running qBittorrent client for download.
+
 
 ## Series
 
