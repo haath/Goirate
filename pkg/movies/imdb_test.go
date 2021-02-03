@@ -220,8 +220,8 @@ func TestSearchURL(t *testing.T) {
 		in  string
 		out string
 	}{
-		{"avengers", "https://www.imdb.com/find?q=avengers&s=tt&ttype=ft"},
-		{"Avengers: Age of Ultron", "https://www.imdb.com/find?q=Avengers%253A%2BAge%2Bof%2BUltron&s=tt&ttype=ft"},
+		{"avengers", "https://www.imdb.com/find?q=avengers&s=tt"},
+		{"Avengers: Age of Ultron", "https://www.imdb.com/find?q=Avengers%253A%2BAge%2Bof%2BUltron&s=tt"},
 	}
 
 	for _, tt := range table {
