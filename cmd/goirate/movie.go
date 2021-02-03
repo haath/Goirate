@@ -142,10 +142,10 @@ func (m *MovieCommand) Execute(args []string) error {
 
 func (m *MovieCommand) getMovie() (*movies.Movie, error) {
 
-	omdb := Config.OMDBCredentials
-
 	var err error
 	var imdbID string
+
+	omdb := Config.OMDBCredentials
 
 	if movies.IsIMDbID(m.Args.Query) {
 
@@ -182,7 +182,19 @@ func (m *MovieCommand) getMovie() (*movies.Movie, error) {
 
 func (m *MovieCommand) searchMovie() (string, error) {
 
-	searchResults, err := movies.Search(m.Args.Query)
+	var searchResults []movies.MovieID
+	var err error
+
+	omdb := Config.OMDBCredentials
+
+	if omdb.IsEnabled() {
+
+		searchResults, err = omdb.Search(m.Args.Query)
+
+	} else {
+
+		searchResults, err = movies.Search(m.Args.Query)
+	}
 
 	if err != nil {
 		return "", err

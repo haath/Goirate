@@ -152,7 +152,6 @@ func searchURL(query string) string {
 
 	params := searchURL.Query()
 	params.Add("s", "tt")
-	params.Add("ttype", "ft")
 	params.Add("q", url.QueryEscape(query))
 
 	searchURL.RawQuery = params.Encode()
@@ -236,6 +235,7 @@ func GetMovie(imdbID string) (*Movie, error) {
 
 // Search performs a text search on IMDb, limited to movies, and returns the results.
 func Search(query string) ([]MovieID, error) {
+
 	url := searchURL(query)
 	doc, err := utils.HTTPGet(url)
 
