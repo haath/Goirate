@@ -64,9 +64,9 @@ func TestNextEpisode(t *testing.T) {
 		last Episode
 		next Episode
 	}{
-		{261690, Episode{Season: 6, Episode: 10}, Episode{Season: 6, Episode: 11}},
-		{121361, Episode{Season: 1, Episode: 0}, Episode{Season: 1, Episode: 1, Title: "Winter Is Coming"}},
-		{255316, Episode{Season: 5, Episode: 24}, Episode{Season: 6, Episode: 1, Title: "An Infinite Capacity for Taking Pains"}},
+		{157, Episode{Season: 6, Episode: 10}, Episode{Season: 6, Episode: 11}},
+		{82, Episode{Season: 1, Episode: 0}, Episode{Season: 1, Episode: 1, Title: "Winter is Coming"}},
+		{133, Episode{Season: 5, Episode: 24}, Episode{Season: 6, Episode: 1, Title: "An Infinite Capacity for Taking Pains"}},
 	}
 
 	tkn := login(t)

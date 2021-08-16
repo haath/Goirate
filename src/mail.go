@@ -60,7 +60,7 @@ func LoadSeriesTemplate(data interface{}) (string, error) {
 
 	box := packr.NewBox("../mail_templates")
 
-	html, err := box.MustString("series.html")
+	html, err := box.FindString("series.html")
 
 	if err != nil {
 		return "", err

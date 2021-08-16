@@ -5,18 +5,14 @@ import (
 	"testing"
 )
 
-func login(t *testing.T) TVDBToken {
+func login(t *testing.T) TVmazeToken {
 
-	cred := EnvTVDBCredentials()
+	cred := EnvTVmazeCredentials()
 
 	tkn, err := cred.Login()
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if tkn.Token == "" {
-		t.Errorf("Got empty token")
 	}
 
 	return tkn
@@ -31,25 +27,25 @@ func TestSearch(t *testing.T) {
 		out     int
 		outName string
 	}{
-		{"expanse", 280619, "The Expanse"},
-		{"strike back", 148581, "Strike Back"},
+		{"expanse", 1825, "The Expanse"},
+		{"strike back", 804, "Strike Back"},
 	}
 
 	for _, tt := range table {
 		t.Run(tt.in, func(t *testing.T) {
 
-			s, n, err := tkn.Search(tt.in)
+			s, err := tkn.SearchFirst(tt.in)
 
 			if err != nil {
 				t.Error(err)
 			}
 
-			if s != tt.out {
-				t.Errorf("got %v, want %v", s, tt.out)
+			if s.ID != tt.out {
+				t.Errorf("got %v, want %v", s.ID, tt.out)
 			}
 
-			if n != tt.outName {
-				t.Errorf("got %v, want %v", n, tt.outName)
+			if s.Name != tt.outName {
+				t.Errorf("got %v, want %v", s.Name, tt.outName)
 			}
 		})
 	}
@@ -61,7 +57,7 @@ func TestLastEpisode(t *testing.T) {
 		in   int
 		last Episode
 	}{
-		{261690, Episode{Season: 6, Episode: 10, Title: "START"}},
+		{157, Episode{Season: 6, Episode: 10, Title: "START"}},
 	}
 
 	tkn := login(t)

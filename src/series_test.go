@@ -38,39 +38,39 @@ func TestSeriesCommands(t *testing.T) {
 
 	var addCmd addCommand
 	addCmd.Force = true
-	addCmd.Args.Title = "the americans 2013"
+	addCmd.Args.Title = "the americans"
 
-	expID := 261690
+	expID := 157
 	expEp := series.Episode{Season: 6, Episode: 10, Title: "START"}
-	expID2 := 280619
+	expID2 := 1825
 
 	err := addCmd.Execute([]string{})
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	err = addCmd.Execute([]string{})
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	addCmd.Args.Title = "the expanse"
 	err = addCmd.Execute([]string{})
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	stored := loadSeries()
 
 	if len(stored) != 2 {
-		t.Errorf("Stored 1 series by loaded %v", len(stored))
+		t.Fatalf("Stored 1 series by loaded %v", len(stored))
 	}
 
 	if stored[0].ID != expID || stored[0].LastEpisode.String() != expEp.String() {
-		t.Errorf("\ngot %v %v\nwant %v %v\n", stored[0].ID, stored[0].LastEpisode, expID, expEp)
+		t.Fatalf("\ngot %v %v\nwant %v %v\n", stored[0].ID, stored[0].LastEpisode, expID, expEp)
 	}
 
 	if stored[1].ID != expID2 {
-		t.Errorf("\ngot %v\nwant %v\n", stored[1].ID, expID2)
+		t.Fatalf("\ngot %v\nwant %v\n", stored[1].ID, expID2)
 	}
 
 	Options.JSON = true
@@ -111,7 +111,7 @@ func TestSeriesCommands(t *testing.T) {
 	var rmCmd removeCommand
 	rmCmd.Args.Title = "americans"
 	rmCmd.Execute([]string{})
-	rmCmd.Args.Title = "280619"
+	rmCmd.Args.Title = "1825"
 	rmCmd.Execute([]string{})
 
 	stored = loadSeries()

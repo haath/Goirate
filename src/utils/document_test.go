@@ -57,9 +57,9 @@ func TestHTTPPost(t *testing.T) {
 
 func TestGetFileDocument(t *testing.T) {
 
-	expected := "Cast Away (2000) - IMDbTryIMDbProFree"
+	expected := "The Proxy Bay - Unblock The Pirate Bay"
 
-	doc, err := GetFileDocument("../../test_samples/imdb.html")
+	doc, err := GetFileDocument("../../test_samples/proxybay.html")
 
 	if err != nil {
 		t.Error(err)

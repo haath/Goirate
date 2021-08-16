@@ -70,5 +70,5 @@ func (ep Episode) LongString() string {
 // HasAired returns true if the episode's airing date and time is prior to the current date and time.
 func (ep Episode) HasAired() bool {
 
-	return ep.Aired != nil && time.Now().Sub(*ep.Aired).Hours() >= 1
+	return ep.Aired != nil && time.Since(*ep.Aired).Hours() >= 1
 }

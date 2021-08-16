@@ -37,7 +37,7 @@ lint:
 
 
 test:
-  stage: build-test
+  stage: test
   retry: 2
   coverage: '/^total:\s+\(statements\)\s+([0-9.]+)%/'
   artifacts:

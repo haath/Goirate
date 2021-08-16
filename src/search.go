@@ -50,7 +50,7 @@ func (m *SearchCommand) Execute(args []string) error {
 
 	} else {
 
-		log.Printf(getTorrentsTable(torrents))
+		log.Println(getTorrentsTable(torrents))
 
 	}
 

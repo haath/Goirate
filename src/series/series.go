@@ -21,7 +21,7 @@ type Series struct {
 
 // NextEpisode uses the TVDB API to make a best guess as to which is the next episode
 // to this series' LastEpisode.
-func (s *Series) NextEpisode(tkn *TVDBToken) (Episode, error) {
+func (s *Series) NextEpisode(tkn *TVmazeToken) (Episode, error) {
 
 	return tkn.NextEpisode(s.ID, s.LastEpisode)
 }

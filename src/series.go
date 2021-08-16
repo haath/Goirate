@@ -13,6 +13,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"goirate/series"
 	"goirate/torrents"
@@ -27,6 +28,7 @@ import (
 type SeriesCommand struct {
 	Add    addCommand    `command:"add" description:"Add a series to the watchlist."`
 	Remove removeCommand `command:"remove" alias:"rm" description:"Remove a series from the watchlist."`
+	Search searchCommand `command:"search" alias:"s" description:"Search for a series given a query string."`
 	Show   showCommand   `command:"show" alias:"ls" description:"Print out the current series watchlist."`
 	Scan   scanCommand   `command:"scan" description:"Perform a scan for new episodes on the existing watchlist."`
 }
@@ -47,6 +49,12 @@ type removeCommand struct {
 		Title string `positional-arg-name:"<title | id>"`
 	} `positional-args:"1" required:"1"`
 }
+type searchCommand struct {
+	Count int `long:"count" short:"c" description:"Limit the number of results."`
+	Args  struct {
+		Query string `positional-arg-name:"<title | imdb | tvmaze id>"`
+	} `positional-args:"1" required:"1"`
+}
 type showCommand struct{}
 type scanCommand struct {
 	torrentSearchArgs
@@ -54,7 +62,7 @@ type scanCommand struct {
 	DryRun   bool `long:"dry-run" description:"Perform the scan for new episodes without downloading torrents, sending notifications or updating the episode numbers in the watchlist."`
 	NoUpdate bool `long:"no-update" description:"Perform the scan for new episodes without updating the last episode aired in the watchlist."`
 	Quiet    bool `long:"quiet" short:"q" description:"Do not print anything to the standard output."`
-	Quick    bool `long:"quick" description:"Perform a quick scan, only searching for torrents for episodes that were found on the TVDB API."`
+	Quick    bool `long:"quick" description:"Perform a quick scan, only searching for torrents for episodes that were found on the tvmaze API."`
 }
 
 type seriesTorrent struct {
@@ -69,21 +77,16 @@ type seriesTorrents struct {
 // Execute is the callback of the series add command.
 func (cmd *addCommand) Execute(args []string) error {
 
-	tvdbToken, err := tvdbLogin()
+	tvmazeToken, err := tvmazeLogin()
 
 	if err != nil {
 		return err
 	}
 
-	seriesID, seriesName, err := tvdbToken.Search(cmd.Args.Title)
+	show, err := tvmazeToken.SearchFirst(cmd.Args.Title)
 
 	if err != nil {
 		return err
-	}
-
-	if seriesID == 0 {
-
-		return fmt.Errorf("series not found on the TVDB")
 	}
 
 	var episode series.Episode
@@ -99,7 +102,7 @@ func (cmd *addCommand) Execute(args []string) error {
 
 	} else {
 
-		episode, err = tvdbToken.LastEpisode(seriesID)
+		episode, err = tvmazeToken.LastEpisode(show.ID)
 
 		if err != nil {
 			return err
@@ -107,8 +110,8 @@ func (cmd *addCommand) Execute(args []string) error {
 	}
 
 	ser := series.Series{
-		ID:               seriesID,
-		Title:            seriesName,
+		ID:               show.ID,
+		Title:            show.Name,
 		MinQuality:       cmd.MinQuality,
 		VerifiedUploader: cmd.VerifiedUploader,
 		LastEpisode:      episode,
@@ -165,6 +168,37 @@ func (cmd *removeCommand) Execute(args []string) error {
 	return nil
 }
 
+// Execute is the callback of the series search command.
+func (cmd *searchCommand) Execute(args []string) error {
+
+	tvmazeToken, err := tvmazeLogin()
+	if err != nil {
+		return err
+	}
+
+	searchResult, err := tvmazeToken.Search(cmd.Args.Query)
+	if err != nil {
+		return err
+	}
+
+	if Options.JSON {
+
+		seriesJSON, err := json.MarshalIndent(searchResult, "", "   ")
+
+		if err != nil {
+			return err
+		}
+
+		log.Println(string(seriesJSON))
+
+	} else {
+
+		log.Println(getSeriesSearchTable(searchResult, cmd.Count))
+	}
+
+	return nil
+}
+
 // Execute is the callback of the series show command.
 func (cmd *showCommand) Execute(args []string) error {
 
@@ -196,7 +230,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 		disableOutput()
 	}
 
-	tvdbToken, err := tvdbLogin()
+	tvmazeToken, err := tvmazeLogin()
 
 	if err != nil {
 		return err
@@ -214,7 +248,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 
 		for found && (cmd.Count == 0 || seriesTorrentCount(torrentList) < cmd.Count) {
 
-			found, err = cmd.scanSeries(tvdbToken, ser, &torrentList)
+			found, err = cmd.scanSeries(tvmazeToken, ser, &torrentList)
 
 			if err != nil && os.Getenv("GOIRATE_DEBUG") == "true" {
 				log.Println(err)
@@ -253,7 +287,7 @@ func (cmd *scanCommand) Execute(args []string) error {
 	return nil
 }
 
-func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Series, torrentList *[]seriesTorrents) (bool, error) {
+func (cmd *scanCommand) scanSeries(tvmazeToken *series.TVmazeToken, ser *series.Series, torrentList *[]seriesTorrents) (bool, error) {
 
 	filters := cmd.GetFilters()
 
@@ -262,7 +296,7 @@ func (cmd *scanCommand) scanSeries(tvdbToken *series.TVDBToken, ser *series.Seri
 	}
 	filters.VerifiedUploader = filters.VerifiedUploader || ser.VerifiedUploader
 
-	nextEpisode, err := ser.NextEpisode(tvdbToken)
+	nextEpisode, err := ser.NextEpisode(tvmazeToken)
 
 	if err != nil {
 
@@ -335,7 +369,7 @@ func (cmd *scanCommand) handleSeriesTorrents(seriesTorrentsList []seriesTorrents
 				notify = seriesTorrents.Series.Actions.Emails
 			}
 
-			if notify == nil || len(notify) == 0 {
+			if len(notify) == 0 {
 
 				return fmt.Errorf("sending e-mails is enabled, but no recipients are specified")
 			}
@@ -561,23 +595,14 @@ func getSeriesTable(seriesList []series.Series) string {
 	return buf.String()
 }
 
-func tvdbLogin() (*series.TVDBToken, error) {
+func tvmazeLogin() (*series.TVmazeToken, error) {
 
-	cred := series.EnvTVDBCredentials()
-
-	if cred.APIKey == "" || cred.UserKey == "" || cred.Username == "" {
-		cred = Config.TVDBCredentials
-	}
-
-	if cred.APIKey == "" || cred.UserKey == "" || cred.Username == "" {
-
-		return nil, fmt.Errorf("the series command requires valid credentials for the TVDB API to be configured at %v\nthey can be obtained by making a free account at https://www.thetvdb.com/", configPath())
-	}
+	cred := series.EnvTVmazeCredentials()
 
 	tkn, err := cred.Login()
 
 	if err != nil {
-		return nil, errors.New("Error logging into the TVDB API.: " + err.Error())
+		return nil, errors.New("Error logging into the TVmaze API.: " + err.Error())
 	}
 
 	return &tkn, nil
@@ -614,6 +639,36 @@ func remove(seriesList *[]series.Series, id int, title string) bool {
 	}
 	*seriesList = newList
 	return found
+}
+
+func getSeriesSearchTable(searchResult []series.TVmazeSeries, count int) string {
+	buf := bytes.NewBufferString("")
+
+	table := tablewriter.NewWriter(buf)
+	table.SetHeader([]string{"ID", "Title", "Premiered"})
+	table.SetColumnAlignment([]int{tablewriter.ALIGN_CENTER, tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_CENTER})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+	table.SetAutoFormatHeaders(false)
+
+	for i, show := range searchResult {
+
+		if count > 0 && i >= count {
+			break
+		}
+
+		var premierYear string
+		premierDate, err := time.Parse("2006-01-02", show.Premiered)
+		if err == nil {
+			premierYear = strconv.Itoa(premierDate.Year())
+		}
+
+		table.Append([]string{fmt.Sprint(show.ID), show.Name, premierYear})
+	}
+
+	table.Render()
+
+	return buf.String()
 }
 
 func disableOutput() {

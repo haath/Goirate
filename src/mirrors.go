@@ -38,7 +38,7 @@ func (m *MirrorsCommand) Execute(args []string) error {
 
 		log.Println(string(mirrorsJSON))
 	} else {
-		log.Printf(getMirrorsTable(mirrors))
+		log.Println(getMirrorsTable(mirrors))
 	}
 
 	return nil

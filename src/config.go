@@ -20,13 +20,13 @@ import (
 // Config holds the global goirate configuration
 var Config struct {
 	torrents.SearchFilters
-	KodiMediaPaths    bool                   `toml:"kodi_media_paths"`
-	TPBMirrors        torrents.MirrorFilters `toml:"tpb_mirrors"`
-	TVDBCredentials   series.TVDBCredentials `toml:"tvdb"`
-	OMDBCredentials   movies.OMDBCredentials `toml:"omdb"`
-	QBittorrentConfig QBittorrentConfig      `toml:"qbittorrent"`
-	SMTPConfig        SMTPConfig             `toml:"smtp"`
-	Watchlist         utils.WatchlistActions `toml:"actions"`
+	KodiMediaPaths    bool                     `toml:"kodi_media_paths"`
+	TPBMirrors        torrents.MirrorFilters   `toml:"tpb_mirrors"`
+	TVDBCredentials   series.TVmazeCredentials `toml:"tvdb"`
+	OMDBCredentials   movies.OMDBCredentials   `toml:"omdb"`
+	QBittorrentConfig QBittorrentConfig        `toml:"qbittorrent"`
+	SMTPConfig        SMTPConfig               `toml:"smtp"`
+	Watchlist         utils.WatchlistActions   `toml:"actions"`
 	DownloadDir       struct {
 		General string `toml:"general"`
 		Movies  string `toml:"movies"`
@@ -211,9 +211,6 @@ func ImportConfig() {
 		/*
 			Credentials
 		*/
-		setOrDefault(&Config.TVDBCredentials.APIKey, "TVDB_API_KEY", "")
-		setOrDefault(&Config.TVDBCredentials.UserKey, "TVDB_USER_KEY", "")
-		setOrDefault(&Config.TVDBCredentials.Username, "TVDB_USERNAME", "")
 		setOrDefault(&Config.OMDBCredentials.APIKey, "GOIRATE_OMDB_API_KEY", "")
 
 		/*

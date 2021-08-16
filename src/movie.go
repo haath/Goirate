@@ -37,7 +37,7 @@ func (m *MovieCommand) Execute(args []string) error {
 
 	if !m.NoTorrent {
 
-		perQualityTorrents, err = movie.GetTorrents(*m.GetFilters())
+		perQualityTorrents, _ = movie.GetTorrents(*m.GetFilters())
 
 		if len(perQualityTorrents) > 0 {
 
