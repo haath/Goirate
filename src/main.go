@@ -18,16 +18,16 @@ import (
 var Options struct {
 	// Options
 	JSON    bool   `short:"j" long:"json" description:"Output in JSON format."`
-	Version func() `long:"version" description:"Show the current version."`
+	Version func() `long:"version" description:"Print the current version and exit."`
 
 	// Commands
-	Config      ConfigCommand      `command:"config" description:"Edit the application's configuration."`
+	Config      ConfigCommand      `command:"config" description:"Update the configuration files."`
 	Mirrors     MirrorsCommand     `command:"mirrors" description:"Get a list of PirateBay mirrors."`
 	Search      SearchCommand      `command:"search" description:"Search for torrents."`
 	Series      SeriesCommand      `command:"series" alias:"s" description:"Manage the series watchlist or perform a scan."`
 	Movie       MovieCommand       `command:"movie" alias:"m" description:"Scrape a movie and find torrents for it."`
-	MovieSearch MovieSearchCommand `command:"movie-search" description:"Search IMDb for movies to retrieve their IMDbID and release year."`
-	Update      UpdateCommand      `command:"update" alias:"u" description:"Update the tool."`
+	MovieSearch MovieSearchCommand `command:"movie-search" description:"Search OMDB for movies to retrieve their IMDbID and release year."`
+	Update      UpdateCommand      `command:"update" alias:"u" description:"Update the tool to the latest version."`
 }
 
 type torrentSearchArgs struct {
@@ -41,39 +41,6 @@ type torrentSearchArgs struct {
 
 type positionalArgs struct {
 	Query string `positional-arg-name:"query"`
-}
-
-func (a torrentSearchArgs) GetScraper(query string) (torrents.PirateBayScaper, error) {
-
-	if !a.ValidOutputFlags() {
-		return nil, errors.New("too many flags specifying the kind of output")
-	}
-
-	var scraper torrents.PirateBayScaper
-
-	if a.Mirror != "" {
-
-		scraper = torrents.NewScraper(a.Mirror)
-
-	} else {
-
-		mirrorScraper := GetMirrorScraper()
-
-		if a.SourceURL != "" {
-			mirrorScraper.SetProxySourceURL(a.SourceURL)
-		}
-
-		mirror, err := mirrorScraper.PickMirror(query)
-
-		if err != nil {
-
-			return nil, err
-		}
-
-		scraper = torrents.NewScraper(mirror.URL)
-	}
-
-	return scraper, nil
 }
 
 func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error) {
@@ -98,6 +65,7 @@ func (a torrentSearchArgs) GetTorrents(query string) ([]torrents.Torrent, error)
 }
 
 func (a *torrentSearchArgs) ValidOutputFlags() bool {
+
 	outputFlags := 0
 
 	if Options.JSON {

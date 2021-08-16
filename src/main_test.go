@@ -29,39 +29,6 @@ func CaptureCommand(cmd func([]string) error) (string, error) {
 	return filtered.String(), err
 }
 
-func TestGetScraper(t *testing.T) {
-	table := []struct {
-		in       torrentSearchArgs
-		outURL   string
-		outError bool
-	}{
-		{torrentSearchArgs{}, "", false},
-		{torrentSearchArgs{Mirror: "http://1.2.3.4/"}, "http://1.2.3.4/", false},
-		{torrentSearchArgs{SourceURL: "http://1.2.3.4/"}, "", true},
-	}
-
-	for _, tt := range table {
-		t.Run(tt.outURL, func(t *testing.T) {
-			cmd := tt.in
-			scraper, err := cmd.GetScraper("ubuntu")
-
-			if !tt.outError && err != nil {
-				t.Error(err)
-				return
-			}
-
-			if !tt.outError && scraper == nil {
-				t.Error(err)
-				return
-			}
-
-			if !tt.outError && scraper.URL() != tt.outURL && tt.outURL != "" {
-				t.Errorf("\ngot: %v\nwant: %v", scraper.URL(), tt.outURL)
-			}
-		})
-	}
-}
-
 func TestValidOutputFlags(t *testing.T) {
 	var table = []struct {
 		label string
