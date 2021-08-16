@@ -76,8 +76,6 @@ for building. To build yourself use the `Makefile` or have a look at it.
 This tool retrieves info on movies from the [OMDb API](https://www.omdbapi.com).
 It is recommended to obtain an API key, and add it to `~/.goirate/config.toml` or in the `GOIRATE_OMDB_API_KEY` environment variable.
 
-If an OMDb API key is not provided, the [IMDb.com](https://www.imdb.com/) website will be scraped instead as a fallback.
-However this possibility may stop working at any time, if IMDb updates their pages.
 
 #### Search
 

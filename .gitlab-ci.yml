@@ -1,55 +1,70 @@
-image: golang:1.14
+image: golang:1.16
 
 
 variables:
-  GIT_URL: gitlab.com
   GITHUB_REPO: gmantaos/Goirate
+  CGO_ENABLED: 0
 
 
 stages:
-- build-test
-- deploy
+- build
+- test
+- release
 
 
 before_script:
-# Prepare workspace
-- mkdir -p "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_NAMESPACE}"
-- rm -rf "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}" || true
-- ln -s "${CI_PROJECT_DIR}" "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
-- cd "${GOPATH}/src/${GIT_URL}/${CI_PROJECT_PATH}"
-- make install-tools
+- go get -u github.com/gobuffalo/packr/packr
+- mkdir -p build
+- cd src
 
 
 build:
-  stage: build-test
+  stage: build
   artifacts:
-    name: bin
+    name: "goirate.$CI_COMMIT_SHORT_SHA"
     paths:
-    - build/goirate.*
+    - goirate
   script:
-  - make clean
-  - make cross-compile
+  - packr build -ldflags "-X main.Version=$CI_COMMIT_SHORT_SHA" -o ../goirate .
+
+
+lint:
+  stage: test
+  script:
+  - golint -set_exit_status ./...
+  - go fmt ./...
+  - go vet -composites=false ./...
 
 
 test:
   stage: build-test
   retry: 2
+  coverage: '/^total:\s+\(statements\)\s+([0-9.]+)%/'
   artifacts:
     name: test_coverage
     paths:
     - test_coverage.*
   script:
-  - make lint
-  - make test-cov
-  - mv build/* ${CI_PROJECT_DIR}/
+  - go test -coverprofile ../build/coverage.out ./...
+  - go tool cover -html build/coverage.out -o ../coverage.html
+  - "go tool cover -func ../build/coverage.out | grep total:"
 
 
-github-release:
-  stage: deploy
+release:
+  stage: release
   only:
   - tags
   dependencies:
   - build
+  artifacts:
+    name: "goirate.$CI_COMMIT_TAG"
+    paths:
+    - build/*
+    expire_in: never
   script:
+  - go get -u github.com/mitchellh/gox
   - go get -u github.com/c4milo/github-release
+  - packr
+  - gox -ldflags "-s -w -X main.Version=$CI_COMMIT_TAG" -osarch="darwin/amd64" -os="linux" -os="windows" -os="solaris" -output "../build/goirate.{{.OS}}.{{.Arch}}" .
+  - cd ..
   - github-release $GITHUB_REPO "$CI_COMMIT_TAG" "master" "$CI_COMMIT_DESCRIPTION" "build/goirate.*"
