@@ -26,7 +26,7 @@ It also expands upon dealing with media, by utilizing APIs, crawling through IMD
 ### 🗺️ TODO
 
 - [x] Replace IMDB scraping with OMDB API.
-- [ ] Replace use of TVDB with free alternative (probably TVMaze).
+- [x] Replace use of TVDB with free alternative (TVMaze).
 - [ ] Replace tables in stdout with a more readable format.
 - [ ] Add cache & retry system for torrents whose attempts to add to the designated torrent client fail.
 - [ ] Support for a proxy or VPN to avoid getting flogged.
@@ -50,31 +50,11 @@ $ goirate --version
 Goirate build: 0.9.1
 ```
 
-### Build from source
-
-Fetch the project using `go get`.
-
-```sh
-$ go get -d gitlab.com/haath/goirate
-```
-
-By default [dep](https://github.com/golang/dep) is used for dependency management.
-
-The `Makefile` has a shortcut to running `dep` and `go install`.
-
-```sh
-$ make install
-```
-
-Using `go get` to fetch dependencies is theoretically possible but it is not recommended.
-Also, attempting to install the tool with `go get -u` will not work as it uses [packr](https://github.com/gobuffalo/packr)
-for building. To build yourself use the `Makefile` or have a look at it.
-
 
 ## Movies
 
 This tool retrieves info on movies from the [OMDb API](https://www.omdbapi.com).
-It is recommended to obtain an API key, and add it to `~/.goirate/config.toml` or in the `GOIRATE_OMDB_API_KEY` environment variable.
+It is necessary to obtain an API key, and add it to `~/.goirate/config.toml` or in the `GOIRATE_OMDB_API_KEY` environment variable.
 
 
 #### Search
@@ -148,17 +128,6 @@ Using the `-d` or `--download` options will also send the torrent to the running
 
 ## Series
 
-For this tool to manage series, you need to obtain an API key from [TheTVDB.com](https://www.thetvdb.com/)
-and include it in Goirate's configuration at `~/.goirate/config.toml`.
-Once logged in, the following can be found [here](https://www.thetvdb.com/member/api).
-
-```toml
-[tvdb]
-  api_key = "< API Key >"
-  user_key = "< Unique ID >"
-  username = "< Username >"
-```
-
 Create a watchlist of series, by using the `series add` command.
 This stores a list of your series in your account's configuration, specifically in `~/.goirate/series.toml`,
 along with the last episode watched for each one. The names can be partial, as they
@@ -217,6 +186,7 @@ When the scanner finds a new episode it will also advance the series' last watch
 This way, ideally, the tool can keep the watchlist updated while scanning periodically as part of a cron job.
 To perform a scan without updating the watchlist use the `--no-update` flag, and, to perform one without
 any other side-effects or actions use the `--dry-run` flag.
+
 
 ### E-mail Notifications
 
@@ -278,6 +248,7 @@ Same as with e-mails, this feature can also be enabled or disabled for a specifi
 
 With this enabled, any torrents found during scanning will have their magnet links added to the [qBittorent](https://www.qbittorrent.org/)
 client. Whether or not they begin downloading immediately once they are added depends on the configuration on the client itself.
+
 
 ## Environment Variables
 
