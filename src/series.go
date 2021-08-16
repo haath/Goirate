@@ -646,7 +646,7 @@ func getSeriesSearchTable(searchResult []series.TVmazeSeries, count int) string 
 
 	table := tablewriter.NewWriter(buf)
 	table.SetHeader([]string{"ID", "Title", "Premiered"})
-	table.SetColumnAlignment([]int{tablewriter.ALIGN_CENTER, tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_CENTER})
+	table.SetColumnAlignment([]int{tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_DEFAULT, tablewriter.ALIGN_CENTER})
 	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
 	table.SetCenterSeparator("|")
 	table.SetAutoFormatHeaders(false)
