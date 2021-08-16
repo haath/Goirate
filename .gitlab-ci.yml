@@ -39,12 +39,12 @@ test:
   retry: 2
   coverage: '/^total:\s+\(statements\)\s+([0-9.]+)%/'
   artifacts:
-    name: test_coverage
+    name: coverage
     paths:
-    - test_coverage.*
+    - coverage.html
   script:
   - go test -coverprofile ../build/coverage.out ./...
-  - go tool cover -html build/coverage.out -o ../coverage.html
+  - go tool cover -html ../build/coverage.out -o ../coverage.html
   - "go tool cover -func ../build/coverage.out | grep total:"
 
 
