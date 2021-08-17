@@ -28,7 +28,11 @@ func TestSearch(t *testing.T) {
 		outName string
 	}{
 		{"expanse", 1825, "The Expanse"},
+		{"1825", 1825, "The Expanse"},
+		{"https://www.imdb.com/title/tt3230854/", 1825, "The Expanse"},
+		{"tt3230854", 1825, "The Expanse"},
 		{"strike back", 804, "Strike Back"},
+		{"nonexistent show", 0, ""},
 	}
 
 	for _, tt := range table {
@@ -36,16 +40,27 @@ func TestSearch(t *testing.T) {
 
 			s, err := tkn.SearchFirst(tt.in)
 
-			if err != nil {
-				t.Error(err)
-			}
+			if tt.out != 0 {
 
-			if s.ID != tt.out {
-				t.Errorf("got %v, want %v", s.ID, tt.out)
-			}
+				// expect show found
+				if err != nil {
+					t.Error(err)
+				}
 
-			if s.Name != tt.outName {
-				t.Errorf("got %v, want %v", s.Name, tt.outName)
+				if s.ID != tt.out {
+					t.Errorf("got %v, want %v", s.ID, tt.out)
+				}
+
+				if s.Name != tt.outName {
+					t.Errorf("got %v, want %v", s.Name, tt.outName)
+				}
+
+			} else {
+
+				// expect show not found
+				if err == nil {
+					t.Errorf("expected error for %v", tt.in)
+				}
 			}
 		})
 	}
