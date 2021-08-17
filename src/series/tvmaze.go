@@ -207,7 +207,7 @@ func (tkn *TVmazeToken) lookupSeriesIMDB(imdbID string) (TVmazeSeries, error) {
 
 	var lookupResponse TVmazeSeries
 
-	searchURL := fmt.Sprintf("%v?imdb=%v", lookupResponse, imdbID)
+	searchURL := fmt.Sprintf("%v?imdb=%v", lookupEndpoint, imdbID)
 
 	err := tkn.apiCall(searchURL, &lookupResponse)
 
