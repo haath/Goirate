@@ -181,7 +181,7 @@ func (m *MirrorScraper) getTorrents(mirrors []Mirror, query string, trustSource 
 
 	mirrors = append(mirrors, FallbackMirror())
 
-	timeout := 4 * time.Second
+	timeout := 10 * time.Second
 
 	channel := make(chan torrentResponse)
 
