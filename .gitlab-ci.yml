@@ -15,7 +15,6 @@ stages:
 before_script:
 - mkdir -p build
 - cd src
-- go mod download
 
 
 build:
@@ -25,6 +24,7 @@ build:
     paths:
     - goirate
   script:
+  - go get -u github.com/gobuffalo/packr/packr@1.30.1
   - packr build -ldflags "-X main.Version=$CI_COMMIT_SHORT_SHA" -o ../goirate .
 
 
@@ -60,6 +60,7 @@ release:
     - build/*
     expire_in: never
   script:
+  - go get -u github.com/gobuffalo/packr/packr@1.30.1
   - go get -u github.com/mitchellh/gox
   - go get -u github.com/c4milo/github-release
   - packr
