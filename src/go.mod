@@ -14,6 +14,6 @@ require (
 	github.com/olekukonko/tablewriter v0.0.2-0.20190618033246-cc27d85e17ce
 	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	gitlab.com/haath/gobytes v1.1.1
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
